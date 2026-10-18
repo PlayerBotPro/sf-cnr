@@ -37,7 +37,7 @@ stock bool: serverLocked = false;
 hook OnScriptInit( )
 {
 	// Attempt to connect to database
-	if ( mysql_errno( ( dbHandle = mysql_connect( MYSQL_HOST, MYSQL_USER, MYSQL_DATABASE, MYSQL_PASS ) ) ) ) {
+	if ( mysql_errno( ( dbHandle = mysql_connect( MYSQL_HOST, MYSQL_USER, MYSQL_DATABASE, MYSQL_PASS, 3306 ) ) ) ) {
 		print( "[MYSQL]: Couldn't connect to MySQL database." ), serverLocked = true;
 	} else {
 		print( "[MYSQL]: Connection to database is successful." );

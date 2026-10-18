@@ -1,14 +1,18 @@
 # Running this checkout on Windows
 
+For database/user creation, schema imports, and using an existing XAMPP instance
+on port 3306, see [DATABASE_SETUP.md](DATABASE_SETUP.md).
+
 Run `start-server.cmd`, then connect with SA-MP 0.3.7 to **127.0.0.1:7777**.
-The command starts this checkout's MariaDB instance and the SF-CNR gamemode in
-the background. Python 3 must be available as `python`.
+Start MySQL in XAMPP first and complete [DATABASE_SETUP.md](DATABASE_SETUP.md).
+The command starts SF-CNR in the background and uses XAMPP on port 3306.
+Python 3 must be available as `python`.
 
 | Command | Purpose |
 | --- | --- |
-| `start-server.cmd` | Start the database and game server; report initialization |
-| `stop-server.cmd` | Request SA-MP exit through local RCON, then shut down this database |
-| `server-status.cmd` | Query SA-MP and verify the database data directory |
+| `start-server.cmd` | Start the game server using XAMPP; report initialization |
+| `stop-server.cmd` | Stop SA-MP through local RCON; leave XAMPP running |
+| `server-status.cmd` | Query SA-MP and check that the XAMPP endpoint is reachable |
 | `build.cmd` | Compile the gamemode and security-truck NPC; retain previous AMX files on failure |
 | `python tools/server.py test` | Test calculator expressions and MT19937 in a separate SA-MP instance on port 7788 |
 
@@ -20,19 +24,15 @@ The scripts work from any current directory and do not require a Windows service
 - `server.cfg`: port 7777, announcements disabled, random RCON password, 336
   total slots and 210 NPC slots. The gamemode exposes 126 human slots in queries.
 - `gamemodes/irresistible/config/database.pwn`: local database credentials,
-  database `sf_cnr`, TCP port 3307. Keep this file private; rebuild after edits.
-- `.runtime/settings.json`: MariaDB installation directory, currently
-  `D:/Software/xampp/mysql`. The server uses its binaries with `--no-defaults`.
-- `.runtime/database/`: separate database files, bound to `127.0.0.1:3307`.
-  The existing XAMPP database and its configuration are independent.
+  database `sf_cnr`, TCP port 3306. Keep this file private; rebuild after edits.
 - `server_log.txt`, `mysql_log.txt`: runtime logs. Compiler output is saved in
   `.runtime/build-sf-cnr.log` and `.runtime/build-secureguard.log`.
 
-The original five CNR SQL files were imported in filename order into a new
-database. Startup does not reimport schemas or erase player data. Stop the server
-before backing up `.runtime/database`; keep the ignored configuration files with
-the backup. Runtime binaries, credentials, logs, and database files are ignored
-by Git and must be retained separately when moving this installation.
+Create the database and user and import the five CNR SQL files as described in
+[DATABASE_SETUP.md](DATABASE_SETUP.md). The scripts do not initialize a database,
+reimport schemas, or manage the XAMPP service. Back up `sf_cnr` through XAMPP's
+MySQL tools or phpMyAdmin and keep the ignored Pawn credentials separately.
+Runtime binaries, credentials, and logs are ignored by Git.
 
 ## Installed runtime
 
@@ -79,14 +79,13 @@ in the gamemode and their availability has not been verified.
 ## Validation
 
 Verified locally: gamemode compilation, NPC compilation (one existing warning
-218), all twelve plugins loading, database connection and schema imports,
-gamemode initialization, security-truck NPC joining, SA-MP UDP queries,
-and a full stop/build/start cycle. The isolated runtime test checks expression
+218) and the isolated compatibility tests. Earlier runtime checks covered all
+twelve plugins, gamemode initialization, NPC startup and UDP queries. Database
+startup must be checked again after configuring `sf_cnr` in XAMPP on port 3306. The isolated runtime test checks expression
 precedence/errors, known MT19937 outputs, and random bounds.
 
 CrashDetect can report a long callback during YSI's startup code scan; the
-gamemode continues initializing afterward. No missing-native or SQL errors
-were present in the final startup check.
+gamemode continues initializing afterward.
 
 GTA client gameplay, player registration/login, and saved-account reloads still
 need an in-game test. Successful startup alone does not verify those paths.

@@ -1,6 +1,5 @@
-"""Build and operate this checkout's SA-MP server and isolated MariaDB instance."""
+"""Build and operate SA-MP using an externally managed XAMPP database."""
 import argparse
-import json
 import os
 from pathlib import Path
 import re
@@ -13,14 +12,6 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT / '.runtime'
-DATABASE = RUNTIME / 'database'
-SETTINGS = RUNTIME / 'settings.json'
-
-
-def settings():
-    return json.loads(SETTINGS.read_text())
-
-
 def config():
     return dict(line.split(None, 1) for line in (ROOT / 'server.cfg').read_text().splitlines()
                 if line.strip() and len(line.split(None, 1)) == 2)
@@ -50,44 +41,17 @@ def rcon(command):
         sock.sendto(data, ('127.0.0.1', int(config()['port'])))
 
 
-def sql(statement):
-    args = [str(Path(settings()['mysql_home']) / 'bin/mysql.exe'), '--no-defaults',
-            '--host=127.0.0.1', '--port=3307', '--user=root', '--batch', '--skip-column-names']
-    return subprocess.run(args, input=statement.encode(), capture_output=True, check=True).stdout.decode().strip()
-
-
 def check_database():
-    actual = Path(sql('SELECT @@datadir;')).resolve()
-    if actual != DATABASE.resolve():
-        raise RuntimeError(f'Port 3307 belongs to another database: {actual}')
+    try:
+        with socket.create_connection(('127.0.0.1', 3306), timeout=3):
+            pass
+    except OSError as error:
+        raise RuntimeError('Cannot reach MySQL at 127.0.0.1:3306. Start MySQL in XAMPP.') from error
 
 
 def hidden_process(args):
     return subprocess.Popen(args, cwd=ROOT, creationflags=subprocess.CREATE_NO_WINDOW,
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-
-
-def start_database():
-    try:
-        check_database()
-        return
-    except subprocess.CalledProcessError:
-        pass
-    db_home = Path(settings()['mysql_home'])
-    process = hidden_process([str(db_home / 'bin/mysqld.exe'), '--no-defaults',
-                              f'--basedir={db_home.as_posix()}', f'--datadir={DATABASE.as_posix()}',
-                              '--port=3307', '--bind-address=127.0.0.1', '--sql-mode=',
-                              '--max-allowed-packet=64M', f'--log-error={DATABASE.as_posix()}/server-error.log'])
-    (RUNTIME / 'database.pid').write_text(str(process.pid))
-    for _ in range(40):
-        if process.poll() is not None:
-            raise RuntimeError('MariaDB exited. Read .runtime/database/server-error.log')
-        try:
-            check_database()
-            return
-        except subprocess.CalledProcessError:
-            time.sleep(0.5)
-    raise RuntimeError('MariaDB startup timed out')
 
 
 def build():
@@ -117,7 +81,7 @@ def start():
     for path in ['gamemodes/sf-cnr.amx', 'npcmodes/secureguard.amx', 'libmysql.dll', 'samp-server.exe']:
         if not (ROOT / path).is_file():
             raise RuntimeError(f'Missing {path}; run build.cmd or restore runtime dependencies')
-    start_database()
+    check_database()
     log = ROOT / 'server_log.txt'
     offset = log.stat().st_size if log.exists() else 0
     process = hidden_process([str(ROOT / 'samp-server.exe')])
@@ -126,6 +90,9 @@ def start():
         if process.poll() is not None:
             raise RuntimeError('SA-MP exited. Read server_log.txt')
         text = log.read_bytes()[offset:].decode('latin1') if log.exists() else ''
+        if "[MYSQL]: Couldn't connect to MySQL database." in text:
+            rcon('exit')
+            raise RuntimeError('Database login failed. Configure sf_cnr on XAMPP; see DATABASE_SETUP.md.')
         if '[SF-CNR] SF-CnR has been successfully initialized.' in text:
             print(f'Running: {query()["hostname"]} at 127.0.0.1:{config()["port"]} (PID {process.pid})')
             return
@@ -147,21 +114,15 @@ def stop():
             except OSError:
                 break
         else:
-            raise RuntimeError('SA-MP did not stop; database left running')
-    try:
-        check_database()
-    except subprocess.CalledProcessError:
-        pass
-    else:
-        sql('SHUTDOWN;')
-    print('Server and checkout database stopped.')
+            raise RuntimeError('SA-MP did not stop')
+    print('SA-MP stopped.')
 
 
 def status():
     info = query()
     check_database()
     print(f'{info["hostname"]}: 127.0.0.1:{config()["port"]}, {info["players"]}/{info["maxplayers"]} players')
-    print('Checkout database: 127.0.0.1:3307 / sf_cnr')
+    print('XAMPP endpoint reachable: 127.0.0.1:3306 (database login is reported in server_log.txt)')
 
 
 def test():
@@ -191,6 +152,7 @@ if __name__ == '__main__':
     parser.add_argument('action', choices=['build', 'start', 'stop', 'status', 'test'])
     args = parser.parse_args()
     os.chdir(ROOT)
+    RUNTIME.mkdir(exist_ok=True)
     try:
         globals()[args.action]()
     except (OSError, RuntimeError, subprocess.CalledProcessError) as error:
