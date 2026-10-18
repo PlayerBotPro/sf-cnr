@@ -43,8 +43,8 @@
 #include                            < regex >
 #include                            < gvar >
 #include 							< RouteConnector >
-#include 							< merrandom >
-#include 							< MathParser >
+#include 							"irresistible\compat\random.pwn"
+#include 							"irresistible\compat\calculator.pwn"
 #include 							< mapandreas >
 #include 							< md-sort >
 native WP_Hash						( buffer[ ], len, const str[ ] );
@@ -1987,7 +1987,7 @@ CMD:calculate( playerid, params[ ] ) {
 	else if ( GetPlayerScore( playerid ) < 750 ) return SendError( playerid, "You cannot use this as you're beneath 750 score." );
 	else
 	{
-		new Float: fValue = Math::ParseExpression( szExpression, iError );
+		new Float: fValue = CalculateExpression( szExpression, iError );
 
 		if ( iError != e_Error: ERROR_NONE )
 			return SendError( playerid, "Something is wrong with your calculation!" );

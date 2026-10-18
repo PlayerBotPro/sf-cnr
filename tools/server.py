@@ -1,0 +1,198 @@
+"""Build and operate this checkout's SA-MP server and isolated MariaDB instance."""
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+import secrets
+import socket
+import struct
+import subprocess
+import sys
+import time
+
+ROOT = Path(__file__).resolve().parents[1]
+RUNTIME = ROOT / '.runtime'
+DATABASE = RUNTIME / 'database'
+SETTINGS = RUNTIME / 'settings.json'
+
+
+def settings():
+    return json.loads(SETTINGS.read_text())
+
+
+def config():
+    return dict(line.split(None, 1) for line in (ROOT / 'server.cfg').read_text().splitlines()
+                if line.strip() and len(line.split(None, 1)) == 2)
+
+
+def packet(opcode):
+    return b'SAMP' + socket.inet_aton('127.0.0.1') + struct.pack('<H', int(config()['port'])) + opcode
+
+
+def query():
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.settimeout(1)
+        sock.sendto(packet(b'i'), ('127.0.0.1', int(config()['port'])))
+        data = sock.recv(4096)
+    if not data.startswith(packet(b'i')):
+        raise RuntimeError('Unexpected SA-MP query response')
+    players, maximum = struct.unpack_from('<HH', data, 12)
+    size = struct.unpack_from('<I', data, 16)[0]
+    return {'hostname': data[20:20 + size].decode('latin1'), 'players': players, 'maxplayers': maximum}
+
+
+def rcon(command):
+    password = config()['rcon_password'].encode('ascii')
+    command = command.encode('ascii')
+    data = packet(b'x') + struct.pack('<H', len(password)) + password + struct.pack('<H', len(command)) + command
+    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+        sock.sendto(data, ('127.0.0.1', int(config()['port'])))
+
+
+def sql(statement):
+    args = [str(Path(settings()['mysql_home']) / 'bin/mysql.exe'), '--no-defaults',
+            '--host=127.0.0.1', '--port=3307', '--user=root', '--batch', '--skip-column-names']
+    return subprocess.run(args, input=statement.encode(), capture_output=True, check=True).stdout.decode().strip()
+
+
+def check_database():
+    actual = Path(sql('SELECT @@datadir;')).resolve()
+    if actual != DATABASE.resolve():
+        raise RuntimeError(f'Port 3307 belongs to another database: {actual}')
+
+
+def hidden_process(args):
+    return subprocess.Popen(args, cwd=ROOT, creationflags=subprocess.CREATE_NO_WINDOW,
+                            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def start_database():
+    try:
+        check_database()
+        return
+    except subprocess.CalledProcessError:
+        pass
+    db_home = Path(settings()['mysql_home'])
+    process = hidden_process([str(db_home / 'bin/mysqld.exe'), '--no-defaults',
+                              f'--basedir={db_home.as_posix()}', f'--datadir={DATABASE.as_posix()}',
+                              '--port=3307', '--bind-address=127.0.0.1', '--sql-mode=',
+                              '--max-allowed-packet=64M', f'--log-error={DATABASE.as_posix()}/server-error.log'])
+    (RUNTIME / 'database.pid').write_text(str(process.pid))
+    for _ in range(40):
+        if process.poll() is not None:
+            raise RuntimeError('MariaDB exited. Read .runtime/database/server-error.log')
+        try:
+            check_database()
+            return
+        except subprocess.CalledProcessError:
+            time.sleep(0.5)
+    raise RuntimeError('MariaDB startup timed out')
+
+
+def build():
+    compiler = ROOT / 'pawno/pawncc.exe'
+    for folder, source in [('gamemodes', 'sf-cnr'), ('npcmodes', 'secureguard')]:
+        output = ROOT / folder / f'{source}.amx'
+        temporary = ROOT / folder / f'{source}.building.amx'
+        args = [str(compiler), f'{source}.pwn', f'-i{ROOT / "pawno/include"}',
+                f'-D{folder}', f'-o{temporary}', '__YSI_CALL_UPGRADED=1']
+        result = subprocess.run(args, cwd=ROOT, capture_output=True)
+        log = result.stdout + result.stderr
+        (RUNTIME / f'build-{source}.log').write_bytes(log)
+        print(log.decode('latin1'))
+        if result.returncode or re.search(rb'\b(?:fatal )?error \d+:', log) or not temporary.exists():
+            raise RuntimeError(f'{source} compilation failed; previous AMX retained')
+        temporary.replace(output)
+
+
+def start():
+    try:
+        info = query()
+    except (OSError, RuntimeError):
+        info = None
+    if info:
+        print(f'SA-MP already responds on port {config()["port"]}: {info["hostname"]}')
+        return
+    for path in ['gamemodes/sf-cnr.amx', 'npcmodes/secureguard.amx', 'libmysql.dll', 'samp-server.exe']:
+        if not (ROOT / path).is_file():
+            raise RuntimeError(f'Missing {path}; run build.cmd or restore runtime dependencies')
+    start_database()
+    log = ROOT / 'server_log.txt'
+    offset = log.stat().st_size if log.exists() else 0
+    process = hidden_process([str(ROOT / 'samp-server.exe')])
+    (RUNTIME / 'server.pid').write_text(str(process.pid))
+    for _ in range(60):
+        if process.poll() is not None:
+            raise RuntimeError('SA-MP exited. Read server_log.txt')
+        text = log.read_bytes()[offset:].decode('latin1') if log.exists() else ''
+        if '[SF-CNR] SF-CnR has been successfully initialized.' in text:
+            print(f'Running: {query()["hostname"]} at 127.0.0.1:{config()["port"]} (PID {process.pid})')
+            return
+        time.sleep(0.5)
+    raise RuntimeError('SA-MP initialization timed out. Read server_log.txt')
+
+
+def stop():
+    try:
+        query()
+    except OSError:
+        pass
+    else:
+        rcon('exit')
+        for _ in range(30):
+            time.sleep(0.5)
+            try:
+                query()
+            except OSError:
+                break
+        else:
+            raise RuntimeError('SA-MP did not stop; database left running')
+    try:
+        check_database()
+    except subprocess.CalledProcessError:
+        pass
+    else:
+        sql('SHUTDOWN;')
+    print('Server and checkout database stopped.')
+
+
+def status():
+    info = query()
+    check_database()
+    print(f'{info["hostname"]}: 127.0.0.1:{config()["port"]}, {info["players"]}/{info["maxplayers"]} players')
+    print('Checkout database: 127.0.0.1:3307 / sf_cnr')
+
+
+def test():
+    folder = RUNTIME / 'tests'
+    (folder / 'gamemodes').mkdir(parents=True, exist_ok=True)
+    result = subprocess.run([str(ROOT / 'pawno/pawncc.exe'), 'runtime-check.pwn',
+                             f'-i{ROOT / "pawno/include"}', '-Dtools',
+                             f'-o{folder / "gamemodes/runtime-check.amx"}'], cwd=ROOT, capture_output=True)
+    if result.returncode:
+        raise RuntimeError((result.stdout + result.stderr).decode('latin1'))
+    (folder / 'server.cfg').write_text(f'rcon_password {secrets.token_hex(16)}\n'
+                                      'bind 127.0.0.1\nport 7788\nmaxplayers 1\n'
+                                      'announce 0\nquery 0\ngamemode0 runtime-check 1\n')
+    log = folder / 'server_log.txt'
+    offset = log.stat().st_size if log.exists() else 0
+    subprocess.run([str(ROOT / 'samp-server.exe')], cwd=folder, timeout=30,
+                   creationflags=subprocess.CREATE_NO_WINDOW, check=True)
+    output = log.read_bytes()[offset:].decode('latin1')
+    (RUNTIME / 'test-result.log').write_text(output)
+    if '[RUNTIME CHECK] Completed: 0 failures' not in output:
+        raise RuntimeError(output)
+    print('Calculator and MT19937 tests passed in the stock SA-MP runtime.')
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('action', choices=['build', 'start', 'stop', 'status', 'test'])
+    args = parser.parse_args()
+    os.chdir(ROOT)
+    try:
+        globals()[args.action]()
+    except (OSError, RuntimeError, subprocess.CalledProcessError) as error:
+        print(f'Error: {error}', file=sys.stderr)
+        sys.exit(1)

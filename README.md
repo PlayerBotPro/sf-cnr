@@ -57,6 +57,9 @@ Credits are generally added to the top of source files, if you are missing, mess
 <!-- GETTING STARTED -->
 ## Getting Started
 
+This Windows checkout is configured to run locally. See [RUNNING.md](RUNNING.md)
+for the start, stop, build commands, database location, and installed dependencies.
+
 For instructions on how to set up the server, please visit our [wiki](https://github.com/zeelorenc/sf-cnr).
 
 <!-- USAGE EXAMPLES -->

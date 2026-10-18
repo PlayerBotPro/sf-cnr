@@ -1,4 +1,6 @@
 samp.ban
+.runtime/
+__pycache__/
 server.cfg
 server.cfg.sample
 *.exe
