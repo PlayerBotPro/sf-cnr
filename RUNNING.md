@@ -25,47 +25,88 @@ The scripts work from any current directory and do not require a Windows service
 
 ## sampctl builds
 
-Install the Windows release of [sampctl 1.16.0](https://github.com/Southclaws/sampctl/releases/tag/1.16.0)
-and add the directory containing `sampctl.exe` to `PATH`. Check the installation:
+Install [sampctl 1.16.0](https://github.com/Southclaws/sampctl/releases/tag/1.16.0)
+and Git on `PATH`, plus Python 3 for the build/deployment wrapper and checks.
+The compiler and includes are managed by sampctl. No `pawno/` directory is needed. The previous local installation was moved
+to the ignored `.runtime/legacy-pawno/` as a backup.
+
+From a fresh clone, run:
 
 ```powershell
 sampctl --version
+sampctl ensure
+Copy-Item gamemodes/irresistible/config/database.pwn.sample gamemodes/irresistible/config/database.pwn
+# Edit database.pwn with your local database settings before running the server.
 .\build.cmd
 ```
 
-`pawn.json` defines the `gamemode` and `npc` builds. `build.cmd` calls these
-through `tools/server.py`, captures compiler diagnostics in `.runtime/`, and
-replaces each deployed AMX only after that build succeeds. A failed build
-returns a nonzero exit code and retains that target's previous deployed AMX.
-Each target is published separately: an NPC failure can follow a successful
-gamemode replacement. Stale temporary output is removed before compilation.
+Create the private database configuration only when it does not exist. Complete
+[DATABASE_SETUP.md](DATABASE_SETUP.md) for the schema, database user, and XAMPP.
+The sample can be used to compile without a running database; compilation does
+not validate its credentials. Never commit the private configuration or AMX files
+(which embed those credentials).
 
-To compile a single target from the repository root:
+`pawn.json` declares 13 upstream include packages. `pawn.lock` records their
+resolved commits and must be committed. MySQL R39-6, Streamer 2.9.3, sscanf 2.8.2,
+MapAndreas 1.2.1, FCNPC 1.8.2, and progress2 2.1.2 use release tags. YSI uses release `v4.0.2`; the remaining libraries use explicit commit pins.
+SA-MP standard includes use the stock `0.3.7-R2-2-1` tag, and Pawn standard
+includes use the original snapshot matching the supplied server archive. Four archived headers (`GVar`, `regex`, `modelsizes`,
+`SAMPCAC`) are committed under `vendor/includes/` with provenance and hashes in
+[vendor/README.md](vendor/README.md). No standard library is copied from Pawno.
 
-```powershell
-sampctl --bare build gamemode
-sampctl --bare build npc
-```
+All four targets select the downloaded **pawn-lang/compiler 3.10.8**. Sampctl
+fetches the compiler on the first build. Gamemode/NPC builds retain
+`AMX_OLD_CALL=1` to select the assembly library adapter for YSI 4.0.2.
+The default VS Code build task (Ctrl+Shift+B) runs the
+same build/deployment wrapper as `build.cmd`.
 
-These commands produce `gamemodes/sf-cnr.building.amx` and
-`npcmodes/secureguard.building.amx`. Use `build.cmd` to compile and publish the
-normal `sf-cnr.amx` and `secureguard.amx` files for the server. The `--bare` flag
-skips sampctl's global configuration setup; compilation uses this repository's
-explicit build settings. `sampctl build` selects the first build (`gamemode`).
+| Command | Output |
+| --- | --- |
+| `sampctl build gamemode` (or `sampctl build`) | `gamemodes/sf-cnr.building.amx` |
+| `sampctl build npc` | `npcmodes/secureguard.building.amx` |
+| `sampctl build runtime-check` | `.runtime/tests/gamemodes/runtime-check.amx` |
+| `sampctl build localization-check` | `.runtime/localization-tests/gamemodes/localization-check.amx` |
+| `build.cmd` | Compiles and publishes both normal server AMX files |
 
-This is a legacy-include integration following sampctl's
-[migration workflow](https://github.com/sampctl/tutorial-migration).
-Both builds use the existing **Pawn 3.10.8** compiler in `pawno/`, the matched
-includes in `pawno/include/`, and `__YSI_CALL_UPGRADED=1`. These paths are relative
-to the repository. No compiler or include upgrade is performed. The empty
-`dependencies` list is intentional: sampctl does not yet download the legacy
-include/plugin set. Its generated empty `pawn.lock` is ignored.
+`build.cmd` checks the compiler result and temporary output before replacing
+`sf-cnr.amx` / `secureguard.amx`. A failed target retains its previous deployed
+AMX. Targets are published separately: an NPC failure can follow a successful
+gamemode replacement. Logs remain in `.runtime/build-sf-cnr.log` and
+`.runtime/build-secureguard.log`; isolated checks have their own build logs.
+Use `python tools/server.py test` and
+`python tools/check_localization.py --runtime` for the existing runtime checks;
+their compiler steps also use sampctl.
 
-A fresh clone still requires restoring the compiler, standard includes and
-the versions listed under [Installed runtime](#installed-runtime), plus the
-private database configuration described in [DATABASE_SETUP.md](DATABASE_SETUP.md).
-`sampctl ensure` alone cannot provision this server. Keep using
-`start-server.cmd` / `stop-server.cmd` for the existing runtime and XAMPP setup.
+Sampctl may download release assets declared by dependency packages and a stock
+SA-MP runtime during `ensure`. These are installed under
+`.runtime/sampctl-server/` to keep dependency provisioning separate from the
+configured server in the repository root. This staging runtime is not configured
+for SF-CNR. The installed root plugin DLLs, `libmysql.dll`, MapAndreas heightmaps,
+recordings, database, and `server.cfg` remain runtime prerequisites listed below.
+Use `start-server.cmd` / `stop-server.cmd` for the configured root server.
+
+To refresh declared dependencies, run `sampctl ensure` and review `pawn.lock`.
+For intentional upgrades, edit the pins in `pawn.json`, ensure again, and review
+both files plus the compiler diagnostics. Keep plugin DLLs and include versions
+matched. `dependencies/` is generated; edits there are overwritten. See the
+[sampctl migration guide](https://github.com/sampctl/tutorial-migration) and
+[dependency reference](https://github.com/Southclaws/sampctl/blob/1.16.0/docs/dependencies.md).
+
+If GitHub reports an API rate limit, set `SAMPCTL_GITHUB_TOKEN` in your local
+environment and retry. Keep tokens outside tracked files.
+
+Three legacy upstream packages mark source files executable in Git. Sampctl
+1.16's commit integrity check reports these as modified on Windows even when
+all bytes match. Their checked-in lock entries therefore use sampctl's supported
+SHA-256 source integrity format. After intentionally upgrading either standard
+library or YSI, run `python tools/refresh_dependency_integrity.py` after ensure
+and commit the refreshed lock. The script first verifies every relevant file
+against the locked Git blob; it refuses changed or extra source files. These
+hash records use sampctl's Windows path conventions. Linux builds are unverified.
+
+If sampctl reports Windows `Access is denied` while promoting a generated clone,
+close tools holding that dependency directory open and retry `sampctl ensure`.
+No installed dependency needs to be edited manually.
 
 ## Local configuration and data
 
@@ -84,14 +125,14 @@ Runtime binaries, credentials, and logs are ignored by Git.
 
 ## Installed runtime
 
-The executables and standard Pawn includes came from the supplied archive:
+The existing root server executables came from the supplied archive:
 `D:\Game\gtasa_setup\game\SAMP Server\samp037_svr_R2-2-1_win32.zip`.
 This is the stock **SA-MP 0.3.7 R2 Windows x86 server**.
 
 | Dependency | Installed version/source |
 | --- | --- |
 | Pawn compiler | pawn-lang/compiler 3.10.8 Windows |
-| YSI | pawn-lang/YSI-Includes 4.x; amx_assembly includes; build defines `__YSI_CALL_UPGRADED=1` |
+| YSI | pawn-lang/YSI-Includes v4.0.2; amx_assembly includes; build defines `AMX_OLD_CALL=1` |
 | MySQL | pBlueG/SA-MP-MySQL R39-6, including its matching root `libmysql.dll` |
 | Streamer | samp-incognito/samp-streamer-plugin 2.9.3 |
 | GVar | samp-incognito/samp-gvar-plugin 1.3 |
@@ -106,9 +147,11 @@ This is the stock **SA-MP 0.3.7 R2 Windows x86 server**.
 | regex | Fro1sha 0.2.1; DLL from GRGServer/SAMP and matching local include |
 | Other includes | zcmd, Y-Less modelsizes gist 4543512, oscar-broman/md-sort, Southclaws/progress2 v2.1.2 |
 
-The downloaded archives and extracted dependency sources are retained under
-`.runtime/`; compiler/includes are installed in `pawno/`, and plugins in `plugins/`.
-Use the versions above when reconstructing a fresh clone. The historical
+Legacy runtime archives are retained under `.runtime/`, and the active server
+plugins are in `plugins/`. Sampctl downloads build dependencies into
+`dependencies/` and the selected compiler into its user cache. The table above
+describes the separately provisioned root runtime; the build no longer uses Pawno.
+Use the runtime versions above when reconstructing a fresh clone. The historical
 [setup guide](https://raw.githubusercontent.com/wiki/zekodef/sf-cnr/Server-Setup-Guide.md)
 provides the original dependency list; several of its download links have disappeared.
 
@@ -125,6 +168,19 @@ and persistence still use MySQL. Legacy external help/audio/site URLs remain
 in the gamemode and their availability has not been verified.
 
 ## Validation
+
+Migration verification (2026-10-20): `sampctl ensure` and `build.cmd` passed in
+a clean source snapshot with the sample database config and no Pawno or existing
+dependency directories. This used a warmed sampctl download cache; a fully cold
+network bootstrap was limited by GitHub's unauthenticated API quota. All four
+sampctl build targets passed. The calculator/MT19937 runtime tests and the
+localization audit/runtime checks passed (126 Pawn files, 8,103 changed literals,
+zero issues). The gamemode introduces no new native imports compared with the
+previous build. The NPC retains its existing warning 218.
+
+The deployed-AMX failure protection was also checked. The existing root server
+was not restarted for migration testing; its earlier plugin/startup checks
+predate this compiler/include migration.
 
 Verified locally: gamemode compilation, NPC compilation (one existing warning
 218) and the isolated compatibility tests. Earlier runtime checks covered all

@@ -2,14 +2,14 @@
 import argparse
 import os
 from pathlib import Path
-import re
 import secrets
-import shutil
 import socket
 import struct
 import subprocess
 import sys
 import time
+
+from pawn_build import compile_target
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT / '.runtime'
@@ -56,24 +56,10 @@ def hidden_process(args):
 
 
 def build():
-    sampctl = shutil.which('sampctl')
-    if not sampctl:
-        raise RuntimeError('sampctl is not on PATH. Install sampctl 1.16.0; see RUNNING.md.')
-    if not (ROOT / 'pawno/pawncc.exe').is_file() or not (ROOT / 'pawno/include/a_samp.inc').is_file():
-        raise RuntimeError('Restore the local Pawn 3.10.8 compiler and legacy includes; see RUNNING.md.')
     for name, folder, source in [('gamemode', 'gamemodes', 'sf-cnr'),
                                  ('npc', 'npcmodes', 'secureguard')]:
         output = ROOT / folder / f'{source}.amx'
-        temporary = ROOT / folder / f'{source}.building.amx'
-        temporary.unlink(missing_ok=True)
-        args = [sampctl, '--bare', 'build', '--verbose', name]
-        result = subprocess.run(args, cwd=ROOT, capture_output=True)
-        log = result.stdout + result.stderr
-        (RUNTIME / f'build-{source}.log').write_bytes(log)
-        print(log.decode('latin1'))
-        if result.returncode or re.search(rb'\b(?:fatal )?error \d+:', log) or not temporary.exists():
-            temporary.unlink(missing_ok=True)
-            raise RuntimeError(f'{source} compilation failed; previous AMX retained')
+        temporary = compile_target(name, source)
         temporary.replace(output)
 
 
@@ -135,11 +121,7 @@ def status():
 def test():
     folder = RUNTIME / 'tests'
     (folder / 'gamemodes').mkdir(parents=True, exist_ok=True)
-    result = subprocess.run([str(ROOT / 'pawno/pawncc.exe'), 'runtime-check.pwn',
-                             f'-i{ROOT / "pawno/include"}', '-Dtools',
-                             f'-o{folder / "gamemodes/runtime-check.amx"}'], cwd=ROOT, capture_output=True)
-    if result.returncode:
-        raise RuntimeError((result.stdout + result.stderr).decode('latin1'))
+    compile_target('runtime-check')
     (folder / 'server.cfg').write_text(f'rcon_password {secrets.token_hex(16)}\n'
                                       'bind 127.0.0.1\nport 7788\nmaxplayers 1\n'
                                       'announce 0\nquery 0\ngamemode0 runtime-check 1\n')

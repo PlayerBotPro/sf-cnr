@@ -1,10 +1,10 @@
 samp.ban
 .runtime/
 __pycache__/
-# sampctl (legacy includes are supplied locally; no remote dependency lock yet)
+# sampctl generated dependencies and operation records (commit pawn.lock)
 dependencies/
-pawn.lock
 sampctl_build_file.inc
+.sampctl-*
 server.cfg
 server.cfg.sample
 *.exe

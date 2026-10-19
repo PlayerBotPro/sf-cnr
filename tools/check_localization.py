@@ -112,13 +112,8 @@ def runtime_check():
     folder = ROOT / '.runtime/localization-tests'
     (folder / 'gamemodes').mkdir(parents=True, exist_ok=True)
     (folder / 'scriptfiles').mkdir(exist_ok=True)
-    result = subprocess.run([
-        str(ROOT / 'pawno/pawncc.exe'), 'localization-check.pwn',
-        f'-i{ROOT / "pawno/include"}', '-Dtools',
-        f'-o{folder / "gamemodes/localization-check.amx"}'
-    ], cwd=ROOT, capture_output=True, timeout=30)
-    if result.returncode:
-        raise RuntimeError((result.stdout + result.stderr).decode('cp936', errors='replace'))
+    from pawn_build import compile_target
+    compile_target('localization-check')
     (folder / 'server.cfg').write_text(
         f'rcon_password {secrets.token_hex(16)}\nbind 127.0.0.1\nport 7789\n'
         'maxplayers 1\nannounce 0\nquery 0\ngamemode0 localization-check 1\n')

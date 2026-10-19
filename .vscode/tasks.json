@@ -3,25 +3,49 @@
   "tasks": [
     {
       "label": "build-normal",
-      //"type": "shell",
-      "command": "${workspaceRoot}/pawno/pawncc.exe",
+      "type": "process",
+      "command": "python",
       "args": [
-        "${file}",
-        "-Dgamemodes",
-        "-;+",
-        "-(+",
-        //"-d3"
+        "tools/server.py",
+        "build"
       ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "group": {
         "kind": "build",
         "isDefault": true
       },
-      "isBackground": false,
       "presentation": {
-        "reveal": "silent",
+        "reveal": "always",
         "panel": "dedicated"
       },
-      "problemMatcher": "$pawncc"
+      "problemMatcher": []
+    },
+    {
+      "label": "sampctl: ensure dependencies",
+      "type": "process",
+      "command": "sampctl",
+      "args": [
+        "ensure"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "test: Pawn compatibility",
+      "type": "process",
+      "command": "python",
+      "args": [
+        "tools/server.py",
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
     }
   ]
 }

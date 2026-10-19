@@ -59,8 +59,8 @@ Credits are generally added to the top of source files, if you are missing, mess
 
 This Windows checkout is configured to run locally. See [RUNNING.md](RUNNING.md)
 for the start, stop, build commands, database location, and installed dependencies.
-Builds use [sampctl](https://github.com/Southclaws/sampctl) with the local legacy
-compiler/includes; see [sampctl builds](RUNNING.md#sampctl-builds) for setup.
+Builds use [sampctl](https://github.com/Southclaws/sampctl) with pinned compiler/include
+dependencies; see [sampctl builds](RUNNING.md#sampctl-builds) for setup.
 
 For instructions on how to set up the server, please visit our [wiki](https://github.com/zeelorenc/sf-cnr).
 
