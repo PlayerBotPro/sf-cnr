@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `ADMIN_LEVELS` (
   `LEVEL` tinyint(2) DEFAULT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.ADMIN_LEVELS: 0 rows
 /*!40000 ALTER TABLE `ADMIN_LEVELS` DISABLE KEYS */;
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `ADMIN_LOG` (
   `ACTION_ID` int(11) DEFAULT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.ADMIN_LOG: 0 rows
 /*!40000 ALTER TABLE `ADMIN_LOG` DISABLE KEYS */;
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `APARTMENTS` (
   `NAME` varchar(30) DEFAULT NULL,
   `LOCKED` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.APARTMENTS: ~0 rows (approximately)
 /*!40000 ALTER TABLE `APARTMENTS` DISABLE KEYS */;
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `BANS` (
   `COUNTRY` varchar(2) DEFAULT NULL,
   `ISP` varchar(128) DEFAULT NULL,
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.bans: ~0 rows (approximately)
 /*!40000 ALTER TABLE `BANS` DISABLE KEYS */;
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `BRIBES` (
   `Y` float DEFAULT NULL,
   `Z` float DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.bribes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `BRIBES` DISABLE KEYS */;
@@ -107,7 +107,7 @@ CREATE TABLE IF NOT EXISTS `BUSINESSES` (
   `EXTRA_MEMBERS` tinyint(2) DEFAULT '0',
   `SECURITY` tinyint(2) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.businesses: 0 rows
 /*!40000 ALTER TABLE `BUSINESSES` DISABLE KEYS */;
@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `BUSINESSES` (
 CREATE TABLE IF NOT EXISTS `BUSINESS_VEHICLES` (
   `BUSINESS_ID` int(11) DEFAULT NULL,
   `VEHICLE_INDEX` int(11) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.business_vehicles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `BUSINESS_VEHICLES` DISABLE KEYS */;
@@ -133,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `CASH_CARDS` (
   `USES` int(11) DEFAULT '0',
   `EXPIRE_TIME` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.CASH_CARDS: ~0 rows (approximately)
 /*!40000 ALTER TABLE `CASH_CARDS` DISABLE KEYS */;
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `CASH_CARDS_REDEEMED` (
   `CASH_CARD_ID` int(11) DEFAULT NULL,
   `REDEEMED_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.CASH_CARDS_redeemed: ~0 rows (approximately)
 /*!40000 ALTER TABLE `CASH_CARDS_REDEEMED` DISABLE KEYS */;
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `CASINO_POOLS` (
   `TOTAL_WINNINGS` int(11) DEFAULT '0',
   `TOTAL_GAMBLED` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.casino_pools: ~3 rows (approximately)
 /*!40000 ALTER TABLE `CASINO_POOLS` DISABLE KEYS */;
@@ -182,7 +182,7 @@ CREATE TABLE IF NOT EXISTS `COMPONENTS` (
   `RZ` float DEFAULT NULL,
   `DISABLED` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.components: 0 rows
 /*!40000 ALTER TABLE `COMPONENTS` DISABLE KEYS */;
@@ -199,7 +199,7 @@ CREATE TABLE IF NOT EXISTS `CROWDFUNDS` (
   `RELEASE_DATE` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `END_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.crowdfunds: ~0 rows (approximately)
 /*!40000 ALTER TABLE `CROWDFUNDS` DISABLE KEYS */;
@@ -213,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `CROWDFUND_PACKAGES` (
   `DESCRIPTION` text,
   `REQUIRED_AMOUNT` float DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.crowdfund_packages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `CROWDFUND_PACKAGES` DISABLE KEYS */;
@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `CROWDFUND_PATREONS` (
   `AMOUNT` float DEFAULT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.crowdfund_patreons: ~0 rows (approximately)
 /*!40000 ALTER TABLE `CROWDFUND_PATREONS` DISABLE KEYS */;
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `DB_MIGRATIONS` (
   `MIGRATION` varchar(255) NOT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`MIGRATION`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.db_migrations: ~0 rows (approximately)
 /*!40000 ALTER TABLE `DB_MIGRATIONS` DISABLE KEYS */;
@@ -256,7 +256,7 @@ CREATE TABLE IF NOT EXISTS `EMAILS` (
   `LAST_DISABLED` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.emails: 0 rows
 /*!40000 ALTER TABLE `EMAILS` DISABLE KEYS */;
@@ -270,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `EMAIL_VERIFY` (
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.email_verify: 0 rows
 /*!40000 ALTER TABLE `EMAIL_VERIFY` DISABLE KEYS */;
@@ -293,7 +293,7 @@ CREATE TABLE IF NOT EXISTS `ENTRANCES` (
   `VIP_ONLY` tinyint(1) DEFAULT '0',
   `MAP_ICON` tinyint(2) DEFAULT '-1',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.entrances: ~73 rows (approximately)
 /*!40000 ALTER TABLE `ENTRANCES` DISABLE KEYS */;
@@ -381,7 +381,7 @@ CREATE TABLE IF NOT EXISTS `FEEDBACK` (
   `REWARD` int(3) DEFAULT '0',
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.feedback: ~0 rows (approximately)
 /*!40000 ALTER TABLE `FEEDBACK` DISABLE KEYS */;
@@ -400,7 +400,7 @@ CREATE TABLE IF NOT EXISTS `FURNITURE` (
   `RY` float DEFAULT '0',
   `RZ` float DEFAULT '0',
   PRIMARY KEY (`ID`,`HOUSE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.furniture: ~0 rows (approximately)
 /*!40000 ALTER TABLE `FURNITURE` DISABLE KEYS */;
@@ -422,7 +422,7 @@ CREATE TABLE IF NOT EXISTS `GANGS` (
   `RESPECT` int(10) DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `LEADER` (`LEADER`)
-) ENGINE=InnoDB AUTO_INCREMENT=10619 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10619 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.gangs: ~0 rows (approximately)
 /*!40000 ALTER TABLE `GANGS` DISABLE KEYS */;
@@ -433,7 +433,7 @@ CREATE TABLE IF NOT EXISTS `GANG_COLEADERS` (
   `GANG_ID` int(11) DEFAULT NULL,
   `USER_ID` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.gang_coleaders: 0 rows
 /*!40000 ALTER TABLE `GANG_COLEADERS` DISABLE KEYS */;
@@ -451,7 +451,7 @@ CREATE TABLE IF NOT EXISTS `GANG_FACILITIES` (
   `ZONE_MAX_X` float DEFAULT NULL,
   `ZONE_MAX_Y` float DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.gang_facilities: ~0 rows (approximately)
 /*!40000 ALTER TABLE `GANG_FACILITIES` DISABLE KEYS */;
@@ -469,7 +469,7 @@ CREATE TABLE IF NOT EXISTS `GANG_VEHICLES` (
   PRIMARY KEY (`ID`),
   KEY `GANG_ID` (`GANG_ID`),
   CONSTRAINT `GANG_VEHICLES_ibfk_1` FOREIGN KEY (`GANG_ID`) REFERENCES `GANGS` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.gang_vehicles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `GANG_VEHICLES` DISABLE KEYS */;
@@ -486,7 +486,7 @@ CREATE TABLE IF NOT EXISTS `GARAGES` (
   `Z` float NOT NULL,
   `ANGLE` float NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.garages: ~0 rows (approximately)
 /*!40000 ALTER TABLE `GARAGES` DISABLE KEYS */;
@@ -516,7 +516,7 @@ CREATE TABLE IF NOT EXISTS `GATES` (
   `MOVE_RZ` float DEFAULT NULL,
   `GANG_ID` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.gates: ~0 rows (approximately)
 /*!40000 ALTER TABLE `GATES` DISABLE KEYS */;
@@ -530,7 +530,7 @@ CREATE TABLE IF NOT EXISTS `HELP` (
   `SUBJECT` varchar(64) DEFAULT NULL,
   `CONTENT` text,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.help: ~0 rows (approximately)
 /*!40000 ALTER TABLE `HELP` DISABLE KEYS */;
@@ -553,7 +553,7 @@ CREATE TABLE IF NOT EXISTS `HOUSES` (
   `WEAPONS` varchar(21) DEFAULT '0.0.0.0.0.0.0.',
   `AMMO` varchar(50) DEFAULT '-1.-1.-1.-1.-1.-1.-1.',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.houses: ~0 rows (approximately)
 /*!40000 ALTER TABLE `HOUSES` DISABLE KEYS */;
@@ -570,7 +570,7 @@ CREATE TABLE IF NOT EXISTS `HOUSE_LISTINGS` (
   PRIMARY KEY (`ID`),
   KEY `HOUSE_ID` (`HOUSE_ID`),
   CONSTRAINT `HOUSE_LISTINGS_ibfk_1` FOREIGN KEY (`HOUSE_ID`) REFERENCES `HOUSES` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.house_listings: ~0 rows (approximately)
 /*!40000 ALTER TABLE `HOUSE_LISTINGS` DISABLE KEYS */;
@@ -585,7 +585,7 @@ CREATE TABLE IF NOT EXISTS `IC_MARKET_LOG` (
   `IC_AMOUNT` float DEFAULT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.ic_market_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `IC_MARKET_LOG` DISABLE KEYS */;
@@ -600,7 +600,7 @@ CREATE TABLE IF NOT EXISTS `IC_SELL_ORDERS` (
   `TOTAL_IC` float DEFAULT NULL,
   `LISTING_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.ic_sell_orders: ~0 rows (approximately)
 /*!40000 ALTER TABLE `IC_SELL_ORDERS` DISABLE KEYS */;
@@ -611,7 +611,7 @@ CREATE TABLE IF NOT EXISTS `MEGABAN` (
   `ISP` varchar(128) DEFAULT NULL,
   `TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `ISP` (`ISP`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.megaban: ~0 rows (approximately)
 /*!40000 ALTER TABLE `MEGABAN` DISABLE KEYS */;
@@ -623,7 +623,7 @@ CREATE TABLE IF NOT EXISTS `name_changes` (
   `ADMIN_ID` int(11) DEFAULT NULL,
   `NAME` varchar(25) DEFAULT NULL,
   `TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.name_changes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `name_changes` DISABLE KEYS */;
@@ -638,7 +638,7 @@ CREATE TABLE IF NOT EXISTS `NOTES` (
   `TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `DELETED` int(11) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.notes: ~0 rows (approximately)
 /*!40000 ALTER TABLE `NOTES` DISABLE KEYS */;
@@ -649,7 +649,7 @@ CREATE TABLE IF NOT EXISTS `RANKS_PREVIOUS` (
   `USER_ID` int(11) NOT NULL,
   `RANK` int(6) DEFAULT NULL,
   PRIMARY KEY (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.ranks_previous: 0 rows
 /*!40000 ALTER TABLE `RANKS_PREVIOUS` DISABLE KEYS */;
@@ -661,7 +661,7 @@ CREATE TABLE IF NOT EXISTS `REDEEMED` (
   `REDEEMER` varchar(25) NOT NULL,
   `TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   UNIQUE KEY `ID` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.redeemed: ~0 rows (approximately)
 /*!40000 ALTER TABLE `REDEEMED` DISABLE KEYS */;
@@ -675,7 +675,7 @@ CREATE TABLE IF NOT EXISTS `SERVER` (
   `STRING_VAL` varchar(128) NOT NULL,
   `TYPE` tinyint(1) DEFAULT '1',
   UNIQUE KEY `NAME` (`NAME`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.server: ~0 rows (approximately)
 /*!40000 ALTER TABLE `SERVER` DISABLE KEYS */;
@@ -685,7 +685,7 @@ CREATE TABLE IF NOT EXISTS `SERVER` (
 CREATE TABLE IF NOT EXISTS `SETTINGS` (
   `USER_ID` int(11) DEFAULT NULL,
   `SETTING_ID` tinyint(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.settings: ~0 rows (approximately)
 /*!40000 ALTER TABLE `SETTINGS` DISABLE KEYS */;
@@ -702,7 +702,7 @@ CREATE TABLE IF NOT EXISTS `SLOT_MACHINES` (
   `Z` float DEFAULT NULL,
   `ROTATION` float DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.slot_machines: ~54 rows (approximately)
 /*!40000 ALTER TABLE `SLOT_MACHINES` DISABLE KEYS */;
@@ -766,13 +766,13 @@ INSERT INTO `SLOT_MACHINES` (`ID`, `DESCRIPTION`, `ENTRY_FEE`, `POOL_ID`, `X`, `
 -- Dumping structure for table sa-mp.stats
 CREATE TABLE IF NOT EXISTS `STATS` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `NAME` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `NAME` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
   `INT_VAL` int(32) DEFAULT NULL,
-  `STRING_VAL` varchar(200) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL,
+  `STRING_VAL` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `FLOAT_VAL` float DEFAULT NULL,
   `CREATED_AT` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.stats: ~0 rows (approximately)
 /*!40000 ALTER TABLE `STATS` DISABLE KEYS */;
@@ -784,7 +784,7 @@ CREATE TABLE IF NOT EXISTS `STOCK_OWNERS` (
   `STOCK_ID` int(11) NOT NULL DEFAULT '0',
   `SHARES` float DEFAULT NULL,
   PRIMARY KEY (`USER_ID`,`STOCK_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.stock_owners: ~0 rows (approximately)
 /*!40000 ALTER TABLE `STOCK_OWNERS` DISABLE KEYS */;
@@ -799,7 +799,7 @@ CREATE TABLE IF NOT EXISTS `STOCK_REPORTS` (
   `PRICE` float DEFAULT NULL,
   `REPORTING_TIME` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.stock_reports: ~0 rows (approximately)
 /*!40000 ALTER TABLE `STOCK_REPORTS` DISABLE KEYS */;
@@ -812,7 +812,7 @@ CREATE TABLE IF NOT EXISTS `STOCK_SELL_ORDERS` (
   `SHARES` float DEFAULT NULL,
   `LIST_DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`STOCK_ID`,`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.stock_sell_orders: ~0 rows (approximately)
 /*!40000 ALTER TABLE `STOCK_SELL_ORDERS` DISABLE KEYS */;
@@ -828,7 +828,7 @@ CREATE TABLE IF NOT EXISTS `STOCK_TRADE_LOG` (
   `PRICE` float DEFAULT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.stock_trade_log: ~0 rows (approximately)
 /*!40000 ALTER TABLE `STOCK_TRADE_LOG` DISABLE KEYS */;
@@ -842,7 +842,7 @@ CREATE TABLE IF NOT EXISTS `STREAKS` (
   `STREAK` int(5) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `USER_STREAK_ID` (`USER_ID`,`STREAK_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.streaks: 0 rows
 /*!40000 ALTER TABLE `STREAKS` DISABLE KEYS */;
@@ -858,7 +858,7 @@ CREATE TABLE IF NOT EXISTS `TOP_DONOR` (
   `HIDE` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`ID`),
   UNIQUE KEY `USER_ID` (`USER_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.top_donor: ~0 rows (approximately)
 /*!40000 ALTER TABLE `TOP_DONOR` DISABLE KEYS */;
@@ -883,7 +883,7 @@ CREATE TABLE IF NOT EXISTS `TOYS` (
   `SZ` float DEFAULT '1',
   `COLOR` int(11) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.toys: ~0 rows (approximately)
 /*!40000 ALTER TABLE `TOYS` DISABLE KEYS */;
@@ -893,7 +893,7 @@ CREATE TABLE IF NOT EXISTS `TOYS` (
 CREATE TABLE IF NOT EXISTS `TOY_UNLOCKS` (
   `USER_ID` int(11) DEFAULT NULL,
   `TOY_ID` smallint(3) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.toy_unlocks: ~0 rows (approximately)
 /*!40000 ALTER TABLE `TOY_UNLOCKS` DISABLE KEYS */;
@@ -908,7 +908,7 @@ CREATE TABLE IF NOT EXISTS `TRANSACTIONS` (
   `NATURE` varchar(16) DEFAULT 'transaction',
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.transactions: ~0 rows (approximately)
 /*!40000 ALTER TABLE `TRANSACTIONS` DISABLE KEYS */;
@@ -922,7 +922,7 @@ CREATE TABLE IF NOT EXISTS `TRANSACTIONS_IC` (
   `IC` float DEFAULT NULL,
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.transactions_ic: ~0 rows (approximately)
 /*!40000 ALTER TABLE `TRANSACTIONS_IC` DISABLE KEYS */;
@@ -1008,7 +1008,7 @@ CREATE TABLE IF NOT EXISTS `USERS` (
   PRIMARY KEY (`ID`),
   UNIQUE KEY `NAME` (`NAME`),
   UNIQUE KEY `NAME_2` (`NAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=926053 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=926053 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.users: ~0 rows (approximately)
 /*!40000 ALTER TABLE `USERS` DISABLE KEYS */;
@@ -1024,7 +1024,7 @@ CREATE TABLE IF NOT EXISTS `USER_CONFIRMED_IPS` (
   `DATE` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `USER_ID_IP` (`USER_ID`,`IP`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.user_confirmed_ips: 0 rows
 /*!40000 ALTER TABLE `USER_CONFIRMED_IPS` DISABLE KEYS */;
@@ -1037,7 +1037,7 @@ CREATE TABLE IF NOT EXISTS `USER_LEVELS` (
   `EXPERIENCE` float DEFAULT NULL,
   PRIMARY KEY (`USER_ID`,`LEVEL_ID`),
   CONSTRAINT `USER_LEVELS_ibfk_1` FOREIGN KEY (`USER_ID`) REFERENCES `USERS` (`ID`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.user_levels: ~0 rows (approximately)
 /*!40000 ALTER TABLE `USER_LEVELS` DISABLE KEYS */;
@@ -1061,7 +1061,7 @@ CREATE TABLE IF NOT EXISTS `VEHICLES` (
   `MODS` varchar(75) DEFAULT '0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.',
   `GARAGE` smallint(4) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.vehicles: ~0 rows (approximately)
 /*!40000 ALTER TABLE `VEHICLES` DISABLE KEYS */;
@@ -1076,7 +1076,7 @@ CREATE TABLE IF NOT EXISTS `VISAGE_APARTMENTS` (
   `WORLD` int(11) DEFAULT NULL,
   `GAMBLING` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.visage_APARTMENTS: ~0 rows (approximately)
 /*!40000 ALTER TABLE `VISAGE_APARTMENTS` DISABLE KEYS */;
@@ -1090,7 +1090,7 @@ CREATE TABLE IF NOT EXISTS `WEAPON_STATS` (
   `KILLS` int(6) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `USER_WEAPON_ID` (`USER_ID`,`WEAPON_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table sa-mp.weapon_stats: ~0 rows (approximately)
 /*!40000 ALTER TABLE `WEAPON_STATS` DISABLE KEYS */;
