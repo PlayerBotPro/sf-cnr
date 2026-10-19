@@ -686,7 +686,7 @@ CMD:vipcmds( playerid, params[ ] )
 	if ( p_VIPLevel[ playerid ] < 1 ) return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 
 	erase( szLargeString );
-	strcat( szLargeString,	""COL_GREY"/vipspawnwep"COL_WHITE" - 配置你的产卵武器\n"\
+	strcat( szLargeString,	""COL_GREY"/vipspawnwep"COL_WHITE" - 设置出生时携带的武器\n"\
 							""COL_GREY"/vipskin"COL_WHITE" - 配置你的生成皮肤\n"\
 							""COL_GREY"/viplist"COL_WHITE" - 所有在线 VIP 的列表.玩家.\n"\
 							""COL_GREY"/vipgun"COL_WHITE" - 从枪柜里兑换武器或装甲背心\n"\

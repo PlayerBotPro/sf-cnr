@@ -2006,7 +2006,7 @@ CMD:idletime( playerid, params[ ] )
 		iPlayer;
 
 	if ( sscanf( params, "u", iPlayer ) ) return SendUsage( playerid, "/idletime [PLAYER_ID]" );
-	if ( !IsPlayerConnected( iPlayer ) || IsPlayerNPC( iPlayer ) ) return SendError( playerid, "该播放器未连接." );
+	if ( !IsPlayerConnected( iPlayer ) || IsPlayerNPC( iPlayer ) ) return SendError( playerid, "该玩家不在线." );
 
 	new
 		Float: iTime = float( GetTickCount( ) - p_AFKTime[ iPlayer ] );
@@ -2318,7 +2318,7 @@ CMD:vipgun( playerid, params[ ] )
 	if ( !IsPlayerInRangeOfPoint( playerid, 5.0, -1966.1591, 852.7100, 1214.2678 ) && !IsPlayerInRangeOfPoint( playerid, 5.0, -1944.1324, 830.0725, 1214.2678 ) && !IsPlayerInRangeOfPoint( playerid, 5.0, 60.3115, 121.5226, 1017.4534 ) )
 		return SendError( playerid, "你必须靠近 VIP 休息室内的枪支自动售货机才能使用此功能." );
 
-    ShowPlayerDialog( playerid, DIALOG_VIP_LOCKER, DIALOG_STYLE_LIST, "{FFFFFF}VIP 枪", ""COL_GREY" 装甲\n9毫米手枪\n消音手枪\n沙漠之鹰\n霰弹枪\n锯短霰弹枪\nSpas 12\nMac 10\nMP5\nAK-47\nM4\nTec 9\n步枪\n狙击手\n指节掸子\n高尔夫球杆\n接力棒\n棒球棒\n黑桃\n台球杆\n武士刀\n电锯\n假阳具\n花\n手杖", "选择", "取消");
+    ShowPlayerDialog( playerid, DIALOG_VIP_LOCKER, DIALOG_STYLE_LIST, "{FFFFFF}VIP 枪", ""COL_GREY" 装甲\n9毫米手枪\n消音手枪\n沙漠之鹰\n霰弹枪\n锯短霰弹枪\nSpas 12\nMac 10\nMP5\nAK-47\nM4\nTec 9\n步枪\n狙击枪\n指虎\n高尔夫球杆\n警棍\n棒球棒\n铁铲\n台球杆\n武士刀\n电锯\n假阳具\n花\n手杖", "选择", "取消");
 	return 1;
 }
 
@@ -2554,7 +2554,7 @@ CMD:idof( playerid, params[ ] )
 {
 	new pID;
 	if ( sscanf( params, "u", pID ) ) return SendUsage( playerid, "/idof [PART_OF_NAME]" );
-	if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "该播放器未连接." );
+	if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "该玩家不在线." );
 	SendServerMessage( playerid, "%s: "COL_GREY"%d", ReturnPlayerName( pID ), pID );
 	return 1;
 }
@@ -2656,7 +2656,7 @@ thread OnPlayerLastLogged( playerid, irc, player[ ] )
 		if ( !irc ) SendClientMessageFormatted( playerid, COLOR_GREY, "[服务器]"COL_RED" %s:"COL_WHITE" 最后登录:%s", player, Field );
 	}
 	else {
-		if ( !irc ) SendError( playerid, "未找到播放器." );
+		if ( !irc ) SendError( playerid, "未找到玩家." );
 	}
 	return 1;
 }
@@ -2693,7 +2693,7 @@ thread OnPlayerWeeklyTime( playerid, irc, player[ ] )
 	else
 	{
 		if ( !irc )
-			SendError( playerid, "未找到播放器." );
+			SendError( playerid, "未找到玩家." );
 	}
 	return 1;
 }
@@ -3082,7 +3082,7 @@ CMD:bj( playerid, params[ ] )
 	else if ( !IsPlayerJob( playerid, JOB_MUGGER ) ) return SendError( playerid, "你必须是抢劫犯才能使用此命令." );
 	else if ( ( GetTickCount( ) - p_AntiBlowJobSpam[ playerid ] ) < 30000 ) return SendError( playerid, "再次使用此命令之前,你必须等待 30 秒." );
 	else if ( sscanf( params, "ud", pID, price ) ) return SendUsage( playerid, "/(bj)blowjob [PLAYER_ID] [PRICE]" );
-	else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "该播放器未连接." );
+	else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "该玩家不在线." );
 	else if ( price < 20 || price > 3000 ) return SendError( playerid, "请指定介于 $20 和 $3,000. 之间的价格" );
 	else if ( playerid == pID ) return SendError( playerid, "你不能给自己口交." );
 	else if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "你不能在监狱里提供口交." );
@@ -3362,7 +3362,7 @@ CMD:placehit( playerid, params[ ] )
 	else if ( cash > GetPlayerCash( playerid ) ) return SendError( playerid, "你没有足够的钱来放置这么多." );
 	else if ( cash < 1000 ) return SendError( playerid, "你能造成的最小打击是 $1,000." );
 	else if ( pID == playerid ) return SendError( playerid, "你不能打自己.");
-	else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "该播放器未连接!" );
+	else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "该玩家不在线!" );
 	{
 		// transaction
     	format( szNormalString, sizeof( szNormalString ), "INSERT INTO `TRANSACTIONS` (`TO_ID`, `FROM_ID`, `CASH`, `NATURE`) VALUES (%d, %d, %d, 'contract')", p_AccountID[ pID ], p_AccountID[ playerid ], cash );
@@ -3417,7 +3417,7 @@ CMD:track( playerid, params[ ] )
 	else if ( !IsPlayerJob( playerid, JOB_HITMAN ) ) return SendError( playerid, "你必须是 职业杀手 才能使用此命令." );
 	else if ( IsPlayerInBattleRoyale( playerid ) ) return SendError( playerid, "大逃杀中无法使用此命令." );
 	else if ( sscanf( params, "u", pID ) ) return SendUsage( playerid, "/track [PLAYER_ID]" );
-	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "该播放器未连接!" );
+	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "该玩家不在线!" );
 	else if ( pID == playerid ) return SendError( playerid, "你不能将此应用到你自己身上." );
 	else if ( !IsPlayerSpawned( pID ) ) return SendError( playerid, "不会生成所选的玩家." );
 	else if ( p_AdminOnDuty{ pID } == true || GetPlayerState( pID ) == PLAYER_STATE_SPECTATING ) return SendError( playerid, "这是值班管理员!你无法追踪他们的接近程度." );
@@ -3650,7 +3650,7 @@ CMD:tie( playerid, params[ ] )
 		else if ( IsPlayerAdminOnDuty( victimid ) ) return SendError( playerid, "无法对值勤中的管理员使用此命令." );
 		else if ( IsPlayerJailed( victimid ) ) return SendError( playerid, "此玩家已入狱, 可能处于暂停状态." );
 		else if ( IsPlayerLoadingObjects( victimid ) ) return SendError( playerid, "此玩家正在加载地图物体." );
-		else if ( GetPlayerState( victimid ) == PLAYER_STATE_WASTED ) return SendError( playerid, "你不能平局浪费的球员." );
+		else if ( GetPlayerState( victimid ) == PLAYER_STATE_WASTED ) return SendError( playerid, "不能捆绑已死亡的玩家." );
 		else if ( IsPlayerInPlayerGang( playerid, victimid ) ) return SendError( playerid, "你不能对你的兄弟使用这个命令!" );
 		else if ( IsPlayerSpawnProtected( victimid ) ) return SendError( playerid, "你无法对生成受保护的玩家使用此命令." );
 		else if ( IsPlayerInCasino( victimid ) && ! p_WantedLevel[ victimid ] ) return SendError( playerid, "你试图捆绑的无辜者在赌场里." );
@@ -3755,7 +3755,7 @@ CMD:location( playerid, params[ ] )
 
 	if ( p_Class[ playerid ] == CLASS_CIVILIAN ) return SendError( playerid, "此功能仅限警察使用." );
 	else if ( sscanf( params, "u", pID ) ) return SendUsage( playerid, "/loc(ation) [PLAYER_ID]" );
-	else if ( ! IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "该播放器未连接!" );
+	else if ( ! IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "该玩家不在线!" );
 	else if ( ! IsPlayerSpawned( pID ) ) return SendError( playerid, "不会生成所选的玩家." );
 	//else if ( GetPlayerInterior( playerid ) != GetPlayerInterior( pID ) ) return SendError( playerid, "This player is inside a interior, the location is not viewable." );
 	else if ( p_AdminOnDuty{ pID } == true ) return SendError( playerid, "这是值班管理员!你无法追踪他们的接近程度." );
@@ -5314,7 +5314,7 @@ public OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	        {
 				if ( p_VIPLevel[ playerid ] < VIP_REGULAR ) return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 				szCMDS[ 0 ] = '\0';
-	            strcat( szCMDS, ""COL_GREY"/vipspawnwep{FFFFFF} - 配置你的产卵武器\n"\
+	            strcat( szCMDS, ""COL_GREY"/vipspawnwep{FFFFFF} - 设置出生时携带的武器\n"\
 								""COL_GREY"/vipskin{FFFFFF} - 配置你的生成皮肤\n"\
 								""COL_GREY"/viplist{FFFFFF} - 所有在线 VIP 的列表.玩家.\n"\
 								""COL_GREY"/vipgun{FFFFFF} - 从枪柜中兑换武器或护甲背心\n"\
@@ -5386,7 +5386,7 @@ public OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                                             ""COL_GREY"逮捕总数:{FFFFFF} %d\n"\
                                             ""COL_GREY"抢劫总数:{FFFFFF} %d\n"\
                                             ""COL_GREY"已扑灭的火灾总数:{FFFFFF} %d\n"\
-                                            ""COL_GREY"已完成的点击总数:{FFFFFF} %d\n"\
+                                            ""COL_GREY"完成悬赏任务总数:{FFFFFF} %d\n"\
                                             ""COL_GREY"盗窃案总数:{FFFFFF} %d\n",
 											szLargeString, p_OwnedHouses[ pID ], GetPlayerHouseSlots( pID ), p_OwnedVehicles[ pID ], GetPlayerVehicleSlots( pID ), p_Arrests[ pID ], p_Robberies[ pID ], p_Fires[ pID ], p_HitsComplete[ pID ], p_Burglaries[ pID ] );
 

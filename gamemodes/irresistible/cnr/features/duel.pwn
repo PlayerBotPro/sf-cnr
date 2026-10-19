@@ -219,7 +219,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[] )
 			return ShowPlayerDialog( playerid, DIALOG_DUEL_PLAYER, DIALOG_STYLE_INPUT, ""COL_WHITE"决斗设置 - 选择玩家", ""COL_WHITE"请输入你想要决斗的玩家姓名:\n\n"COL_RED"你不能邀请自己决斗!", "选择", "返回" );
 
 		if ( pID == INVALID_PLAYER_ID || !IsPlayerConnected( pID ) )
-			return ShowPlayerDialog( playerid, DIALOG_DUEL_PLAYER, DIALOG_STYLE_INPUT, ""COL_WHITE"决斗设置 - 选择玩家", ""COL_WHITE"请输入你想要决斗的玩家姓名:\n\n"COL_RED"播放器未连接!", "选择", "返回" );
+			return ShowPlayerDialog( playerid, DIALOG_DUEL_PLAYER, DIALOG_STYLE_INPUT, ""COL_WHITE"决斗设置 - 选择玩家", ""COL_WHITE"请输入你想要决斗的玩家姓名:\n\n"COL_RED"该玩家不在线!", "选择", "返回" );
 
 		if ( IsPlayerDueling( playerid ) )
 			return ShowPlayerDialog( playerid, DIALOG_DUEL_PLAYER, DIALOG_STYLE_INPUT, ""COL_WHITE"决斗设置 - 选择玩家", ""COL_WHITE"请输入你想要决斗的玩家姓名:\n\n"COL_RED"你已经在决斗了!", "选择", "返回" );
@@ -390,14 +390,14 @@ CMD:duel( playerid, params[ ] )
 		{
 			if ( GetPlayerCash( targetid ) < waged_amount )
 			{
-				SendClientMessageFormatted( targetid, -1, ""COL_DUEL"[决斗]"COL_WHITE" %s 已接受,但你没有钱支付工资 (%s).", ReturnPlayerName( playerid ), cash_format( waged_amount ) );
+				SendClientMessageFormatted( targetid, -1, ""COL_DUEL"[决斗]"COL_WHITE" %s 已接受决斗邀请, 但你的钱不足以支付赌注 (%s).", ReturnPlayerName( playerid ), cash_format( waged_amount ) );
 				SendClientMessageFormatted( playerid, -1, ""COL_DUEL"[决斗]"COL_WHITE" 你已经接受%s的决斗邀请,但他们没有钱.", ReturnPlayerName( targetid ) );
 				return 1;
 			}
 			else if ( GetPlayerCash( playerid ) < waged_amount )
 			{
-				SendClientMessageFormatted( playerid, -1, ""COL_DUEL"[决斗]"COL_WHITE" %s 要求你支付 %s 工资.", ReturnPlayerName( targetid ), cash_format( waged_amount ) );
-				SendClientMessageFormatted( targetid, -1, ""COL_DUEL"[决斗]"COL_WHITE" %s 已接受决斗邀请,但他们没有钱工资.", ReturnPlayerName( playerid ) );
+				SendClientMessageFormatted( playerid, -1, ""COL_DUEL"[决斗]"COL_WHITE" 与 %s 决斗需要支付 %s 赌注.", ReturnPlayerName( targetid ), cash_format( waged_amount ) );
+				SendClientMessageFormatted( targetid, -1, ""COL_DUEL"[决斗]"COL_WHITE" %s 已接受决斗邀请, 但其资金不足以支付赌注.", ReturnPlayerName( playerid ) );
 				return 1;
 			}
 			else

@@ -328,7 +328,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			    GetZoneFromCoordinates( location, X, Y );
 
         		SetPlayerSpawnLocation( playerid, "GNG", handle );
-                SendServerMessage( playerid, "产卵已设置在位于的帮派设施中 "COL_GREY"%s, %s"COL_WHITE".", GetLocationDisplayName(location), GetLocationDisplayName(city) );
+                SendServerMessage( playerid, "出生点已设为帮派设施, 位置: "COL_GREY"%s, %s"COL_WHITE".", GetLocationDisplayName(location), GetLocationDisplayName(city) );
 			 	break;
 			}
 			x ++;

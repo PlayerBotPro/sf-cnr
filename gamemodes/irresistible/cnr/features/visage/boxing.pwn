@@ -100,7 +100,7 @@ CMD:boxing( playerid, params[ ] ) {
 			return SendUsage( playerid, "/boxing fight [PLAYER_ID] [BET_AMOUNT (0)] [ROUNDS (3)]" );
 
 		if ( ! IsPlayerConnected( targetID ) )
-			return SendError( playerid, "播放器未连接." );
+			return SendError( playerid, "该玩家不在线." );
 
 		if ( targetID == playerid )
 			return SendError( playerid, "你不能邀请自己参加拳击比赛." );

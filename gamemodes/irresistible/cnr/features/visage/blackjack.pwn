@@ -273,7 +273,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 	                    }
 	                }
 
-					szBigString = "~y~~k~~PED_SPRINT~~w~ - 开始游戏/Stand~n~~y~~k~~GROUP_CONTROL_BWD~~w~ - 命中~n~~y~~k~~VEHICLE_ENTER_EXIT~~w~ - 退出";
+					szBigString = "~y~~k~~PED_SPRINT~~w~ - 开始游戏/停牌~n~~y~~k~~GROUP_CONTROL_BWD~~w~ - 要牌~n~~y~~k~~VEHICLE_ENTER_EXIT~~w~ - 退出";
 					ShowPlayerHelpDialog( playerid, 0, szBigString );
 
 	                SendServerMessage( playerid, "你已进入 %s 手二十一点牌桌.", cash_format( g_blackjackData[ id ] [ E_PAYOUT ] ) );

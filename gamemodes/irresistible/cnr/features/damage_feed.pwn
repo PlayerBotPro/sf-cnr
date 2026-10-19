@@ -567,7 +567,7 @@ CMD:sync( playerid, params[ ] )
 		return SendError( playerid, "你目前无法同步自己." );
 
 	if ( GetPlayerWeapon( playerid ) == WEAPON_SNIPER )
-		return SendError( playerid, "你无法同步持有狙击手." );
+		return SendError( playerid, "手持狙击枪时无法重新同步." );
 
 	if ( IsPlayerInBattleRoyale( playerid ) )
 		return SendError( playerid, "大逃杀中无法使用此命令." );

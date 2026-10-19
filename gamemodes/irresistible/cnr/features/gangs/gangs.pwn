@@ -752,7 +752,7 @@ thread OnGangKickOffline( playerid, gangid )
 			GetPlayerName( scanid, scan_name, sizeof( scan_name ) );
 
 			if ( strmatch( player_name, scan_name ) ) {
-				return SendError( playerid, "你无法在在线播放器上使用此命令." ), 1;
+				return SendError( playerid, "无法对在线玩家使用此命令." ), 1;
 			}
 		}
 

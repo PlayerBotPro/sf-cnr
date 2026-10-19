@@ -116,14 +116,14 @@ stock TicketPlayer( pID, playerid )
 	else if ( p_WantedLevel[ pID ] > 5 ) return SendError( playerid, "此玩家的罪行过重, 请直接逮捕." );
 	else if ( p_WantedLevel[ pID ] < 1 ) return SendError( playerid, "不能向无辜玩家开罚单." );
 	else if ( p_Jailed{ playerid } ) return SendError( playerid, "你不能在监狱中使用此命令." );
-	else if ( IsPlayerDetained( pID ) ) return SendError( playerid, "此玩家已被管理员监禁, 无法进行此操作." );
-	else if ( g_iTime < p_TicketTimestamp[ pID ] ) return SendError( playerid, "此玩家已经入狱, 将在 %d 秒后获释.", g_iTime - p_TicketTimestamp[ pID ] );
+	else if ( IsPlayerDetained( pID ) ) return SendError( playerid, "此玩家已被拘留, 无法向其开罚单." );
+	else if ( g_iTime < p_TicketTimestamp[ pID ] ) return SendError( playerid, "此玩家已有罚单, 处理倒计时: %d 秒.", g_iTime - p_TicketTimestamp[ pID ] );
 	else
 	{
 		if ( p_AdminOnDuty{ pID } == true ) return SendError( playerid, "这是值班管理员!" );
 		if ( IsPlayerJailed( pID ) ) return SendError( playerid, "此玩家已入狱, 可能处于暂停状态." );
-		if ( IsPlayerTied( pID ) ) return SendError( playerid, "此玩家已被捆绑, 手铐已解除, 无法向其开罚单." );
-		if ( GetPlayerState( pID ) == PLAYER_STATE_WASTED ) return SendError( playerid, "不能向挂机玩家开罚单." );
+		if ( IsPlayerTied( pID ) ) return SendError( playerid, "此玩家已被捆绑, 必须先解绑才能开罚单." );
+		if ( GetPlayerState( pID ) == PLAYER_STATE_WASTED ) return SendError( playerid, "不能向已死亡的玩家开罚单." );
 
 	    p_TicketTimestamp[ pID ] = g_iTime + 15;
 	    p_TicketIssuer[ pID ] = playerid;

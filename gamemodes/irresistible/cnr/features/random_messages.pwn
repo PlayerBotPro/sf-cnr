@@ -22,7 +22,7 @@ static stock
         { "{8ADE47}斯蒂芬妮:"COL_WHITE" 到达目的地有困难吗?使用 "COL_GREY"/gps{FFFFFF} inside a vehicle!" },
         { "{8ADE47}斯蒂芬妮:"COL_WHITE" 捐赠者收到 IC 代币 作为慷慨捐赠的回报,用于赎回 VIP!" },
         { "{8ADE47}斯蒂芬妮:"COL_WHITE" 抢劫商店并赚取分数,你拥有的经验越多,你获得的好处就越多!" },
-        { "{8ADE47}斯蒂芬妮:"COL_WHITE" 房屋是可购买的,你可以购买一栋并将你的产卵位置设置在该房屋内!" },
+        { "{8ADE47}斯蒂芬妮:"COL_WHITE" 你可以购买房屋, 并将出生点设在屋内!" },
         { "{8ADE47}斯蒂芬妮:"COL_WHITE" 记得检查一下 "COL_GREY"/rules{FFFFFF}!违反规则可能会受到惩罚!" },
 		{ "{8ADE47}斯蒂芬妮:"COL_WHITE" 见过骗子吗?使用 "COL_GREY"/report {FFFFFF}告诉管理员." },
 		{ "{8ADE47}斯蒂芬妮:"COL_WHITE" 要更改你的班级,请输入 "COL_GREY"/changeclass{FFFFFF}." },

@@ -461,7 +461,7 @@ CMD:race( playerid, params[ ] )
 			return SendUsage( playerid, "/race invite [PLAYER]" );
 
 		if ( ! IsPlayerConnected( inviteid ) || IsPlayerNPC( inviteid ) )
-			return SendServerMessage( playerid, "该播放器未连接" );
+			return SendServerMessage( playerid, "该玩家不在线" );
 
 		if ( GetDistanceBetweenPlayers( inviteid, playerid ) > 50.0 )
 			return SendError( playerid, "该玩家必须距离你 50 米以内." );

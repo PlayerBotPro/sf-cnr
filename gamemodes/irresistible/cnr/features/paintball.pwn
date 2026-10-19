@@ -230,7 +230,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					showPaintBallLobbyData( playerid, iLobby );
 				}
 				case 6: 		ShowPlayerPaintballArenas( playerid );
-				case 7 .. 9: 	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_WEP, DIALOG_STYLE_LIST, "{FFFFFF}彩弹竞技 - 编辑", ""COL_RED"移除此槽上的武器\n9毫米手枪\n消音手枪\n沙漠之鹰\n霰弹枪\n锯短霰弹枪\nSpas 12\nMac 10\nMP5\nAK-47\nM4\nTec 9\n步枪\n狙击手", "选择", "取消");
+				case 7 .. 9: 	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_WEP, DIALOG_STYLE_LIST, "{FFFFFF}彩弹竞技 - 编辑", ""COL_RED"移除此槽上的武器\n9毫米手枪\n消音手枪\n沙漠之鹰\n霰弹枪\n锯短霰弹枪\nSpas 12\nMac 10\nMP5\nAK-47\nM4\nTec 9\n步枪\n狙击枪", "选择", "取消");
 				case 10:
 				{
 					g_paintballData[ iLobby ] [ E_HEADSHOT ] = !g_paintballData[ iLobby ] [ E_HEADSHOT ];
