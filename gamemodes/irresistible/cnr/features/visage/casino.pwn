@@ -20,7 +20,7 @@ hook OnGameModeInit( )
 	InitializeCasinoInterior( );
 
 	// Create Entrance
-	VISAGE_ENTRANCE = CreateEntrance( "[VISAGE CASINO]", 2017.1334, 1916.4141, 12.3424, 2633.7986, 1714.6560, 1512.4630, VISAGE_INTERIOR, VISAGE_WORLD, true, false, 44 );
+	VISAGE_ENTRANCE = CreateEntrance( "[Visage 赌场]", 2017.1334, 1916.4141, 12.3424, 2633.7986, 1714.6560, 1512.4630, VISAGE_INTERIOR, VISAGE_WORLD, true, false, 44 );
 
 	// Create Poker Tables
 	CreatePokerTable( 25000000, 250000, 2584.122070, 1593.588012, 1505.522949, 6, VISAGE_WORLD, VISAGE_INTERIOR ); // super high roller
@@ -35,10 +35,10 @@ hook OnGameModeInit( )
 	CreatePokerTable( 50000, 500, 2619.504882, 1615.672973, 1505.548950, 6, VISAGE_WORLD, VISAGE_INTERIOR );
 
 	// Robbery Info
-	CreateRobberyNPC( "Visage Cashier", 2500, 2601.9226, 1567.5959, 1508.3521, 0.0, 11, VISAGE_WORLD ); // Mafia
-	CreateRobberyNPC( "Visage Cashier",	2500, 2607.0059, 1567.5959, 1508.3521, 0.0, 172, VISAGE_WORLD ); // Mafia
-	CreateRobberyCheckpoint( "Visage Casino - Safe 1", 	4000, 2609.208984, 1566.640014, 1507.802001, -90.00000, VISAGE_WORLD );
-	CreateRobberyCheckpoint( "Visage Casino - Safe 2", 	4000, 2609.208984, 1565.798950, 1507.802001, -90.00000, VISAGE_WORLD );
+	CreateRobberyNPC( "Visage 收银员", 2500, 2601.9226, 1567.5959, 1508.3521, 0.0, 11, VISAGE_WORLD ); // Mafia
+	CreateRobberyNPC( "Visage 收银员",	2500, 2607.0059, 1567.5959, 1508.3521, 0.0, 172, VISAGE_WORLD ); // Mafia
+	CreateRobberyCheckpoint( "Visage 赌场 - 保险箱 1", 	4000, 2609.208984, 1566.640014, 1507.802001, -90.00000, VISAGE_WORLD );
+	CreateRobberyCheckpoint( "Visage 赌场 - 保险箱 2", 	4000, 2609.208984, 1565.798950, 1507.802001, -90.00000, VISAGE_WORLD );
 
 	// Create ATM
 	CreateATM( 2557.137939, 1576.037963, 1508.003051, -90.000000 );
@@ -228,7 +228,7 @@ static stock InitializeCasinoInterior( )
 	SetDynamicObjectMaterial( CreateDynamicObject( 18762, 2609.051025, 1568.437011, 1511.868041, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorceiling02_128", -16 );
 	CreateDynamicObject( 19325, 2601.820068, 1568.655029, 1512.125000, 90.000000, 0.000000, 90.000000, -1, -1, -1 );
 	CreateDynamicObject( 19325, 2606.832031, 1568.655029, 1512.125000, 90.000000, 0.000000, 90.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2603.422119, 1570.913940, 1514.991943, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "CASHIER", 120, "Times new roman", 90, 0, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2603.422119, 1570.913940, 1514.991943, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "出纳员", 120, "Times new roman", 90, 0, -16777216, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 3494, 2635.801025, 1596.386962, 1508.508056, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorwall02_128", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 3494, 2635.801025, 1611.828002, 1508.508056, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorwall02_128", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 3494, 2625.069091, 1597.338012, 1508.508056, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorwall02_128", -16 );
@@ -307,20 +307,20 @@ static stock InitializeCasinoInterior( )
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2632.508056, 1666.668945, 1514.469970, 0.000000, 0.000000, 162.000000, -1, -1, -1 ), 0, "Brad", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2632.508056, 1666.668945, 1513.869995, 0.000000, 0.000000, 162.000000, -1, -1, -1 ), 0, "RoyceGate", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2632.508056, 1666.668945, 1513.270019, 0.000000, 0.000000, 162.000000, -1, -1, -1 ), 0, "Ashley", 130, "Times new roman", 50, 0, -9170, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2632.508056, 1666.668945, 1512.670043, 0.000000, 0.000000, 162.000000, -1, -1, -1 ), 0, "[TDK]Future[NG]", 130, "Times new roman", 50, 0, -9170, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2632.508056, 1666.668945, 1512.670043, 0.000000, 0.000000, 162.000000, -1, -1, -1 ), 0, "[TDK]未来[NG]", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2644.941894, 1670.793945, 1514.469970, 0.000000, 0.000000, -126.099998, -1, -1, -1 ), 0, "Harpreet", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2644.941894, 1670.793945, 1513.869995, 0.000000, 0.000000, -126.099998, -1, -1, -1 ), 0, "Veloxity_", 130, "Times new roman", 50, 0, -9170, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2644.941894, 1670.793945, 1513.270019, 0.000000, 0.000000, -126.099998, -1, -1, -1 ), 0, "[ZF]ImakeMYownCAKE", 130, "Times new roman", 50, 0, -9170, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2644.941894, 1670.793945, 1513.270019, 0.000000, 0.000000, -126.099998, -1, -1, -1 ), 0, "[ZF]我做我自己的蛋糕", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2644.941894, 1670.793945, 1512.670043, 0.000000, 0.000000, -126.099998, -1, -1, -1 ), 0, "Minthy", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2646.933105, 1677.155029, 1514.469970, 0.000000, 0.000000, -89.900001, -1, -1, -1 ), 0, "Hariexy", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2646.933105, 1677.155029, 1513.869995, 0.000000, 0.000000, -89.900001, -1, -1, -1 ), 0, "StevenVerx", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2626.977050, 1670.654052, 1514.469970, 0.000000, 0.000000, 125.699996, -1, -1, -1 ), 0, "MrFreeze", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2626.977050, 1670.654052, 1513.869995, 0.000000, 0.000000, 125.699996, -1, -1, -1 ), 0, "Chickenwing", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2626.977050, 1670.654052, 1513.270019, 0.000000, 0.000000, 125.699996, -1, -1, -1 ), 0, "Nibble", 130, "Times new roman", 50, 0, -9170, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2626.977050, 1670.654052, 1512.670043, 0.000000, 0.000000, 125.699996, -1, -1, -1 ), 0, "[SS]Usaid", 130, "Times new roman", 50, 0, -9170, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2626.977050, 1670.654052, 1512.670043, 0.000000, 0.000000, 125.699996, -1, -1, -1 ), 0, "[SS]美国说", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2624.854980, 1677.182006, 1514.469970, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "NeXuS", 130, "Times new roman", 50, 0, -9170, 0, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2624.854980, 1677.182006, 1513.869995, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "IM_HULK.", 130, "Times new roman", 50, 0, -9170, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2592.583007, 1602.630004, 1511.784057, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "HIGHROLLERS", 120, "Times new roman", 70, 1, -9170, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 2592.583007, 1602.630004, 1511.784057, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "豪客赛", 120, "Times new roman", 70, 1, -9170, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18762, 2609.367919, 1567.556030, 1505.781982, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorwall02_128", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18762, 2609.367919, 1564.864990, 1505.781982, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorwall02_128", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19940, 2609.099121, 1566.212036, 1508.271972, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 8396, "sphinx01", "luxorwall02_128", -16 );

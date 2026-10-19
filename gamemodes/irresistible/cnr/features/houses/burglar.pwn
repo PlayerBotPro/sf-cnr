@@ -54,8 +54,8 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 			GetPlayerPos( playerid, pX, pY, pZ );
 
 			Beep( playerid );
-			GameTextForPlayer( playerid, "Go to the truck blip on your radar for money!", 3000, 1 );
-			SendServerMessage( playerid, "You have %d stolen goods that you can export for "COL_GOLD"%s"COL_WHITE"!", num_furniture, cash_format( cash_value ) );
+			GameTextForPlayer( playerid, "去雷达上的卡车光点找钱!", 3000, 1 );
+			SendServerMessage( playerid, "你有 %d 件可以出口的赃物 "COL_GOLD"%s"COL_WHITE"!", num_furniture, cash_format( cash_value ) );
 
 			static
 				szCity[ MAX_ZONE_NAME ],
@@ -120,7 +120,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 			GivePlayerCash( playerid, cash_earned );
 			StockMarket_UpdateEarnings( E_STOCK_PAWN_STORE, cash_earned, 1.0 );
 			GivePlayerWantedLevel( playerid, num_furniture * 2 );
-			SendServerMessage( playerid, "You have sold %d furniture item(s) to the Pawn Store, earning you "COL_GOLD"%s"COL_WHITE".", num_furniture, cash_format( cash_earned ) );
+			SendServerMessage( playerid, "你已经把 %d 家具物品卖给了当铺,赚到了 "COL_GOLD"%s"COL_WHITE".", num_furniture, cash_format( cash_earned ) );
 			ResetVehicleBurglaryData( vehicleid );
 		}
 	}
@@ -148,7 +148,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 		{
 			g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_CRACKED ] = true;
 		   	g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_CRACKED_TS ] = g_iTime + 120;
-			SendServerMessage( playerid, "You have successfully cracked this houses' password. You have two minutes to do your thing." );
+			SendServerMessage( playerid, "你已成功破解该房屋的密码.你有两分钟的时间做你的事情." );
 			GivePlayerWantedLevel( playerid, 12 );
 			GivePlayerScore( playerid, 2 );
 			//GivePlayerExperience( playerid, E_BURGLAR );
@@ -158,8 +158,8 @@ hook OnProgressCompleted( playerid, progressid, params )
 		{
 			new szLocation[ MAX_ZONE_NAME ];
 			GetZoneFromCoordinates( szLocation, g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_EX ], g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_EY ], g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_EZ ] );
-			SendClientMessageToCops( -1, ""COL_BLUE"[BURGLARY]"COL_WHITE" %s has failed to crack a houses' password near %s.", ReturnPlayerName( playerid ), szLocation );
-			SendClientMessage( playerid, -1, ""COL_GREY"[SERVER]"COL_WHITE" You have failed to crack this houses' password." );
+			SendClientMessageToCops( -1, ""COL_BLUE"[入室盗窃]"COL_WHITE" %s 未能破解 %s 附近房屋的密码.", ReturnPlayerName( playerid ), GetLocationDisplayName(szLocation) );
+			SendClientMessage( playerid, -1, ""COL_GREY"[服务器]"COL_WHITE" 你未能破解该房屋的密码." );
 			GivePlayerWantedLevel( playerid, 6 );
 			CreateCrimeReport( playerid );
 		}
@@ -173,9 +173,9 @@ hook OnProgressCompleted( playerid, progressid, params )
         {
 			g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_CRACKED ] = true;
 		   	g_houseData[ p_HouseCrackingPW[ playerid ] ] [ E_CRACKED_TS ] = g_iTime + 60;
-			SendServerMessage( playerid, "You have successfully brute forced this houses' password. This lasts for one minute." );
+			SendServerMessage( playerid, "你已成功暴力破解该房屋的密码.这持续一分钟." );
         }
-        else SendServerMessage( playerid, "You have failed to brute force this houses' password." );
+        else SendServerMessage( playerid, "你未能暴力破解该房屋的密码." );
 	}
 	return 1;
 }
@@ -185,9 +185,9 @@ hook OnPlayerEnterHouse( playerid, houseid )
 	// alert burglar of any furniture
 	if ( ! IsPlayerHomeOwner( playerid, houseid ) && IsPlayerJob( playerid, JOB_BURGLAR ) && GetPlayerClass( playerid ) == CLASS_CIVILIAN ) {
 		if ( Iter_Count( housefurniture[ houseid ] ) ) {
-			ShowPlayerHelpDialog( playerid, 4000, "This house has furniture to rob.~n~~n~Press ~g~~h~~k~~VEHICLE_ENTER_EXIT~~w~ near the furniture you want to steal." );
+			ShowPlayerHelpDialog( playerid, 4000, "这所房子有家具可供抢劫.~n~~n~在你想偷的家具附近按 ~g~~h~~k~~VEHICLE_ENTER_EXIT~~w~." );
 		} else {
-			ShowPlayerHelpDialog( playerid, 4000, "~r~This house has no furniture to rob." );
+			ShowPlayerHelpDialog( playerid, 4000, "~r~这所房子没有家具可供抢劫." );
 		}
 	}
 	return 1;
@@ -208,29 +208,29 @@ hook OnPlayerAttemptBreakIn( playerid, houseid, businessid )
 		new crackpw_cooldown = GetPVarInt( playerid, "crack_housepw_cool" );
 
 		if ( crackpw_cooldown > current_time ) {
-			return SendError( playerid, "You are unable to attempt a house break-in for %d seconds.", crackpw_cooldown - current_time ), 0;
+			return SendError( playerid, "你需要等待 %d 秒才能再次尝试入室盗窃.", crackpw_cooldown - current_time ), 0;
 		}
 
 		if ( current_time > g_houseData[ houseid ] [ E_CRACKED_TS ] && g_houseData[ houseid ] [ E_CRACKED ] )
 			g_houseData[ houseid ] [ E_CRACKED ] = false; // The Virus Is Disabled.
 
 		if ( g_houseData[ houseid ] [ E_CRACKED_WAIT ] > current_time )
-		    return SendError( playerid, "This house had its password recently had a cracker run through. Come back later." ), 0;
+		    return SendError( playerid, "此处的密码刚被尝试破解过, 请稍后再来." ), 0;
 
 		if ( g_houseData[ houseid ] [ E_CRACKED ] || g_houseData[ houseid ] [ E_BEING_CRACKED ] )
-			return SendError( playerid, "This house is currently being cracked or is already cracked." ), 0;
+			return SendError( playerid, "此处的密码正在破解或已被破解." ), 0;
 
         if ( IsHouseOnFire( houseid ) )
-	       	return SendError( playerid, "This house is on fire, you cannot crack it!" ), 0;
+            return SendError( playerid, "这房子着火了,你无法破解它!" ), 0;
 
         g_houseData[ houseid ] [ E_BEING_CRACKED ] = true;
         p_HouseCrackingPW[ playerid ] = houseid;
         SetPVarInt( playerid, "crack_housepw_cool", current_time + 40 );
 
 		if ( is_fbi ) {
-			ShowProgressBar( playerid, "Brute Forcing Password", PROGRESS_BRUTEFORCE, 5000, COLOR_BLUE );
+			ShowProgressBar( playerid, "暴力破解密码", PROGRESS_BRUTEFORCE, 5000, COLOR_BLUE );
 		} else {
-			ShowProgressBar( playerid, "Cracking Password", PROGRESS_CRACKING, 7500, COLOR_WHITE );
+			ShowProgressBar( playerid, "正在破解密码", PROGRESS_CRACKING, 7500, COLOR_WHITE );
 		}
 		return 1;
 	}
@@ -288,7 +288,7 @@ hook OnPlayerEnterDynArea( playerid, areaid )
 			new stolen_furniture_count = GetGVarInt( sprintf( "vburg_%d_items", attached_vehicle ) );
 
 			if ( stolen_furniture_count >= MAX_BURGLARY_SLOTS ) {
-				return SendError( playerid, "You can only carry %d items in this vehicle.", MAX_BURGLARY_SLOTS );
+				return SendError( playerid, "你只能在这辆车上携带 %d 件物品.", MAX_BURGLARY_SLOTS );
 			}
 
 			static
@@ -308,7 +308,7 @@ hook OnPlayerEnterDynArea( playerid, areaid )
 			SetPlayerSpecialAction( playerid, SPECIAL_ACTION_NONE );
 
 			SetPlayerFacingAngle( playerid, angle );
-			SendServerMessage( playerid, "You have placed a "COL_GREY"%s"COL_WHITE" in this Boxville. "COL_ORANGE"[%d/%d]", g_houseFurniture[ stolen_furniture_id ] [ E_NAME ], stolen_furniture_count + 1, MAX_BURGLARY_SLOTS );
+			SendServerMessage( playerid, "你已经放置了一个 "COL_GREY"%s"COL_WHITE" 在这个博克斯维尔. "COL_ORANGE"[%d/%d]", g_houseFurniture[ stolen_furniture_id ] [ E_NAME ], stolen_furniture_count + 1, MAX_BURGLARY_SLOTS );
 
 			ApplyAnimation( playerid, "CARRY", "putdwn105", 4.0, 0, 0, 0, 0, 0 );
 			DeletePVar( playerid, "stolen_fid" );
@@ -333,19 +333,19 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 			new furniture_id = getFurnitureID( modelid );
 
 	    	if ( objectid == INVALID_OBJECT_ID || furniture_slot == ITER_NONE )
-	    		return SendError( playerid, "No furniture is in this house." );
+                return SendError( playerid, "这所房子里没有家具." );
 
 			if ( distance > 3.0 )
-				return SendError( playerid, "You are not close to any furniture." );
+				return SendError( playerid, "你不靠近任何家具." );
 
 			if ( g_houseFurniture[ furniture_id ] [ E_CATEGORY ] != FC_ELECTRONIC && g_houseFurniture[ furniture_id ] [ E_CATEGORY ] != FC_WEAPONS )
-				return ShowPlayerHelpDialog( playerid, 3000, "The furniture you're near is not an electronic or weapon." );
+				return ShowPlayerHelpDialog( playerid, 3000, "你附近的家具不是电子设备或武器." );
 
 			if ( IsPlayerAttachedObjectSlotUsed( playerid, 3 ) )
-				return ShowPlayerHelpDialog( playerid, 3000, "Your hands are busy at the moment." );
+				return ShowPlayerHelpDialog( playerid, 3000, "你的手此刻很忙." );
 
 			if ( IsPointToPoint( 150.0, g_houseData[ houseid ] [ E_EX ], g_houseData[ houseid ] [ E_EY ], g_houseData[ houseid ] [ E_EZ ], -2480.1426, 5.5302, 25.6172 ) )
-				return ShowPlayerHelpDialog( playerid, 3000, "~r~This house is protected from burglaries." );
+				return ShowPlayerHelpDialog( playerid, 3000, "~r~这所房子是防盗的." );
 
 			new Float: playerZ, Float: furnitureZ;
 			GetPlayerPos( playerid, playerZ, playerZ, playerZ );
@@ -357,7 +357,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 	    	else ApplyAnimation( playerid, "CARRY", "liftup", 4.0, 0, 0, 0, 0, 0 );
 
 			// Alert
-			SendServerMessage( playerid, "You have stolen a "COL_GREY"%s"COL_WHITE". Store it in a Boxville to transport the item.", g_houseFurniture[ furniture_id ] [ E_NAME ] );
+			SendServerMessage( playerid, "你偷了一个 "COL_GREY"%s"COL_WHITE".将其存放在 Boxville 中以运输该物品.", g_houseFurniture[ furniture_id ] [ E_NAME ] );
 			SetPlayerSpecialAction( playerid, SPECIAL_ACTION_CARRY );
 			SetPVarInt( playerid, "stolen_fid", furniture_id );
 			SetPlayerAttachedObject( playerid, 3, 1220, 5, 0.043999, 0.222999, 0.207000, 14.400002, 15.799994, 0.000000, 0.572999, 0.662000, 0.665000 );

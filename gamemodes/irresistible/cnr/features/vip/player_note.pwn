@@ -22,7 +22,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	if ( dialogid == DIALOG_VIP_NOTE && response )
 	{
 		SendClientMessageToAdmins( -1, ""COL_PINK"[DONOR NEEDS HELP]"COL_GREY" %s(%d) is requesting help with their VIP asset(s). (/viewnotes)", ReturnPlayerName( playerid ), playerid );
-		SendServerMessage( playerid, "All admins online have been informed of your request." );
+		SendServerMessage( playerid, "所有在线管理员均已获悉你的请求." );
 	}
     return 1;
 }
@@ -46,7 +46,7 @@ CMD:viewnotes( playerid, params[ ] )
 
 	if ( GetPlayerAdminLevel( playerid ) < 2 ) return SendError( playerid, ADMIN_COMMAND_REJECT );
 	else if ( sscanf( params, "u", pID ) ) return SendUsage( playerid, "/viewnotes [PLAYER_ID]" );
-	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
+	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
 	else
 	{
 		format( szNormalString, 96, "SELECT `ID`,`TIME`,`NOTE`,`DELETED` FROM `NOTES` WHERE `USER_ID`=%d AND DELETED IS NULL", p_AccountID[ pID ] );
@@ -64,12 +64,12 @@ CMD:addnote( playerid, params[ ] )
 
 	if ( GetPlayerAdminLevel( playerid ) < 4 ) return SendError( playerid, ADMIN_COMMAND_REJECT );
 	else if ( sscanf( params, "us[72]", pID, note ) ) return SendUsage( playerid, "/addnote [PLAYER_ID] [NOTE]" );
-	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
-	else if ( strlen( note ) < 3 ) return SendError( playerid, "Keep your note's character count within the range of 3 - 72." );
+	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
+	else if ( strlen( note ) < 3 ) return SendError( playerid, "将笔记的字符数保持在 3 - 72. 范围内" );
 	else
 	{
 		AddPlayerNote( pID, playerid, note );
- 		SendServerMessage( playerid, "You have added a note to %s (Account ID %d)."COL_RED" Do understand that what you add is logged.", ReturnPlayerName( pID ), pID, p_AccountID[ pID ] );
+        SendServerMessage( playerid, "你已向 %s(帐户 ID %d)添加了注释."COL_RED" 请务必了解你添加的内容会被记录.", ReturnPlayerName( pID ), pID, p_AccountID[ pID ] );
 		AddAdminLogLineFormatted( "%s(%d) has added a note to %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 	}
 	return 1;
@@ -83,7 +83,7 @@ CMD:removenote( playerid, params[ ] )
 
 	if ( GetPlayerAdminLevel( playerid ) < 4 ) return SendError( playerid, ADMIN_COMMAND_REJECT );
 	else if ( sscanf( params, "d", note ) ) return SendUsage( playerid, "/removenote [NOTE_ID]" );
-	else if ( note < 0 ) return SendError( playerid, "Invalid note ID." );
+	else if ( note < 0 ) return SendError( playerid, "注释 ID 无效." );
 	else
 	{
 		if ( p_AdminLevel[ playerid ] > 4 )
@@ -121,9 +121,9 @@ thread readplayervipnotes( playerid )
 			format( szLargeString, sizeof( szLargeString ), "%s%s\t%s\n", szLargeString, szNote, szDate );
 		}
 
-		return ShowPlayerDialog( playerid, DIALOG_VIP_NOTE, DIALOG_STYLE_TABLIST, ""COL_GOLD"My V.I.P Notes", szLargeString, "Call Admin", "Close" );
+		return ShowPlayerDialog( playerid, DIALOG_VIP_NOTE, DIALOG_STYLE_TABLIST, ""COL_GOLD"我的 VIP 笔记", szLargeString, "致电管理员", "关闭" );
 	}
-	return SendError( playerid, "You do not have any V.I.P notes." );
+	return SendError( playerid, "你没有任何 VIP 笔记." );
 }
 
 thread checkforvipnotes( playerid )
@@ -132,7 +132,7 @@ thread checkforvipnotes( playerid )
 		rows = cache_get_row_count( );
 
 	if ( rows ) {
-		SendServerMessage( playerid, "You have currently %d V.I.P note(s) that you can redeem. Use "COL_GREY"/mynotes"COL_WHITE".", rows );
+		SendServerMessage( playerid, "你目前有 %d VIP 张纸币可以兑换.使用 "COL_GREY"/mynotes"COL_WHITE".", rows );
 		SendClientMessageToAdmins( -1, ""COL_PINK"[VIP HAS NOTES]"COL_GREY" %s(%d) has logged in with %d pending VIP notes. (/viewnotes)", ReturnPlayerName( playerid ), playerid, rows );
 	}
 	return 1;
@@ -146,12 +146,12 @@ thread deleteplayernote( playerid, noteid )
 	if ( rows ) {
 		SaveToAdminLog( playerid, noteid, "removed note" );
  	    mysql_single_query( sprintf( "UPDATE `NOTES` SET `DELETED`=%d WHERE `ID`=%d", p_AccountID[ playerid ], noteid ) );
- 		SendServerMessage( playerid, "You have removed note id %d. If there are any problems, contact " SERVER_OPERATOR "/Council.", noteid );
+        SendServerMessage( playerid, "你已删除注释 ID %d.如有任何问题,请联系 " SERVER_OPERATOR "/Council.", noteid );
 		AddAdminLogLineFormatted( "%s(%d) has deleted note id %d", ReturnPlayerName( playerid ), playerid, noteid );
  		return 1;
 	}
 
- 	SendError( playerid, "Couldn't remove note id %d due to it being already deleted or invalid permissions.", noteid );
+    SendError( playerid, "无法删除笔记 ID %d,因为它已被删除或权限无效.", noteid );
 	return 1;
 }
 
@@ -169,7 +169,7 @@ thread readplayernotes( playerid )
     		szNote[ 72 ]
     	;
 
-    	szHugeString = ""COL_GREY"ID\tTime\t\t\tNote\n" #COL_WHITE;
+        szHugeString = ""COL_GREY"ID\t时间\t\t\t注释\n" #COL_WHITE;
 
 		while( i < rows )
 		{
@@ -181,10 +181,10 @@ thread readplayernotes( playerid )
 			i++;
 		}
 
-		ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{FFFFFF}Player Notes", szHugeString, "Okay", "" );
+		ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{FFFFFF}玩家笔记", szHugeString, "确定", "" );
 		return 1;
 	}
-	SendError( playerid, "This user does not have any notes." );
+	SendError( playerid, "该用户没有任何注释." );
 	return 1;
 }
 

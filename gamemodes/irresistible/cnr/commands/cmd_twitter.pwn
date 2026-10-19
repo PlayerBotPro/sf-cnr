@@ -20,7 +20,7 @@ forward OnTwitterHTTPResponse( index, response_code, data[ ] );
 CMD:tweets( playerid, params[ ] ) return cmd_twitter( playerid, params );
 CMD:twitter( playerid, params[ ] )
 {
-    SendServerMessage( playerid, "Reading latest tweets from {00CCFF}www.twitter.com/IrresistibleDev{FFFFFF}, please wait!" );
+    SendServerMessage( playerid, "正在读取 {00CCFF}www.twitter.com/IrresistibleDev{FFFFFF} 的最新推文, 请稍候!" );
 	HTTP( playerid, HTTP_GET, SERVER_TWITTER_FEED_URL, "", "OnTwitterHTTPResponse" );
 	return 1;
 }
@@ -29,9 +29,9 @@ CMD:twitter( playerid, params[ ] )
 public OnTwitterHTTPResponse( index, response_code, data[ ] )
 {
     if ( response_code == 200 ) {
- 		ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{00CCFF}@" # SERVER_TWITTER ""COL_WHITE" - Twitter", data, "Okay", "" );
+        ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{00CCFF}@" # SERVER_TWITTER ""COL_WHITE" - 推特", data, "确定", "" );
     } else {
-        ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{00CCFF}@" # SERVER_TWITTER ""COL_WHITE" - Twitter", ""COL_WHITE"An error has occurred, try again later.", "Okay", "" );
+        ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{00CCFF}@" # SERVER_TWITTER ""COL_WHITE" - 推特", ""COL_WHITE"发生错误, 请稍后重试.", "确定", "" );
     }
 	return 1;
 }

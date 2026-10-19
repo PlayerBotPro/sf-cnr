@@ -133,10 +133,10 @@ stock returnCityName( city )
 
 	switch( city )
 	{
-		case CITY_SF: string = "San Fierro";
-		case CITY_LV: string = "Las Venturas";
-		case CITY_LS: string = "Los Santos";
-		default: string = "Random City";
+		case CITY_SF: string = "圣菲耶罗";
+		case CITY_LV: string = "拉斯文图拉斯";
+		case CITY_LS: string = "洛圣都";
+		default: string = "随机城市";
 	}
 	return string;
 }

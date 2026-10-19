@@ -5252,7 +5252,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 19917, -3062.975830, 227.242736, 2.124284, 0.000000, 0.000000, -29.499998 );
 
 	// Ahmmy LV Cafe
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19353, 2554.0881, 2026.6484, 12.1096, 0.0000, 0.0000, 44.6788 ), 0, "Ahmyy's Cafe", 130, "Times New Roman", 100, 0, -1, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19353, 2554.0881, 2026.6484, 12.1096, 0.0000, 0.0000, 44.6788 ), 0, "阿米咖啡馆", 130, "Times New Roman", 100, 0, -1, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18765, 2550.077636, 2023.624389, 7.351663, 0.000000, 0.000000, 45.000000 ), 0, 10412, "hotel1", "carpet_red_256", 0 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, 2556.767822, 2011.037963, 2.380315, 0.000000, 0.000000, 90.000000 ), 0, 16150, "ufo_bar", "GEwhite1_64", 0 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, 2539.093261, 2028.973510, 2.380315, 0.000000, 0.000000, 1.999999 ), 0, 16150, "ufo_bar", "GEwhite1_64", 0 );
@@ -6303,7 +6303,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 1557, 1989.559204, 2094.033935, 14.557316, 0.000000, 0.000000, 180.000000 );
 	CreateDynamicObject( 3525, 1989.986206, 2093.843994, 15.577322, 0.000000, 0.000000, 0.000000 );
 	CreateDynamicObject( 3525, 1985.975952, 2093.843994, 15.577322, 0.000000, 0.000000, 0.000000 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, 1992.5368, 2081.0703, 12.2363, 0.0000, -0.1000, -0.2994 ), 0, "Nibble Cafe", 130, "Impact", 32, 0, -8092540, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, 1992.5368, 2081.0703, 12.2363, 0.0000, -0.1000, -0.2994 ), 0, "蚕食咖啡馆", 130, "Impact", 32, 0, -8092540, 0, 1 );
 
 	// Godfather Mansion Extension
 	CreateDynamicObject( 19585, -2914.379394, 461.606353, 5.039083, 0.000000, 0.000000, 0.000000 );
@@ -6522,7 +6522,7 @@ hook OnScriptInit( )
 	// KESH KE$H HILLSIDE
 	CreateDynamicObject( 3525, -1202.009277, -675.596740, 49.283107, -2.100001, 0.000000, -109.000000 );
 	CreateDynamicObject( 3525, -1203.423706, -679.464111, 49.159603, -1.900004, 0.499998, -120.799972 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -1195.3206, -682.8578, 52.2863, 0.0000, 0.0000, -19.9879 ), 0, "{FFDC2E}THE BO$$", 130, "Arial", 16, 1, -65536, 0, 1);
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -1195.3206, -682.8578, 52.2863, 0.0000, 0.0000, -19.9879 ), 0, "{FFDC2E}老板$$", 130, "Arial", 16, 1, -65536, 0, 1);
 
 	// Wolf Rooftop Extension Downtown
 	CreateDynamicObject( 3524, -2191.291748, 552.037414, 37.415493, 56.399932, 0.000000, 180.000000 );
@@ -8048,8 +8048,8 @@ hook OnScriptInit( )
 	CreateDynamicObject( 3525, 2105.858886, -1786.178222, 14.060848, 0.000000, 0.000000, 0.000000 );
 	CreateDynamicObject( 3525, 2114.884033, -1786.178222, 14.060848, 0.000000, 0.000000, 0.000000 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19929, 2114.015380, -1784.601074, 12.530447, 0.000000, 0.000000, -90.000000 ), 1, 0, "none", "none", 0 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, 2122.7082, -1773.0931, 11.7068, 0.0000, 0.0000, 179.9722 ), 0, "Desperado Cafe", 130, "Arial", 24, 1, -8092540, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, 2099.3115, -1775.7175, 13.1368, 0.0000, 0.0000, 172.2255 ), 0, "Desperado's", 130, "Arial", 16, 1, -8092540, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, 2122.7082, -1773.0931, 11.7068, 0.0000, 0.0000, 179.9722 ), 0, "亡命之徒咖啡馆", 130, "Arial", 24, 1, -8092540, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, 2099.3115, -1775.7175, 13.1368, 0.0000, 0.0000, 172.2255 ), 0, "亡命徒的", 130, "Arial", 16, 1, -8092540, 0, 1 );
 
 	// Liv Entrance
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, -1620.385498, 1074.161499, 7.046798, 0.000000, 0.000000, 0.000000 ), 0, 12923, "sw_block05", "sw_wallbrick_06", 0 );
@@ -10917,7 +10917,7 @@ hook OnScriptInit( )
     SetDynamicObjectMaterial( tmpVariable, 2, 18202, "w_towncs_t", "hatwall256hi", 1 );
     SetDynamicObjectMaterial( tmpVariable, 3, 18202, "w_towncs_t", "hatwall256hi", 1 );
     SetDynamicObjectMaterial( tmpVariable, 4, 18202, "w_towncs_t", "hatwall256hi", 1 );
-    SetDynamicObjectMaterialText( tmpVariable, 0, "Rich's mansion", 120, "Arial", 42, 1, -9170, 0, 1 );
+    SetDynamicObjectMaterialText( tmpVariable, 0, "富人的豪宅", 120, "Arial", 42, 1, -9170, 0, 1 );
     CreateDynamicActor( 189, -1274.510009, -731.843994, 70.253997, 135.500000, 1, 100.0, -1, -1, -1 );
     ApplyDynamicActorAnimation( CreateDynamicActor( 178, -1297.760009, -769.109008, 70.253997, -64.300003, .worldid = -1, .interiorid = -1 ), "BEACH", "bather", 4.1, 1, 1, 1, 1, 0 );
 	CreateBlackjackTable( 1000000, -1289.691040, -737.427001, 70.183998, 45.00000, 0 );
@@ -12740,7 +12740,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 11714, 2151.546386, -2297.232666, 13.659720, -0.399999, 0.000000, 45.000000 );
 	CreateDynamicObject( 1279, 2147.966308, -2269.212402, 13.265235, 0.000000, 0.000000, 70.499992 );
 	CreateDynamicObject( 1279, 2148.932373, -2270.186767, 13.265235, 0.000000, 0.000000, 15.799990 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 4731, 2150.383056, -2238.99, 15.793542, 0.000000, 0.000000, 75.300018 ), 0, "The Drug Pound", 120, "Times New Roman", 64, 0, -1, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 4731, 2150.383056, -2238.99, 15.793542, 0.000000, 0.000000, 75.300018 ), 0, "毒品磅", 120, "Times New Roman", 64, 0, -1, 0, 1 );
 	CreateDynamicObject( 931, 2140.652832, -2290.355712, 14.757051, 0.000000, 0.000000, 45.000000 );
 	CreateDynamicObject( 931, 2139.003417, -2292.005126, 14.757051, 0.000000, 0.000000, 45.000000 );
 	CreateDynamicObject( 931, 2142.293701, -2288.714843, 14.757051, 0.000000, 0.000000, 45.000000 );
@@ -13670,7 +13670,7 @@ hook OnScriptInit( )
 	SetDynamicObjectMaterial( CreateDynamicObject( 18765, -777.247009, 695.723022, 15.838000, 0.000000, 0.000000, 155.000000, -1, -1, -1 ), 0, 13724, "docg01_lahills", "redbrickground256", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, -788.372985, 713.257995, 11.526000, 0.000000, -54.000000, 65.000000, -1, -1, -1 ), 0, 9495, "vict_sfw", "Grass_128HV", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, -791.469970, 705.604980, 5.946000, 0.000000, 0.000000, 65.300003, -1, -1, -1 ), 0, 8565, "vgsebuild01", "ws_stonewall", -16 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3037, -789.411987, 703.432006, 19.679000, 0.000000, 0.000000, -115.000000, -1, -1, -1 ), 0, "Royce's", 130, "David", 70, 0, -19610, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3037, -789.411987, 703.432006, 19.679000, 0.000000, 0.000000, -115.000000, -1, -1, -1 ), 0, "罗伊斯的", 130, "David", 70, 0, -19610, 0, 1 );
 	CreateDynamicObject( 8991, -796.299987, 706.820007, 18.837999, -25.399999, 0.000000, -24.899999, -1, -1, -1 );
 	CreateDynamicObject( 8991, -786.939025, 702.474975, 18.837999, -25.399999, 0.000000, -24.899999, -1, -1, -1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18763, -799.382019, 689.650024, 16.868000, 90.000000, 0.000000, 65.000000, -1, -1, -1 ), 0, 13724, "docg01_lahills", "redbrickground256", -16 );
@@ -13937,7 +13937,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 19786, -779.309997, 710.442016, 1585.097045, 49.599998, 0.000000, 101.300003, -1, -1, -1 );
 	CreateDynamicObject( 19786, -779.301025, 714.536010, 1585.130004, 44.799999, 0.000000, 77.199996, -1, -1, -1 );
 	CreateDynamicObject( 19903, -762.400024, 710.997985, 1581.920043, 0.000000, 0.000000, 178.800003, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3037, -794.323974, 705.723022, 19.679000, 0.000000, 0.000000, -115.000000, -1, -1, -1 ), 0, "Mansion", 130, "David", 70, 0, -19610, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3037, -794.323974, 705.723022, 19.679000, 0.000000, 0.000000, -115.000000, -1, -1, -1 ), 0, "大厦", 130, "David", 70, 0, -19610, 0, 1 );
 	CreateDynamicObject( 1557, -805.520996, 686.689025, 13.328000, 0.000000, 0.000000, 173.000000, -1, -1, -1 );
 	CreateDynamicObject( 1557, -808.530029, 687.041992, 13.328000, 0.000000, 0.000000, -6.699999, -1, -1, -1 );
 	CreateDynamicObject( 3525, -808.822998, 686.945007, 14.907999, 0.000000, 0.000000, -6.699999, -1, -1, -1 );
@@ -14286,8 +14286,8 @@ hook OnScriptInit( )
 	CreateDynamicObject( 869, -2651.215087, 379.765014, 3.759999, 0.000000, 0.000000, 180.000000, -1, -1, -1 );
 	CreateDynamicObject( 869, -2651.215087, 371.304992, 3.759999, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	tmpVariable = CreateDynamicObject( 8330, -2648.656982, 375.415008, 10.782999, 0.000000, 0.000000, -90.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "Hydro's Mansion", 130, "Times new roman", 70, 0, -16512, 0, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "Hydro's Mansion", 130, "Times new roman", 70, 0, 0, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "海德鲁大厦", 130, "Times new roman", 70, 0, -16512, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "海德鲁大厦", 130, "Times new roman", 70, 0, 0, 0, 1 );
 	CreateDynamicObject( 8948, -2628.886962, 400.118988, 5.085999, 0.000000, 0.000000, -90.000000, -1, -1, -1 );
 
 	// Nibble Abandoned Hill Home
@@ -14452,7 +14452,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 3928, -2025.397949, 443.855987, 138.736999, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 3928, -2042.818969, 443.686004, 138.736999, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, 16150, "ufo_bar", "GEwhite1_64", 0 );
 	CreateDynamicObject( 3852, -2069.428222, 442.150970, 140.281997, 0.000000, 0.000000, 41.200000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -2016.600097, 482.661224, 31.985614, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, "Silent Squad HQ", 130, "Times New Roman", 32, 1, -1, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -2016.600097, 482.661224, 31.985614, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, "沉默小队总部", 130, "Times New Roman", 32, 1, -1, 0, 1 );
 	CreateDynamicObject( 1498, -2067.575683, 442.742401, 138.752471, 0.000000, 0.000000, 131.400054, -1, -1, -1 );
 
 	// [DC] Facility Ammu
@@ -14480,7 +14480,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 1415, -1662.339965, 1008.669006, 6.972000, 0.000000, 0.000000, -97.599998, -1, -1, -1 );
 	CreateDynamicObject( 1441, -1662.020996, 1011.117004, 7.541999, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	CreateDynamicObject( 1462, -1675.878051, 1007.843017, 6.892000, 0.000000, 0.000000, 180.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19880, -1669.401000, 1007.325012, 17.211999, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "The\nNightingales", 130, "IMPACT", 100, 0, -16711936, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19880, -1669.401000, 1007.325012, 17.211999, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "\n夜莺", 130, "IMPACT", 100, 0, -16711936, 0, 1 );
 	CreateDynamicObject( 18260, -1675.340942, 1030.729980, 8.402000, 0.000000, 0.000000, -90.000000, -1, -1, -1 );
 	CreateDynamicObject( 18257, -1662.521972, 1043.326049, 6.892000, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	CreateDynamicObject( 3796, -1663.954956, 1027.989990, 6.872000, 0.000000, 0.000000, 110.000000, -1, -1, -1 );
@@ -14499,7 +14499,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 1225, -1661.128051, 1086.464965, 9.031999, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 
 	// [VT] Facility
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -1702.530761, 883.490783, 26.812227, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "Silent Squad", 130, "Impact", 64, 0, 0xffffccff, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -1702.530761, 883.490783, 26.812227, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "沉默小队", 130, "Impact", 64, 0, 0xffffccff, 0, 1 );
 	CreateDynamicObject( 1557, -1697.100952, 882.125549, 23.880605, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	CreateDynamicObject( 1557, -1697.100952, 885.155639, 23.880605, 0.000000, 0.000000, -90.000000, -1, -1, -1 );
 	CreateDynamicObject( 3525, -1697.265014, 885.652465, 24.960626, 0.000000, 0.000000, -90.000000, -1, -1, -1 );
@@ -14538,7 +14538,7 @@ hook OnScriptInit( )
 	SetDynamicObjectMaterial( tmpVariable, 3, 0, "none", "none", 0 );
 	tmpVariable = CreateDynamicObject( 8292, -1571.861938, 784.846069, 8.309066, 0.000000, 0.000000, -34.899982, -1, -1, -1 );
 	SetDynamicObjectMaterial( tmpVariable, 1, 0, "none", "none", 0 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "Silent Squad", 120, "Impact", 50, 0, -8003, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "沉默小队", 120, "Impact", 50, 0, -8003, 0, 1 );
 	CreateDynamicObject( 3267, -1580.901977, 815.234985, 21.360000, 0.000000, 0.000000, -48.000000, -1, -1, -1 );
 	CreateDynamicObject( 3069, -1623.957153, 814.621276, 5.559740, 18.200000, 0.000000, 0.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18762, -1572.207031, 746.304016, 7.000000, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 5722, "sunrise01_lawn", "fakestone1_LA", 0 );
@@ -14724,7 +14724,7 @@ hook OnScriptInit( )
 	CreateDynamicObject( 11725, -2274.979003, 441.184997, 40.542999, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, -2269.118896, 439.127014, 33.762001, 180.000000, 90.000000, 140.100006, -1, -1, -1 ), 0, 4550, "skyscr1_lan2", "sl_concretewall1", -1 );
 	CreateDynamicObject( 2500, -2254.482910, 454.143005, 41.091999, 0.000000, 0.000000, 270.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 7914, -2255.439208, 436.643066, 40.686000, 0.000000, 0.000000, 50.099998, -1, -1, -1 ), 0, "Gangsta' Crib", 120, "Impact", 64, 0, -16777088, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 7914, -2255.439208, 436.643066, 40.686000, 0.000000, 0.000000, 50.099998, -1, -1, -1 ), 0, "黑帮婴儿床", 120, "Impact", 64, 0, -16777088, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18980, -2237.777099, 457.899993, 38.223999, 0.000000, 0.000000, 50.099998, -1, -1, -1 ), 0, 4600, "theatrelan2", "gm_labuld2_b", -1 );
 	CreateDynamicObject( 970, -2270.032958, 418.925994, 48.792999, 0.000000, -0.100000, 49.200000, -1, -1, -1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18981, -2273.093261, 434.414459, 47.762992, 180.000000, 90.000000, 140.100006, -1, -1, -1 ), 0, 16150, "ufo_bar", "GEWHITE1_64", -1 );
@@ -15128,8 +15128,8 @@ hook OnScriptInit( )
 	CreateDynamicObject( 18648, -1724.187988, 1242.130981, 11.786000, 0.000000, 0.000000, -59.000000, -1, -1, -1 );
 	CreateDynamicObject( 18648, -1731.319946, 1237.845947, 11.786000, 0.000000, 0.000000, -59.000000, -1, -1, -1 );
 	CreateDynamicObject( 18648, -1738.380981, 1233.603027, 11.786000, 0.000000, 0.000000, -59.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 7914, -1731.542968, 1237.088012, 13.248000, 0.000000, 0.000000, -147.800003, -1, -1, -1 ), 0, "Silent Squad HQ", 140, "Calibri", 72, 1, -16777216, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 7914, -1733.812011, 1235.661010, 6.828000, 0.000000, 0.000000, -147.800003, -1, -1, -1 ), 0, "Abbott is Gay", 140, "Calibri", 13, 1, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 7914, -1731.542968, 1237.088012, 13.248000, 0.000000, 0.000000, -147.800003, -1, -1, -1 ), 0, "沉默小队总部", 140, "Calibri", 72, 1, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 7914, -1733.812011, 1235.661010, 6.828000, 0.000000, 0.000000, -147.800003, -1, -1, -1 ), 0, "阿博特是同性恋", 140, "Calibri", 13, 1, -16777216, 0, 1 );
 	CreateDynamicObject( 1569, -1708.178955, 1262.298950, 6.399000, 0.000000, 0.000000, 135.000000, -1, -1, -1 );
 	CreateDynamicObject( 19145, -1705.178955, 1261.662963, 10.668999, 0.000000, 0.000000, -9.800000, -1, -1, -1 );
 	CreateDynamicObject( 19153, -1709.944946, 1266.458007, 10.750000, 0.000000, 0.000000, 270.000000, -1, -1, -1 );
@@ -15203,7 +15203,7 @@ hook OnScriptInit( )
 	SetDynamicObjectMaterial( CreateDynamicObject( 2101, -2093.714111, 851.049011, 75.416999, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 2, 16150, "ufo_bar", "sa_wood07_128", -16 );
 
 	// SS Facility Near LS AMMUNATION
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2789, 1332.561035, -1266.163940, 17.333013, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "Silent Squad", 130, "Arial", 80, 1, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2789, 1332.561035, -1266.163940, 17.333013, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "沉默小队", 130, "Arial", 80, 1, -16777216, 0, 1 );
 
 	// TDK Facility In SF AIRPORT
 	SetDynamicObjectMaterial( CreateDynamicObject( 19700, -1259.098022, 36.948001, 31.756999, 0.000000, 0.000000, 45.000000, -1, -1, -1 ), 0, 13697, "lahillshilhs1d", "marinawindow1_256", -16 );
@@ -15671,9 +15671,9 @@ hook OnScriptInit( )
 	new caffehardcodedobj2 = CreateDynamicObject( 2789, -1922.354003, 1000.760009, 38.173000, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	new caffehardcodedobj3 = CreateDynamicObject( 2789, -1922.354003, 1000.760009, 38.623001, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( caffehardcodedobj1, 1, 8534, "tikimotel", "sa_wood01_128", 1 );
-	SetDynamicObjectMaterialText( caffehardcodedobj1, 0, "Le Rich's", 130, "Arial", 60, 1, -1, 0, 1 );
+	SetDynamicObjectMaterialText( caffehardcodedobj1, 0, "勒里奇的", 130, "Arial", 60, 1, -1, 0, 1 );
 	SetDynamicObjectMaterial( caffehardcodedobj2, 1, 8534, "tikimotel", "sa_wood01_128", 1 );
-	SetDynamicObjectMaterialText( caffehardcodedobj2, 0, "Grande Coffe Shop", 130, "Arial", 40, 1, -1, 0, 1 );
+	SetDynamicObjectMaterialText( caffehardcodedobj2, 0, "格兰德咖啡店", 130, "Arial", 40, 1, -1, 0, 1 );
 	SetDynamicObjectMaterial( caffehardcodedobj3, 1, 8534, "tikimotel", "sa_wood01_128", 1 );
 	SetDynamicObjectMaterialText( caffehardcodedobj3, 0, "______________", 130, "Arial", 40, 1, -14513374, 0, 1 );
 	CreateDynamicObject( 639, -1922.250976, 997.176025, 41.910999, 0.000000, 0.000000, 180.000000, -1, -1, -1 );
@@ -15824,13 +15824,13 @@ hook OnScriptInit( )
 	tmpVariable = CreateDynamicObject( 2767, -1936.238037, 994.648986, 40.291999, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( tmpVariable, 1, 801, "gta_proc_ferns", "veg_bushgrn", -16 );
 	SetDynamicObjectMaterial( tmpVariable, 0, 801, "gta_proc_ferns", "veg_bushgrn", 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1932.948974, 994.528015, 41.212001, 0.000000, 0.000000, -147.899993, -1, -1, -1 ), 0, "Homegrown", 130, "Arial", 50, 1, -16777216, -1, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1933.109008, 994.427001, 41.212001, 0.000000, 0.000000, -147.899993, -1, -1, -1 ), 0, "Homegrown", 130, "Arial", 50, 1, -16777216, -1, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1936.093017, 994.443969, 41.212001, 0.000000, 0.000000, 149.399993, -1, -1, -1 ), 0, "Homegrown", 130, "Arial", 50, 1, -16777216, -1, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1935.916015, 994.570983, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "Purple Kush", 130, "Arial", 50, 1, -1, -7114533, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1935.145996, 994.567016, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "Pineapple Kush", 130, "Arial", 50, 1, -16777216, -256, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1934.322021, 994.504028, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "Blue Magic", 130, "Arial", 50, 1, -16777216, -8388652, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1933.529052, 994.669006, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "Silver Haze", 130, "Arial", 50, 1, -16777216, -663885, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1932.948974, 994.528015, 41.212001, 0.000000, 0.000000, -147.899993, -1, -1, -1 ), 0, "本土的", 130, "Arial", 50, 1, -16777216, -1, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1933.109008, 994.427001, 41.212001, 0.000000, 0.000000, -147.899993, -1, -1, -1 ), 0, "本土的", 130, "Arial", 50, 1, -16777216, -1, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1936.093017, 994.443969, 41.212001, 0.000000, 0.000000, 149.399993, -1, -1, -1 ), 0, "本土的", 130, "Arial", 50, 1, -16777216, -1, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1935.916015, 994.570983, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "紫库什", 130, "Arial", 50, 1, -1, -7114533, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1935.145996, 994.567016, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "菠萝库什", 130, "Arial", 50, 1, -16777216, -256, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1934.322021, 994.504028, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "蓝色魔法", 130, "Arial", 50, 1, -16777216, -8388652, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1933.529052, 994.669006, 40.381999, 0.000000, 0.000000, -167.500000, -1, -1, -1 ), 0, "银雾", 130, "Arial", 50, 1, -16777216, -663885, 1 );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 2709, -1933.258056, 994.401000, 40.381999, 0.000000, 0.000000, 157.000000, -1, -1, -1 ), 0, "G13", 130, "Arial", 50, 1, -16777216, -32944, 1 );
 	tmpVariable = CreateDynamicObject( 2767, -1933.485961, 994.518981, 41.091999, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( tmpVariable, 1, 801, "gta_proc_ferns", "veg_bushgrn", -16 );

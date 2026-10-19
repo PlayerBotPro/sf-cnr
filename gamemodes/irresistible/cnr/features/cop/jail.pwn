@@ -73,7 +73,7 @@ hook OnPlayerUpdateEx( playerid )
                 {
                     SetPVarInt( playerid, "AlcatrazWantedCD", g_iTime + ALCATRAZ_TIME_WANTED );
                     GivePlayerWantedLevel( playerid, 24 );
-                    ShowPlayerHelpDialog( playerid, 6000, "Warning! You are now wanted for accessing a ~r~~h~prohibited area!" );
+                    ShowPlayerHelpDialog( playerid, 6000, "警告! 你因进入~r~~h~禁区而被通缉!" );
                 }
             }
         }
@@ -93,14 +93,14 @@ hook OnPlayerUpdateEx( playerid )
 
                         if ( GetPVarInt( playerid, "AlcatrazGiveWantedCD" ) < g_iTime ) {
                             GivePlayerWantedLevel( playerid, 64 );
-                            SendGlobalMessage( -1, ""COL_GOLD"[JAIL ESCAPE]{FFFFFF} %s(%d) has escaped from Alcatraz, 64 wanted goes to him!", ReturnPlayerName( playerid ), playerid );
+                            SendGlobalMessage( -1, ""COL_GOLD"[越狱]{FFFFFF} %s(%d) 逃离了恶魔岛, 增加 64 点通缉等级!", ReturnPlayerName( playerid ), playerid );
                             SetPVarInt( playerid, "AlcatrazGiveWantedCD", g_iTime + 60 );
                         }
-                        else SendGlobalMessage( -1, ""COL_GOLD"[JAIL ESCAPE]{FFFFFF} %s(%d) has escaped from Alcatraz!", ReturnPlayerName( playerid ), playerid );
+                        else SendGlobalMessage( -1, ""COL_GOLD"[越狱]{FFFFFF} %s(%d) 逃离了恶魔岛!", ReturnPlayerName( playerid ), playerid );
                     }
                     else
                     {
-                        SendError( playerid, "You cannot leave the prison. It's prohibited." );
+                        SendError( playerid, "禁止离开监狱." );
                         SetPlayerPosToPrison( playerid );
                     }
                 }
@@ -116,7 +116,7 @@ hook OnPlayerFirstSpawn( playerid )
     if ( p_JailTime[ playerid ] ) // We load this when the player logs in.
     {
         JailPlayer( playerid, p_JailTime[ playerid ], p_AdminJailed{ playerid } );
-        SendGlobalMessage( -1, ""COL_GOLD"[JAIL]{FFFFFF} %s(%d) has been sent to jail "COL_LRED"[Left as a jailed person]", ReturnPlayerName( playerid ), playerid );
+        SendGlobalMessage( -1, ""COL_GOLD"[监狱]{FFFFFF} %s(%d) 已被送进监狱 "COL_LRED"[带着刑期退出游戏]", ReturnPlayerName( playerid ), playerid );
         return 0;
     }
 
@@ -130,7 +130,7 @@ hook OnPlayerFirstSpawn( playerid )
 
         p_LeftCuffed{ playerid } = false;
         JailPlayer( playerid, szServing, 1 );
-        SendGlobalMessage( -1, ""COL_GOLD"[JAIL]{FFFFFF} %s(%d) has been sent to jail for %d seconds by the server "COL_LRED"[Quit To Avoid]", ReturnPlayerName( playerid ), playerid, szServing );
+        SendGlobalMessage( -1, ""COL_GOLD"[监狱]{FFFFFF} %s(%d) 已被服务器发送到监狱 %d 秒 "COL_LRED"[退出游戏逃避追捕]", ReturnPlayerName( playerid ), playerid, szServing );
         return 0;
     }
     return 1;
@@ -150,7 +150,7 @@ hook OnPlayerC4Blown( playerid, Float: X, Float: Y, Float: Z, worldid )
             GivePlayerWantedLevel( playerid, 24 );
             ach_HandleJailBlown( playerid );
 
-            SendGlobalMessage( -1, ""COL_GREY"[SERVER]"COL_WHITE" %s(%d) has destroyed the "COL_GREY"Alcatraz Rock{FFFFFF}!", ReturnPlayerName( playerid ), playerid );
+            SendGlobalMessage( -1, ""COL_GREY"[服务器]"COL_WHITE" %s(%d) 已经摧毁了 "COL_GREY"恶魔岛巨石{FFFFFF}!", ReturnPlayerName( playerid ), playerid );
             massUnjailPlayers( CITY_SF, .alcatraz = true );
         }
     }
@@ -170,7 +170,7 @@ hook OnPlayerC4Blown( playerid, Float: X, Float: Y, Float: Z, worldid )
                 GivePlayerWantedLevel( playerid, 24 );
                 ach_HandleJailBlown( playerid );
 
-                SendGlobalMessage( -1, ""COL_GREY"[SERVER]"COL_WHITE" %s(%d) has exploded the "COL_GREY"%s Jail{FFFFFF} and has freed its prisoners.", ReturnPlayerName( playerid ), playerid, returnCityName( g_jailData[ j ] [ E_CITY ] ) );
+                SendGlobalMessage( -1, ""COL_GREY"[服务器]"COL_WHITE" %s(%d) 已经爆炸了 "COL_GREY"%s 监狱{FFFFFF}, 释放了其中的囚犯.", ReturnPlayerName( playerid ), playerid, returnCityName( g_jailData[ j ] [ E_CITY ] ) );
                 massUnjailPlayers( g_jailData[ j ] [ E_CITY ] );
                 break;
             }
@@ -189,41 +189,41 @@ CMD:pdjail( playerid, params[ ] )
 
 	for( new i = 0; i < sizeof( g_jailData ); i++ ) {
 		if ( g_jailData[ i ] [ E_TIMESTAMP ] < time )
-			format( szBigString, sizeof( szBigString ), "%s"COL_GREY"%s"COL_WHITE"\t"COL_GREEN"Available To Raid!\n", szBigString, returnCityName( g_jailData[ i ] [ E_CITY ] ) );
+			format( szBigString, sizeof( szBigString ), "%s"COL_GREY"%s"COL_WHITE"\t"COL_GREEN"可以突袭!\n", szBigString, returnCityName( g_jailData[ i ] [ E_CITY ] ) );
 		else
 			format( szBigString, sizeof( szBigString ), "%s"COL_GREY"%s"COL_WHITE"\t%s\n", szBigString, returnCityName( g_jailData[ i ] [ E_CITY ] ), secondstotime( g_jailData[ i ] [ E_TIMESTAMP ] - time ) );
 	}
 
 	if ( g_alcatrazTimestamp < time )
-		strcat( szBigString, ""COL_GREY"Alcatraz"COL_WHITE"\t"COL_GREEN"Available To Raid!" );
+		strcat( szBigString, ""COL_GREY"恶魔岛"COL_WHITE"\t"COL_GREEN"可以突袭!" );
 	else
-		format( szBigString, sizeof( szBigString ), "%s"COL_GREY"Alcatraz"COL_WHITE"\t%s\n", szBigString, secondstotime( g_alcatrazTimestamp - time ) );
+		format( szBigString, sizeof( szBigString ), "%s"COL_GREY"恶魔岛"COL_WHITE"\t%s\n", szBigString, secondstotime( g_alcatrazTimestamp - time ) );
 
-	ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{FFFFFF}Police Jails", szBigString, "Okay", "" );
+	ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{FFFFFF}警察监狱", szBigString, "确定", "" );
 	return 1;
 }
 
 CMD:breakout( playerid, params[ ] )
 {
-	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "This is restricted to civilians only." );
-	if ( !IsPlayerJailed( playerid ) ) return SendError( playerid, "You can only use this while you're in jail!" );
-	if ( IsPlayerAdminJailed( playerid ) ) return SendError( playerid, "You have been admin jailed, disallowing this." );
-	if ( p_inAlcatraz{ playerid } ) return SendError( playerid, "You are unable to break out of Alcatraz. Ask a friend to blow you out." );
+	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "此功能仅限平民使用." );
+	if ( !IsPlayerJailed( playerid ) ) return SendError( playerid, "只有入狱时才能使用此功能!" );
+	if ( IsPlayerAdminJailed( playerid ) ) return SendError( playerid, "你已被管理员监禁,因为不允许这样做." );
+	if ( p_inAlcatraz{ playerid } ) return SendError( playerid, "无法自行逃离恶魔岛, 请让朋友炸开监狱." );
 	if ( p_MetalMelter[ playerid ] > 0 )
 	{
 	    new
 			iRandom = random( 101 );
 
 		if ( p_MetalMelter[ playerid ]-- <= 3 )
-			ShowPlayerHelpDialog( playerid, 2500, "You only have %d metal melters left!", p_MetalMelter[ playerid ] );
+			ShowPlayerHelpDialog( playerid, 2500, "你只剩下 %d 份熔锁剂!", p_MetalMelter[ playerid ] );
 
 	    if ( iRandom < 80 ) {
 		  	CallLocalFunction( "OnPlayerUnjailed", "dd", playerid, 2 );
 		  	GivePlayerWantedLevel( playerid, 24 );
 	    }
-		else SendServerMessage( playerid, "You have failed to break out." );
+		else SendServerMessage( playerid, "你未能越狱." );
 	}
-	else SendError( playerid, "You have no more Metal Melters available.");
+	else SendError( playerid, "你没有可用的熔锁剂.");
 	return 1;
 }
 
@@ -276,7 +276,7 @@ stock JailPlayer( playerid, seconds, admin = 0 )
 	UntiePlayer					( playerid );
 	jailDoors 					( playerid, false, true );
 	SetPlayerPosToPrison 		( playerid );
-	Player_CheckPokerGame 		( playerid, "Jailed" );
+	Player_CheckPokerGame 		( playerid, "入狱" );
 
 	#if defined __cloudy_event_system
 	RemovePlayerFromEvent		( playerid, true );
@@ -290,9 +290,9 @@ stock JailPlayer( playerid, seconds, admin = 0 )
 
     if ( ! IsPlayerAdminJailed( playerid ) ) {
 		if ( p_MetalMelter[ playerid ] ) {
-			ShowPlayerHelpDialog( playerid, 4000, "You can break yourself out of prison with ~p~/breakout." );
+			ShowPlayerHelpDialog( playerid, 4000, "你可以用 ~p~/breakout 越狱." );
 		} else {
-			ShowPlayerHelpDialog( playerid, 4000, "You can buy metal melters at Supa Save or a 24/7 store." );
+			ShowPlayerHelpDialog( playerid, 4000, "可在 Supa Save 或 24/7 商店购买熔锁剂." );
 		}
     }
 
@@ -314,7 +314,7 @@ function Unjail( playerid )
 
     p_JailTime[ playerid ] --;
 
-    format( Query, sizeof( Query ), "Time Remaining:~n~%d seconds", p_JailTime[ playerid ] );
+    format( Query, sizeof( Query ), "剩余时间:~n~%d 秒", p_JailTime[ playerid ] );
 	PlayerTextDrawSetString( playerid, p_JailTimeTD[ playerid ], Query );
 
     if ( p_JailTime[ playerid ] < 1 )

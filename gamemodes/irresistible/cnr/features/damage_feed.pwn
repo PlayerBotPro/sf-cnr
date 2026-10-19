@@ -65,8 +65,8 @@ static stock
 
 	g_HitmarkerSounds 				[ ] [ E_HITMARKER_SOUND ] =
 	{
-		{ "Bell Ding", 17802 }, 	{ "Soft Beep", 5205 }, 		{ "Low Blip", 1138 }, 	{ "Med Blip", 1137 },
-		{ "High Blip", 1139 }, 		{ "Bling", 5201 }
+		{ "钟声", 17802 }, 	{ "轻柔蜂鸣", 5205 }, 		{ "低音提示", 1138 }, 	{ "中音提示", 1137 },
+		{ "高音提示", 1139 }, 		{ "清脆提示", 5201 }
 	},
 
 	p_damageFeedTimer 				[ MAX_PLAYERS ] = { -1, ... },
@@ -129,7 +129,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	{
 		p_HitmarkerSound{ playerid } = listitem;
 		mysql_single_query( sprintf( "UPDATE `USERS` SET `HIT_SOUND`=%d WHERE `ID`=%d", listitem, GetPlayerAccountID( playerid ) ) );
-		SendClientMessageFormatted( playerid, -1, ""COL_GREY"[SERVER]"COL_WHITE" You have changed your hitmarker sound to "COL_GREY"%s"COL_WHITE".", g_HitmarkerSounds[ listitem ] [ E_NAME ] );
+		SendClientMessageFormatted( playerid, -1, ""COL_GREY"[服务器]"COL_WHITE" 你已将点击标记声音更改为 "COL_GREY"%s"COL_WHITE".", g_HitmarkerSounds[ listitem ] [ E_NAME ] );
 
 		PlayerPlaySound( playerid, g_HitmarkerSounds[ listitem ] [ E_SOUND_ID ], 0.0, 0.0, 0.0 );
 		ShowSoundsMenu( playerid );
@@ -394,7 +394,7 @@ stock UpdateDamageFeedLabel( playerid )
 		new szWeapon[ 32 ];
 
 		if ( g_damageGiven[ playerid ] [ givenid ] [ E_WEAPON ] == -1 ) {
-			szWeapon = "Multiple";
+			szWeapon = "多种的";
 		}
 		else {
 			GetWeaponName( g_damageGiven[ playerid ] [ givenid ] [ E_WEAPON ], szWeapon, sizeof( szWeapon ) );
@@ -436,7 +436,7 @@ stock UpdateDamageFeedLabel( playerid )
 		new szWeapon[ 32 ];
 
 		if ( g_damageTaken[ playerid ] [ takenid ] [ E_WEAPON ] == -1 ) {
-			szWeapon = "Multiple";
+			szWeapon = "多种的";
 		}
 		else {
 			GetWeaponName( g_damageTaken[ playerid ] [ takenid ] [ E_WEAPON ], szWeapon, sizeof( szWeapon ) );
@@ -538,7 +538,7 @@ stock ShowSoundsMenu( playerid )
 		for( new i = 0; i < sizeof( g_HitmarkerSounds ); i++ )
 			format( szSounds, sizeof( szSounds ), "%s%s\n", szSounds, g_HitmarkerSounds[ i ] [ E_NAME ] );
 	}
-	ShowPlayerDialog( playerid, DIALOG_MODIFY_HITSOUND, DIALOG_STYLE_LIST, ""COL_WHITE"Hitmarker Sound", szSounds, "Select", "Close" );
+	ShowPlayerDialog( playerid, DIALOG_MODIFY_HITSOUND, DIALOG_STYLE_LIST, ""COL_WHITE"命中标记声音", szSounds, "选择", "关闭" );
 }
 
 /* ** Commands ** */
@@ -552,31 +552,31 @@ CMD:s( playerid, params[ ] ) return cmd_sync( playerid, params );
 CMD:sync( playerid, params[ ] )
 {
 	if ( ! IsPlayerConnected( playerid ) || ! IsPlayerSpawned( playerid ) || p_SyncingPlayer{ playerid } == true || IsPlayerAFK( playerid ) )
-		return SendError( playerid, "You cannot use this feature at the moment." );
+		return SendError( playerid, "你目前无法使用此功能." );
 
 	if ( IsPlayerJailed( playerid ) )
-		return SendError( playerid, "You cannot use this feature while you are jailed." );
+		return SendError( playerid, "你在入狱期间无法使用此功能." );
 
 	if ( IsPlayerDetained( playerid ) )
-		return SendError( playerid, "You cannot use this feature while you are detained." );
+		return SendError( playerid, "你在被拘留期间无法使用此功能." );
 
 	if ( IsPlayerInAnyVehicle( playerid ) )
-		return SendError( playerid, "You cannot synchronize yourself in a vehicle." );
+		return SendError( playerid, "你无法在车辆中同步自己." );
 
 	if ( IsPlayerTazed( playerid ) || IsPlayerCuffed( playerid ) || IsPlayerKidnapped( playerid ) || IsPlayerTied( playerid ) || IsPlayerLoadingObjects( playerid ) || IsPlayerSpawnProtected( playerid ) )
-		return SendError( playerid, "You cannot synchronize yourself at the moment." );
+		return SendError( playerid, "你目前无法同步自己." );
 
 	if ( GetPlayerWeapon( playerid ) == WEAPON_SNIPER )
-		return SendError( playerid, "You cannot synchronize yourself holding a sniper." );
+		return SendError( playerid, "你无法同步持有狙击手." );
 
 	if ( IsPlayerInBattleRoyale( playerid ) )
-		return SendError( playerid, "You cannot use this command while in Battle Royale." );
+		return SendError( playerid, "大逃杀中无法使用此命令." );
 	
 	new
 		curr_server_time = GetServerTime( );
 
 	if ( GetPVarInt( playerid, "sync_cooldown" ) > curr_server_time )
-		return SendServerMessage( playerid, "Please wait %d seconds seconds before using this feature again.", GetPVarInt( playerid, "sync_cooldown" ) - curr_server_time );
+		return SendServerMessage( playerid, "请等待 %d 秒,然后再再次使用此功能.", GetPVarInt( playerid, "sync_cooldown" ) - curr_server_time );
 
 	SetPVarInt( playerid, "sync_cooldown", curr_server_time + 30 );
 
@@ -603,6 +603,6 @@ CMD:sync( playerid, params[ ] )
 
 	// Reinstating Information
 	SpawnPlayer( playerid );
-	SendServerMessage( playerid, "You are now synchronized." );
+	SendServerMessage( playerid, "你现在已同步." );
 	return 1;
 }

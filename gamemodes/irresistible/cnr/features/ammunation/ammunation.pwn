@@ -28,30 +28,30 @@ enum E_WEAPONS_DATA
 new
 	g_AmmunitionCategory[ ] [ ] =
 	{
-		{ "Assault" },  { "Melee" }, { "Submachine Guns" }, { "Pistols" },
-		{ "Rifles" }, { "Shotguns" }, { "Thrown" }, { "Special" }
+		{ "Í»»÷ÎäÆ÷" },  { "½üÕ½ÎäÆ÷" }, { "³å·æÇ¹" }, { "ÊÖÇ¹" },
+		{ "²½Ç¹" }, { "ö±µ¯Ç¹" }, { "Í¶ÖÀÎäÆ÷" }, { "ÌØÊâ×°±¸" }
 	},
 	g_AmmunationWeapons[ ][ E_WEAPONS_DATA ] =
 	{
-		{ MENU_MELEE,		"Flowers", 			14,		1, 		75 },
-		{ MENU_MELEE,		"Shovel", 			6,		1, 		100 },
-		{ MENU_MELEE,		"Pool Cue", 		7,		1, 		125 },
-		{ MENU_MELEE,		"Golf Club", 		2,		1, 		125 },
-		{ MENU_MELEE,		"Baseball Bat", 	5,		1, 		180 },
-		{ MENU_MELEE, 		"Brass Knuckles", 	1,		1, 		200 },
-		{ MENU_MELEE,		"Parachute", 		46,		1, 		200 },
-		{ MENU_MELEE, 		"Camera",			43, 	1,		250 },
+		{ MENU_MELEE,		"ÏÊ»¨", 			14,		1, 		75 },
+		{ MENU_MELEE,		"Ìú²ù", 			6,		1, 		100 },
+		{ MENU_MELEE,		"Ì¨Çò¸Ë", 		7,		1, 		125 },
+		{ MENU_MELEE,		"¸ß¶û·òÇò¸Ë", 		2,		1, 		125 },
+		{ MENU_MELEE,		"°ôÇò¹÷", 	5,		1, 		180 },
+		{ MENU_MELEE, 		"Ö¸»¢", 	1,		1, 		200 },
+		{ MENU_MELEE,		"½µÂäÉ¡", 		46,		1, 		200 },
+		{ MENU_MELEE, 		"Ïà»ú",			43, 	1,		250 },
 		//{ MENU_MELEE,		"Knife", 			4,		1, 		300 },
-		{ MENU_MELEE,		"Katana", 			8,		1, 		600 },
-		{ MENU_MELEE,		"Chainsaw", 		9,		1, 		750 },
+		{ MENU_MELEE,		"ÎäÊ¿µ¶", 			8,		1, 		600 },
+		{ MENU_MELEE,		"µç¾â", 		9,		1, 		750 },
 
-		{ MENU_PISTOLS,		"9mm Pistol", 		22,		180, 	200 },
-		{ MENU_PISTOLS,		"Silenced 9mm", 	23,		180, 	400 },
-		{ MENU_PISTOLS,		"Desert Eagle", 	24,		100, 	1250 },
+		{ MENU_PISTOLS,		"9mm ÊÖÇ¹", 		22,		180, 	200 },
+		{ MENU_PISTOLS,		"ÏûÒôÊÖÇ¹", 	23,		180, 	400 },
+		{ MENU_PISTOLS,		"É³Ä®Ö®Ó¥", 	24,		100, 	1250 },
 
-		{ MENU_SHOTGUNS,	"Shotgun", 			25,		75, 	600  },
-		{ MENU_SHOTGUNS,	"Sawn-off Shotgun",	26,		100,	1200 },
-		{ MENU_SHOTGUNS,	"Combat Shotgun", 	27,		100,	1800 },
+		{ MENU_SHOTGUNS,	"ö±µ¯Ç¹", 			25,		75, 	600  },
+		{ MENU_SHOTGUNS,	"¶Ì¹Üö±µ¯Ç¹",	26,		100,	1200 },
+		{ MENU_SHOTGUNS,	"Õ½¶·ö±µ¯Ç¹", 	27,		100,	1800 },
 
 		{ MENU_SUB_SMGS,	"MP5", 				29,		250,	500  },
 		{ MENU_SUB_SMGS,	"Tec 9", 			32,		250,	600  },
@@ -60,15 +60,15 @@ new
 		{ MENU_ASSAULT,		"AK47", 			30,		250,	800  },
 		{ MENU_ASSAULT,		"M4", 				31,		250,	1000 },
 
-		{ MENU_RIFLES,		"Rifle", 			33,		100, 	300  },
-		{ MENU_RIFLES,		"Sniper", 			34,		75, 	1000 },
+		{ MENU_RIFLES,		"²½Ç¹", 			33,		100, 	300  },
+		{ MENU_RIFLES,		"¾Ñ»÷Ç¹", 			34,		75, 	1000 },
 
-		{ MENU_THROWN, 		"Teargas",			17,		5,		500 },
-		{ MENU_THROWN, 		"Grenade",			16,		5,		1200 },
-		{ MENU_THROWN, 		"Molotov Cocktail",	18,		5,		1400 },
+		{ MENU_THROWN, 		"´ßÀáµ¯",			17,		5,		500 },
+		{ MENU_THROWN, 		"ÊÖÁñµ¯",			16,		5,		1200 },
+		{ MENU_THROWN, 		"È¼ÉÕÆ¿",	18,		5,		1400 },
 
-		{ MENU_SPECIAL,	 	"Explosive Round",	102,	2,		20000 },
-		{ MENU_SPECIAL,		"Armor", 			101, 	100, 	12500 },
+		{ MENU_SPECIAL,	 	"±¬Õ¨×Óµ¯",	102,	2,		20000 },
+		{ MENU_SPECIAL,		"»¤¼×", 			101, 	100, 	12500 },
 		{ MENU_SPECIAL,		"RPG",				35,		2,		10000 }
 	},
  	p_AmmunationMenu               [ MAX_PLAYERS char ]
@@ -80,8 +80,8 @@ stock RedirectAmmunation( playerid, listitem, custom_title[ ] = "{FFFFFF}Ammu-Na
 	new
 		szString[ 420 ];
 
-	if ( listitem == MENU_SPECIAL ) szString = ""COL_WHITE"Item\t"COL_WHITE"Price\n";
-	else szString = ""COL_WHITE"Weapon\t"COL_WHITE"Ammo\t"COL_WHITE"Price\n";
+	if ( listitem == MENU_SPECIAL ) szString = ""COL_WHITE"ÎïÆ·\t"COL_WHITE"¼Û¸ñ\n";
+	else szString = ""COL_WHITE"ÎäÆ÷\t"COL_WHITE"µ¯Ò©\t"COL_WHITE"¼Û¸ñ\n";
 
 	for( new i; i < sizeof( g_AmmunationWeapons ); i++ ) if ( g_AmmunationWeapons[ i ] [ E_MENU ] == listitem )
 	{
@@ -95,10 +95,10 @@ stock RedirectAmmunation( playerid, listitem, custom_title[ ] = "{FFFFFF}Ammu-Na
 		if ( custom_multplier > 0.0 ) {
 			format( szString, sizeof( szString ), "%s"COL_GOLD"%s\n", szString, cash_format( floatround( g_AmmunationWeapons[ i ] [ E_PRICE ] * custom_multplier ) ) );
 		} else {
-			strcat( szString, ""COL_GOLD"FREE\n" );
+			strcat( szString, ""COL_GOLD"Ãâ·Ñ\n" );
 		}
 	}
-    ShowPlayerDialog( playerid, custom_dialogid, DIALOG_STYLE_TABLIST_HEADERS, custom_title, szString, "Purchase", "Back" );
+    ShowPlayerDialog( playerid, custom_dialogid, DIALOG_STYLE_TABLIST_HEADERS, custom_title, szString, "¹ºÂò", "·µ»Ø" );
     return 1;
 }
 
@@ -113,5 +113,5 @@ stock ShowAmmunationMenu( playerid, custom_title[ ] = "{FFFFFF}Ammu-Nation", cus
 	     	format( szString, sizeof( szString ), "%s%s\n", szString, g_AmmunitionCategory[ i ] );
 	    }
 	}
-	return ShowPlayerDialog( playerid, custom_dialogid, DIALOG_STYLE_LIST, custom_title, szString, "Select", "Cancel" );
+	return ShowPlayerDialog( playerid, custom_dialogid, DIALOG_STYLE_LIST, custom_title, szString, "Ñ¡Ôñ", "È¡Ïû" );
 }

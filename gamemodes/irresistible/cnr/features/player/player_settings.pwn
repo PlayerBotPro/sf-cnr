@@ -28,9 +28,9 @@
 /* ** Variables ** */
 static stock
 	g_PlayerSettings 				[ MAX_SETTINGS ] [ 24 ] = {
-		{ "Prevent Bail Offers" }, { "Prevent Event Teleports" }, { "Prevent Gang Invites" }, { "Prevent Chat Prefixes" }, { "Prevent Ransom Offers" },
-		{ "Display User ID In Chat" }, { "Display Connection Log" }, { "Display Hitmarker" }, { "Set V.I.P Skin" }, { "Hide Total Coin Bar" }, { "Hide Last Donor Text" },
-		{ "Manual Pickup Weapon" }, { "Hide Gambling Win Msgs" }
+		{ "防止保释" }, { "防止事件传送" }, { "防止帮派邀请" }, { "防止聊天前缀" }, { "拒绝赎金请求" },
+		{ "在聊天中显示用户 ID" }, { "显示连接日志" }, { "显示命中标记" }, { "设置 VIP 皮肤" }, { "隐藏总金币栏" }, { "隐藏最后的捐赠者文本" },
+		{ "手动拾取武器" }, { "隐藏赌博获胜消息" }
 	},
 	bool: p_PlayerSettings 			[ MAX_PLAYERS ] [ MAX_SETTINGS char ]
 ;
@@ -46,7 +46,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	if ( dialogid == DIALOG_CP_MENU && response )
 	{
 		if ( IsPlayerInEvent( playerid ) ) {
-			return SendError( playerid, "You cannot modify your player settings within an event." );
+			return SendError( playerid, "你无法在活动中修改你的玩家设置." );
 		}
 
 		if ( listitem == 0 ) {
@@ -57,7 +57,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			settingid = listitem - 1;
 
 		if ( settingid == SETTING_VIPSKIN && p_VIPLevel[ playerid ] < VIP_REGULAR ) {
-			return SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+			return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 		}
 
 		// setting is being toggled ... then
@@ -83,7 +83,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		}
 
 		TogglePlayerSetting( playerid, settingid, ! p_PlayerSettings[ playerid ] { settingid } );
-		SendServerMessage( playerid, ""COL_ORANGE"%s"COL_WHITE" is now %s. Changes may take effect after spawning/relogging.", g_PlayerSettings[ settingid ], p_PlayerSettings[ playerid ] { settingid } ? ( "enabled" ) : ( "disabled" ) );
+		SendServerMessage( playerid, ""COL_ORANGE"%s"COL_WHITE"已设为 %s. 更改可能在出生或重新登录后生效.", g_PlayerSettings[ settingid ], p_PlayerSettings[ playerid ] { settingid } ? ( "启用" ) : ( "禁用" ) );
 
 	    if ( ! strmatch( inputtext, "ignore" )) {
 	   		cmd_cp( playerid, "" ); // Redirect to control panel again...
@@ -147,13 +147,13 @@ CMD:cp( playerid, params[ ] ) return cmd_controlpanel( playerid, params );
 CMD:settings( playerid, params[ ] ) return cmd_controlpanel( playerid, params );
 CMD:controlpanel( playerid, params[ ] )
 {
-	szLargeString = ""COL_WHITE"Setting\t"COL_WHITE"Status\n"COL_GREY"Irresistible Guard\t"COL_ORANGE">>>\n";
+	szLargeString = ""COL_WHITE"设置\t"COL_WHITE"状态\n"COL_GREY"账号安全防护\t"COL_ORANGE">>>\n";
 
 	for( new i = 0; i < MAX_SETTINGS; i++ ) {
-		format( szLargeString, sizeof( szLargeString ), "%s%s\t%s\n", szLargeString, g_PlayerSettings[ i ], p_PlayerSettings[ playerid ] { i } ? ( ""#COL_GREEN"YES" ) : ( ""#COL_RED"NO" ) );
+		format( szLargeString, sizeof( szLargeString ), "%s%s\t%s\n", szLargeString, g_PlayerSettings[ i ], p_PlayerSettings[ playerid ] { i } ? ( ""#COL_GREEN"是" ) : ( ""#COL_RED"否" ) );
 	}
 
-	ShowPlayerDialog( playerid, DIALOG_CP_MENU, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Control Panel", szLargeString, "Select", "Cancel" );
+	ShowPlayerDialog( playerid, DIALOG_CP_MENU, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}控制面板", szLargeString, "选择", "取消" );
 	return 1;
 }
 

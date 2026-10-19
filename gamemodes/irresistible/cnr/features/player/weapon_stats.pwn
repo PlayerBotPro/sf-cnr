@@ -66,7 +66,7 @@ thread OnShowWeaponStats( playerid, dialogid, back_option, forid )
 
 	if ( rows )
 	{
-		szLargeString = ""COL_WHITE"Weapon\t"COL_WHITE"Kills\n";
+		szLargeString = ""COL_WHITE"武器\t"COL_WHITE"击杀\n";
 
     	for( new i = 0; i < rows; i++ )
 		{
@@ -76,11 +76,11 @@ thread OnShowWeaponStats( playerid, dialogid, back_option, forid )
 
 			format( szLargeString, sizeof( szLargeString ), "%s%s\t%d\n", szLargeString, ReturnWeaponName( weaponid ), streak );
 		}
-		return ShowPlayerDialog( forid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Weapon Statistics", szLargeString, "Okay", back_option ? ( "Back" ) : ( "" ) );
+		return ShowPlayerDialog( forid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}武器统计", szLargeString, "确定", back_option ? ( "返回" ) : ( "" ) );
 	}
 	else
 	{
-		return SendError( forid, "Kill someone with anything to display a statistic!" );
+		return SendError( forid, "使用任意武器击杀一名玩家后即可查看统计!" );
 	}
 }
 

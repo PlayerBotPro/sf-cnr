@@ -19,7 +19,7 @@ CMD:resetwep( playerid, params[ ] )
 		ResetPlayerWeapons( pID );
         AddAdminLogLineFormatted( "%s(%d) has reset %s(%d)'s weapons", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have reset %s(%d)'s weapons.", ReturnPlayerName( pID ), pID );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" Your weapons have been reset by %s(%d).", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你的武器已被 %s(%d) 重置.", ReturnPlayerName( playerid ), playerid );
 	}
 	return 1;
 }
@@ -212,7 +212,7 @@ CMD:aheal( playerid, params[ ] )
     else if ( IsPlayerAdminOnDuty( pID ) ) return SendError( playerid, "This player is an admin on duty, you cannot do this." );
     else
 	{
-	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" %s(%d) healed you.", ReturnPlayerName( playerid ), playerid );
+	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" %s(%d) 治愈了你.", ReturnPlayerName( playerid ), playerid );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have healed %s(%d).", ReturnPlayerName( pID ), pID );
         AddAdminLogLineFormatted( "%s(%d) has healed %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 		SetPlayerHealth( pID, 100.0 );
@@ -325,7 +325,7 @@ CMD:giveweapon( playerid, params[ ] )
         GetWeaponName( wep, gunname, sizeof( gunname ) );
         AddAdminLogLineFormatted( "%s(%d) has given %s(%d) a %s", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, gunname );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have given %s(%d) a %s(%d)", ReturnPlayerName( pID ), pID, gunname, wep );
-        SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have been given a %s from %s(%d)", gunname, ReturnPlayerName( playerid ), playerid );
+        SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你已获得%s来自%s(%d)", gunname, ReturnPlayerName( playerid ), playerid );
         GivePlayerWeapon( pID, wep, ammo );
     }
     return 1;

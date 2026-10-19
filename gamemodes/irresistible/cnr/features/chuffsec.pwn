@@ -69,7 +69,7 @@ hook OnPlayerUpdateEx( playerid )
 		if ( IsSecurityDriverAFK( ) )
 		{
 			if ( GetPlayerSurfingVehicleID( playerid ) == g_secureTruckVehicle || IsPlayerInVehicle( playerid, g_secureTruckVehicle ) ) {
-				SendServerMessage( playerid, "You seemed to fly away with the security guard. You've been teleported to a spawn." );
+				SendServerMessage( playerid, "你似乎与保安一起飞离了车辆, 已将你传送回出生点." );
 				CallLocalFunction( "SetPlayerRandomSpawn", "d", playerid );
 			}
 
@@ -137,7 +137,7 @@ hook OnPlayerText( playerid, text[ ] )
 hook OnPlayerDriveVehicle(playerid, vehicleid)
 {
 	if ( IsPlayerConnected( g_secureTruckDriver ) && vehicleid == g_secureTruckVehicle ) {
-		SendError( playerid, "This vehicle cannot be accessed." );
+		SendError( playerid, "无法使用此载具." );
 		SyncObject( playerid, 1 ); // Just sets the players position where the vehicle is.
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
@@ -172,13 +172,13 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				if ( every_thing_shot && g_secureTruckData[ E_OPEN ] == true  )
 				{
 					if ( IsSecurityDriverAFK( ) ) return 1;
-					if ( g_secureTruckData[ E_BEING_ROBBED ] ) return SendError( playerid, "This truck is currently being robbed." );
-					if ( g_secureTruckData[ E_ROBBED ] ) return SendError( playerid, "This truck has been robbed." );
+					if ( g_secureTruckData[ E_BEING_ROBBED ] ) return SendError( playerid, "此运钞车正在被抢劫." );
+					if ( g_secureTruckData[ E_ROBBED ] ) return SendError( playerid, "此运钞车已被抢劫." );
 					SetPlayerFacePoint( playerid, X, Y );
 					//SetPlayerPos( playerid, fX, fY, Z );
 					g_secureTruckData[ E_BEING_ROBBED ] = true;
 					ApplyAnimation( playerid, "CARRY", "liftup105", 4.0, 1, 0, 0, 1, 0 );
-					ShowProgressBar( playerid, "Robbing Truck", PROGRESS_ROBTRUCK, 4000, COLOR_GOLD );
+					ShowProgressBar( playerid, "正在抢劫运钞车", PROGRESS_ROBTRUCK, 4000, COLOR_GOLD );
 				}
 				return Y_HOOKS_BREAK_RETURN_1;
 			}
@@ -236,7 +236,7 @@ hook OnPlayerWeaponShot( playerid, weaponid, hittype, hitid, Float: fX, Float: f
 						Float: hingeDamage = floatdiv( GetWeaponDamageFromDistance( weaponid, GetVehicleDistanceFromPoint( hitid, X, Y, Z ) ), 2 );
 
 					if ( floatround( g_secureTruckOffsets[ i ] [ E_HP ] -= hingeDamage ) > 0.0 ) {
-						SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x01][NPC] PROVOKED." );
+						SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x01][NPC] 被激怒了." );
 						format( szNormalString, 6, "%0.0f%%", g_secureTruckOffsets[ i ] [ E_HP ] );
 						UpdateDynamic3DTextLabelText( g_secureTruckVehicleLabel[ i ], setAlpha( COLOR_GREY, 0x90 ), szNormalString );
 					} else {
@@ -250,8 +250,8 @@ hook OnPlayerWeaponShot( playerid, weaponid, hittype, hitid, Float: fX, Float: f
 							g_secureTruckData[ E_OPEN ] = true;
 							g_secureTruckData[ E_BEING_ROBBED ] = false;
 							SetVehicleParamsCarDoors( hitid, 0, 0, 1, 1 );
-							ShowPlayerHelpDialog( playerid, 5000, "You've successfully disabled the security truck.~n~~n~To rob it, press ~r~~k~~SNEAK_ABOUT~~w~ behind the truck." );
-							SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x00][NPC] TRUCK DISABLED." );
+							ShowPlayerHelpDialog( playerid, 5000, "你成功截停了运钞车.~n~~n~请到车尾按 ~r~~k~~SNEAK_ABOUT~~w~ 开始抢劫." );
+							SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x00][NPC] 卡车故障." );
 						}
 					}
 					break;
@@ -328,16 +328,16 @@ hook OnProgressCompleted( playerid, progressid, params )
 					ach_HandlePlayerRobbery( playerid );
 				    SplitPlayerCashForGang( playerid, float( g_secureTruckData[ E_LOOT ] ) );
 
-					SendGlobalMessage( -1, ""COL_GOLD"[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from a Security Truck near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( g_secureTruckData[ E_LOOT ] ), szLocation, szCity );
+					SendGlobalMessage( -1, ""COL_GOLD"[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE"运钞车现金, 地点: %s (%s)!", ReturnPlayerName( playerid ), playerid, cash_format( g_secureTruckData[ E_LOOT ] ), GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 				} else {
 					CreateCrimeReport( playerid );
-	    			SendClientMessageToCops( -1, ""COL_BLUE"[ROBBERY]"COL_WHITE" %s has failed robbing a security truck near %s, suspect is armed and dangerous.", ReturnPlayerName( playerid ), szLocation );
-					SendServerMessage( playerid, "You've found nothing tangible in here. Cops have been alerted." );
+                    SendClientMessageToCops( -1, ""COL_BLUE"[抢劫]"COL_WHITE" %s 在 %s 附近抢劫运钞车失败, 嫌犯持械, 请注意安全.", ReturnPlayerName( playerid ), GetLocationDisplayName(szLocation) );
+					SendServerMessage( playerid, "你什么也没找到. 警方已收到警报." );
 				}
 
-				SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x02] RESTART." );
+				SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x02] 重新开始." );
 			}
-			else SendError( playerid, "An unexpected error occurred." );
+			else SendError( playerid, "发生意外错误." );
 		}
 	}
 	return 1;
@@ -351,16 +351,16 @@ CMD:chuffloc( playerid, params[ ] )
 		szCity[ MAX_ZONE_NAME ], szLocation[ MAX_ZONE_NAME ]
 	;
 
-	if ( IsSecurityDriverAFK( ) ) SendServerMessage( playerid, "ChuffSec is currently immobile and not making any deliveries at present." );
+	if ( IsSecurityDriverAFK( ) ) SendServerMessage( playerid, "ChuffSec 运钞车目前暂停送货." );
 	else
 	{
 		if ( GetPlayerPos( g_secureTruckDriver, X, Y, Z ) )
 		{
 		  	Get2DCity( szCity, X, Y, Z );
 		    GetZoneFromCoordinates( szLocation, X, Y, Z );
-			SendServerMessage( playerid, "ChuffSec schedules show that the security truck is located near %s in %s.", szLocation, szCity );
+			SendServerMessage( playerid, "ChuffSec 运钞车位于 %s 附近 (%s).", GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 		}
-		else SendServerMessage( playerid, "ChuffSec is currently immobile and not making any deliveries at present." );
+		else SendServerMessage( playerid, "ChuffSec 运钞车目前暂停送货." );
 	}
 	return 1;
 }
@@ -399,7 +399,7 @@ stock restartSecurityGuardProcess( bool: inform_npc = true ) {
 		UpdateDynamic3DTextLabelText( g_secureTruckVehicleLabel[ i ], setAlpha( COLOR_GREY, 0x90 ), "100%" );
 	}
 
-	if ( inform_npc ) SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x03] 300 SECOND START." );
+	if ( inform_npc ) SendClientMessage( g_secureTruckDriver, 0x112233FF, "[0x03] 300 第二次开始." );
 }
 
 stock allSecurityOffsetsShot( ) {

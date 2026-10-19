@@ -85,20 +85,20 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					ClearAnimations( playerid ); // clear-fix
 
 				    if ( IsDynamicObjectMoving( g_apartmentElevator ) )
-				        return SendError( playerid, "You must wait for the elevator to stop operating to select a floor again." );
+				        return SendError( playerid, "你必须等待电梯停止运行才能再次选择楼层." );
 
-	                szLargeString = "Ground Floor\n";
+	                szLargeString = "一楼\n";
 
 	                for ( new i = 0; i < sizeof( g_apartmentData ); i++ ) // First floor
 	                {
 	                    if ( g_apartmentData[ i ] [ E_CREATED ] ) {
 	                    	format( szLargeString, sizeof( szLargeString ), "%s%s - %s\n", szLargeString, g_apartmentData[ i ] [ E_OWNER ], g_apartmentData[ i ] [ E_NAME ] );
 	                    } else {
-						    strcat( szLargeString, "$5,000,000 - Available For Purchase!\n" );
+						    strcat( szLargeString, "$5,000,000 - 可供购买!\n" );
 						}
 					}
 
-					ShowPlayerDialog( playerid, DIALOG_APARTMENTS, DIALOG_STYLE_LIST, "{FFFFFF}Apartments", szLargeString, "Select", "Cancel" );
+					ShowPlayerDialog( playerid, DIALOG_APARTMENTS, DIALOG_STYLE_LIST, "{FFFFFF}公寓", szLargeString, "选择", "取消" );
 					return 1;
 				}
 
@@ -109,7 +109,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
                 	{
 						ClearAnimations( playerid ); // clear-fix
 					    if ( IsDynamicObjectMoving( g_apartmentElevator ) ) {
-		       				SendError( playerid, "The elevator is operating, please wait." );
+                            SendError( playerid, "电梯正在运行,请稍等." );
 		       				break;
 						}
 
@@ -134,7 +134,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new Float: X, Float: Y, Float: Z;
 		GetDynamicObjectPos( g_apartmentElevator, X, Y, Z );
 		if ( !IsPlayerInRangeOfPoint( playerid, 2.0, X, Y, Z ) )
-			return SendError( playerid, "You must be near the elevator to use this!" );
+			return SendError( playerid, "你必须在电梯附近才能使用这个!" );
 
 	    if ( listitem == 0 ) NovicHotel_CallElevator( 0 );
 	    else
@@ -143,12 +143,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			p_apartmentEnter{ playerid } = id;
 			if ( strmatch( g_apartmentData[ id ] [ E_OWNER ], "No-one" ) || isnull( g_apartmentData[ id ] [ E_OWNER ] ) || !g_apartmentData[ id ] [ E_CREATED ] )
 			{
-			 	ShowPlayerDialog( playerid, DIALOG_APARTMENTS_BUY, DIALOG_STYLE_MSGBOX, "{FFFFFF}Are you interested?", "{FFFFFF}This apartment is available for sale. The price is $5,000,000.\nIf you wish to buy it, please click 'Purchase'.", "Purchase", "Deny" );
+                ShowPlayerDialog( playerid, DIALOG_APARTMENTS_BUY, DIALOG_STYLE_MSGBOX, "{FFFFFF}你有兴趣吗?", "{FFFFFF}这套公寓可供出售.价格为$5,000,000.\n如需购买,请点击\"购买\".", "购买", "否定" );
 			}
 			else if ( !strmatch( g_apartmentData[ id ] [ E_OWNER ], ReturnPlayerName( playerid ) ) )
 			{
 			    if ( g_apartmentData[ id ] [ E_LOCKED ] ) {
-					return SendError( playerid, "This apartment has been locked by its owner." );
+					return SendError( playerid, "这间公寓已被其主人锁上." );
 				}
 			}
 	    	NovicHotel_CallElevator( id + 1 );
@@ -157,23 +157,23 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	else if ( dialogid == DIALOG_APARTMENTS_BUY && response )
 	{
 	    if ( NovicHotel_GetPlayerApartments( playerid ) > 0 )
-	        return SendError( playerid, "You can only own one apartment." );
+	        return SendError( playerid, "你只能拥有一套公寓." );
 
 	    if ( GetPlayerCash( playerid ) < 5000000 )
-	        return SendError( playerid, "You don't have enough money for this ($5,000,000)." );
+	        return SendError( playerid, "你没有足够的钱来做这件事 ($5,000,000)." );
 
 		GivePlayerCash( playerid, -5000000 );
 
 		new aID = p_apartmentEnter{ playerid };
 		g_apartmentData[ aID ] [ E_CREATED ] = true;
 		format( g_apartmentData[ aID ] [ E_OWNER ], 24, "%s", ReturnPlayerName( playerid ) );
-		format( g_apartmentData[ aID ] [ E_NAME ], 30, "Apartment %d", aID );
+		format( g_apartmentData[ aID ] [ E_NAME ], 30, "公寓 %d", aID );
 		g_apartmentData[ aID ] [ E_LOCKED ] = 0;
 
 		format( szNormalString, 100, "INSERT INTO `APARTMENTS` VALUES (%d,'%s','Apartment %d',0)", aID, mysql_escape( ReturnPlayerName( playerid ) ), aID );
 	    mysql_single_query( szNormalString );
 
-		SendServerMessage( playerid, "You have purchased an apartment for "COL_GOLD"$5,000,000"COL_WHITE"." );
+		SendServerMessage( playerid, "你购买了一套公寓 "COL_GOLD"$5,000,000"COL_WHITE"." );
 	}
 	else if ( dialogid == DIALOG_FLAT_CONFIG && response )
 	{
@@ -184,8 +184,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		       	if ( x == listitem )
 		      	{
 					SetPVarInt( playerid, "flat_editing", id );
-		      	    SendServerMessage( playerid, "You are now controlling the settings over "COL_GREY"%s", g_apartmentData[ id ] [ E_NAME ] );
-		      		ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", "Spawn Here\nLock Apartment\nModify Apartment Name\nSell Apartment", "Select", "Back" );
+                    SendServerMessage( playerid, "你现在正在控制以下设置 "COL_GREY"%s", g_apartmentData[ id ] [ E_NAME ] );
+                    ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", "在此生成\n锁定公寓\n修改公寓名称\n出售公寓", "选择", "返回" );
 		      		break;
 				}
 		      	x++;
@@ -202,35 +202,35 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		    case 0:
 		    {
 		    	SetPlayerSpawnLocation( playerid, "APT", GetPVarInt( playerid, "flat_editing" ) );
-				SendServerMessage( playerid, "You have set your spawning location to the specified apartment. To stop this you can use \"/flat stopspawn\"." );
-				ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", "Spawn Here\nLock Apartment\nModify Apartment Name\nSell Apartment", "Select", "Back" );
+				SendServerMessage( playerid, "已将此公寓设为出生点. 输入 \"/flat stopspawn\" 可取消." );
+				ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", "在此生成\n锁定公寓\n修改公寓名称\n出售公寓", "选择", "返回" );
 			}
 			case 1:
 			{
 		        new id = GetPVarInt( playerid, "flat_editing" );
              	g_apartmentData[ id ] [ E_LOCKED ] = ( g_apartmentData[ id ] [ E_LOCKED ] == 1 ? 0 : 1 );
 				mysql_single_query( sprintf( "UPDATE `APARTMENTS` SET `LOCKED`=%d WHERE `ID`=%d", g_apartmentData[ id ] [ E_LOCKED ], id  ) );
-				SendServerMessage( playerid, "You have %s the specified apartment.", g_apartmentData[ id ] [ E_LOCKED ] == 1 ? ( "locked" ) : ( "unlocked" ) );
-				ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", "Spawn Here\nLock Apartment\nModify Apartment Name\nSell Apartment", "Select", "Back" );
+				SendServerMessage( playerid, "你拥有 %s 指定的公寓.", g_apartmentData[ id ] [ E_LOCKED ] == 1 ? ( "锁定" ) : ( "解锁" ) );
+				ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", "在此生成\n锁定公寓\n修改公寓名称\n出售公寓", "选择", "返回" );
 			}
 		    case 2:
 		    {
-		   		ShowPlayerDialog( playerid, DIALOG_FLAT_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}Owned Apartments", ""COL_WHITE"Input the apartment title you want to change with:", "Submit", "Back" );
+                ShowPlayerDialog( playerid, DIALOG_FLAT_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}自有公寓", ""COL_WHITE"输入你想要更改的公寓名称:", "提交", "返回" );
 			}
-		    case 3: ShowPlayerDialog( playerid, DIALOG_YOU_SURE_APART, DIALOG_STYLE_MSGBOX, "{FFFFFF}Owned Apartments", ""COL_WHITE"Are you sure that you want to sell your apartment?", "Yes", "No" );
+		    case 3: ShowPlayerDialog( playerid, DIALOG_YOU_SURE_APART, DIALOG_STYLE_MSGBOX, "{FFFFFF}自有公寓", ""COL_WHITE"你确定要卖掉你的公寓吗?", "是", "否" );
 		}
 	}
 	else if ( dialogid == DIALOG_YOU_SURE_APART )
 	{
 		if ( ! response )
-   			return ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", "Spawn Here\nLock Apartment\nModify Apartment Name\nSell Apartment", "Select", "Back" );
+            return ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", "在此生成\n锁定公寓\n修改公寓名称\n出售公寓", "选择", "返回" );
 
 		new id = GetPVarInt( playerid, "flat_editing" );
 
 		g_apartmentData[ id ] [ E_CREATED ] = false;
-		strcpy( g_apartmentData[ id ] [ E_OWNER ], "No-one" );
+		strcpy( g_apartmentData[ id ] [ E_OWNER ], "无人" );
 		// format( g_apartmentData[ id ] [ E_OWNER ], MAX_PLAYER_NAME, "%s", "No-one" );
-		format( g_apartmentData[ id ] [ E_NAME ], 30, "Apartment %d", id );
+		format( g_apartmentData[ id ] [ E_NAME ], 30, "公寓 %d", id );
 		g_apartmentData[ id ] [ E_LOCKED ] = 0;
 
 		format( szNormalString, 40, "DELETE FROM `APARTMENTS` WHERE `ID`=%d", id );
@@ -239,21 +239,21 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         GivePlayerCash( playerid, 3000000 );
         printf( "%s(%d) sold their apartment", ReturnPlayerName( playerid ), playerid );
 
-   		return SendClientMessage( playerid, -1, ""COL_GREY"[SERVER]"COL_WHITE" You have successfully sold your apartment for "COL_GOLD"$3,000,000"COL_WHITE".");
+        return SendClientMessage( playerid, -1, ""COL_GREY"[服务器]"COL_WHITE" 你已成功出售你的公寓 "COL_GOLD"$3,000,000"COL_WHITE".");
 	}
 	else if ( dialogid == DIALOG_FLAT_TITLE )
 	{
 	    if ( !response )
-	        return ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", "Spawn Here\nLock Apartment\nModify Apartment Name\nSell Apartment", "Select", "Back" );
+	        return ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", "在此生成\n锁定公寓\n修改公寓名称\n出售公寓", "选择", "返回" );
 
 		if ( !strlen( inputtext ) )
-			return ShowPlayerDialog( playerid, DIALOG_FLAT_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}Owned Apartments", ""COL_WHITE"Input the apartment title you want to change with:\n\n"COL_RED"Must be more than 0 characters.", "Submit", "Back" );
+			return ShowPlayerDialog( playerid, DIALOG_FLAT_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}自有公寓", ""COL_WHITE"输入你想要更改的公寓名称:\n\n"COL_RED"必须超过 0 个字符.", "提交", "返回" );
 
 		new id = GetPVarInt( playerid, "flat_editing" );
 		mysql_single_query( sprintf( "UPDATE `APARTMENTS` SET `NAME`='%s' WHERE `ID`=%d", mysql_escape( inputtext ), id ) );
 		format( g_apartmentData[ id ] [ E_NAME ], 30, "%s", inputtext );
- 		SendServerMessage( playerid, "You have successfully changed the name of your apartment." );
-  		ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", "Spawn Here\nLock Apartment\nModify Apartment Name\nSell Apartment", "Select", "Back" );
+        SendServerMessage( playerid, "你已成功更改公寓名称." );
+        ShowPlayerDialog( playerid, DIALOG_FLAT_CONTROL, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", "在此生成\n锁定公寓\n修改公寓名称\n出售公寓", "选择", "返回" );
 	}
 	return 1;
 }
@@ -313,9 +313,9 @@ CMD:flat( playerid, params[ ] )
 		    format( szBigString, sizeof( szBigString ), "%s%s\n", szBigString, g_apartmentData[ i ] [ E_NAME ] );
 		}
 	}
-	if ( count == 0 ) return SendError( playerid, "You don't own any apartments." );
+	if ( count == 0 ) return SendError( playerid, "你不拥有任何公寓." );
 
-	ShowPlayerDialog( playerid, DIALOG_FLAT_CONFIG, DIALOG_STYLE_LIST, "{FFFFFF}Owned Apartments", szBigString, "Select", "Cancel" );
+	ShowPlayerDialog( playerid, DIALOG_FLAT_CONFIG, DIALOG_STYLE_LIST, "{FFFFFF}自有公寓", szBigString, "选择", "取消" );
 	return 1;
 }
 

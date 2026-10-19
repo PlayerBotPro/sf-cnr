@@ -22,7 +22,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
     	GetPVarString( playerid, "crowdfunds_shown", crowdfund_ids_string, sizeof( crowdfund_ids_string ) );
 
 		if ( sscanf( crowdfund_ids_string, "a<i>[" # MAX_CROWDFUNDS "]", crowdfunds_ids ) ) {
-			return SendError( playerid, "There was an error reading the crowdfunds, try again later." );
+			return SendError( playerid, "读取众筹时出错,请稍后再试." );
 		}
 
 		for ( new i = 0, x = 0; i < sizeof( crowdfunds_ids ); i ++ ) if ( crowdfunds_ids[ i ] != 0 )
@@ -34,7 +34,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			}
 			x ++;
 		}
-		return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_OPTIONS, DIALOG_STYLE_LIST, ""COL_GOLD"Feature Crowdfunding", "View Crowdfund Details\nView Crowdfund Patreons\n"COL_GOLD"Contribute To Crowdfund <3", "Select", "Close" );
+		return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_OPTIONS, DIALOG_STYLE_LIST, ""COL_GOLD"特色众筹", "查看众筹详情\n查看众筹赞助人\n"COL_GOLD"为众筹做出贡献 <3", "选择", "关闭" );
 	}
 	else if ( dialogid == DIALOG_CROWDFUND_OPTIONS )
 	{
@@ -45,7 +45,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			viewing_crowdfund = GetPVarInt( playerid, "viewing_crowdfund" );
 
 		if ( ! viewing_crowdfund ) {
-			return SendError( playerid, "There was an error. Please attempt to contribute to the crowdfund again." );
+			return SendError( playerid, "出现错误.请再次尝试为众筹捐款." );
 		}
 
 		switch ( listitem )
@@ -68,34 +68,34 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			}
 			case 2:
 			{
-				return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"Feature Crowdfunding", ""COL_WHITE"Please specify the amount of IC you wish to contribute:\n\n"COL_ORANGE"Warning: There is no confirmation dialog.", "Contribute", "Back" );
+				return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"特色众筹", ""COL_WHITE"请注明你希望捐款的 IC 金额:\n\n"COL_ORANGE"警告:没有确认对话框.", "贡献", "返回" );
 			}
 		}
 	}
 	else if ( dialogid == DIALOG_CROWDFUND_INFO && ! response ) {
-		return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_OPTIONS, DIALOG_STYLE_LIST, ""COL_GOLD"Feature Crowdfunding", "View Crowdfund Details\nView Crowdfund Patreons\n"COL_GOLD"Contribute To Crowdfund <3", "Select", "Close" );
+		return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_OPTIONS, DIALOG_STYLE_LIST, ""COL_GOLD"特色众筹", "查看众筹详情\n查看众筹赞助人\n"COL_GOLD"为众筹做出贡献 <3", "选择", "关闭" );
 	}
 	else if ( dialogid == DIALOG_CROWDFUND_DONATE )
 	{
 		if ( ! response )
-			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_OPTIONS, DIALOG_STYLE_LIST, ""COL_GOLD"Feature Crowdfunding", "View Crowdfund Details\nView Crowdfund Patreons\n"COL_GOLD"Contribute To Crowdfund <3", "Select", "Close" );
+			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_OPTIONS, DIALOG_STYLE_LIST, ""COL_GOLD"特色众筹", "查看众筹详情\n查看众筹赞助人\n"COL_GOLD"为众筹做出贡献 <3", "选择", "关闭" );
 
 		new
 			viewing_crowdfund = GetPVarInt( playerid, "viewing_crowdfund" );
 
 		if ( ! viewing_crowdfund ) {
-			return SendError( playerid, "There was an error. Please attempt to contribute to the crowdfund again." );
+			return SendError( playerid, "出现错误.请再次尝试为众筹捐款." );
 		}
 
 		new
 			Float: amount;
 
 		if ( sscanf( inputtext, "f", amount ) ) {
-			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"Feature Crowdfunding", ""COL_WHITE"Please specify the amount of IC you wish to contribute:\n\n"COL_RED"Please specify a decimal number!", "Contribute", "Close" );
+			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"特色众筹", ""COL_WHITE"请注明你希望捐款的 IC 金额:\n\n"COL_RED"请指定一个小数!", "贡献", "关闭" );
 		} else if ( amount < 10.0 ) {
-			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"Feature Crowdfunding", ""COL_WHITE"Please specify the amount of IC you wish to contribute:\n\n"COL_RED"The minimum amount you can contribute is 10.00 IC!", "Contribute", "Close" );
+			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"特色众筹", ""COL_WHITE"请注明你希望捐款的 IC 金额:\n\n"COL_RED"你可以贡献的最低金额是 10.00 IC!", "贡献", "关闭" );
 		} else if ( amount > GetPlayerIrresistibleCoins( playerid ) ) {
-			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"Feature Crowdfunding", ""COL_WHITE"Please specify the amount of IC you wish to contribute:\n\n"COL_RED"You do not have this many coins in your account!", "Contribute", "Close" );
+			return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_DONATE, DIALOG_STYLE_INPUT, ""COL_GOLD"特色众筹", ""COL_WHITE"请注明你希望捐款的 IC 金额:\n\n"COL_RED"你的帐户中没有这么多硬币!", "贡献", "关闭" );
 		} else {
 			// check if expired/ended/valid before even submitting
 			mysql_tquery( dbHandle, sprintf( "SELECT FEATURE, UNIX_TIMESTAMP(RELEASE_DATE) AS `RELEASE`, UNIX_TIMESTAMP(END_DATE) AS `END` FROM CROWDFUNDS WHERE ID = %d", viewing_crowdfund ), "OnPlayerCrowdfundContribute", "ddf", playerid, viewing_crowdfund, amount );
@@ -133,13 +133,13 @@ thread OnPlayerCrowdfundContribute( playerid, crowdfund_id, Float: amount )
 
 		// check if released or ended
 		if ( ( curr_timestamp > release_timestamp && release_timestamp != 0 ) || ( curr_timestamp > end_timestamp ) ) {
-			SendError( playerid, "You can no longer contribute to this crowdfund as it is released or ended." );
+			SendError( playerid, "由于该众筹已发布或结束,你无法再为此众筹捐款." );
 			return ShowPlayerCrowdfunds( playerid );
 		}
 
 		// double check valid amounts again
 		if ( amount < 10.0 || amount > GetPlayerIrresistibleCoins( playerid ) ) {
-			SendError( playerid, "You can no longer contribute to this crowdfund as the contribution amount is invalid." );
+			SendError( playerid, "由于捐款金额无效,你无法再为此众筹捐款." );
 			return ShowPlayerCrowdfunds( playerid );
 		}
 
@@ -148,7 +148,7 @@ thread OnPlayerCrowdfundContribute( playerid, crowdfund_id, Float: amount )
 
 		// notify and deduct ic
 		GivePlayerIrresistibleCoins( playerid, -amount );
-		SendClientMessageToAllFormatted( -1, ""COL_GOLD"[CROWDFUND]"COL_WHITE" %s(%d) has donated %s IC to the %s Crowdfund! <3", ReturnPlayerName( playerid ), playerid, number_format( amount, .prefix = '\0', .decimals = 2 ), feature );
+		SendClientMessageToAllFormatted( -1, ""COL_GOLD"[众筹]"COL_WHITE" %s(%d) 已将 %s IC 捐赠给 %s 众筹! <3", ReturnPlayerName( playerid ), playerid, number_format( amount, .prefix = '\0', .decimals = 2 ), feature );
 		SavePlayerData( playerid ); // force save just incase
 
 		// insert into database
@@ -162,7 +162,7 @@ thread OnPlayerCrowdfundContribute( playerid, crowdfund_id, Float: amount )
 	}
 	else
 	{
-		return SendError( playerid, "The crowdfund you are attempting to contribute to no longer exists." );
+		return SendError( playerid, "你尝试捐款的众筹已不存在." );
 	}
 }
 
@@ -172,12 +172,12 @@ thread OnDisplayCrowdfundPatreons( playerid, crowdfund_id )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_INFO, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Feature Crowdfunding", ""COL_GREY"Contributor\t"COL_GREY"Amount (IC)\n"COL_RED"No-One\t"COL_RED"N/A", "Close", "Back" ), 1;
+		return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_INFO, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"特色众筹", ""COL_GREY"贡献者\t"COL_GREY"金额 (IC)\n"COL_RED"无人\t"COL_RED"N/A", "关闭", "返回" ), 1;
 	}
 
 	new patreon[ MAX_PLAYER_NAME ];
 
-	szHugeString = ""COL_GREY"Contributor\t"COL_GREY"Amount (IC)\n";
+	szHugeString = ""COL_GREY"贡献者\t"COL_GREY"金额 (IC)\n";
 
 	for ( new row = 0; row < rows; row ++ )
 	{
@@ -187,7 +187,7 @@ thread OnDisplayCrowdfundPatreons( playerid, crowdfund_id )
 
 		format( szHugeString, sizeof( szHugeString ), "%s%s\t%s IC\n", szHugeString, patreon, number_format( contribution, .prefix = '\0', .decimals = 2 ) );
 	}
-	return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_INFO, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Feature Crowdfunding", szHugeString, "Close", "Back" ), 1;
+	return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_INFO, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"特色众筹", szHugeString, "关闭", "返回" ), 1;
 }
 
 thread OnDisplayCrowdfundInfo( playerid, crowdfund_id )
@@ -196,7 +196,7 @@ thread OnDisplayCrowdfundInfo( playerid, crowdfund_id )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "There is no crowdfund information to show. Try again later." );
+		return SendError( playerid, "没有可显示的众筹信息.稍后再试." );
 	}
 
 	new cf_description[ 100 ];
@@ -208,7 +208,7 @@ thread OnDisplayCrowdfundInfo( playerid, crowdfund_id )
 	if ( strlen( cf_description ) < sizeof( cf_description ) - 1 ) {
 		format( szHugeString, sizeof( szHugeString ), ""COL_WHITE"%s\n\n", cf_description );
 	} else {
-		format( szHugeString, sizeof( szHugeString ), ""COL_WHITE"%s"COL_GREY"... (read more on sfcnr.com)\n\n", cf_description );
+		format( szHugeString, sizeof( szHugeString ), ""COL_WHITE"%s"COL_GREY"...(在 sfcnr.com 上了解更多信息)\n\n", cf_description );
 	}
 
 	for ( new row = 0; row < rows; row ++ )
@@ -221,10 +221,10 @@ thread OnDisplayCrowdfundInfo( playerid, crowdfund_id )
 		if ( strlen( description ) < sizeof( description ) - 1 ) {
 			format( szHugeString, sizeof( szHugeString ), "%s"COL_GOLD"%s (%s IC+)"COL_WHITE"\n%s\n\n", szHugeString, title, number_format( req_amount, .prefix = '\0', .decimals = 2 ), description );
 		} else {
-			format( szHugeString, sizeof( szHugeString ), "%s"COL_GOLD"%s (%s IC+)"COL_WHITE"\n%s"COL_GREY"... (read more on sfcnr.com)\n\n", szHugeString, title, number_format( req_amount, .prefix = '\0', .decimals = 2 ), description );
+			format( szHugeString, sizeof( szHugeString ), "%s"COL_GOLD"%s (%s IC+)"COL_WHITE"\n%s"COL_GREY"...(在 sfcnr.com 上了解更多信息)\n\n", szHugeString, title, number_format( req_amount, .prefix = '\0', .decimals = 2 ), description );
 		}
 	}
-	return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_INFO, DIALOG_STYLE_MSGBOX, ""COL_GOLD"Feature Crowdfunding", szHugeString, "Close", "Back" ), 1;
+	return ShowPlayerDialog( playerid, DIALOG_CROWDFUND_INFO, DIALOG_STYLE_MSGBOX, ""COL_GOLD"特色众筹", szHugeString, "关闭", "返回" ), 1;
 }
 
 thread OnDisplayCrowdfunds( playerid )
@@ -233,14 +233,14 @@ thread OnDisplayCrowdfunds( playerid )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "There is no crowdfund to show. Try again later." );
+		return SendError( playerid, "没有可显示的众筹.稍后再试." );
 	}
 
 	new feature[ 64 ];
 	new crowdfund_ids[ MAX_CROWDFUNDS * 3 ];
 
 	// header
-	szLargeString = ""COL_WHITE"Feature\t"COL_WHITE"Raised (IC)\t"COL_WHITE"Goal (IC)\t"COL_WHITE"Completion (%)\n";
+	szLargeString = ""COL_WHITE"功能\t"COL_WHITE"提出 (IC)\t"COL_WHITE"目标 (IC)\t"COL_WHITE"完成度 (%)\n";
 
 	for ( new row = 0; row < MAX_CROWDFUNDS; row ++ )
 	{
@@ -287,5 +287,5 @@ thread OnDisplayCrowdfunds( playerid )
 
 	// save ids for response
 	SetPVarString( playerid, "crowdfunds_shown", crowdfund_ids );
-	return ShowPlayerDialog( playerid, DIALOG_CROWDFUNDS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Feature Crowdfunding", szLargeString, "Select", "Close" ), 1;
+	return ShowPlayerDialog( playerid, DIALOG_CROWDFUNDS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"特色众筹", szLargeString, "选择", "关闭" ), 1;
 }

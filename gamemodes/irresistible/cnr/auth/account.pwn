@@ -40,21 +40,21 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         {
         	if ( p_PlayerLogged{ playerid } )
         	{
-        		AdvancedBan( playerid, "Server", "Exploiting", ReturnPlayerIP( playerid ) );
-        		return SendError( playerid, "You are already logged in!" );
+                AdvancedBan( playerid, "服务器", "利用漏洞", ReturnPlayerIP( playerid ) );
+                return SendError( playerid, "你已经登录了!" );
         	}
 
 			format( szBigQuery, sizeof( szBigQuery ), "SELECT * FROM `USERS` WHERE `NAME` = '%s' LIMIT 0,1", mysql_escape( ReturnPlayerName( playerid ) ) );
        		mysql_function_query( dbHandle, szBigQuery, true, "OnAttemptPlayerLogin", "ds", playerid, inputtext );
         }
-        else return ShowPlayerDialog( playerid, DIALOG_LOGIN_QUIT, DIALOG_STYLE_MSGBOX, "{FFFFFF}Account - Authentication", "{FFFFFF}Are you sure you want to leave the server?", "Yes", "No" );
+        else return ShowPlayerDialog( playerid, DIALOG_LOGIN_QUIT, DIALOG_STYLE_MSGBOX, "{FFFFFF}账号 - 登录验证", "{FFFFFF}确定要离开服务器吗?", "是", "否" );
     }
     else if ( dialogid == DIALOG_LOGIN_QUIT ) {
     	if ( response ) {
     		return Kick( playerid );
     	} else {
-	        format( szBigString, sizeof( szBigString ), "{FFFFFF}Welcome, this account ("COL_GREEN"%s"COL_WHITE") is registered.\nPlease enter the password to login.\n\n"COL_GREY"If you are not the owner of this account, leave and rejoin with a different nickname.", ReturnPlayerName( playerid ) );
-	        return ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "{FFFFFF}Account - Authentication", szBigString, "Login", "Leave");
+	        format( szBigString, sizeof( szBigString ), "{FFFFFF}欢迎, 此账号 ("COL_GREEN"%s"COL_WHITE") 已注册.\n请输入密码登录.\n\n"COL_GREY"如果这不是你的账号, 请退出并更换昵称后重新连接.", ReturnPlayerName( playerid ) );
+	        return ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "{FFFFFF}账号 - 登录验证", szBigString, "登录", "离开");
     	}
     }
     else if ( dialogid == DIALOG_REGISTER )
@@ -62,12 +62,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         if ( response )
         {
         	if ( p_PlayerLogged{ playerid } )
-        		return SendError( playerid, "You are already logged in!" );
+                return SendError( playerid, "你已经登录了!" );
 
             if ( strlen( inputtext ) > 24 || strlen( inputtext ) < 3 )
             {
-            	format( szBigQuery, 300, "{FFFFFF}Welcome, this account ("COL_RED"%s"COL_WHITE") is not registered.\nPlease enter your desired password for this account.\n\n"COL_RED"Your password length must vary from 3 to 24 characters.\n\n"COL_GREY"Once you are registered, do not share your password with anyone besides yourself!", ReturnPlayerName( playerid ) );
-				ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "{FFFFFF}Account - Register", szBigQuery, "Register", "Leave");
+                format( szBigQuery, 300, "{FFFFFF}欢迎, 此账号 ("COL_RED"%s"COL_WHITE") 尚未注册.\n请为此账号设置密码.\n\n"COL_RED"密码长度必须为 3 至 24 个字符.\n\n"COL_GREY"注册后请妥善保管密码, 不要告诉任何人!", ReturnPlayerName( playerid ) );
+				ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "{FFFFFF}账号 - 注册", szBigQuery, "注册", "离开");
             }
             else
             {
@@ -92,7 +92,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				p_SpawningCity{ playerid } = CITY_SF;
 
 				p_Uptime[ playerid ] = 0;
-				ShowAchievement( playerid, "Registering to SF-CnR!", 1 );
+				ShowAchievement( playerid, "正在注册 SF-CnR 账号!", 1 );
                 p_PlayerLogged{ playerid } = true;
                 SetPlayerCash( playerid, 5000 );
                 SetPlayerScore( playerid, 0 );
@@ -105,18 +105,18 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				p_OwnedVehicles[ playerid ] = 0;
 				p_Burglaries[ playerid ] = 0;
 				p_BobbyPins[ playerid ] = 10;
-				ShowPlayerDialog( playerid, DIALOG_ACC_EMAIL, DIALOG_STYLE_INPUT, "{FFFFFF}Account Email", ""COL_WHITE"Would you like to assign an email to your account for security?\n\nWe'll keep you also informed on in-game and community associated events!", "Confirm", "Cancel" );
-                SendServerMessage( playerid, "You have "COL_GREEN"successfully{FFFFFF} registered! You have been automatically logged in!" );
+				ShowPlayerDialog( playerid, DIALOG_ACC_EMAIL, DIALOG_STYLE_INPUT, "{FFFFFF}账号邮箱", ""COL_WHITE"是否绑定邮箱以保障账号安全?\n\n我们还会向你发送游戏及社区活动消息!", "确认", "取消" );
+                SendServerMessage( playerid, "你已"COL_GREEN"成功{FFFFFF}注册! 已为你自动登录!" );
             }
         }
-        else return ShowPlayerDialog( playerid, DIALOG_REGISTER_QUIT, DIALOG_STYLE_MSGBOX, "{FFFFFF}Account - Authentication", "{FFFFFF}Are you sure you want to leave the server?", "Yes", "No" );
+        else return ShowPlayerDialog( playerid, DIALOG_REGISTER_QUIT, DIALOG_STYLE_MSGBOX, "{FFFFFF}账号 - 登录验证", "{FFFFFF}确定要离开服务器吗?", "是", "否" );
     }
     else if ( dialogid == DIALOG_REGISTER_QUIT ) {
     	if ( response ) {
     		return Kick( playerid );
     	} else {
-	        format( szBigString, sizeof( szBigString ), "{FFFFFF}Welcome, this account ("COL_RED"%s"COL_WHITE") is not registered.\nPlease enter your desired password for this account.\n\n"COL_GREY"Once you are registered, do not share your password with anyone besides yourself!", ReturnPlayerName( playerid ) );
-	        return ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "{FFFFFF}Account - Register", szBigString, "Register", "Leave");
+	        format( szBigString, sizeof( szBigString ), "{FFFFFF}欢迎, 此账号 ("COL_RED"%s"COL_WHITE") 尚未注册.\n请为此账号设置密码.\n\n"COL_GREY"注册后请妥善保管密码, 不要告诉任何人!", ReturnPlayerName( playerid ) );
+	        return ShowPlayerDialog(playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "{FFFFFF}账号 - 注册", szBigString, "注册", "离开");
     	}
     }
     return 1;
@@ -133,8 +133,8 @@ thread OnPlayerRegisterCheck( playerid )
     cache_get_data( rows, fields );
 	if ( rows )
     {
-        format( szBigString, sizeof( szBigString ), "{FFFFFF}Welcome, this account ("COL_GREEN"%s"COL_WHITE") is registered.\nPlease enter the password to login.\n\n"COL_GREY"If you are not the owner of this account, leave and rejoin with a different nickname.", ReturnPlayerName( playerid ) );
-        ShowPlayerDialog( playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "{FFFFFF}Account - Authentication", szBigString, "Login", "Leave" );
+        format( szBigString, sizeof( szBigString ), "{FFFFFF}欢迎, 此账号 ("COL_GREEN"%s"COL_WHITE") 已注册.\n请输入密码登录.\n\n"COL_GREY"如果这不是你的账号, 请退出并更换昵称后重新连接.", ReturnPlayerName( playerid ) );
+        ShowPlayerDialog( playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "{FFFFFF}账号 - 登录验证", szBigString, "登录", "离开" );
     }
     else
     {
@@ -153,13 +153,13 @@ thread OnPlayerDuplicateAccountCheck( playerid )
 
 	if ( rows > 10 )
 	{
-		SendError( playerid, "Sorry, this IP has more than 10 users registered to it which is the maximum limit of users per IP." );
+		SendError( playerid, "此 IP 注册的账号已达到上限 (10 个), 无法继续注册." );
 		KickPlayerTimed( playerid );
 	}
 	else
 	{
-        format( szBigString, sizeof( szBigString ), "{FFFFFF}Welcome, this account ("COL_RED"%s"COL_WHITE") is not registered.\nPlease enter your desired password for this account.\n\n"COL_GREY"Once you are registered, do not share your password with anyone besides yourself!", ReturnPlayerName( playerid ) );
-        ShowPlayerDialog( playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "{FFFFFF}Account - Register", szBigString, "Register", "Leave" );
+        format( szBigString, sizeof( szBigString ), "{FFFFFF}欢迎, 此账号 ("COL_RED"%s"COL_WHITE") 尚未注册.\n请为此账号设置密码.\n\n"COL_GREY"注册后请妥善保管密码, 不要告诉任何人!", ReturnPlayerName( playerid ) );
+        ShowPlayerDialog( playerid, DIALOG_REGISTER, DIALOG_STYLE_INPUT, "{FFFFFF}账号 - 注册", szBigString, "注册", "离开" );
 	}
 	return 1;
 }
@@ -218,7 +218,7 @@ thread OnAttemptPlayerLogin( playerid, password[ ] )
 
 			if ( iWanted ) {
 				SetPlayerWantedLevel( playerid, iWanted );
-				SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[RESUME]{FFFFFF} Your wanted level has been set to %d as you are resuming your life.", GetPlayerWantedLevel( playerid ) );
+				SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[继续游戏]{FFFFFF} 已恢复你的通缉等级: %d.", GetPlayerWantedLevel( playerid ) );
 			}
 
 			p_AdminLevel[ playerid ] 		= cache_get_field_content_int( 0, "ADMINLEVEL", dbHandle );
@@ -294,7 +294,7 @@ thread OnAttemptPlayerLogin( playerid, password[ ] )
 
 			// anti-cheat
 			if ( p_forcedAnticheat[ playerid ] > 0 && ! IsPlayerUsingSampAC( playerid ) ) {
-				SendError( playerid, "You must install an anticheat to play the server. Visit "COL_GREY""AC_WEBSITE""COL_WHITE" to install the anticheat." );
+				SendError( playerid, "必须安装反作弊客户端才能游戏. 请前往"COL_GREY""AC_WEBSITE""COL_WHITE"安装反作弊客户端." );
 				KickPlayerTimed( playerid );
 				return 1;
 			}
@@ -315,7 +315,7 @@ thread OnAttemptPlayerLogin( playerid, password[ ] )
 			mysql_single_query( sprintf( "UPDATE `USERS` SET `ONLINE`=1 WHERE `ID`=%d", p_AccountID[ playerid ] ) );
 
 			// Log in player
-		  	SendServerMessage( playerid, "You have " COL_GREEN "successfully" COL_WHITE " logged in!" );
+            SendServerMessage( playerid, "你已" COL_GREEN "成功" COL_WHITE "登录!" );
 
 			// Chat Ban Player
 			format( szBigString, sizeof( szBigString ), "SELECT * FROM `CHAT_BANS` WHERE `ID` = '%d' LIMIT 0,1", p_AccountID[ playerid ] );
@@ -324,11 +324,11 @@ thread OnAttemptPlayerLogin( playerid, password[ ] )
 	    else
 	    {
 	        p_IncorrectLogins{ playerid } ++;
-	        format( szBigString, sizeof( szBigString ), "{FFFFFF}Welcome, this account ("COL_GREEN"%s"COL_WHITE") is registered.\nPlease enter the password to login.\n\n"COL_RED"Wrong password! Try again! [%d/3]\n\n"COL_GREY"If you are not the owner of this account, leave and rejoin with a different nickname.", ReturnPlayerName( playerid ), p_IncorrectLogins{ playerid } );
-			ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "{FFFFFF}Account - Login", szBigString, "Login", "Leave");
+	        format( szBigString, sizeof( szBigString ), "{FFFFFF}欢迎, 此账号 ("COL_GREEN"%s"COL_WHITE") 已注册.\n请输入密码登录.\n\n"COL_RED"密码错误! 请重试! [%d/3]\n\n"COL_GREY"如果这不是你的账号, 请退出并更换昵称后重新连接.", ReturnPlayerName( playerid ), p_IncorrectLogins{ playerid } );
+			ShowPlayerDialog(playerid, DIALOG_LOGIN, DIALOG_STYLE_PASSWORD, "{FFFFFF}账号 - 登录", szBigString, "登录", "离开");
 			if ( p_IncorrectLogins{ playerid } >= 3 ) {
 			    p_IncorrectLogins{ playerid } = 0;
-				SendServerMessage( playerid, "You have been kicked for too many incorrect login attempts." );
+				SendServerMessage( playerid, "密码错误次数过多, 你已被踢出服务器." );
 				KickPlayerTimed( playerid );
 			}
 	    }

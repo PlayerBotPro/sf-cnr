@@ -16,8 +16,8 @@
 #include 							< YSI\y_hooks >
 
 /* ** Definitions ** */
-#define EASTEREGG_LABEL 			"[EASTER EGG]"
-#define EASTEREGG_NAME 				"Easter Egg"
+#define EASTEREGG_LABEL 			"[\184;\180;\187;\238;\189;\218;\178;\202;\181;\176;]"
+#define EASTEREGG_NAME 				"\184;\180;\187;\238;\189;\218;\178;\202;\181;\176;"
 #define EASTEREGG_MODEL 			randarg( 19341, 19342, 19343, 19344, 19345 )
 #define MAX_EGGS 					( 6 )
 
@@ -53,15 +53,15 @@ hook OnPlayerUpdateEx( playerid )
 					{
 					    case 0:
 					    {
-					    	szPrize = "a home";
-							AddPlayerNote( playerid, -1, ""COL_GOLD"Treasure Hunt Home" #COL_WHITE );
-					    	SendClientMessage( playerid, -1, ""COL_GOLD"[HOUSE]"COL_GREY" You have won a house, contact a level 5 admin to redeem a house at a favourable location." );
+                            szPrize = "一个家";
+							AddPlayerNote( playerid, -1, ""COL_GOLD"寻宝之家" #COL_WHITE );
+                            SendClientMessage( playerid, -1, ""COL_GOLD"[房屋]"COL_GREY" 你已赢得房屋,请联系 5 级管理员在有利位置兑换房屋." );
 					    }
 					    case 1:
 					    {
-					    	szPrize = "a car";
-							AddPlayerNote( playerid, -1, ""COL_GOLD"Treasure Hunt Car" #COL_WHITE );
-					    	SendClientMessage( playerid, -1, ""COL_GOLD"[CAR]"COL_GREY" You have won a car, contact a level 5 admin to redeem a car of your choice!" );
+                            szPrize = "一辆车";
+							AddPlayerNote( playerid, -1, ""COL_GOLD"寻宝车" #COL_WHITE );
+                            SendClientMessage( playerid, -1, ""COL_GOLD"[汽车]"COL_GREY" 你赢得了一辆汽车,请联系 5 级管理员兑换你选择的汽车!" );
 					    }
 					    case 2:
 					    {
@@ -72,17 +72,17 @@ hook OnPlayerUpdateEx( playerid )
 					    {
 					    	( iCoins = fRandomEx( 75.0, 250.0 ) );
 							GivePlayerIrresistibleCoins( playerid, iCoins );
-					    	format( szPrize, sizeof( szPrize ), "%0.2f coins", iCoins );
+                            format( szPrize, sizeof( szPrize ), "%0.2f 硬币", iCoins );
 					    }
 					}
 
 		            DestroyEasterEgg( easterid );
-		            SendGlobalMessage( -1, ""COL_GOLD""#EASTEREGG_LABEL""COL_WHITE" %s(%d) has found a " #EASTEREGG_NAME " and has won "COL_GOLD"%s{FFFFFF}.", ReturnPlayerName( playerid ), playerid, szPrize );
+		            SendGlobalMessage( -1, ""COL_GOLD""#EASTEREGG_LABEL""COL_WHITE" %s(%d) 已找到 " #EASTEREGG_NAME " 并赢得了 "COL_GOLD"%s{FFFFFF}.", ReturnPlayerName( playerid ), playerid, szPrize );
 
 					if ( !Iter_Count(eastereggs) )
 					{
 					    g_EasterHunt = false;
-						SendClientMessage( playerid, -1, ""COL_PINK"[ADMIN]"COL_GOLD" Treasure Hunt has been de-activated. All " #EASTEREGG_NAME "s were found." );
+						SendClientMessage( playerid, -1, ""COL_PINK"[管理]"COL_GOLD" 寻宝已被停用.全部 " #EASTEREGG_NAME "被发现了." );
 					}
 					break;
 				}
@@ -99,12 +99,12 @@ CMD:treasures( playerid, params[ ] )
 		count = Iter_Count( eastereggs );
 
 	if ( ! g_EasterHunt )
-		return SendError( playerid, "Treasure Hunt isn't activated thus this feature is disabled." );
+		return SendError( playerid, "寻宝活动未激活,因此此功能被禁用." );
 
  	if ( !count ) {
- 		return SendServerMessage( playerid, "There are no " #EASTEREGG_NAME "s currently planted." ), 1;
+        return SendServerMessage( playerid, "没有 " #EASTEREGG_NAME "目前已种植." ), 1;
  	} else {
- 		return SendServerMessage( playerid, "There are %d " #EASTEREGG_NAME "(s) currently planted at the moment.", count ), 1;
+        return SendServerMessage( playerid, "有%d " #EASTEREGG_NAME "(s) 目前已种植.", count ), 1;
  	}
 }
 
@@ -114,7 +114,7 @@ CMD:setegg( playerid, params[ ] )
 		return 0;
 
 	if ( g_EasterHunt )
-		return SendError( playerid, "The " #EASTEREGG_NAME " hunt has already started." );
+		return SendError( playerid, "这 " #EASTEREGG_NAME " 狩猎已经开始了." );
 
 	new
 	    Float: X, Float: Y, Float: Z;
@@ -123,9 +123,9 @@ CMD:setegg( playerid, params[ ] )
 
 	if ( CreateEasterEgg( X, Y, Z ) != -1 ) {
 		AddAdminLogLineFormatted( "%s(%d) has set a " #EASTEREGG_NAME "", ReturnPlayerName( playerid ), playerid );
-		return SendServerMessage( playerid, "Planted " #EASTEREGG_NAME " at your current position." ), 1;
+		return SendServerMessage( playerid, "种植 " #EASTEREGG_NAME " 在你当前的位置." ), 1;
 	} else {
-		return SendError( playerid, "There isn't enough room for another " #EASTEREGG_NAME "." ), 1;
+		return SendError( playerid, "没有足够的空间容纳另一个 " #EASTEREGG_NAME "." ), 1;
 	}
 }
 
@@ -135,7 +135,7 @@ CMD:treasurehunt( playerid, params[ ] )
 		return 0;
 
 	if ( Iter_Count( eastereggs ) < 1 )
-		return SendError( playerid, "There are not enough " #EASTEREGG_NAME "s planted to start the treasure hunt." );
+		return SendError( playerid, "还不够 " #EASTEREGG_NAME "埋伏开始寻宝." );
 
 	// if its false, destroy all egs
 	if ( ( g_EasterHunt = ! g_EasterHunt ) == false )
@@ -146,7 +146,7 @@ CMD:treasurehunt( playerid, params[ ] )
 
     // alert admin log
 	AddAdminLogLineFormatted( "%s(%d) has started a treasurehunt", ReturnPlayerName( playerid ), playerid );
-    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_GOLD" Treasure Hunt has been %s", g_EasterHunt == true ? ("activated, look around for " #EASTEREGG_NAME "s and get a free gift.") : ("de-activated.") );
+    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[管理]"COL_GOLD" 寻宝活动已%s", g_EasterHunt == true ? ("激活,四处寻找 " #EASTEREGG_NAME "并获得一份免费礼物.") : ("已停用.") );
 	return 1;
 }
 

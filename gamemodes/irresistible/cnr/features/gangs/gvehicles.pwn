@@ -59,7 +59,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new facilityid = GetPVarInt( playerid, "gang_vehicle_facility" );
 
 		if ( ! IsValidGangID ( gangid ) || ! Facility_IsValid( facilityid ) ) {
-			return SendError( playerid, "There was an error processing gang vehicles, please try again." );
+			return SendError( playerid, "处理帮派车辆时出错,请重试." );
 		}
 
 		switch ( listitem )
@@ -68,7 +68,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			case 0:
 			{
 				if ( ! Iter_Count( gangvehicles[ gangid ] ) ) {
-					SendError( playerid, "This gang does not have any vehicles purchased." );
+					SendError( playerid, "该团伙没有购买任何车辆." );
 					return ShowPlayerGangVehicleMenu( playerid, facilityid );
 				}
 
@@ -76,22 +76,22 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			}
 
 			// buy vehicle
-			case 1: ShowBuyableVehiclesList( playerid, DIALOG_GANG_VD_CATEGORY, "Back" );
+			case 1: ShowBuyableVehiclesList( playerid, DIALOG_GANG_VD_CATEGORY, "返回" );
 
 			// sell vehicle
 			case 2:
 			{
 				if ( ! Iter_Count( gangvehicles[ gangid ] ) ) {
-					SendError( playerid, "This gang does not have any vehicles purchased." );
+					SendError( playerid, "该团伙没有购买任何车辆." );
 					return ShowPlayerGangVehicleMenu( playerid, facilityid );
 				}
 
 				if ( ! IsPlayerGangLeader( playerid, gangid ) ) {
-					SendError( playerid, "You are not the leader of this gang." );
+					SendError( playerid, "你不是这个帮派的头目." );
 					return ShowPlayerGangVehicleMenu( playerid, facilityid );
 				}
 
-				szBigString = ""COL_WHITE"Vehicle\t"COL_WHITE"Sell Price\n";
+				szBigString = ""COL_WHITE"载具\t"COL_WHITE"售价\n";
 
 				foreach ( new slotid : gangvehicles[ gangid ] )
 				{
@@ -100,7 +100,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					format( szBigString, sizeof( szBigString ), "%s%s\t"COL_GOLD"%s\n", szBigString, GetVehicleName( g_gangVehicleData[ gangid ] [ slotid ] [ E_MODEL ] ), cash_format( sell_price ) );
 				}
-				return ShowPlayerDialog( playerid, DIALOG_GANG_VEHICLE_SELL, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Gang Vehicles - Sell", szBigString, "Sell", "Back" );
+				return ShowPlayerDialog( playerid, DIALOG_GANG_VEHICLE_SELL, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"帮派车辆 - 出售", szBigString, "出售", "返回" );
 			}
 		}
 		return 1;
@@ -111,7 +111,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new facilityid = GetPVarInt( playerid, "gang_vehicle_facility" );
 
 		if ( ! IsValidGangID ( gangid ) || ! Facility_IsValid( facilityid ) ) {
-			return SendError( playerid, "There was an error processing gang vehicles, please try again." );
+			return SendError( playerid, "处理帮派车辆时出错,请重试." );
 		}
 
 		if ( ! response ) {
@@ -126,14 +126,14 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			if ( x == listitem )
 			{
 				if ( ! IsPlayerGangLeader( playerid, gangid ) ) {
-					return SendError( playerid, "You are not the leader of this gang." );
+					return SendError( playerid, "你不是这个帮派的头目." );
 				}
 
 				new
 					sell_price = ( GetBuyableVehiclePrice( g_gangVehicleData[ gangid ] [ slotid ] [ E_MODEL ] ) * GANG_VEHICLE_PRICE_FACTOR ) / 2;
 
 				GiveGangCash( gangid, sell_price );
-				SendServerMessage( playerid, "You have sold %s's %s for "COL_GOLD"%s"COL_WHITE".", g_gangData[ gangid ] [ E_NAME ], GetVehicleName( g_gangVehicleData[ gangid ] [ slotid ] [ E_MODEL ] ), cash_format( sell_price ) );
+				SendServerMessage( playerid, "你已经将 %s 的 %s 卖了 "COL_GOLD"%s"COL_WHITE".", g_gangData[ gangid ] [ E_NAME ], GetVehicleName( g_gangVehicleData[ gangid ] [ slotid ] [ E_MODEL ] ), cash_format( sell_price ) );
 
 				DestroyGangVehicle( gangid, slotid );
 				ShowPlayerGangVehicleMenu( playerid, facilityid );
@@ -157,14 +157,14 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			       	if ( x == listitem )
 			      	{
 			      		SetPVarInt( playerid, "buying_vehicle", id );
-			      		ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
+                        ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
 			      		return 1;
 					}
 			      	x++;
 				}
 			}
 		}
-		return ShowBuyableVehiclesList( playerid, DIALOG_GANG_VD_CATEGORY, "Back" );
+		return ShowBuyableVehiclesList( playerid, DIALOG_GANG_VD_CATEGORY, "返回" );
 	}
 	else if ( dialogid == DIALOG_GANG_VD_OPTIONS )
 	{
@@ -172,7 +172,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new facilityid = GetPVarInt( playerid, "gang_vehicle_facility" );
 
 		if ( ! IsValidGangID ( gangid ) || ! Facility_IsValid( facilityid ) ) {
-			return SendError( playerid, "There was an error processing gang vehicles, please try again." );
+			return SendError( playerid, "处理帮派车辆时出错,请重试." );
 		}
 
 		if ( ! response ) {
@@ -185,16 +185,16 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			case 0:
 			{
 				if ( ! IsPlayerGangLeader( playerid, gangid ) ) {
-					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
-					return SendError( playerid, "You are not the leader of this gang." );
+					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
+					return SendError( playerid, "你不是这个帮派的头目." );
 				}
 
 				new
 					num_vehicles = Iter_Count( gangvehicles[ gangid ] );
 
 				if ( num_vehicles >= MAX_GANG_VEHICLES ) {
-					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
-					return SendError( playerid, "Your gang has reached the gang vehicle limit of %d.", MAX_GANG_VEHICLES );
+					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
+					return SendError( playerid, "你的帮派已达到帮派车辆限制 %d.", MAX_GANG_VEHICLES );
 				}
 
 				new
@@ -204,13 +204,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				if ( g_BuyableVehicleData[ data_id ] [ E_VIP ] )
 				{
 					if ( p_VIPLevel[ playerid ] < VIP_REGULAR ) {
-						ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
-						return SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+						ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
+						return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 					}
 
 					if ( ( ( p_VIPExpiretime[ playerid ] - g_iTime ) / 86400 ) < 3 ) {
-						ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
-						return SendError( playerid, "You need more than 3 days of V.I.P in order to complete this." );
+						ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
+						return SendError( playerid, "你需要超过 3 天的 VIP 才能完成此任务." );
 					}
 				}
 
@@ -219,31 +219,31 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				// Money check
 				if ( GetGangCash( gangid ) < final_price ) {
-					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
-					return SendError( playerid, "Your gang does not have enough money for this vehicle (%s).", cash_format( final_price ) );
+					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
+					return SendError( playerid, "你的团伙没有足够的钱购买这辆车 (%s).", cash_format( final_price ) );
 				}
 
 				new
 					slotid = CreateGangVehicle( gangid, g_BuyableVehicleData[ data_id ] [ E_MODEL ] );
 
 				if ( slotid == ITER_NONE ) {
-					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
-					return SendError( playerid, "Your gang has reached the gang vehicle limit of %d.", MAX_GANG_VEHICLES );
+					ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
+					return SendError( playerid, "你的帮派已达到帮派车辆限制 %d.", MAX_GANG_VEHICLES );
 				}
 
 				GiveGangCash( gangid, -final_price );
 				StockMarket_UpdateEarnings( E_STOCK_VEHICLE_DEALERSHIP, final_price, 0.01 );
 
 				printf( "[gang vehicle] %s(%d) bought %s for %s", ReturnPlayerName( playerid ), GetPlayerAccountID( playerid ), g_BuyableVehicleData[ data_id ] [ E_NAME ], g_gangData[ gangid ] [ E_NAME ] );
-				SendServerMessage( playerid, "You have bought an "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE"!", g_BuyableVehicleData[ data_id ] [ E_NAME ], cash_format( final_price ) );
-				SendServerMessage( playerid, "You can spawn this vehicle using the mechanic at any gang facility.", g_BuyableVehicleData[ data_id ] [ E_NAME ], cash_format( final_price ) );
+				SendServerMessage( playerid, "你已经购买了 "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE"!", g_BuyableVehicleData[ data_id ] [ E_NAME ], cash_format( final_price ) );
+				SendServerMessage( playerid, "你可以使用任何帮派设施的机械师来生成这辆车.", g_BuyableVehicleData[ data_id ] [ E_NAME ], cash_format( final_price ) );
 				return ShowPlayerGangVehicleMenu( playerid, facilityid );
 			}
 
 			// preview
 			case 1:
 			{
-				return ShowPlayerModelPreview( playerid, PREVIEW_MODEL_GVEHICLE, "Gang Vehicle Preview", g_BuyableVehicleData[ GetPVarInt( playerid, "buying_vehicle" ) ] [ E_MODEL ] );
+				return ShowPlayerModelPreview( playerid, PREVIEW_MODEL_GVEHICLE, "帮派车辆预览", g_BuyableVehicleData[ GetPVarInt( playerid, "buying_vehicle" ) ] [ E_MODEL ] );
 			}
 		}
 		return 1;
@@ -254,7 +254,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new facilityid = GetPVarInt( playerid, "gang_vehicle_facility" );
 
 		if ( ! IsValidGangID ( gangid ) || ! Facility_IsValid( facilityid ) ) {
-			return SendError( playerid, "There was an error processing gang vehicles, please try again." );
+			return SendError( playerid, "处理帮派车辆时出错,请重试." );
 		}
 
 		if ( ! response ) {
@@ -269,7 +269,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new facilityid = GetPVarInt( playerid, "gang_vehicle_facility" );
 
 		if ( ! IsValidGangID ( gangid ) || ! Facility_IsValid( facilityid ) ) {
-			return SendError( playerid, "There was an error processing gang vehicles, please try again." );
+			return SendError( playerid, "处理帮派车辆时出错,请重试." );
 		}
 
 		if ( ! response ) {
@@ -285,7 +285,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			{
 				if ( g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] > current_time ) {
 					GangVehicles_ShowSpawnList( playerid, gangid );
-					return SendError( playerid, "This vehicle cannot be spawned for another %s.", secondstotime( g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] - current_time ) );
+					return SendError( playerid, "此载具无法为另一个 %s 生成.", secondstotime( g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] - current_time ) );
 				}
 
 				new
@@ -293,7 +293,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				if ( occupierid != -1 ) {
 					GangVehicles_ShowSpawnList( playerid, gangid );
-					return SendError( playerid, "This vehicle cannot be spawned right now as it is occupied by %s(%d).", ReturnPlayerName( occupierid ), occupierid );
+					return SendError( playerid, "该载具现在无法生成,因为它被 %s(%d) 占用.", ReturnPlayerName( occupierid ), occupierid );
 				}
 
 				new Float: facility_x, Float: facility_y, Float: facility_z, Float: rotation;
@@ -331,7 +331,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			        SetPlayerVirtualWorld( playerid, 0 );
 					PutPlayerInVehicle( playerid, vehicleid, 0 );
 		        } else {
-		        	SendError( playerid, "Could not spawn gang vehicle due to an unexpected error." );
+                    SendError( playerid, "由于意外错误,无法生成帮派车辆." );
 		        }
 				break;
 			}
@@ -361,8 +361,8 @@ hook OnPlayerEndModelPreview( playerid, handleid )
 {
 	if ( handleid == PREVIEW_MODEL_GVEHICLE )
 	{
-		SendServerMessage( playerid, "You have finished looking at the gang vehicle preview." );
-		ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Vehicles - Purchase", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
+		SendServerMessage( playerid, "你已经看完了帮派车辆预览." );
+		ShowPlayerDialog( playerid, DIALOG_GANG_VD_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派车辆 - 购买", "购买这辆车\n预览车", "选择", "返回" );
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
 	return 1;
@@ -481,13 +481,13 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 
 	    	if ( player_gang == gangid )
 	    	{
-				SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[GANG VEHICLE]"COL_WHITE" Welcome to %s's vehicle.", g_gangData[ gangid ] [ E_NAME ] );
+				SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[帮派载具]"COL_WHITE" 欢迎乘坐 %s 的车辆.", g_gangData[ gangid ] [ E_NAME ] );
 				Beep( playerid );
 	    	}
 	    	else if ( ! IsPlayerAdminOnDuty( playerid ) )
 	    	{
 				SyncObject( playerid, 1 ); // Just sets the players position where the vehicle is.
-				SendError( playerid, "This vehicle is restricted to gang members of %s.", g_gangData[ gangid ] [ E_NAME ] );
+				SendError( playerid, "此车辆仅限 %s 帮派成员使用.", g_gangData[ gangid ] [ E_NAME ] );
 	    	}
 	    }
 	}
@@ -646,7 +646,7 @@ stock ShowPlayerGangVehicleMenu( playerid, facilityid )
 {
 	SetPVarInt( playerid, "gang_vehicle_facility", facilityid );
 	SetPVarInt( playerid, "gang_vehicle_gang", GetGangIDFromFacilityID( facilityid ) );
-	ShowPlayerDialog( playerid, DIALOG_GANG_VEHICLE_MENU, DIALOG_STYLE_LIST, ""COL_WHITE"Gang Vehicles", "Spawn Gang Vehicle\nBuy Gang Vehicle\nSell Gang Vehicle", "Select", "Close" );
+	ShowPlayerDialog( playerid, DIALOG_GANG_VEHICLE_MENU, DIALOG_STYLE_LIST, ""COL_WHITE"帮派车辆", "生成帮派车辆\n购买帮派车辆\n出售帮派车辆", "选择", "关闭" );
 	return 1;
 }
 
@@ -655,12 +655,12 @@ static stock GangVehicles_ShowBuyableList( playerid, type_id )
 	static
 		buyable_vehicles[ 1400 ], i;
 
-	for ( i = 0, buyable_vehicles = ""COL_WHITE"Vehicle\t"COL_WHITE"Price ($)\n"; i < sizeof( g_BuyableVehicleData ); i ++ ) if ( g_BuyableVehicleData[ i ] [ E_TYPE ] == type_id ) {
+	for ( i = 0, buyable_vehicles = ""COL_WHITE"载具\t"COL_WHITE"价格($)\n"; i < sizeof( g_BuyableVehicleData ); i ++ ) if ( g_BuyableVehicleData[ i ] [ E_TYPE ] == type_id ) {
 		format( buyable_vehicles, sizeof( buyable_vehicles ), "%s%s%s\t"COL_GREEN"%s\n", buyable_vehicles, g_BuyableVehicleData[ i ] [ E_VIP ] ? ( COL_GOLD ) : ( COL_WHITE ), g_BuyableVehicleData[ i ] [ E_NAME ], cash_format( g_BuyableVehicleData[ i ] [ E_PRICE ] * GANG_VEHICLE_PRICE_FACTOR ) );
 	}
 
 	SetPVarInt( playerid, "vehicle_preview", type_id );
-	return ShowPlayerDialog( playerid, DIALOG_GANG_VD_BUY, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Vehicle Dealership", buyable_vehicles, "Select", "Back" );
+	return ShowPlayerDialog( playerid, DIALOG_GANG_VD_BUY, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}汽车经销店", buyable_vehicles, "选择", "返回" );
 }
 
 stock GetGangVehicleData( vehicleid, &gangid, &slotid ) {
@@ -677,16 +677,16 @@ static stock GangVehicles_ShowSpawnList( playerid, gangid ) {
 	new
 		current_time = GetServerTime( );
 
-	szLargeString = ""COL_WHITE"Vehicle\t"COL_WHITE"Availablity\n";
+	szLargeString = ""COL_WHITE"载具\t"COL_WHITE"可用性\n";
 
 	foreach ( new slotid : gangvehicles[ gangid ] )
 	{
 		format( szLargeString, sizeof( szLargeString ), "%s%s\t%s\n", szLargeString,
 			GetVehicleName( g_gangVehicleData[ gangid ] [ slotid ] [ E_MODEL ] ),
-			g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] > current_time ? ( secondstotime( g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] - current_time ) ) : ( COL_GREEN # "Available" )
+			g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] > current_time ? ( secondstotime( g_gangVehicleData[ gangid ] [ slotid ] [ E_ACTIVATION_TIME ] - current_time ) ) : ( COL_GREEN # "可用的" )
 		);
 	}
-	return ShowPlayerDialog( playerid, DIALOG_GANG_VEHICLE_SPAWN, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Gang Vehicles - Spawn", szLargeString, "Select", "Close" );
+	return ShowPlayerDialog( playerid, DIALOG_GANG_VEHICLE_SPAWN, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"帮派车辆 - 生成", szLargeString, "选择", "关闭" );
 }
 /* ** Migrations ** */
 /*

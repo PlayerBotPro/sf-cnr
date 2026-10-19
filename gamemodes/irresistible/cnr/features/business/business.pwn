@@ -93,10 +93,10 @@ enum E_BUSINESS_VEHICLE_DATA
 new
 	g_businessInteriorData 			[ 4 ] [ E_BUSINESS_INT_DATA ] =
 	{
-		{ "Weed",	 -1719.1877, -1377.3049, 5874.8721, -1734.094, -1374.4567, 5874.1475, 10000, 6, MAX_WEED_AMOUNT, 2500000,  -1741.97705, -1380.14294, 5873.60009, -90.00000 }, // 12
-		{ "Meth",	 2040.54810, 1011.41470, 1513.2777, 2029.2456, 1003.55200, 1510.2416, 18000, 8, MAX_METH_AMOUNT, 4000000,	2031.918945, 1000.044006, 1509.69104, 180.00000 }, // 16
-		{ "Coke",  	 2566.50070, -1273.2887, 1143.7203, 2558.5261, -1290.6298, 1143.7242, 50000, 10, MAX_COKE_AMOUNT, 7500000,	2555.145019, -1314.12695, 1143.17395, 180.00000 }, // 20
-		{ "Weapons", -6962.5542, -269.4713, 836.5154, -6969.2417, -248.1167, 836.5154, 125000, 24, MAX_WEAPON_AMOUNT, 16000000, -6942.84814, -246.391998, 836.989990, 90.000000 } // 48
+		{ "大麻",	 -1719.1877, -1377.3049, 5874.8721, -1734.094, -1374.4567, 5874.1475, 10000, 6, MAX_WEED_AMOUNT, 2500000,  -1741.97705, -1380.14294, 5873.60009, -90.00000 }, // 12
+		{ "冰毒",	 2040.54810, 1011.41470, 1513.2777, 2029.2456, 1003.55200, 1510.2416, 18000, 8, MAX_METH_AMOUNT, 4000000,	2031.918945, 1000.044006, 1509.69104, 180.00000 }, // 16
+		{ "可卡因",  	 2566.50070, -1273.2887, 1143.7203, 2558.5261, -1290.6298, 1143.7242, 50000, 10, MAX_COKE_AMOUNT, 7500000,	2555.145019, -1314.12695, 1143.17395, 180.00000 }, // 20
+		{ "武器", -6962.5542, -269.4713, 836.5154, -6969.2417, -248.1167, 836.5154, 125000, 24, MAX_WEAPON_AMOUNT, 16000000, -6942.84814, -246.391998, 836.989990, 90.000000 } // 48
 	},
 	g_businessCarModelData[ ] [ E_BUSINESS_VEHICLE_DATA ] =
 	{
@@ -233,7 +233,7 @@ hook OnServerUpdate( )
 
 			// alert any associates
 			foreach ( new p : Player ) if ( IsBusinessAssociate( p, businessid ) )  {
-				SendClientMessageFormatted( p, -1, ""COL_GREY"[BUSINESS]"COL_WHITE" Production has completed for "COL_GREY"%s"COL_WHITE".", g_businessData[ businessid ] [ E_NAME ] );
+				SendClientMessageFormatted( p, -1, ""COL_GREY"[企业]"COL_WHITE" 生产已完成: "COL_GREY"%s"COL_WHITE".", g_businessData[ businessid ] [ E_NAME ] );
 			}
 
 			// update db
@@ -268,19 +268,19 @@ hook OnVehicleDeath( vehicleid, killerid )
 				GivePlayerCash( attackerid, payout );
 				if ( p_Class[ attackerid ] != CLASS_POLICE ) GivePlayerWantedLevel( attackerid, 6 ), GivePlayerExperience( attackerid, E_ROBBERY );
 				else GivePlayerExperience( attackerid, E_POLICE );
-				SendGlobalMessage( -1, ""COL_GREY"[BUSINESS]"COL_WHITE" %s(%d) has destroyed a business vehicle and earned "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( attackerid ), attackerid, cash_format( payout ) );
+				SendGlobalMessage( -1, ""COL_GREY"[企业]"COL_WHITE" %s(%d) 摧毁了一辆企业载具, 获得"COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( attackerid ), attackerid, cash_format( payout ) );
 			}
 			else
 			{
 				if ( IsPlayerConnected( killerid ) ) {
-					if ( IsBusinessAssociate( killerid, businessid ) ) SendGlobalMessage( -1, ""COL_GREY"[BUSINESS]"COL_WHITE" %s(%d)'s business vehicle with "COL_GOLD"%s"COL_WHITE" in inventory got destroyed!", ReturnPlayerName( killerid ), killerid, cash_format( g_businessData[ businessid ] [ E_EXPORT_VALUE ] * ( MAX_DROPS - g_businessData[ businessid ] [ E_EXPORTED_AMOUNT ] ) ) );
+					if ( IsBusinessAssociate( killerid, businessid ) ) SendGlobalMessage( -1, ""COL_GREY"[企业]"COL_WHITE" %s(%d) 的企业载具被摧毁, 损失库存: "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( killerid ), killerid, cash_format( g_businessData[ businessid ] [ E_EXPORT_VALUE ] * ( MAX_DROPS - g_businessData[ businessid ] [ E_EXPORTED_AMOUNT ] ) ) );
 					else
 					{
 						GivePlayerScore( killerid, 2 );
 						GivePlayerCash( killerid, payout );
 						if ( p_Class[ killerid ] != CLASS_POLICE ) GivePlayerWantedLevel( killerid, 6 ), GivePlayerExperience( killerid, E_ROBBERY );
 						else GivePlayerExperience( killerid, E_POLICE ), StockMarket_UpdateEarnings( E_STOCK_GOVERNMENT, payout, 0.05 );
-						SendGlobalMessage( -1, ""COL_GREY"[BUSINESS]"COL_WHITE" %s(%d) has destroyed a business vehicle and earned "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( killerid ), killerid, cash_format( payout ) );
+						SendGlobalMessage( -1, ""COL_GREY"[企业]"COL_WHITE" %s(%d) 摧毁了一辆企业载具, 获得"COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( killerid ), killerid, cash_format( payout ) );
 					}
 				}
 			}
@@ -307,30 +307,30 @@ hook OnPlayerAttemptBreakIn( playerid, houseid, businessid )
 		new crackpw_cooldown = GetPVarInt( playerid, "crack_biz_cool" );
 
 		if ( crackpw_cooldown > current_time ) {
-			return SendError( playerid, "You are unable to attempt a house break-in for %d seconds.", crackpw_cooldown - current_time ), 0;
+			return SendError( playerid, "你需要等待 %d 秒才能再次尝试入室盗窃.", crackpw_cooldown - current_time ), 0;
 		}
 
 		if ( g_iTime > g_businessData[ businessid ] [ E_CRACKED_TS ] && g_businessData[ businessid ] [ E_CRACKED ] ) g_businessData[ businessid ] [ E_CRACKED ] = false; // The Virus Is Disabled.
 
 		if ( IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You are an associate of this business, you cannot crack it." );
+			return SendError( playerid, "你是此企业的成员, 无法破解密码." );
 
 		if ( g_businessData[ businessid ] [ E_CRACKED_WAIT ] > g_iTime )
-		    return SendError( playerid, "This house had its password recently had a cracker run through. Come back later." );
+		    return SendError( playerid, "此处的密码刚被尝试破解过, 请稍后再来." );
 
 		if ( g_businessData[ businessid ] [ E_CRACKED ] || g_businessData[ businessid ] [ E_BEING_CRACKED ] )
-		    return SendError( playerid, "This house is currently being cracked or is already cracked." );
+		    return SendError( playerid, "此处的密码正在破解或已被破解." );
 
 		// alert
 		foreach ( new ownerid : Player ) if ( IsBusinessAssociate( ownerid, businessid ) ) {
-			SendClientMessageFormatted( ownerid, -1, ""COL_RED"[BURGLARY]"COL_WHITE" %s(%d) is attempting to break into your business %s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, g_businessData[ businessid ] [ E_NAME ] );
+			SendClientMessageFormatted( ownerid, -1, ""COL_RED"[入室盗窃]"COL_WHITE" %s(%d) 正试图闯入你的企业 %s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, g_businessData[ businessid ] [ E_NAME ] );
 		}
 
 		// crack pw
         g_businessData[ businessid ] [ E_BEING_CRACKED ] = true;
         SetPVarInt( playerid, "crackpw_biz", businessid );
         SetPVarInt( playerid, "crack_biz_cool", current_time + 40 );
-		ShowProgressBar( playerid, "Cracking Password", PROGRESS_CRACKING_BIZ, 7500, COLOR_WHITE );
+		ShowProgressBar( playerid, "正在破解密码", PROGRESS_CRACKING_BIZ, 7500, COLOR_WHITE );
 	}
 	return 1;
 }
@@ -362,11 +362,11 @@ hook OnProgressCompleted( playerid, progressid, params )
 		if ( random( 100 ) < 75 )
 		{
 			foreach ( new ownerid : Player ) if ( IsBusinessAssociate( ownerid, businessid ) ) {
-				SendClientMessageFormatted( ownerid, -1, ""COL_RED"[BURGLARY]"COL_WHITE" %s(%d) has broken into your business %s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, g_businessData[ businessid ] [ E_NAME ] );
+				SendClientMessageFormatted( ownerid, -1, ""COL_RED"[入室盗窃]"COL_WHITE" %s(%d) 闯入了你的企业 %s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, g_businessData[ businessid ] [ E_NAME ] );
 			}
 			g_businessData[ businessid ] [ E_CRACKED ] = true;
 		   	g_businessData[ businessid ] [ E_CRACKED_TS ] = g_iTime + 180;
-			SendServerMessage( playerid, "You have successfully cracked this business' password. It will not be accessible in 3 minutes." );
+			SendServerMessage( playerid, "你成功破解了企业密码. 入口将在 3 分钟后关闭." );
 			GivePlayerWantedLevel( playerid, 12 );
 			GivePlayerScore( playerid, 2 );
 			//GivePlayerExperience( playerid, E_BURGLAR );
@@ -375,11 +375,11 @@ hook OnProgressCompleted( playerid, progressid, params )
 		else
 		{
 			foreach ( new ownerid : Player ) if ( IsBusinessAssociate( ownerid, businessid ) ) {
-				SendClientMessageFormatted( ownerid, -1, ""COL_RED"[BURGLARY]"COL_WHITE" %s(%d) failed to break in business %s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, g_businessData[ businessid ] [ E_NAME ] );
+				SendClientMessageFormatted( ownerid, -1, ""COL_RED"[入室盗窃]"COL_WHITE" %s(%d) 未能闯入企业 %s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, g_businessData[ businessid ] [ E_NAME ] );
 			}
 			GetZoneFromCoordinates( szLocation, g_businessData[ businessid ] [ E_X ], g_businessData[ businessid ] [ E_Y ], g_businessData[ businessid ] [ E_Z ] );
-			SendClientMessageToCops( -1, ""COL_BLUE"[BURGLARY]"COL_WHITE" %s has failed to crack a business' password near %s.", ReturnPlayerName( playerid ), szLocation );
-			SendClientMessage( playerid, -1, ""COL_GREY"[SERVER]"COL_WHITE" You have failed to crack this business' password." );
+			SendClientMessageToCops( -1, ""COL_BLUE"[入室盗窃]"COL_WHITE" %s 在 %s 附近破解企业密码失败.", ReturnPlayerName( playerid ), GetLocationDisplayName(szLocation) );
+			SendClientMessage( playerid, -1, ""COL_GREY"[服务器]"COL_WHITE" 你未能破解此企业的密码." );
 			GivePlayerWantedLevel( playerid, 6 );
 			CreateCrimeReport( playerid );
 		}
@@ -393,7 +393,7 @@ CMD:b( playerid, params[ ] ) return cmd_business( playerid, params );
 CMD:business( playerid, params[ ] )
 {
 	if ( ! IsPlayerSecurityVerified( playerid ) )
-		return SendError( playerid, "You must be verified in order to use this feature. "COL_YELLOW"(use /verify)" );
+		return SendError( playerid, "使用此功能需要先验证账号. "COL_YELLOW"(输入 /verify)" );
 
 	new
 		iBusiness = p_InBusiness[ playerid ];
@@ -403,33 +403,33 @@ CMD:business( playerid, params[ ] )
 		new
 			bool: has = false;
 
-		szHugeString = ""COL_WHITE"Name\t"COL_WHITE"Production Time\t"COL_WHITE"Product\t"COL_WHITE"Bank\n";
+		szHugeString = ""COL_WHITE"名称\t"COL_WHITE"生产时间\t"COL_WHITE"产品\t"COL_WHITE"账户余额\n";
 
 		foreach ( new businessid : business ) if ( IsBusinessAssociate( playerid, businessid ) )
 		{
 			format( szHugeString, sizeof( szHugeString ), "%s%s\t%s\t"COL_GOLD"%s\t"COL_GREEN"%s\n",
 				szHugeString, g_businessData[ businessid ] [ E_NAME ],
-				g_businessData[ businessid ] [ E_PROD_TIMESTAMP ] ? ( secondstotime( g_businessData[ businessid ] [ E_PROD_TIMESTAMP ], ", ", 5 ) ) : ( ""COL_GREEN"Production Finished" ),
-				g_businessData[ businessid ] [ E_PRODUCT ] == 0 ? ( ""COL_RED"No Product" ) : ( cash_format( g_businessData[ businessid ] [ E_PRODUCT ] * GetProductPrice( businessid ) ) ),
+				g_businessData[ businessid ] [ E_PROD_TIMESTAMP ] ? ( secondstotime( g_businessData[ businessid ] [ E_PROD_TIMESTAMP ], ", ", 5 ) ) : ( ""COL_GREEN"生产完成" ),
+				g_businessData[ businessid ] [ E_PRODUCT ] == 0 ? ( ""COL_RED"无产品" ) : ( cash_format( g_businessData[ businessid ] [ E_PRODUCT ] * GetProductPrice( businessid ) ) ),
 				cash_format( g_businessData[ businessid ][ E_BANK ] )
 			), has = true;
 		}
 
 		if ( ! has ) {
-			return SendError( playerid, "You cannot use this command since you don't own any businesses." );
+			return SendError( playerid, "你没有企业, 无法使用此命令." );
 		} else {
-			return ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Business Production", szHugeString, "Close", "" );
+			return ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"企业生产", szHugeString, "关闭", "" );
 		}
 	}
 	else if ( strmatch( params, "spawn" ))
 	{
-		SendServerMessage( playerid, "We have changed the command to simply "COL_GREY"/spawn"COL_WHITE"." );
+		SendServerMessage( playerid, "此命令已改为"COL_GREY"/spawn"COL_WHITE"." );
 		return ShowPlayerSpawnMenu( playerid );
 	}
 	if ( strmatch( params, "buy" ) )
 	{
-		if ( p_OwnedBusinesses[ playerid ] >= GetPlayerBusinessSlots( playerid ) ) return SendError( playerid, "You cannot purchase any more businesses, you've reached the limit." );
-		if ( GetPlayerScore( playerid ) < 1000 ) return SendError( playerid, "You need at least 1,000 score to buy a business." );
+		if ( p_OwnedBusinesses[ playerid ] >= GetPlayerBusinessSlots( playerid ) ) return SendError( playerid, "你的企业数量已达到上限, 无法继续购买." );
+		if ( GetPlayerScore( playerid ) < 1000 ) return SendError( playerid, "购买企业需要至少 1,000 分数." );
 
 		foreach ( new b : business )
 		{
@@ -438,26 +438,26 @@ CMD:business( playerid, params[ ] )
 			    if ( ! g_businessData[ b ] [ E_OWNER_ID ] )
 			    {
 			        if ( GetPlayerCash( playerid ) < g_businessData[ b ] [ E_COST ] )
-						return SendError( playerid, "You don't have enough money to purchase this business." );
+						return SendError( playerid, "你的钱不足以购买此企业." );
 
 					p_OwnedBusinesses[ playerid ] ++;
 					g_businessData[ b ] [ E_OWNER_ID ] = p_AccountID[ playerid ];
 					UpdateBusinessData( b );
 					UpdateBusinessTitle( b );
 					GivePlayerCash( playerid, -( g_businessData[ b ] [ E_COST ] ) );
-					SendClientMessageFormatted( playerid, -1, ""COL_GREY"[BUSINESS]"COL_WHITE" You have bought this business for "COL_GOLD"%s"COL_WHITE".", cash_format( g_businessData[ b ] [ E_COST ] ) );
+					SendClientMessageFormatted( playerid, -1, ""COL_GREY"[企业]"COL_WHITE" 你购买了此企业, 花费"COL_GOLD"%s"COL_WHITE".", cash_format( g_businessData[ b ] [ E_COST ] ) );
 					return 1;
 				}
-			    else return SendError( playerid, "This business isn't for sale." );
+			    else return SendError( playerid, "此企业未挂牌出售." );
 			}
 		}
-		SendError( playerid, "You are not near any business entrances." );
+		SendError( playerid, "你不在任何企业入口附近." );
 		return 1;
 	}
 	else if ( strmatch( params, "sell" ) )
 	{
-		if ( iBusiness == -1 ) return SendError( playerid, "You are not in any business." );
-		else if ( g_businessData[ iBusiness ] [ E_OWNER_ID ] != p_AccountID[ playerid ] ) return SendError( playerid, "You are not the owner of this business." );
+		if ( iBusiness == -1 ) return SendError( playerid, "你不在任何企业内." );
+		else if ( g_businessData[ iBusiness ] [ E_OWNER_ID ] != p_AccountID[ playerid ] ) return SendError( playerid, "你不是此企业的所有者." );
 		else
 		{
 			new
@@ -465,20 +465,20 @@ CMD:business( playerid, params[ ] )
 
 			SetPVarInt( playerid, "biz_sell_id", iBusiness );
 
-			ShowPlayerDialog( playerid, DIALOG_BUSINESS_SELL_CONFIRM, DIALOG_STYLE_MSGBOX, ""COL_WHITE"Sell Business", sprintf( ""COL_WHITE"Are you sure you want to sell this business for "COL_GOLD"%s"COL_WHITE"?", cash_format( iCashMoney ) ), "Sell", "Cancel" );
+			ShowPlayerDialog( playerid, DIALOG_BUSINESS_SELL_CONFIRM, DIALOG_STYLE_MSGBOX, ""COL_WHITE"出售企业", sprintf( ""COL_WHITE"确定以以下价格出售此企业吗? "COL_GOLD"%s"COL_WHITE"?", cash_format( iCashMoney ) ), "出售", "取消" );
 		}
 		return 1;
 	}
 	else if ( strmatch( params, "leave" ) )
 	{
-		if ( iBusiness == -1 ) return SendError( playerid, "You are not in any business." );
-		else if ( g_businessData[ iBusiness ] [ E_OWNER_ID ] == p_AccountID[ playerid ] ) return SendError( playerid, "This command is only for your business members." );
-		else if ( ! IsBusinessAssociate( playerid, iBusiness ) ) return SendError( playerid, "You're not an associate of this business" );
+		if ( iBusiness == -1 ) return SendError( playerid, "你不在任何企业内." );
+		else if ( g_businessData[ iBusiness ] [ E_OWNER_ID ] == p_AccountID[ playerid ] ) return SendError( playerid, "只有企业成员可以使用此命令." );
+		else if ( ! IsBusinessAssociate( playerid, iBusiness ) ) return SendError( playerid, "你不是此企业的成员." );
 		else
 		{
 			// alert business members
 			foreach (new i : Player) if ( IsBusinessAssociate( i, iBusiness ) ) {
-				SendClientMessageFormatted( i, -1, ""COL_GREY"[BUSINESS]"COL_WHITE" %s(%d) has left "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_businessData[ iBusiness ] [ E_NAME ] );
+				SendClientMessageFormatted( i, -1, ""COL_GREY"[企业]"COL_WHITE" %s(%d) 已离开"COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_businessData[ iBusiness ] [ E_NAME ] );
 			}
 
 			// nullify user
@@ -552,8 +552,8 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 
 				// message people
 				g_businessData[ businessid ] [ E_EXPORT_STARTED ] = 1;
-				ShowPlayerHelpDialog( playerid, 5000, "Drop the drugs off on the flag blips of your radar." );
-				SendGlobalMessage( COLOR_GREY, "[BUSINESS]"COL_WHITE" %s(%d) has begun transporting "COL_GOLD"%s"COL_WHITE" of business product!", ReturnPlayerName( playerid ), playerid, cash_format( g_businessData[ businessid ] [ E_EXPORT_VALUE ] * ( MAX_DROPS - g_businessData[ businessid ] [ E_EXPORTED_AMOUNT ] ) ) );
+				ShowPlayerHelpDialog( playerid, 5000, "请前往雷达上旗帜标记处交付毒品." );
+				SendGlobalMessage( COLOR_GREY, "[企业]"COL_WHITE" %s(%d) 已开始运输"COL_GOLD"%s"COL_WHITE"的企业产品!", ReturnPlayerName( playerid ), playerid, cash_format( g_businessData[ businessid ] [ E_EXPORT_VALUE ] * ( MAX_DROPS - g_businessData[ businessid ] [ E_EXPORTED_AMOUNT ] ) ) );
 			}
 		}
 	}
@@ -579,7 +579,7 @@ hook OnPlayerEnterDynArea( playerid, areaid )
 			if ( IsBusinessAerialVehicle( businessid, modelid ) && IsBusinessAssociate( playerid, businessid ) )
 			{
 				for ( new i = 0; i < 2; i ++ ) if ( areaid == g_businessData[ businessid ] [ E_EXPORT_CIRCLE ] [ i ] ) {
-					ShowPlayerHelpDialog( playerid, 5000, "~y~~h~Press ~k~~PED_FIREWEAPON~ to drop off the drugs!" );
+					ShowPlayerHelpDialog( playerid, 5000, "~y~~h~按 ~k~~PED_FIREWEAPON~ 交付毒品!" );
 				}
 			}
 		}
@@ -605,7 +605,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 				if ( g_businessData[ businessid ] [ E_EXPORT_CP ] [ i ] == checkpointid )
 				{
 					if ( g_businessData[ businessid ] [ E_EXPORTED ] [ i ] )
-						return SendError( playerid, "This location has already been sold product recently." );
+						return SendError( playerid, "此地点刚收到过货物, 请换个地点." );
 
 					// count drugs exported
 					SellBusinessProduct( playerid, businessid, i );
@@ -648,13 +648,13 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 						//	finalZ = g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ];
 
 						if ( playerZ - g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ] < 20.0 )
-							return SendError( playerid, "You need to be HIGHER to drop off the drugs (%0.1f metres).", 20.0 - ( playerZ - g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ] ) );
+							return SendError( playerid, "请飞得更高才能投放毒品 (还需 %0.1f 米).", 20.0 - ( playerZ - g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ] ) );
 
 						if ( playerZ - g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ] > 100.0 )
-							return SendError( playerid, "You need to be LOWER to drop off the drugs (%0.1f metres).", 100.0 - ( playerZ - g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ] ) );
+							return SendError( playerid, "请飞得更低才能投放毒品 (还需 %0.1f 米).", 100.0 - ( playerZ - g_airBusinessExportData[ city ] [ drop_off_index ] [ 2 ] ) );
 
 						if ( g_businessData[ businessid ] [ E_EXPORTED ] [ i ] )
-							return SendError( playerid, "This location has already been sold product recently." );
+							return SendError( playerid, "此地点刚收到过货物, 请换个地点." );
 
 						// create temporary bag object
 						tempObject = CreateDynamicObject( 18849, g_airBusinessExportData[ city ] [ drop_off_index ] [ 0 ], g_airBusinessExportData[ city ] [ drop_off_index ] [ 1 ], playerZ + 2.0, 0.0, 0.0, 0.0 );
@@ -683,7 +683,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			iBusiness = GetPVarInt( playerid, "biz_sell_id" );
 
 		if ( ! Iter_Contains( business, iBusiness ) || ! IsBusinessAssociate( playerid, iBusiness ) ) {
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 		}
 
 		new
@@ -700,7 +700,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		
 		GivePlayerCash( playerid, iCashMoney + iBankMoney );
 		SetPlayerPosEx( playerid, g_businessData[ iBusiness ] [ E_X ], g_businessData[ iBusiness ] [ E_Y ], g_businessData[ iBusiness ] [ E_Z ], 0 ), SetPlayerVirtualWorld( playerid, 0 );
-		SendServerMessage( playerid, "You have successfully sold your business for "COL_GOLD"%s"COL_WHITE" and withdrawn "COL_GOLD"%i"COL_WHITE" from the business bank.", cash_format( iCashMoney ), cash_format( iBankMoney ) );
+		SendServerMessage( playerid, "你已出售企业, 获得"COL_GOLD"%s"COL_WHITE", 并取出"COL_GOLD"%i"COL_WHITE"的企业账户资金.", cash_format( iCashMoney ), cash_format( iBankMoney ) );
 
 		DeletePVar( playerid, "biz_sell_id" );
 		return 1;
@@ -720,7 +720,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		       	if ( x == listitem )
 		      	{
 	        		SetPlayerSpawnLocation( playerid, "BIZ", b );
-				 	SendServerMessage( playerid, "Business spawning has been set at "COL_GREY"%s"COL_WHITE".", g_businessData[ b ] [ E_NAME ] );
+                    SendServerMessage( playerid, "企业出生点已设置为"COL_GREY"%s"COL_WHITE".", g_businessData[ b ] [ E_NAME ] );
 				 	break;
 	      		}
 		      	x ++;
@@ -734,7 +734,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		new
 			business_type = g_businessData[ businessid ] [ E_INTERIOR_TYPE ];
@@ -742,10 +742,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		switch ( listitem )
 		{
 			// rename business
-			case 0: ShowPlayerDialog( playerid, DIALOG_BUSINESS_NAME, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", sprintf( ""COL_WHITE"The current business name is %s\n\n"COL_WHITE"Enter below the new name for it", g_businessData[ businessid ] [ E_NAME ] ), "Update", "Back" );
+			case 0: ShowPlayerDialog( playerid, DIALOG_BUSINESS_NAME, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", sprintf( ""COL_WHITE"当前企业名称: %s\n\n"COL_WHITE"请在下方输入新名称", g_businessData[ businessid ] [ E_NAME ] ), "更新", "返回" );
 
 			// bank account
-			case 1: ShowPlayerDialog( playerid, DIALOG_BUSINESS_WITHDRAW, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", sprintf( ""COL_WHITE"Enter the amount that you are willing to withdraw from your business bank account.\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( g_businessData[ businessid ] [ E_BANK ] ) ), "Withdraw", "Back" );
+			case 1: ShowPlayerDialog( playerid, DIALOG_BUSINESS_WITHDRAW, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", sprintf( ""COL_WHITE"请输入从企业账户提取的金额.\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( g_businessData[ businessid ] [ E_BANK ] ) ), "取款", "返回" );
 
 			// add members
 			case 2: ShowBusinessMembers( playerid, businessid );
@@ -757,15 +757,15 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					prod = GetProductPrice( businessid, true ), prod_hardened = GetProductPrice( businessid, false );
 
 				format( szBigString, sizeof( szBigString ),
-					""COL_WHITE"Your business has %d product\t \nSell Product Locally\t%s%s\nSell Product Nationally\t%s%s",
+					""COL_WHITE"企业共有 %d 件产品\t \n本地销售\t%s%s\n全国销售\t%s%s",
 					g_businessData[ businessid ] [ E_PRODUCT ], prod > g_businessInteriorData[ business_type ] [ E_COST_PRICE ] ? ( COL_GREEN ) : ( COL_RED ),
 					cash_format( prod ), prod_hardened > g_businessInteriorData[ business_type ] [ E_COST_PRICE ] ? ( COL_GREEN ) : ( COL_RED ), cash_format( prod_hardened )
 				);
-				ShowPlayerDialog( playerid, DIALOG_BUSINESS_SELL, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"Business System", szBigString, "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_BUSINESS_SELL, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"企业系统", szBigString, "选择", "返回" );
 			}
 
 			// buy stock
-			case 4: ShowPlayerDialog( playerid, DIALOG_BUSINESS_BUY, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"Business System", sprintf( ""COL_WHITE"Your business has %d supplies\t \nBuy Supply\t%s\nSteal Supplies\t"COL_YELLOW"FREE", g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( GetResupplyPrice( business_type ) ) ), "Select", "Back" );
+			case 4: ShowPlayerDialog( playerid, DIALOG_BUSINESS_BUY, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"企业系统", sprintf( ""COL_WHITE"企业共有 %d 份原料\t \n购买原料\t%s\n抢夺原料\t"COL_YELLOW"免费", g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( GetResupplyPrice( business_type ) ) ), "选择", "返回" );
 
 			// upgrade
 			case 5: ShowBusinessUpgrades( playerid, businessid );
@@ -805,7 +805,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessTerminal( playerid );
@@ -821,7 +821,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			// upgrade car
 			case 0:
 			{
-				szLargeString = ""COL_WHITE"Vehicle\t"COL_WHITE"Cost\n";
+				szLargeString = ""COL_WHITE"载具\t"COL_WHITE"费用\n";
 
 				for ( new i = 0; i < sizeof( g_businessCarModelData ); i ++ )
 				{
@@ -829,81 +829,81 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					format( szLargeString, sizeof( szLargeString ), "%s%s%s\t"COL_GOLD"%s\n", szLargeString, is_unlocked ? ( COL_LGREEN ) : ( "" ), g_businessCarModelData[ i ] [ E_NAME ], cash_format( g_businessCarModelData[ i ] [ E_COST ] ) );
 				}
 
-				return ShowPlayerDialog( playerid, DIALOG_BUSINESS_CAR, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"Business System", szLargeString, "Purchase", "Back" );
+				return ShowPlayerDialog( playerid, DIALOG_BUSINESS_CAR, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"企业系统", szLargeString, "购买", "返回" );
 			}
 
 			// upgrade heli
 			case 1:
 			{
-				szLargeString = ""COL_WHITE"Vehicle\t"COL_WHITE"Cost\n";
+				szLargeString = ""COL_WHITE"载具\t"COL_WHITE"费用\n";
 
 				for ( new i = 0; i < sizeof( g_businessAirModelData ); i ++ ) {
 					new vehicle_model_index = g_businessAirModelData[ i ] [ E_ID ], bool: is_unlocked = ( 0 <= vehicle_model_index < MAX_BIZ_VEH_MODELS ) ? ( g_businessVehicleUnlocked[ businessid ] { vehicle_model_index } ) : false;
 					format( szLargeString, sizeof( szLargeString ), "%s%s%s\t"COL_GOLD"%s\n", szLargeString, is_unlocked ? ( COL_LGREEN ) : ( "" ), g_businessAirModelData[ i ] [ E_NAME ], cash_format( g_businessAirModelData[ i ] [ E_COST ] ) );
 				}
 
-				return ShowPlayerDialog( playerid, DIALOG_BUSINESS_HELI, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"Business System", szLargeString, "Purchase", "Back" );
+				return ShowPlayerDialog( playerid, DIALOG_BUSINESS_HELI, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"企业系统", szLargeString, "购买", "返回" );
 			}
 
 			// upgrade staff
 			case 2:
 			{
 				if ( g_businessData[ businessid ] [ E_UPGRADES ] )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "Your business production has been already upgraded." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "企业生产已升级." );
 
 				if ( GetPlayerCash( playerid ) < g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You don't have enough money to upgrade this business (%s).", cash_format( g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] ) );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "你的钱不足以升级此企业 (%s).", cash_format( g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] ) );
 
 				CreateBusinessActors( businessid );
 				g_businessData[ businessid ] [ E_UPGRADES ] = 1;
 				GivePlayerCash( playerid, - g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] );
 				mysql_single_query( sprintf( "UPDATE `BUSINESSES` SET `UPGRADES`=1 WHERE `ID`=%d", businessid ) );
-				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "You have upgraded business production for "COL_GOLD"%s"COL_WHITE".", cash_format( g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] ) );
+				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "你已升级企业生产, 花费"COL_GOLD"%s"COL_WHITE".", cash_format( g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] ) );
 			}
 
 			// upgrade slots
 			case 3:
 			{
 				if ( g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] >= 4 )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You have maximized the number of business member slots." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "企业成员名额已达到上限." );
 
 				if ( GetPlayerCash( playerid ) < 500000 )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You don't have enough money to buy an additional member slot ($500,000)." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "购买额外成员名额需要 $500,000, 你的钱不够." );
 
 				GivePlayerCash( playerid, -500000 );
 				g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] ++;
 				mysql_single_query( sprintf( "UPDATE `BUSINESSES` SET `EXTRA_MEMBERS`=%d WHERE `ID`=%d", g_businessData[ businessid ] [ E_EXTRA_MEMBERS ], businessid ) );
-				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "You have bought an additional member slot for "COL_GOLD"$500,000"COL_WHITE"." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "你已购买额外成员名额, 花费"COL_GOLD"$500,000"COL_WHITE"." );
 			}
 
 			// nos
 			case 4:
 			{
 				if ( g_businessData[ businessid ] [ E_CAR_NOS ] )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You have already purchased business car nitrous." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "企业载具已安装氮气." );
 
 				if ( GetPlayerCash( playerid ) < 250000 )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You don't have enough money to buy business car nitrous ($250,000)." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "安装企业载具氮气需要 $250,000, 你的钱不够." );
 
 				GivePlayerCash( playerid, -250000 );
 				g_businessData[ businessid ] [ E_CAR_NOS ] = true;
 				mysql_single_query( sprintf( "UPDATE `BUSINESSES` SET `HAS_NOS`=1 WHERE `ID`=%d", businessid ) );
-				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "You have bought nitrous for "COL_GOLD"$250,000"COL_WHITE"." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "你已购买氮气, 花费"COL_GOLD"$250,000"COL_WHITE"." );
 			}
 
 			// rims
 			case 5:
 			{
 				if ( g_businessData[ businessid ] [ E_CAR_RIMS ] )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You have already purchased gold rims for the business vehicle." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "企业载具已安装金色轮毂." );
 
 				if ( GetPlayerCash( playerid ) < 250000 )
-					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You don't have enough money to buy gold rims ($250,000)." );
+					return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "购买金色轮毂需要 $250,000, 你的钱不够." );
 
 				GivePlayerCash( playerid, -250000 );
 				g_businessData[ businessid ] [ E_CAR_RIMS ] = true;
 				mysql_single_query( sprintf( "UPDATE `BUSINESSES` SET `HAS_RIMS`=1 WHERE `ID`=%d", businessid ) );
-				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "You have bought gold rims for "COL_GOLD"$250,000"COL_WHITE"." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendServerMessage( playerid, "你已购买金色轮毂, 花费"COL_GOLD"$250,000"COL_WHITE"." );
 			}
 		}
 		return 1;
@@ -914,7 +914,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessUpgrades( playerid, businessid );
@@ -925,10 +925,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		if ( vehicle_model_index != -1 && vehicle_model_index < MAX_BIZ_VEH_MODELS && ! g_businessVehicleUnlocked[ businessid ] { vehicle_model_index } )
 		{
 			if ( GetPlayerCash( playerid ) < g_businessAirModelData[ listitem ] [ E_COST ] )
-				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You cannot afford this vehicle." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "你买不起此载具." );
 
 			if ( g_businessAirModelData[ listitem ] [ E_COST ] == 1337 && ! ( p_AccountID[ playerid ] == 314783 || p_AccountID[ playerid ] == 13 || p_AccountID[ playerid ] == 341204 || p_AccountID[ playerid ] == 30 || p_AccountID[ playerid ] == 479950 || p_AccountID[ playerid ] == 25 || p_AccountID[ playerid ] == 1 ) )
-				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You did not contribute enough to the crowdfund to use this feature." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "你的众筹出资不足, 无法使用此功能." );
 
 			g_businessVehicleUnlocked[ businessid ] { vehicle_model_index } = true;
 			GivePlayerCash( playerid, -g_businessAirModelData[ listitem ] [ E_COST ] );
@@ -938,7 +938,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		g_businessData[ businessid ] [ E_HELI_MODEL_ID ] = g_businessAirModelData[ listitem ] [ E_MODEL ];
 
 		foreach (new p : Player) if ( IsBusinessAssociate( p, businessid ) ) {
-			SendClientMessageFormatted( p, COLOR_GREY, "[BUSINESS]"COL_WHITE" %s(%d) has upgraded the business air vehicle to a "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_businessAirModelData[ listitem ] [ E_NAME ] );
+			SendClientMessageFormatted( p, COLOR_GREY, "[企业]"COL_WHITE" %s(%d) 将企业航空载具升级为"COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_businessAirModelData[ listitem ] [ E_NAME ] );
 		}
 
 		mysql_single_query( sprintf( "UPDATE `BUSINESSES` SET `AIR_MODEL`=%d WHERE `ID`=%d", g_businessAirModelData[ listitem ] [ E_MODEL ], businessid ) );
@@ -950,7 +950,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessUpgrades( playerid, businessid );
@@ -961,10 +961,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		if ( vehicle_model_index != -1 && vehicle_model_index < MAX_BIZ_VEH_MODELS && ! g_businessVehicleUnlocked[ businessid ] { vehicle_model_index } )
 		{
 			if ( GetPlayerCash( playerid ) < g_businessCarModelData[ listitem ] [ E_COST ] )
-				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You cannot afford this vehicle." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "你买不起此载具." );
 
 			if ( g_businessCarModelData[ listitem ] [ E_COST ] == 1337 && ! ( p_AccountID[ playerid ] == 314783 || p_AccountID[ playerid ] == 13 || p_AccountID[ playerid ] == 341204 || p_AccountID[ playerid ] == 30 || p_AccountID[ playerid ] == 479950 || p_AccountID[ playerid ] == 25 || p_AccountID[ playerid ] == 1 ) )
-				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "You did not contribute enough to the crowdfund to use this feature." );
+				return ShowBusinessUpgrades( playerid, businessid ), SendError( playerid, "你的众筹出资不足, 无法使用此功能." );
 
 			g_businessVehicleUnlocked[ businessid ] { vehicle_model_index } = true;
 			GivePlayerCash( playerid, -g_businessCarModelData[ listitem ] [ E_COST ] );
@@ -974,7 +974,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		g_businessData[ businessid ] [ E_CAR_MODEL_ID ] = g_businessCarModelData[ listitem ] [ E_MODEL ];
 
 		foreach (new p : Player) if ( IsBusinessAssociate( p, businessid ) ) {
-			SendClientMessageFormatted( p, COLOR_GREY, "[BUSINESS]"COL_WHITE" %s(%d) has upgraded the business car to a "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_businessCarModelData[ listitem ] [ E_NAME ] );
+			SendClientMessageFormatted( p, COLOR_GREY, "[企业]"COL_WHITE" %s(%d) 将企业汽车升级为"COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_businessCarModelData[ listitem ] [ E_NAME ] );
 		}
 
 		mysql_single_query( sprintf( "UPDATE `BUSINESSES` SET `CAR_MODEL`=%d WHERE `ID`=%d", g_businessCarModelData[ listitem ] [ E_MODEL ], businessid ) );
@@ -986,7 +986,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( ! Iter_Contains( business, businessid ) || g_businessData[ businessid ] [ E_OWNER_ID ] != p_AccountID[ playerid ] )
-			return SendError( playerid, "You must be the owner of the business to use this feature." );
+			return SendError( playerid, "只有企业所有者可以使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessTerminal( playerid );
@@ -994,18 +994,18 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new
 			iWithdraw;
 
-	    if ( sscanf( inputtext, "d", iWithdraw ) ) SendError( playerid, "Invalid amount specified." );
-        else if ( iWithdraw > 99999999 || iWithdraw < 0 ) SendError( playerid, "Invalid amount specified." );
-        else if ( iWithdraw > g_businessData[ businessid ] [ E_BANK ] ) SendError( playerid, "The business bank account does not have this much money." );
+	    if ( sscanf( inputtext, "d", iWithdraw ) ) SendError( playerid, "指定的金额无效." );
+        else if ( iWithdraw > 99999999 || iWithdraw < 0 ) SendError( playerid, "指定的金额无效." );
+        else if ( iWithdraw > g_businessData[ businessid ] [ E_BANK ] ) SendError( playerid, "企业账户余额不足." );
         else
         {
             g_businessData[ businessid ] [ E_BANK ] -= iWithdraw;
             GivePlayerCash( playerid, iWithdraw );
             UpdateBusinessData( businessid );
             UpdateBusinessProductionLabel( businessid );
-            SendServerMessage( playerid, "You have withdrawn %s from your business account.", cash_format( iWithdraw ) );
+            SendServerMessage( playerid, "你从企业账户取出了 %s.", cash_format( iWithdraw ) );
         }
-		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_WITHDRAW, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", sprintf( ""COL_WHITE"Enter the amount that you are willing to withdraw from your business bank account.\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( g_businessData[ businessid ] [ E_BANK ] ) ), "Withdraw", "Back" );
+		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_WITHDRAW, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", sprintf( ""COL_WHITE"请输入从企业账户提取的金额.\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( g_businessData[ businessid ] [ E_BANK ] ) ), "取款", "返回" );
 	}
 	else if ( dialogid == DIALOG_BUSINESS_MEMBERS )
 	{
@@ -1013,13 +1013,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( ! Iter_Contains( business, businessid ) || g_businessData[ businessid ] [ E_OWNER_ID ] != p_AccountID[ playerid ] )
-			return SendError( playerid, "You must be the owner of the business to use this feature." );
+			return SendError( playerid, "只有企业所有者可以使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessTerminal( playerid );
 
 		if ( listitem == 0 )
-			return ShowPlayerDialog( playerid, DIALOG_BUSINESS_ADD_MEMBER, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", ""COL_WHITE"Type the name of the player you wish to add as a member.", "Add", "Back" );
+			return ShowPlayerDialog( playerid, DIALOG_BUSINESS_ADD_MEMBER, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", ""COL_WHITE"请输入要添加为成员的玩家名称.", "添加", "返回" );
 
 		for( new i, x = 1; i < MAX_BUSINESS_MEMBERS; i ++ )
 		{
@@ -1032,7 +1032,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
       				}
 		      		// alert player if online
 		      		foreach (new p : Player) if ( g_businessData[ businessid ] [ E_MEMBERS ] [ i ] == p_AccountID[ p ] ) {
-		      			SendServerMessage( p, "You have been removed as a member of "COL_GREY"%s"COL_WHITE".", g_businessData[ businessid ] [ E_NAME ] );
+                        SendServerMessage( p, "你已被移出企业: "COL_GREY"%s"COL_WHITE".", g_businessData[ businessid ] [ E_NAME ] );
 		      			break;
 		      		}
 
@@ -1041,7 +1041,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 		      		// save
 		      		UpdateBusinessData( businessid ), UpdateBusinessTitle( businessid );
-		      		SendServerMessage( playerid, "You have removed a member from the business." );
+                    SendServerMessage( playerid, "你已从企业中移除一名成员." );
 				 	break;
 	      		}
 		      	x ++;
@@ -1057,7 +1057,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( ! Iter_Contains( business, businessid ) || g_businessData[ businessid ] [ E_OWNER_ID ] != p_AccountID[ playerid ] )
-			return SendError( playerid, "You must be the owner of the business to use this feature." );
+			return SendError( playerid, "只有企业所有者可以使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessTerminal( playerid );
@@ -1065,9 +1065,9 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new
 			memberid;
 
-		if ( sscanf( inputtext, "u", memberid ) ) SendError( playerid, "Specify a name or id of the player you wish to add as a business member." );
-		else if ( ! IsPlayerConnected( memberid ) || IsPlayerNPC( memberid ) ) SendError( playerid, "The player specified is not connected." );
-		else if ( p_OwnedBusinesses[ memberid ] >= GetPlayerBusinessSlots( memberid ) )  SendError( playerid, "This player cannot be added to any more businesses." );
+		if ( sscanf( inputtext, "u", memberid ) ) SendError( playerid, "指定你想要添加为企业会员的玩家的姓名或 ID." );
+		else if ( ! IsPlayerConnected( memberid ) || IsPlayerNPC( memberid ) ) SendError( playerid, "指定的玩家不在线." );
+		else if ( p_OwnedBusinesses[ memberid ] >= GetPlayerBusinessSlots( memberid ) )  SendError( playerid, "此玩家加入的企业数量已达到上限." );
 		else
 		{
 			new
@@ -1080,15 +1080,15 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			}
 
 			// proceed
-			if ( slotid == -1 ) SendError( playerid, "The business has reached the maximum number of members." );
-			else if ( IsBusinessAssociate( memberid, businessid ) ) SendError( playerid, "This member is already apart of your organization." );
+			if ( slotid == -1 ) SendError( playerid, "此企业的成员人数已达到上限." );
+			else if ( IsBusinessAssociate( memberid, businessid ) ) SendError( playerid, "此玩家已经是企业成员." );
 			else
 			{
 				new
 					current_members = GetBusinessAssociates( businessid ) - 1; // not including owner
 
 				if ( current_members >= 4 + g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] )
-					return SendError( playerid, "You must pay to add more than %d members.", 4 + g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] );
+					return SendError( playerid, "成员超过 %d 人时需要购买额外名额.", 4 + g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] );
 
 				// add member in
 				p_OwnedBusinesses[ memberid ] ++;
@@ -1096,14 +1096,14 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				// alert and save
 				foreach (new i : Player) if ( IsBusinessAssociate( i, businessid ) ) {
-					SendClientMessageFormatted( i, -1, ""COL_GREY"[BUSINESS]"COL_WHITE" %s(%d) has been added as a member to "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( memberid ), memberid, g_businessData[ businessid ] [ E_NAME ] );
+					SendClientMessageFormatted( i, -1, ""COL_GREY"[企业]"COL_WHITE" %s(%d) 已被添加为企业成员: "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( memberid ), memberid, g_businessData[ businessid ] [ E_NAME ] );
 				}
 
 		     	UpdateBusinessData( businessid ), UpdateBusinessTitle( businessid );
 				return ShowBusinessMembers( playerid, businessid );
 			}
 		}
-		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_ADD_MEMBER, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", ""COL_WHITE"Type the name of the player you wish to add as a member.", "Add", "Back" );
+		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_ADD_MEMBER, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", ""COL_WHITE"请输入要添加为成员的玩家名称.", "添加", "返回" );
 	}
 	else if ( dialogid == DIALOG_BUSINESS_NAME )
 	{
@@ -1111,22 +1111,22 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessTerminal( playerid );
 
 		if ( textContainsIP( inputtext ) )
-			return SendError( playerid, "We do not condone advertising." );
+			return SendError( playerid, "禁止发布广告." );
 
 		if ( ! ( 3 <= strlen( inputtext ) <= 32 ) ) {
-			SendError( playerid, "Please make sure your business name is between 3 and 32 characters." );
+			SendError( playerid, "企业名称长度必须为 3 至 32 个字符." );
 		} else {
 			format( g_businessData[ businessid ] [ E_NAME ], 32, "%s", inputtext );
 			UpdateBusinessData( businessid ), UpdateBusinessTitle( businessid );
-			SendServerMessage( playerid, "The business name has now been set to "COL_GREY"%s"COL_WHITE".", g_businessData[ businessid ] [ E_NAME ] );
+			SendServerMessage( playerid, "企业名称已设置为"COL_GREY"%s"COL_WHITE".", g_businessData[ businessid ] [ E_NAME ] );
 		}
-		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_NAME, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", sprintf( ""COL_WHITE"The current business name is %s\n\n"COL_WHITE"Enter below the new name for it", g_businessData[ businessid ] [ E_NAME ] ), "Update", "Back" );
+		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_NAME, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", sprintf( ""COL_WHITE"当前企业名称: %s\n\n"COL_WHITE"请在下方输入新名称", g_businessData[ businessid ] [ E_NAME ] ), "更新", "返回" );
 	}
 	else if ( dialogid == DIALOG_BUSINESS_SELL )
 	{
@@ -1134,7 +1134,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		if ( ! response )
 			return ShowBusinessTerminal( playerid );
@@ -1143,10 +1143,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			current_product_levels = g_businessData[ businessid ] [ E_PRODUCT ];
 
 		if ( current_product_levels - MAX_DROPS < 0 )
-			return SendError( playerid, "Your business needs %d more product to allow for distribution.", MAX_DROPS - current_product_levels );
+			return SendError( playerid, "企业还需 %d 件产品才能开始销售.", MAX_DROPS - current_product_levels );
 
 		if ( g_businessData[ businessid ] [ E_EXPORT_STARTED ] )
-			return SendError( playerid, "Product exporting has already started for the business." );
+			return SendError( playerid, "企业已开始出口产品." );
 
 	   	// destroy preexisting shit incase
 	   	StopBusinessExportMission( businessid );
@@ -1183,7 +1183,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			businessid = p_InBusiness[ playerid ];
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN || ! Iter_Contains( business, businessid ) || ! IsBusinessAssociate( playerid, businessid ) )
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 
 		new
 			business_type = g_businessData[ businessid ] [ E_INTERIOR_TYPE ];
@@ -1197,25 +1197,25 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					if ( ! g_businessData[ businessid ] [ E_PROD_TIMESTAMP ] ) {
 						return StartBusinessDrugProduction( businessid );
 					} else {
-						return ShowBusinessTerminal( playerid ), SendError( playerid, "The business met the limit of %d supplies.", g_businessInteriorData[ business_type ] [ E_MAX_SUPPLIES ] );
+						return ShowBusinessTerminal( playerid ), SendError( playerid, "企业原料已达到 %d 份的上限.", g_businessInteriorData[ business_type ] [ E_MAX_SUPPLIES ] );
 					}
 				}
 
 				if ( g_businessData[ businessid ] [ E_PROD_TIMESTAMP ] )
-					return ShowBusinessTerminal( playerid ), SendError( playerid, "You cannot resupply the business as it is currently in its production phase." );
+					return ShowBusinessTerminal( playerid ), SendError( playerid, "企业正在生产, 暂时无法补充原料." );
 
 				// buy with cash
 				new
 					price = GetResupplyPrice( business_type );
 
 				if ( GetPlayerCash( playerid ) < price  )
-					return ShowBusinessTerminal( playerid ), SendError( playerid, "You don't have enough money to resupply your business." );
+					return ShowBusinessTerminal( playerid ), SendError( playerid, "你的钱不足以补充企业原料." );
 
 				if ( g_businessData[ businessid ] [ E_PRODUCT ] >= g_businessInteriorData[ business_type ] [ E_MAX_SUPPLIES ] * 3 )
-					return ShowBusinessTerminal( playerid ), SendError( playerid, "Your business has too much product that has not been exported yet." );
+					return ShowBusinessTerminal( playerid ), SendError( playerid, "企业积压了过多尚未出口的产品." );
 
 				if ( g_businessData[ businessid ] [ E_EXPORT_STARTED ] )
-					return SendError( playerid, "Supplies cannot be purchased when you have begun an exporting mission." );
+					return SendError( playerid, "出口任务开始后无法购买原料." );
 
 				// commence
 				GivePlayerCash( playerid, -price );
@@ -1223,7 +1223,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				UpdateBusinessProductionLabel( businessid );
 
 				// alert and redirect
-				SendServerMessage( playerid, "You have bought business supplies for "COL_GOLD"%s"COL_WHITE". "COL_ORANGE"(%d/%d)", cash_format( price ), g_businessData[ businessid ] [ E_SUPPLIES ],  g_businessInteriorData[ business_type ] [ E_MAX_SUPPLIES ] );
+				SendServerMessage( playerid, "你已购买企业原料, 花费"COL_GOLD"%s"COL_WHITE". "COL_ORANGE"(%d/%d)", cash_format( price ), g_businessData[ businessid ] [ E_SUPPLIES ],  g_businessInteriorData[ business_type ] [ E_MAX_SUPPLIES ] );
 
 				// start prod if viable
 				StartBusinessDrugProduction( businessid );
@@ -1231,10 +1231,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			case 1:
 			{
 				ShowBusinessTerminal( playerid );
-				SendError( playerid, "This feature is currently under construction." );
+				SendError( playerid, "此功能正在开发中." );
 			}
 		}
-		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_BUY, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"Business System", sprintf( ""COL_WHITE"Your business has %d supplies\t \nBuy Supply\t%s\nSteal Supplies\t"COL_YELLOW"FREE", g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( GetResupplyPrice( business_type ) ) ), "Select", "Back" ), 1;
+		return ShowPlayerDialog( playerid, DIALOG_BUSINESS_BUY, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GREY"企业系统", sprintf( ""COL_WHITE"企业共有 %d 份原料\t \n购买原料\t%s\n抢夺原料\t"COL_YELLOW"免费", g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( GetResupplyPrice( business_type ) ) ), "选择", "返回" ), 1;
 	}
 	return 1;
 }
@@ -1278,14 +1278,14 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 			if ( checkpointid == g_businessData[ b ] [ E_ENTER_CP ] )
 			{
 				if ( p_Class[ playerid ] != CLASS_CIVILIAN )
-					return SendError( playerid, "You must be a civilian to access this business." );
+					return SendError( playerid, "只有平民可以进入此企业." );
 
 				if ( g_iTime > g_businessData[ b ] [ E_CRACKED_TS ] && g_businessData[ b ] [ E_CRACKED ] )
 					g_businessData[ b ] [ E_CRACKED ] = false; // The Virus Is Disabled.
 
 				if ( ! g_businessData[ b ] [ E_CRACKED ] && ! IsBusinessAssociate( playerid, b ) ) {
 					CallLocalFunction( "OnPlayerAttemptBreakIn", "ddd", playerid, -1, b ); // attempting a break in as a burglar/cop
-					return SendError( playerid, "You cannot access this business as you are not an associate of it." );
+					return SendError( playerid, "你不是此企业的成员, 无法进入." );
 				}
 
 				new
@@ -1403,7 +1403,7 @@ thread OnBusinessVehicleLoad( businessid )
 thread OnUpdateBusinessTitle( businessid )
 {
 	new
-		rows, szOwner[ MAX_PLAYER_NAME ] = "No-one", associates = GetBusinessAssociates( businessid );
+		rows, szOwner[ MAX_PLAYER_NAME ] = "无人", associates = GetBusinessAssociates( businessid );
 
 	cache_get_data( rows, tmpVariable );
 
@@ -1419,7 +1419,7 @@ thread OnUpdateBusinessTitle( businessid )
 	}*/
 
 	// update business title
-	format( szBigString, sizeof( szBigString ), ""COL_GOLD"%s Business:"COL_WHITE" %s(%d)\n"COL_GOLD"Owner:"COL_WHITE" %s\n"COL_GOLD"Price:"COL_WHITE" %s\n"COL_GOLD"Members:"COL_WHITE" %d", g_businessInteriorData[ biz_type ] [ E_NAME ], g_businessData[ businessid ] [ E_NAME ], businessid, szOwner, cash_format( g_businessData[ businessid ] [ E_COST ] ), associates );
+	format( szBigString, sizeof( szBigString ), ""COL_GOLD"%s 企业:"COL_WHITE" %s(%d)\n"COL_GOLD"所有者:"COL_WHITE" %s\n"COL_GOLD"价格:"COL_WHITE" %s\n"COL_GOLD"成员:"COL_WHITE" %d", g_businessInteriorData[ biz_type ] [ E_NAME ], g_businessData[ businessid ] [ E_NAME ], businessid, szOwner, cash_format( g_businessData[ businessid ] [ E_COST ] ), associates );
 	UpdateDynamic3DTextLabelText( g_businessData[ businessid ] [ E_ENTER_LABEL ], COLOR_GOLD, szBigString );
 	return 1;
 }
@@ -1469,7 +1469,7 @@ stock CreateBusiness( iAccountID, const szBusiness[ 32 ], iPrice, iType, Float: 
     	}
 
 		// production label
-		g_businessData[ iBusiness ] [ E_PROD_LABEL ] = CreateDynamic3DTextLabel( "... Loading ...", COLOR_GOLD, g_businessInteriorData[ iType ] [ E_PROD_X ], g_businessInteriorData[ iType ] [ E_PROD_Y ], g_businessInteriorData[ iType ] [ E_PROD_Z ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_businessData[ iBusiness ] [ E_WORLD ], g_businessData[ iBusiness ] [ E_INTERIOR_TYPE ] + 20 );
+		g_businessData[ iBusiness ] [ E_PROD_LABEL ] = CreateDynamic3DTextLabel( "... 加载中 ...", COLOR_GOLD, g_businessInteriorData[ iType ] [ E_PROD_X ], g_businessInteriorData[ iType ] [ E_PROD_Y ], g_businessInteriorData[ iType ] [ E_PROD_Z ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_businessData[ iBusiness ] [ E_WORLD ], g_businessData[ iBusiness ] [ E_INTERIOR_TYPE ] + 20 );
 		UpdateBusinessProductionLabel( iBusiness );
 
 		// add a private vehicle!
@@ -1483,9 +1483,9 @@ stock CreateBusiness( iAccountID, const szBusiness[ 32 ], iPrice, iType, Float: 
 		g_businessData[ iBusiness ] [ E_ENTER_CP ] = CreateDynamicCP( fX, fY, fZ, 1.0, -1, 0, -1, 100.0 );
 		g_businessData[ iBusiness ] [ E_EXIT_CP ] = CreateDynamicCP( g_businessInteriorData[ iType ] [ E_X ], g_businessInteriorData[ iType ] [ E_Y ], g_businessInteriorData[ iType ] [ E_Z ], 1.0, g_businessData[ iBusiness ] [ E_WORLD ], g_businessData[ iBusiness ] [ E_INTERIOR_TYPE ] + 20, -1, 100.0 );
 
-		format( szBigString, sizeof( szBigString ), ""COL_GOLD"%s Business:"COL_WHITE" %s(%d)\n"COL_GOLD"Owner:"COL_WHITE" No-one\n"COL_GOLD"Price:"COL_WHITE" %s\n"COL_GOLD"Members:"COL_WHITE" 0", g_businessInteriorData[ iType ] [ E_NAME ], szBusiness, iBusiness, cash_format( g_businessData[ iBusiness ] [ E_COST ] ) );
+		format( szBigString, sizeof( szBigString ), ""COL_GOLD"%s 企业:"COL_WHITE" %s(%d)\n"COL_GOLD"所有者:"COL_WHITE" 无人\n"COL_GOLD"价格:"COL_WHITE" %s\n"COL_GOLD"成员:"COL_WHITE" 0", g_businessInteriorData[ iType ] [ E_NAME ], szBusiness, iBusiness, cash_format( g_businessData[ iBusiness ] [ E_COST ] ) );
 	    g_businessData[ iBusiness ] [ E_ENTER_LABEL ] = CreateDynamic3DTextLabel( szBigString, COLOR_GOLD, fX, fY, fZ, 20.0 );
-		g_businessData[ iBusiness ] [ E_EXIT_LABEL ] = CreateDynamic3DTextLabel( "[EXIT]", COLOR_GOLD, g_businessInteriorData[ iType ] [ E_X ], g_businessInteriorData[ iType ] [ E_Y ], g_businessInteriorData[ iType ] [ E_Z ], 20.0 );
+		g_businessData[ iBusiness ] [ E_EXIT_LABEL ] = CreateDynamic3DTextLabel( "[出口]", COLOR_GOLD, g_businessInteriorData[ iType ] [ E_X ], g_businessInteriorData[ iType ] [ E_Y ], g_businessInteriorData[ iType ] [ E_Z ], 20.0 );
 
 	    // just incase, reset variables
 	    StopBusinessExportMission( iBusiness );
@@ -1513,7 +1513,7 @@ stock DestroyBusiness( businessid )
 
 	if ( IsPlayerConnected( playerid ) ) {
 		p_OwnedBusinesses[ playerid ] --;
-	    SendClientMessage( playerid, -1, ""COL_PINK"[BUSINESS]"COL_WHITE" One of your businesses has been destroyed.");
+	    SendClientMessage( playerid, -1, ""COL_PINK"[企业]"COL_WHITE" 你的一家企业已被摧毁.");
 	}
 
 	mysql_single_query( sprintf( "DELETE FROM `BUSINESSES` WHERE `ID`=%d", businessid ) );
@@ -1602,7 +1602,7 @@ stock StartBusinessDrugProduction( businessid )
 
 		// alert players
 		foreach (new i : Player) if ( IsBusinessAssociate( i, businessid ) ) {
-			SendClientMessageFormatted( i, -1, ""COL_GREY"[BUSINESS]"COL_WHITE" Supply levels for "COL_GREY"%s"COL_WHITE" have replenished. Production will commence.", g_businessData[ businessid ] [ E_NAME ] );
+			SendClientMessageFormatted( i, -1, ""COL_GREY"[企业]"COL_WHITE" 企业原料已补充: "COL_GREY"%s"COL_WHITE", 即将开始生产.", g_businessData[ businessid ] [ E_NAME ] );
 		}
 	}
 	return 1;
@@ -1699,9 +1699,9 @@ stock UpdateBusinessProductionLabel( businessid )
 
 	// check if its processing
 	if ( g_businessData[ businessid ] [ E_PROD_TIMESTAMP ] ) {
-		format( szBigString, sizeof( szBigString ), ""COL_GREEN"Bank:"COL_WHITE" %s\n"COL_GREEN"Product:"COL_WHITE" %d (%s)\n"COL_GREEN"Supplies:"COL_WHITE" %d (%s)\n"COL_ORANGE"%s until production finishes", cash_format( g_businessData[ businessid ] [ E_BANK ] ), g_businessData[ businessid ] [ E_PRODUCT ], cash_format( prod_price ), g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( supply_price ), secondstotime( g_businessData[ businessid ] [ E_PROD_TIMESTAMP ], ", ", 5 ) );
+		format( szBigString, sizeof( szBigString ), ""COL_GREEN"账户:"COL_WHITE" %s\n"COL_GREEN"产品:"COL_WHITE" %d (%s)\n"COL_GREEN"原料:"COL_WHITE" %d (%s)\n"COL_ORANGE"距离生产完成还有 %s", cash_format( g_businessData[ businessid ] [ E_BANK ] ), g_businessData[ businessid ] [ E_PRODUCT ], cash_format( prod_price ), g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( supply_price ), secondstotime( g_businessData[ businessid ] [ E_PROD_TIMESTAMP ], ", ", 5 ) );
 	} else {
-		format( szBigString, sizeof( szBigString ), ""COL_GREEN"Bank:"COL_WHITE" %s\n"COL_GREEN"Product:"COL_WHITE" %d (%s)\n"COL_GREEN"Supplies:"COL_WHITE" %d (%s)\n"COL_GREEN"Production finished", cash_format( g_businessData[ businessid ] [ E_BANK ] ), g_businessData[ businessid ] [ E_PRODUCT ], cash_format( prod_price ), g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( supply_price ) );
+		format( szBigString, sizeof( szBigString ), ""COL_GREEN"账户:"COL_WHITE" %s\n"COL_GREEN"产品:"COL_WHITE" %d (%s)\n"COL_GREEN"原料:"COL_WHITE" %d (%s)\n"COL_GREEN"生产完成", cash_format( g_businessData[ businessid ] [ E_BANK ] ), g_businessData[ businessid ] [ E_PRODUCT ], cash_format( prod_price ), g_businessData[ businessid ] [ E_SUPPLIES ], cash_format( supply_price ) );
 	}
 
 	// update label
@@ -1775,22 +1775,22 @@ stock ShowBusinessTerminal( playerid )
 		businessid = p_InBusiness[ playerid ];
 
 	if ( ! Iter_Contains( business, businessid ) )
-		return SendError( playerid, "The server can't detect what business you're in. Re-enter the facility." );
+		return SendError( playerid, "无法识别你所在的企业, 请重新进入设施." );
 
 	if ( ! IsBusinessAssociate( playerid, businessid ) )
-		return SendError( playerid, "You're not an associate of this business." );
+		return SendError( playerid, "你不是此企业的成员." );
 
 	new
 		members = GetBusinessAssociates( businessid );
 
-	format( szBigString, sizeof( szBigString ), "Rename Business\t"COL_GREY"%s\nWithdraw Bank Money\t"COL_GREY"%s\nManage Members\t"COL_GREY"%d %s\nSell Inventory\t"COL_GREY"%d product\nResupply Business\t"COL_GREY"%d %s\nBusiness Upgrades\t ",
+	format( szBigString, sizeof( szBigString ), "重命名企业\t"COL_GREY"%s\n提取账户资金\t"COL_GREY"%s\n管理成员\t"COL_GREY"%d %s\n出售库存\t"COL_GREY"%d 件产品\n补充企业原料\t"COL_GREY"%d %s\n企业升级\t ",
 			g_businessData[ businessid ] [ E_NAME ],
 			cash_format( g_businessData[ businessid ] [ E_BANK ] ),
-			members, members == 1 ? ( "member" ) : ( "members" ),
+			members, members == 1 ? ( "成员" ) : ( "成员" ),
 			g_businessData[ businessid ] [ E_PRODUCT ],
-			g_businessData[ businessid ] [ E_SUPPLIES ], g_businessData[ businessid ] [ E_SUPPLIES ] == 1 ? ( "supply" ) : ( "supplies" )
+			g_businessData[ businessid ] [ E_SUPPLIES ], g_businessData[ businessid ] [ E_SUPPLIES ] == 1 ? ( "原料" ) : ( "原料" )
 	);
-	return ShowPlayerDialog( playerid, DIALOG_BUSINESS_TERMINAL, DIALOG_STYLE_TABLIST, ""COL_GREY"Business System", szBigString, "Select", "Cancel" );
+	return ShowPlayerDialog( playerid, DIALOG_BUSINESS_TERMINAL, DIALOG_STYLE_TABLIST, ""COL_GREY"企业系统", szBigString, "选择", "取消" );
 }
 
 stock ShowBusinessUpgrades( playerid, businessid )
@@ -1801,16 +1801,16 @@ stock ShowBusinessUpgrades( playerid, businessid )
 	/*format( szBigString, sizeof( szBigString ), "Security Level\t%s\nUpgrade Car\t"COL_GREY"%s\nUpgrade Air Vehicle\t"COL_GREY"%s\n",
 		g_businessSecurityData[  g_businessData[ businessid ] [ E_SECURITY_LEVEL ] ] [ E_LEVEL ], GetVehicleName( g_businessData[ businessid ] [ E_CAR_MODEL_ID ] ), GetVehicleName( g_businessData[ businessid ] [ E_HELI_MODEL_ID ] ) );*/
 
-	format( szBigString, sizeof( szBigString ), "Upgrade Car\t"COL_GREY"%s\nUpgrade Air Vehicle\t"COL_GREY"%s\n",
+	format( szBigString, sizeof( szBigString ), "升级汽车\t"COL_GREY"%s\n升级航空载具\t"COL_GREY"%s\n",
 		GetVehicleName( g_businessData[ businessid ] [ E_CAR_MODEL_ID ] ), GetVehicleName( g_businessData[ businessid ] [ E_HELI_MODEL_ID ] ) );
 
-	format( szBigString, sizeof( szBigString ), "%sUpgrade Production\t"COL_GREEN"%s\nAdd Member Slot\t"COL_GREEN"%s\n", szBigString,
-		g_businessData[ businessid ] [ E_UPGRADES ] >= 1 ? ( "MAXED" ) : ( cash_format( g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] ) ), g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] >= 4 ? ( "MAXED" ) : ( "$500,000" ) );
+	format( szBigString, sizeof( szBigString ), "%s升级生产\t"COL_GREEN"%s\n增加成员名额\t"COL_GREEN"%s\n", szBigString,
+		g_businessData[ businessid ] [ E_UPGRADES ] >= 1 ? ( "最大" ) : ( cash_format( g_businessInteriorData[ business_type ] [ E_UPGRADE_COST ] ) ), g_businessData[ businessid ] [ E_EXTRA_MEMBERS ] >= 4 ? ( "最大" ) : ( "$500,000" ) );
 
-	format( szBigString, sizeof( szBigString ), "%sAdd Nitrous To Car\t"COL_GREEN"%s\nAdd Gold Rims\t"COL_GREEN"%s\n", szBigString,
-		g_businessData[ businessid ] [ E_CAR_NOS ] ? ( "ADDED" ) : ( "$250,000" ), g_businessData[ businessid ] [ E_CAR_RIMS ] ? ( "ADDED" ) : ( "$250,000" ) );
+	format( szBigString, sizeof( szBigString ), "%s为汽车安装氮气\t"COL_GREEN"%s\n安装金色轮毂\t"COL_GREEN"%s\n", szBigString,
+		g_businessData[ businessid ] [ E_CAR_NOS ] ? ( "额外" ) : ( "$250,000" ), g_businessData[ businessid ] [ E_CAR_RIMS ] ? ( "额外" ) : ( "$250,000" ) );
 
-	return ShowPlayerDialog( playerid, DIALOG_BUSINESS_UPGRADES, DIALOG_STYLE_TABLIST, ""COL_GREY"Business System", szBigString, "Select", "Back" );
+	return ShowPlayerDialog( playerid, DIALOG_BUSINESS_UPGRADES, DIALOG_STYLE_TABLIST, ""COL_GREY"企业系统", szBigString, "选择", "返回" );
 }
 
 stock IsBusinessAssociate( playerid, businessid )
@@ -1950,8 +1950,8 @@ stock SetRandomDropoffLocation( playerid, businessid, bool: heli = false )
 		}
 
 		// alert player
-		ShowPlayerHelpDialog( playerid, 5000, "Exit the facility and enter the business vehicle marked outside." );
-		SendGlobalMessage( COLOR_GREY, "[BUSINESS]"COL_WHITE" %s(%d) has begun transporting "COL_GOLD"%s"COL_WHITE" of business product!", ReturnPlayerName( playerid ), playerid, cash_format( g_businessData[ businessid ] [ E_EXPORT_VALUE ] * ( MAX_DROPS - g_businessData[ businessid ] [ E_EXPORTED_AMOUNT ] ) ) );
+		ShowPlayerHelpDialog( playerid, 5000, "请离开设施, 进入外面标记的企业载具." );
+		SendGlobalMessage( COLOR_GREY, "[企业]"COL_WHITE" %s(%d) 已开始运输"COL_GOLD"%s"COL_WHITE"的企业产品!", ReturnPlayerName( playerid ), playerid, cash_format( g_businessData[ businessid ] [ E_EXPORT_VALUE ] * ( MAX_DROPS - g_businessData[ businessid ] [ E_EXPORTED_AMOUNT ] ) ) );
 	}
 	else
 	{
@@ -1982,7 +1982,7 @@ stock SetRandomDropoffLocation( playerid, businessid, bool: heli = false )
 		DestroyDynamicRaceCP( g_businessData[ businessid ] [ E_EXPORT_CP ] [ 0 ] ), g_businessData[ businessid ] [ E_EXPORT_CP ] [ 0 ] = -1;
 
 		// alert
-		ShowPlayerHelpDialog( playerid, 5000, "Exit the facility and go to your local airport." );
+		ShowPlayerHelpDialog( playerid, 5000, "请离开设施, 前往当地机场." );
 	}
 	return 1;
 }
@@ -2042,7 +2042,7 @@ stock SellBusinessProduct( playerid, businessid, locationid )
 	//GivePlayerExperience( playerid, E_TRANSPORT );
 	GivePlayerScore( playerid, 2 );
 	GivePlayerWantedLevel( playerid, 6 );
-	SendServerMessage( playerid, "You have successfully exported "COL_GOLD"%s"COL_WHITE" worth of product. "COL_ORANGE"(%d/%d)", cash_format( product_amount ), drugsSold, MAX_DROPS );
+	SendServerMessage( playerid, "你已成功出口价值"COL_GOLD"%s"COL_WHITE"的产品. "COL_ORANGE"(%d/%d)", cash_format( product_amount ), drugsSold, MAX_DROPS );
 
 	// calculate if it was the last batch
 	if ( drugsSold == MAX_DROPS )
@@ -2053,14 +2053,14 @@ stock SellBusinessProduct( playerid, businessid, locationid )
 		;
 
 		// P&L
-		SendServerMessage( playerid, "You have completed selling all business product. Total profit %s%s"COL_WHITE".", profit > 0 ? ( COL_GREEN ) : ( COL_RED ), cash_format( profit ) );
+		SendServerMessage( playerid, "所有企业产品已售出. 总利润: %s%s"COL_WHITE".", profit > 0 ? ( COL_GREEN ) : ( COL_RED ), cash_format( profit ) );
 
 		// Destroy checkpoint and vehicle
 		StopBusinessExportMission( businessid );
 	}
 
 	// just send alerts fuck it
-	SendGlobalMessage( COLOR_GREY, "[BUSINESS]"COL_WHITE" %s(%d) has dropped off their %d%s batch of drugs for "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, drugsSold, positionToString( drugsSold ), cash_format( product_amount ) );
+	SendGlobalMessage( COLOR_GREY, "[企业]"COL_WHITE" %s(%d) 已交付第 %d%s 批毒品, 获得"COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, drugsSold, positionToString( drugsSold ), cash_format( product_amount ) );
 }
 
 stock ShowBusinessMembers( playerid, businessid )
@@ -2086,7 +2086,7 @@ function OnShowBusinessMembers( playerid, businessid )
 
 	if ( rows )
 	{
-		szBigString = ""COL_GREY"Add a new member...\n";
+		szBigString = ""COL_GREY"添加新成员...\n";
 
     	for( new i = 0; i < rows; i++ )
 		{
@@ -2095,12 +2095,12 @@ function OnShowBusinessMembers( playerid, businessid )
 			format( szBigString, sizeof( szBigString ), "%s%s\n", szBigString, member );
 		}
 
-		ShowPlayerDialog( playerid, DIALOG_BUSINESS_MEMBERS, DIALOG_STYLE_LIST, ""COL_GREY"Business System", szBigString, "Kick", "Back" );
+		ShowPlayerDialog( playerid, DIALOG_BUSINESS_MEMBERS, DIALOG_STYLE_LIST, ""COL_GREY"企业系统", szBigString, "踢出", "返回" );
 	}
 	else
 	{
-		SendServerMessage( playerid, "Couldn't find any members for the business, add one if you desire." );
-		ShowPlayerDialog( playerid, DIALOG_BUSINESS_ADD_MEMBER, DIALOG_STYLE_INPUT, ""COL_GREY"Business System", ""COL_WHITE"Type the name of the player you wish to add as a member.", "Add", "Back" );
+		SendServerMessage( playerid, "企业暂无成员, 你可以添加成员." );
+		ShowPlayerDialog( playerid, DIALOG_BUSINESS_ADD_MEMBER, DIALOG_STYLE_INPUT, ""COL_GREY"企业系统", ""COL_WHITE"请输入要添加为成员的玩家名称.", "添加", "返回" );
 	}
 }
 

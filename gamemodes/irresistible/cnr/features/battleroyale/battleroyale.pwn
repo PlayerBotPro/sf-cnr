@@ -31,7 +31,7 @@
     BattleRoyale_SMF(%0, -1, "{4B8774}[BATTLE ROYALE] {FFFFFF}" # %1)
 
 #define BattleRoyale_SendMessageAll(%1) \
-    SendClientMessageToAllFormatted(-1, "{4B8774}[BATTLE ROYALE] {FFFFFF}" # %1)
+    SendClientMessageToAllFormatted(-1, "{4B8774}[大逃杀] {FFFFFF}" # %1)
 
 /* ** Constants ** */
 static const
@@ -104,14 +104,14 @@ static const
     // where all the area data is stored
     br_areaData                     [ ] [ E_BR_AREA_DATA ] =
     {
-        { "Fort Carson", -465.9, 751.0, 277.0, 1361.0, 50, 5, 2.0 },
-        { "Blueberry", -294.5, -451.5, 479.5, 272.5, 50, 5, 2.0 },
-        { "Polomino Creek", 2082.5, -326.5, 2952.5, 496.5, 75, 5, 2.0 },
-        { "Angel Pine", -2913.5, -2963.0, -1459.5, -1953.0, 100, 10, 3.0 },
-        { "Tierra Robada", -2989.5, 2074.5, -1144.5, 2990.5, 150, 10, 4.0 },
-        { "Red County", -276.0, -1024.0, 2997.0, 694.0, 150, 20, 4.0 },
-        { "Bone County", -1848.0, 565.0, 1061.0, 2956.0, BR_MAX_PICKUPS, BR_MAX_VEHICLES, 6.0 },
-        { "Flint County", -2988.0, -2988.5, 170.0, -634.5, BR_MAX_PICKUPS, BR_MAX_VEHICLES, 6.0 }
+        { "卡森堡", -465.9, 751.0, 277.0, 1361.0, 50, 5, 2.0 },
+        { "蓝莓镇", -294.5, -451.5, 479.5, 272.5, 50, 5, 2.0 },
+        { "帕洛米诺溪", 2082.5, -326.5, 2952.5, 496.5, 75, 5, 2.0 },
+        { "天使松镇", -2913.5, -2963.0, -1459.5, -1953.0, 100, 10, 3.0 },
+        { "提耶拉罗巴达", -2989.5, 2074.5, -1144.5, 2990.5, 150, 10, 4.0 },
+        { "红县", -276.0, -1024.0, 2997.0, 694.0, 150, 20, 4.0 },
+        { "骨县", -1848.0, 565.0, 1061.0, 2956.0, BR_MAX_PICKUPS, BR_MAX_VEHICLES, 6.0 },
+        { "弗林特县", -2988.0, -2988.5, 170.0, -634.5, BR_MAX_PICKUPS, BR_MAX_VEHICLES, 6.0 }
     }
 ;
 
@@ -146,7 +146,7 @@ hook OnScriptInit( )
 
     // checkpoint
     g_battleRoyaleStadiumCP = CreateDynamicCP( BR_CHECKPOINT_POS[ 0 ], BR_CHECKPOINT_POS[ 1 ], BR_CHECKPOINT_POS[ 2 ], 1.0, 0 );
-	CreateDynamic3DTextLabel( "[BATTLE ROYALE]", COLOR_GOLD, BR_CHECKPOINT_POS[ 0 ], BR_CHECKPOINT_POS[ 1 ], BR_CHECKPOINT_POS[ 2 ], 20.0 );
+	CreateDynamic3DTextLabel( "[大逃杀]", COLOR_GOLD, BR_CHECKPOINT_POS[ 0 ], BR_CHECKPOINT_POS[ 1 ], BR_CHECKPOINT_POS[ 2 ], 20.0 );
 	CreateDynamicMapIcon( BR_CHECKPOINT_POS[ 0 ], BR_CHECKPOINT_POS[ 1 ], BR_CHECKPOINT_POS[ 2 ], 33, 0, -1, -1, -1, 750.0 );
     return 1;
 }
@@ -157,7 +157,7 @@ hook OnPlayerDisconnect( playerid, reason )
         lobbyid = BattleRoyale_RemovePlayer( playerid, false );
 
     if ( lobbyid != BR_INVALID_LOBBY ) {
-        BattleRoyale_SendMessage( lobbyid, "%s(%d) has disconnected from the match!", ReturnPlayerName( playerid ), playerid );
+        BattleRoyale_SendMessage( lobbyid, "%s(%d) 已退出比赛!", ReturnPlayerName( playerid ), playerid );
     }
     return 1;
 }
@@ -274,9 +274,9 @@ hook OnPlayerDeath( playerid, killerid, reason )
 
         // alert lobby
         if ( IsPlayerConnected( killerid ) ) {
-            BattleRoyale_SendMessage( lobbyid, "%s(%d) has been killed by %s(%d)'s %s, %d player%s remaining!", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( killerid ), killerid, ReturnWeaponName( reason ), remaining, remaining == 1 ? ( "" ) : ( "s" ) );
+            BattleRoyale_SendMessage( lobbyid, "%s(%d) 被 %s(%d) 使用 %s 击杀, 剩余 %d 名玩家%s!", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( killerid ), killerid, ReturnWeaponName( reason ), remaining, remaining == 1 ? ( "" ) : ( "s" ) );
         } else {
-            BattleRoyale_SendMessage( lobbyid, "%s(%d) has been killed, %d player%s remaining!", ReturnPlayerName( playerid ), playerid, remaining, remaining == 1 ? ( "" ) : ( "s" ) );
+            BattleRoyale_SendMessage( lobbyid, "%s(%d) 已阵亡, 剩余 %d 名玩家%s!", ReturnPlayerName( playerid ), playerid, remaining, remaining == 1 ? ( "" ) : ( "s" ) );
         }
 		SendDeathMessage( killerid, playerid, reason );
         BattleRoyale_RemovePlayer( playerid, true );
@@ -290,10 +290,10 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
     if ( checkpointid == g_battleRoyaleStadiumCP )
     {
         if ( GetPlayerClass( playerid ) != CLASS_CIVILIAN ) {
-            return SendError( playerid, "You must be a civilian to use this feature." );
+            return SendError( playerid, "只有平民可以使用此功能." );
         }
         else if ( GetPlayerWantedLevel( playerid ) ) {
-            return SendError( playerid, "You must not be a wanted player if you want to use this feature." );
+            return SendError( playerid, "被通缉时无法使用此功能." );
         }
         return BattleRoyale_ShowLobbies( playerid );
     }
@@ -372,7 +372,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         {
             // check if player has money
             if ( GetPlayerCash( playerid ) < 10000 ) {
-                return SendError( playerid, "You need $10,000 to create a battle royale lobby." );
+                return SendError( playerid, "创建大逃杀房间需要 $10,000." );
             }
 
             new
@@ -380,21 +380,21 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
             // otherwise assume they are creating a new lobby
             if ( lobbyid == ITER_NONE ) {
-                return SendError( playerid, "You cannot create a battle royale lobby at the moment" );
+                return SendError( playerid, "现在无法创建大逃杀房间." );
             }
 
             new
                 players = Iter_Count( battleroyaleplayers< lobbyid >, playerid );
 
             if ( players >= BR_MAX_PLAYERS ) {
-                return SendError( playerid, "This lobby is currently full." );
+                return SendError( playerid, "此房间已满." );
             }
 
             GivePlayerCash( playerid, -10000 );
             br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] += 10000;
 
             BattleRoyale_JoinLobby( playerid, lobbyid );
-            BattleRoyale_SendMessageAll( "%s(%d) has created a Battle Royale lobby!", ReturnPlayerName( playerid ), playerid );
+            BattleRoyale_SendMessageAll( "%s(%d) 创建了一个大逃杀房间!", ReturnPlayerName( playerid ), playerid );
 
             return BattleRoyale_EditLobby( playerid, lobbyid );
         }
@@ -412,25 +412,25 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                     // status must be in a waiting state
                     if ( br_lobbyData[ l ] [ E_STATUS ] != E_STATUS_WAITING )
                     {
-                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "You cannot join this lobby at the moment." );
+                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "现在无法加入此房间." );
                     }
 
                     // check if the count is under the limit
                     if ( Iter_Count( battleroyaleplayers< l > ) >= br_lobbyData[ l ] [ E_LIMIT ] )
                     {
-                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "This lobby has reached its maximum player count." );
+                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "此房间已达到人数上限." );
                     }
 
                     // cannot join without cac
                     if ( br_lobbyData[ l ] [ E_CAC_ONLY ] && ! IsPlayerUsingSampAC( playerid ) )
                     {
-                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "This lobby requires you to run an anti-cheat to play." );
+                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "此房间要求启用反作弊客户端." );
                     }
 
                     // check if player has money for the lobby
                     if ( GetPlayerCash( playerid ) < br_lobbyData[ l ] [ E_ENTRY_FEE ] )
                     {
-                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "You need %s to join this lobby.", cash_format( br_lobbyData[ l ] [ E_ENTRY_FEE ] ) );
+                        return BattleRoyale_ShowLobbies( playerid ), SendError( playerid, "加入此房间需要 %s.", cash_format( br_lobbyData[ l ] [ E_ENTRY_FEE ] ) );
                     }
 
                     // add entry fee to the pool
@@ -448,13 +448,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
     else if ( dialogid == DIALOG_BR_LOBBY_EDIT )
     {
         if ( ! response ) {
-            return SendServerMessage( playerid, "You can edit your battle royale lobby settings with "COL_GREY"/br edit"COL_WHITE"." );
+            return SendServerMessage( playerid, "输入以下命令编辑大逃杀房间设置: "COL_GREY"/br edit"COL_WHITE"." );
         }
 
         new lobbyid = p_battleRoyaleLobby[ playerid ];
 
         if ( ! BR_IsHost( playerid, lobbyid ) ) {
-            return SendError( playerid, "You cannot edit this lobby as you are no longer the host." );
+            return SendError( playerid, "你已不再是房主, 无法编辑此房间." );
         }
 
         if ( listitem == 2 ) // select an area
@@ -464,26 +464,26 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         else if ( listitem == 6 ) // select walking weapon mode
         {
             br_lobbyData[ lobbyid ] [ E_WALK_WEP ] = ! br_lobbyData[ lobbyid ] [ E_WALK_WEP ];
-            BattleRoyale_SendMessage( lobbyid, "%s has set allow running weapons to %s.", ReturnPlayerName( playerid ), bool_to_string( ! br_lobbyData[ lobbyid ] [ E_WALK_WEP ] ) );
+            BattleRoyale_SendMessage( lobbyid, "%s 将跑射武器设置为 %s.", ReturnPlayerName( playerid ), bool_to_string( ! br_lobbyData[ lobbyid ] [ E_WALK_WEP ] ) );
             return BattleRoyale_EditLobby( playerid, lobbyid );
         }
         else if ( listitem == 7 ) // select cac mode
         {
             if ( IsPlayerUsingSampAC( playerid ) ) {
                 br_lobbyData[ lobbyid ] [ E_CAC_ONLY ] = ! br_lobbyData[ lobbyid ] [ E_CAC_ONLY ];
-                BattleRoyale_SendMessage( lobbyid, "%s has set CAC mode to %s.", ReturnPlayerName( playerid ), bool_to_string( br_lobbyData[ lobbyid ] [ E_CAC_ONLY ] ) );
+                BattleRoyale_SendMessage( lobbyid, "%s 将 CAC 模式设置为 %s.", ReturnPlayerName( playerid ), bool_to_string( br_lobbyData[ lobbyid ] [ E_CAC_ONLY ] ) );
             } else {
-                SendError( playerid, "You must have SA-MP CAC activated in order to enable this option." );
+                SendError( playerid, "启用此选项需要先启用 SA-MP CAC." );
             }
             return BattleRoyale_EditLobby( playerid, lobbyid );
         }
         else if ( listitem == 8 ) // start lobby option
         {
             if ( Iter_Count( battleroyaleplayers< lobbyid > ) < 2 ) {
-                SendError( playerid, "You need at least 2 players in your lobby to start this match." );
+                SendError( playerid, "房间至少需要 2 名玩家才能开始比赛." );
             } else {
                 if ( ! BattleRoyale_StartGame( lobbyid ) ) {
-                    SendError( playerid, "This lobby has already started." );
+                    SendError( playerid, "此房间的比赛已经开始." );
                 }
                 return 1;
             }
@@ -492,7 +492,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         else
         {
             SetPVarInt( playerid, "editing_field", listitem );
-            return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY_EDIT_ENTRY, DIALOG_STYLE_INPUT, ""COL_WHITE"Battle Royale", ""COL_WHITE"Please enter a value for this field:", "Submit", "Back" );
+            return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY_EDIT_ENTRY, DIALOG_STYLE_INPUT, ""COL_WHITE"大逃杀", ""COL_WHITE"请输入此项的数值:", "提交", "返回" );
         }
     }
     else if ( dialogid == DIALOG_BR_SELECT_AREA )
@@ -505,11 +505,11 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
             lobbyid = p_battleRoyaleLobby[ playerid ];
 
         if ( ! BR_IsHost( playerid, lobbyid ) ) {
-            return SendError( playerid, "You cannot edit this lobby as you are no longer the host." );
+            return SendError( playerid, "你已不再是房主, 无法编辑此房间." );
         }
 
         br_lobbyData[ lobbyid ] [ E_AREA_ID ] = listitem;
-        BattleRoyale_SendMessage( lobbyid, "%s has set the area to %s.", ReturnPlayerName( playerid ), br_areaData[ listitem ] [ E_NAME ] );
+        BattleRoyale_SendMessage( lobbyid, "%s 将比赛区域设置为 %s.", ReturnPlayerName( playerid ), br_areaData[ listitem ] [ E_NAME ] );
         return BattleRoyale_EditLobby( playerid, lobbyid );
     }
     else if ( dialogid == DIALOG_BR_LOBBY_EDIT_ENTRY )
@@ -521,7 +521,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         new lobbyid = p_battleRoyaleLobby[ playerid ];
 
         if ( ! BR_IsHost( playerid, lobbyid ) ) {
-            return SendError( playerid, "You cannot edit this lobby as you are no longer the host." );
+            return SendError( playerid, "你已不再是房主, 无法编辑此房间." );
         }
 
         new editing_field = GetPVarInt( playerid, "editing_field" );
@@ -534,11 +534,11 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                 new
                     name[ 24 ];
 
-                if ( sscanf( inputtext, "s[24]", name ) ) SendError( playerid, "You must enter a valid name." );
-                else if ( ! ( 3 <= strlen( name ) < 24 ) ) SendError( playerid, "You must enter a name between 3 and 24 characters." );
+                if ( sscanf( inputtext, "s[24]", name ) ) SendError( playerid, "你必须输入有效的名称." );
+                else if ( ! ( 3 <= strlen( name ) < 24 ) ) SendError( playerid, "名称长度必须为 3 至 24 个字符." );
                 else
                 {
-                    BattleRoyale_SendMessage( lobbyid, "%s has set the lobby name to %s.", ReturnPlayerName( playerid ), name );
+                    BattleRoyale_SendMessage( lobbyid, "%s 将房间名称设置为 %s.", ReturnPlayerName( playerid ), name );
                     strcpy( br_lobbyData[ lobbyid ] [ E_NAME ], name );
                     return BattleRoyale_EditLobby( playerid, lobbyid );
                 }
@@ -550,11 +550,11 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                 new
                     limit;
 
-                if ( sscanf( inputtext, "d", limit ) ) SendError( playerid, "You must enter a valid limit." );
-                else if ( ! ( 2 <= limit < BR_MAX_PLAYERS ) ) SendError( playerid, "You must enter a limit between 2 and %d players.", BR_MAX_PLAYERS );
+                if ( sscanf( inputtext, "d", limit ) ) SendError( playerid, "你必须输入有效的限制." );
+                else if ( ! ( 2 <= limit < BR_MAX_PLAYERS ) ) SendError( playerid, "人数上限必须为 2 至 %d 人.", BR_MAX_PLAYERS );
                 else
                 {
-                    BattleRoyale_SendMessage( lobbyid, "%s has set the lobby player limit to %d.", ReturnPlayerName( playerid ), limit );
+                    BattleRoyale_SendMessage( lobbyid, "%s 将房间人数上限设置为 %d.", ReturnPlayerName( playerid ), limit );
                     br_lobbyData[ lobbyid ] [ E_LIMIT ] = limit;
                     return BattleRoyale_EditLobby( playerid, lobbyid );
                 }
@@ -566,17 +566,17 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                 new
                     entry_fee;
 
-                if ( sscanf( inputtext, "d", entry_fee ) ) SendError( playerid, "You must enter a valid entry fee." );
+                if ( sscanf( inputtext, "d", entry_fee ) ) SendError( playerid, "你必须输入有效的报名费." );
                 else if ( entry_fee <= 0 )
                 {
                     br_lobbyData[ lobbyid ] [ E_ENTRY_FEE ] = entry_fee;
-                    BattleRoyale_SendMessage( lobbyid, "%s has removed the entry fee requirement for the lobby.", ReturnPlayerName( playerid ) );
+                    BattleRoyale_SendMessage( lobbyid, "%s 取消了房间入场费.", ReturnPlayerName( playerid ) );
                     return BattleRoyale_EditLobby( playerid, lobbyid );
                 }
-                else if ( ! ( 0 < entry_fee <= 10000000 ) ) SendError( playerid, "You must enter a entry fee between $1 and $10,000,000." );
+                else if ( ! ( 0 < entry_fee <= 10000000 ) ) SendError( playerid, "入场费必须为 $1 至 $10,000,000." );
                 else
                 {
-                    BattleRoyale_SendMessage( lobbyid, "%s has set a lobby entry fee to %s.", ReturnPlayerName( playerid ), cash_format( entry_fee ) );
+                    BattleRoyale_SendMessage( lobbyid, "%s 将房间入场费设置为 %s.", ReturnPlayerName( playerid ), cash_format( entry_fee ) );
                     br_lobbyData[ lobbyid ] [ E_ENTRY_FEE ] = entry_fee;
                     return BattleRoyale_EditLobby( playerid, lobbyid );
                 }
@@ -588,11 +588,11 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                 new
                     Float: health;
 
-                if ( sscanf( inputtext, "f", health ) ) SendError( playerid, "You must enter a valid health value." );
-                else if ( ! ( 1.0 <= health <= 100.0 ) ) SendError( playerid, "You must enter a health value between 1 and 100." );
+                if ( sscanf( inputtext, "f", health ) ) SendError( playerid, "你必须输入有效的健康值." );
+                else if ( ! ( 1.0 <= health <= 100.0 ) ) SendError( playerid, "生命值必须为 1 至 100." );
                 else
                 {
-                    BattleRoyale_SendMessage( lobbyid, "%s has set a lobby spawn health to %0.2f%%.", ReturnPlayerName( playerid ), health );
+                    BattleRoyale_SendMessage( lobbyid, "%s 将出生生命值设置为 %0.2f%%.", ReturnPlayerName( playerid ), health );
                     br_lobbyData[ lobbyid ] [ E_HEALTH ] = health;
                     return BattleRoyale_EditLobby( playerid, lobbyid );
                 }
@@ -604,17 +604,17 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
                 new
                     Float: armour;
 
-                if ( sscanf( inputtext, "f", armour ) ) SendError( playerid, "You must enter a valid armour value." );
-                else if ( ! ( 0.0 <= armour <= 100.0 ) ) SendError( playerid, "You must enter a armour value between 0 and 100." );
+                if ( sscanf( inputtext, "f", armour ) ) SendError( playerid, "你必须输入有效的护甲值." );
+                else if ( ! ( 0.0 <= armour <= 100.0 ) ) SendError( playerid, "护甲值必须为 0 至 100." );
                 else
                 {
-                    BattleRoyale_SendMessage( lobbyid, "%s has set a lobby spawn health to %0.2f%%.", ReturnPlayerName( playerid ), armour );
+                    BattleRoyale_SendMessage( lobbyid, "%s 将出生生命值设置为 %0.2f%%.", ReturnPlayerName( playerid ), armour );
                     br_lobbyData[ lobbyid ] [ E_ARMOUR ] = armour;
                     return BattleRoyale_EditLobby( playerid, lobbyid );
                 }
             }
         }
-        return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY_EDIT_ENTRY, DIALOG_STYLE_INPUT, ""COL_WHITE"Battle Royale", ""COL_WHITE"Please enter a value for this field:", "Submit", "Back" );
+        return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY_EDIT_ENTRY, DIALOG_STYLE_INPUT, ""COL_WHITE"大逃杀", ""COL_WHITE"请输入此项的数值:", "提交", "返回" );
     }
     return 1;
 }
@@ -627,7 +627,7 @@ CMD:battleroyale( playerid, params[ ] )
         lobbyid = p_battleRoyaleLobby[ playerid ];
 
     if ( ! BR_IsValidLobby( lobbyid ) ) {
-        return SendError( playerid, "You are not in any lobby." );
+        return SendError( playerid, "你尚未加入任何房间." );
     }
 
     if ( strmatch( params, "edit" ) )
@@ -638,26 +638,26 @@ CMD:battleroyale( playerid, params[ ] )
     {
         #if !defined DEBUG_MODE
         if ( Iter_Count( battleroyaleplayers< lobbyid > ) < 2 ) {
-            return SendError( playerid, "You need at least 2 players in your lobby to start this match." );
+            return SendError( playerid, "房间至少需要 2 名玩家才能开始比赛." );
         }
         #endif
 
         if ( ! BR_IsHost( playerid, lobbyid ) ) {
-            return SendError( playerid, "You cannot edit this lobby as you are no longer the host." );
+            return SendError( playerid, "你已不再是房主, 无法编辑此房间." );
         }
 
         // attempt to start the game
         if ( ! BattleRoyale_StartGame( lobbyid ) ) {
-            SendError( playerid, "This lobby has already started." );
+            SendError( playerid, "此房间的比赛已经开始." );
         }
         return 1;
     }
     else if ( strmatch ( params, "leave" ) )
     {
         if ( ! p_battleRoyaleSpawned{ playerid } && br_lobbyData[ lobbyid ] [ E_STATUS ] == E_STATUS_STARTED ) {
-            return SendError( playerid, "You must be spawned before you can leave the match." );
+            return SendError( playerid, "必须先出生才能离开比赛." );
         }
-        BattleRoyale_SendMessage( lobbyid, "%s(%d) has disconnected from the match!", ReturnPlayerName( playerid ), playerid );
+        BattleRoyale_SendMessage( lobbyid, "%s(%d) 已退出比赛!", ReturnPlayerName( playerid ), playerid );
         BattleRoyale_RemovePlayer( playerid, true );
         SpawnPlayer( playerid );
         return 1;
@@ -668,17 +668,17 @@ CMD:battleroyale( playerid, params[ ] )
             amount;
 
         if ( sscanf( params[ 7 ], "d", amount ) ) return SendUsage( playerid, "/br donate [AMOUNT]" );
-        else if ( amount < 1 ) return SendError( playerid, "You cannot donate less than $1 to this lobby." );
-        else if ( amount > GetPlayerCash( playerid ) ) return SendError( playerid, "You do not have this much money." );
+        else if ( amount < 1 ) return SendError( playerid, "向此房间捐款不能少于 $1." );
+        else if ( amount > GetPlayerCash( playerid ) ) return SendError( playerid, "你的钱不够." );
         else
         {
             GivePlayerCash( playerid, -amount );
             br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] += amount;
 
             if ( amount >= 50000 ) {
-                BattleRoyale_SendMessageAll( ""COL_GREY"%s(%d) has contributed %s to %s (total %s).", ReturnPlayerName( playerid ), playerid, cash_format( amount ), br_lobbyData[ lobbyid ] [ E_NAME ], cash_format( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) );
+                BattleRoyale_SendMessageAll( ""COL_GREY"%s(%d) 向 %s 捐赠了 %s (共 %s).", ReturnPlayerName( playerid ), playerid, cash_format( amount ), br_lobbyData[ lobbyid ] [ E_NAME ], cash_format( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) );
             } else {
-                BattleRoyale_SendMessage( lobbyid, "%s(%d) has contributed %s to the lobby (total %s).", ReturnPlayerName( playerid ), playerid, cash_format( amount ), cash_format( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) );
+                BattleRoyale_SendMessage( lobbyid, "%s(%d) 向房间捐赠了 %s (共 %s).", ReturnPlayerName( playerid ), playerid, cash_format( amount ), cash_format( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) );
             }
         }
         return 1;
@@ -694,7 +694,7 @@ static stock BattleRoyale_CreateLobby( playerid )
 
     if ( lobbyid != ITER_NONE )
     {
-        strcpy( br_lobbyData[ lobbyid ] [ E_NAME ], "Battle Royale Lobby" );
+        strcpy( br_lobbyData[ lobbyid ] [ E_NAME ], "大逃杀房间" );
 
         br_lobbyData[ lobbyid ] [ E_LIMIT ] = 12;
         br_lobbyData[ lobbyid ] [ E_AREA_ID ] = 0;
@@ -726,25 +726,25 @@ static stock BattleRoyale_EditLobby( playerid, lobbyid )
 
     format(
         szLargeString, sizeof( szLargeString ),
-        "Lobby Name\t"COL_GREY"%s\n" \
-        "Player Limit\t"COL_GREY"%d\n" \
-        "Area\t"COL_GREY"%s\n" \
-        "Entry Fee\t"COL_GREEN"%s\n" \
-        "Health\t"COL_GREY"%0.2f%%\n" \
-        "Armour\t"COL_GREY"%0.2f%%\n" \
-        "Allow Running Weapons\t%s\n" \
-        "CAC Only\t%s\n" \
-        ""COL_GREEN"Start Match\t"COL_GREEN">>>",
+        "房间名称\t"COL_GREY"%s\n" \
+        "人数上限\t"COL_GREY"%d\n" \
+        "区域\t"COL_GREY"%s\n" \
+        "入场费\t"COL_GREEN"%s\n" \
+        "生命值\t"COL_GREY"%0.2f%%\n" \
+        "护甲\t"COL_GREY"%0.2f%%\n" \
+        "允许跑射武器\t%s\n" \
+        "仅限 CAC 用户\t%s\n" \
+        ""COL_GREEN"开始比赛\t"COL_GREEN">>>",
         br_lobbyData[ lobbyid ] [ E_NAME ],
         br_lobbyData[ lobbyid ] [ E_LIMIT ],
         br_areaData[ br_lobbyData[ lobbyid ] [ E_AREA_ID ] ] [ E_NAME ],
         cash_format( br_lobbyData[ lobbyid ] [ E_ENTRY_FEE ] ),
         br_lobbyData[ lobbyid ] [ E_HEALTH ],
         br_lobbyData[ lobbyid ] [ E_ARMOUR ],
-        ! br_lobbyData[ lobbyid ] [ E_WALK_WEP ] ? ( COL_GREEN # "YES" ) : ( COL_RED # "NO" ),
-        br_lobbyData[ lobbyid ] [ E_CAC_ONLY ] ? ( COL_GREEN # "YES" ) : ( COL_RED # "NO" )
+        ! br_lobbyData[ lobbyid ] [ E_WALK_WEP ] ? ( COL_GREEN # "是" ) : ( COL_RED # "否" ),
+        br_lobbyData[ lobbyid ] [ E_CAC_ONLY ] ? ( COL_GREEN # "是" ) : ( COL_RED # "否" )
     );
-    return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY_EDIT, DIALOG_STYLE_TABLIST, ""COL_WHITE"Battle Royale", szLargeString, "Edit", "Close" );
+    return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY_EDIT, DIALOG_STYLE_TABLIST, ""COL_WHITE"大逃杀", szLargeString, "编辑", "关闭" );
 }
 
 static stock BattleRoyale_EditArea( playerid )
@@ -753,7 +753,7 @@ static stock BattleRoyale_EditArea( playerid )
         areas[ 512 ];
 
     if ( areas[ 0 ] == '\0' ) {
-        areas = ""COL_WHITE"Area\t"COL_WHITE"Pickups\t"COL_WHITE"Vehicles\n";
+        areas = ""COL_WHITE"区域\t"COL_WHITE"拾取物\t"COL_WHITE"载具\n";
         for ( new i = 0; i < sizeof( br_areaData ); i ++ ) {
             format( areas, sizeof( areas ), "%s%s\t%d\t%d\n", areas, br_areaData[ i ] [ E_NAME ], br_areaData[ i ] [ E_MAX_PICKUPS ], br_areaData[ i ] [ E_MAX_VEHICLES ] );
         }
@@ -768,7 +768,7 @@ static stock BattleRoyale_JoinLobby( playerid, lobbyid )
     Iter_Add( battleroyaleplayers< lobbyid >, playerid );
 
     // alert
-    BattleRoyale_SendMessage( lobbyid, "%s has joined %s "COL_ORANGE"[%d/%d]"COL_GREEN" (%s POOL)", ReturnPlayerName( playerid ), br_lobbyData[ lobbyid ] [ E_NAME ], Iter_Count( battleroyaleplayers< lobbyid > ), br_lobbyData[ lobbyid ] [ E_LIMIT ], cash_format( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) );
+    BattleRoyale_SendMessage( lobbyid, "%s 加入了 %s "COL_ORANGE"[%d/%d]"COL_GREEN" (%s 奖池)", ReturnPlayerName( playerid ), br_lobbyData[ lobbyid ] [ E_NAME ], Iter_Count( battleroyaleplayers< lobbyid > ), br_lobbyData[ lobbyid ] [ E_LIMIT ], cash_format( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) );
 
     // set player position in an island
     SetPlayerPos( playerid, BR_ISLAND_POS[ 0 ], BR_ISLAND_POS[ 1 ], BR_ISLAND_POS[ 2 ] + 1.0 );
@@ -787,10 +787,10 @@ static stock BattleRoyale_JoinLobby( playerid, lobbyid )
 static stock BattleRoyale_ShowLobbies( playerid )
 {
     // set the headers
-    szLargeString = ""COL_WHITE"Lobby Name\t"COL_WHITE"Host\t"COL_WHITE"Players\t"COL_WHITE"Entry Fee\n";
+    szLargeString = ""COL_WHITE"房间名称\t"COL_WHITE"房主\t"COL_WHITE"玩家\t"COL_WHITE"入场费\n";
 
     // make final option to create lobby
-    format( szLargeString, sizeof( szLargeString ), "%s"COL_PURPLE"Create Lobby\t \t"COL_PURPLE"$10,000\t"COL_PURPLE">>>\n", szLargeString );
+    format( szLargeString, sizeof( szLargeString ), "%s"COL_PURPLE"创建房间\t \t"COL_PURPLE"$10,000\t"COL_PURPLE">>>\n", szLargeString );
 
     // format dialog
     foreach ( new l : battleroyale )
@@ -812,7 +812,7 @@ static stock BattleRoyale_ShowLobbies( playerid )
         );
     }
 
-    return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Battle Royale", szLargeString, "Select", "Close" );
+    return ShowPlayerDialog( playerid, DIALOG_BR_LOBBY, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"大逃杀", szLargeString, "选择", "关闭" );
 }
 
 static stock BattleRoyale_RespawnPlayer( playerid )
@@ -882,7 +882,7 @@ static stock BattleRoyale_EndGame( lobbyid )
     foreach ( new playerid : battleroyaleplayers< lobbyid > )
     {
         //printf ( "[BR DEBUG] %d : LINE 772", GetTickCount( ) );
-        BattleRoyale_SendMessageAll( "%s(%d) has won %s (%0.0f%s) out of the %s prize pool.", ReturnPlayerName( playerid ), playerid, cash_format( prize ), distribution, "%%", br_lobbyData[ lobbyid ] [ E_NAME ] );
+        BattleRoyale_SendMessageAll( "%s(%d) 赢得 %s (%0.0f%s), 总奖池为 %s.", ReturnPlayerName( playerid ), playerid, cash_format( prize ), distribution, "%%", br_lobbyData[ lobbyid ] [ E_NAME ] );
         BattleRoyale_RemovePlayer( playerid, true, false );
         GivePlayerCash( playerid, prize );
         SpawnPlayer( playerid );
@@ -966,7 +966,7 @@ static stock BattleRoyale_StartGame( lobbyid )
         if ( br_lobbyData[ lobbyid ] [ E_CAC_ONLY ] && ! IsPlayerUsingSampAC( playerid ) )
         {
             SetPlayerHealth( playerid, -1 );
-            SendServerMessage( playerid, "You have been removed from the match for disabling SA-MP AC." );
+            SendServerMessage( playerid, "你因关闭 SA-MP AC 而被移出比赛." );
             continue;
         }
 
@@ -986,11 +986,11 @@ static stock BattleRoyale_StartGame( lobbyid )
         BattleRoyale_ShowGangZone( playerid, lobbyid );
 
         // show controls
-        ShowPlayerHelpDialog( playerid, 0, "~y~~h~~k~~PED_JUMPING~~w~ - Jump Out Of Plane" );
+        ShowPlayerHelpDialog( playerid, 0, "~y~~h~~k~~PED_JUMPING~~w~ - 跳出飞机" );
     }
 
     // alert lobby
-    BattleRoyale_SendMessage( lobbyid, "The match has been started. Winner takes %s!", cash_format( floatround( float( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) * 0.8 ) ) );
+    BattleRoyale_SendMessage( lobbyid, "比赛开始! 胜者将获得 %s!", cash_format( floatround( float( br_lobbyData[ lobbyid ] [ E_PRIZE_POOL ] ) * 0.8 ) ) );
     return 1;
 }
 
@@ -1023,7 +1023,7 @@ function BattleRoyale_GameUpdate( lobbyid )
 
                 GetPlayerHealth( x, health );
 
-                GameTextForPlayer( x, "~r~STAY IN THE AREA!", 5000, 3 );
+                GameTextForPlayer( x, "~r~请留在比赛区域内!", 5000, 3 );
                 SetPlayerHealth( x, health - 10.0 );
             }
         }
@@ -1144,7 +1144,7 @@ function BattleRoyale_PlaneMove( lobbyid )
             if ( p_battleRoyaleStatus[ playerid ] != E_STATUS_STARTED )
             {
                 BattleRoyale_ThrowFromPlane( playerid );
-                SendServerMessage( playerid, "You have been thrown out of your plane due to a lack of decision." );
+                SendServerMessage( playerid, "你迟迟未作决定, 已被强制跳伞." );
             }
 
             // started, but not spawned ... keep the plane going a bit longer
@@ -1539,7 +1539,7 @@ static stock BattleRoyale_InitLobbyObjects( )
     SetDynamicObjectMaterialText( CreateDynamicObject( 19327, -4959.574218, 2017.125000, 4.847000, -1.200000, 0.500000, 115.599998, -1, -1, -1 ), 0, "Night", 130, "Arial", 90, 1, -65022, 0, 1 );
     SetDynamicObjectMaterialText( CreateDynamicObject( 19327, -4943.875000, 2034.607055, 4.974999, -1.899999, 1.000000, -132.100006, -1, -1, -1 ), 0, "Chickenwing", 130, "Arial", 80, 1, -65022, 0, 1 );
     SetDynamicObjectMaterialText( CreateDynamicObject( 19327, -4955.777832, 2010.151000, 4.922999, -1.200000, 0.500000, 163.899993, -1, -1, -1 ), 0, "RichxKID", 130, "Arial", 90, 1, -65022, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject(4731, -2159.6147, -453.5427, 52.6459, 0.0000, 0.0000, 164.6383 ), 0, "Battle Royale Stadium", 120, "Impact", 48, 0, -1, -16777216, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject(4731, -2159.6147, -453.5427, 52.6459, 0.0000, 0.0000, 164.6383 ), 0, "大逃杀竞技场", 120, "Impact", 48, 0, -1, -16777216, 1 );
 }
 
 static stock BattleRoyale_DestroyAirdrops( lobbyid )

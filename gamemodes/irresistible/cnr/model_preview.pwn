@@ -26,7 +26,7 @@ hook OnScriptInit( )
 	}
 
 	// global ones
-	p_ModelPreviewCloseTD = TextDrawCreate( 191.000000, 319.000000, "Press your ESCAPE KEY to close the preview." );
+	p_ModelPreviewCloseTD = TextDrawCreate( 191.000000, 319.000000, "∞¥ ESC º¸πÿ±’‘§¿¿." );
 	TextDrawBackgroundColor( p_ModelPreviewCloseTD, 255 );
 	TextDrawFont( p_ModelPreviewCloseTD, 2 );
 	TextDrawLetterSize( p_ModelPreviewCloseTD, 0.259999, 1.399999 );
@@ -46,7 +46,7 @@ hook OnScriptInit( )
 
 hook OnPlayerConnect( playerid )
 {
-	p_ModelPreviewTD[ playerid ] [ 0 ] = CreatePlayerTextDraw( playerid,289.000000, 230.000000, "preview 2" );
+	p_ModelPreviewTD[ playerid ] [ 0 ] = CreatePlayerTextDraw( playerid,289.000000, 230.000000, "‘§¿¿ 2" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 0 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 0 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 0 ], 0.500000, 4.400000 );
@@ -57,7 +57,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 0 ], -16.000000, 0.000000, 0.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 0 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 1 ] = CreatePlayerTextDraw( playerid,358.000000, 160.000000, "preview 3" );
+	p_ModelPreviewTD[ playerid ] [ 1 ] = CreatePlayerTextDraw( playerid,358.000000, 160.000000, "‘§¿¿3" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 1 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 1 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 1 ], 0.500000, 4.400000 );
@@ -68,7 +68,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 1 ], -16.000000, 0.000000, 270.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 1 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 2 ] = CreatePlayerTextDraw( playerid,358.000000, 230.000000, "preview 4" );
+	p_ModelPreviewTD[ playerid ] [ 2 ] = CreatePlayerTextDraw( playerid,358.000000, 230.000000, "‘§¿¿4" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 2 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 2 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 2 ], 0.500000, 4.400000 );
@@ -79,7 +79,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 2 ], -16.000000, 0.000000, 90.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 2 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 3 ] = CreatePlayerTextDraw( playerid,428.000000, 160.000000, "preview 4" );
+	p_ModelPreviewTD[ playerid ] [ 3 ] = CreatePlayerTextDraw( playerid,428.000000, 160.000000, "‘§¿¿4" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 3 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 3 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 3 ], 0.500000, 4.400000 );
@@ -90,7 +90,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 3 ], 270.000000, 0.000000, 0.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 3 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 4 ] = CreatePlayerTextDraw( playerid,428.000000, 230.000000, "preview 5" );
+	p_ModelPreviewTD[ playerid ] [ 4 ] = CreatePlayerTextDraw( playerid,428.000000, 230.000000, "‘§¿¿5" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 4 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 4 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 4 ], 0.500000, 4.400000 );
@@ -101,7 +101,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 4 ], 90.000000, 0.000000, 0.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 4 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 5 ] = CreatePlayerTextDraw( playerid,150.000000, 160.000000, "big preview" );
+	p_ModelPreviewTD[ playerid ] [ 5 ] = CreatePlayerTextDraw( playerid,150.000000, 160.000000, "¥Û‘§¿¿" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 5 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 5 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 5 ], 0.500000, 1.000000 );
@@ -112,7 +112,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 5 ], -16.000000, 0.000000, 45.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 5 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 6 ] = CreatePlayerTextDraw( playerid,289.000000, 160.000000, "preview 6" );
+	p_ModelPreviewTD[ playerid ] [ 6 ] = CreatePlayerTextDraw( playerid,289.000000, 160.000000, "‘§¿¿6" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 6 ], 112 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 6 ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 6 ], 0.500000, 4.400000 );
@@ -123,7 +123,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewRot( playerid, p_ModelPreviewTD[ playerid ] [ 6 ], -16.000000, 0.000000, 180.000000, 1.000000 );
 	// PlayerTextDrawSetSelectable( playerid, p_ModelPreviewTD[ playerid ] [ 6 ], 1 );
 
-	p_ModelPreviewTD[ playerid ] [ 7 ] = CreatePlayerTextDraw( playerid, 130.000000, 135.000000, "Vehicle Preview" );
+	p_ModelPreviewTD[ playerid ] [ 7 ] = CreatePlayerTextDraw( playerid, 130.000000, 135.000000, "≥µ¡æ‘§¿¿" );
 	PlayerTextDrawBackgroundColor( playerid, p_ModelPreviewTD[ playerid ] [ 7 ], 255 );
 	PlayerTextDrawFont( playerid, p_ModelPreviewTD[ playerid ] [ 7 ], 0 );
 	PlayerTextDrawLetterSize( playerid, p_ModelPreviewTD[ playerid ] [ 7 ], 0.720000, 2.000000 );

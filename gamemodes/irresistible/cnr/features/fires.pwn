@@ -81,7 +81,7 @@ hook OnPlayerUpdateEx( playerid )
 								g_fireData[ i ] [ E_HEALTH ] = 0.0;
 							}
 
-				       		UpdateDynamic3DTextLabelText( g_fireData[ i ] [ E_LABEL ], 0xA83434FF, sprintf( "House Fire %0.1f%", g_fireData[ i ] [ E_HEALTH ] ) );
+                            UpdateDynamic3DTextLabelText( g_fireData[ i ] [ E_LABEL ], 0xA83434FF, sprintf( "房屋火灾 %0.1f%", g_fireData[ i ] [ E_HEALTH ] ) );
 
 						    if ( g_fireData[ i ] [ E_HEALTH ] <= 0.0 )
 						    {
@@ -89,7 +89,7 @@ hook OnPlayerUpdateEx( playerid )
 								new money_earned = RandomEx( min_money_earned, FIRE_EXTINGUISH_PAYOUT );
 
 								ach_HandleExtinguishedFires( playerid );
-							    SendClientMessageToAllFormatted( -1, "{A83434}[FIREMAN]"COL_WHITE" %s(%d) has earned "COL_GOLD"%s"COL_WHITE" for extinguishing a house fire.", ReturnPlayerName( playerid ), playerid, cash_format( money_earned ) );
+							    SendClientMessageToAllFormatted( -1, "{A83434}[消防员]"COL_WHITE" %s(%d) 已获得 "COL_GOLD"%s"COL_WHITE" 扑灭房屋火灾.", ReturnPlayerName( playerid ), playerid, cash_format( money_earned ) );
 								GivePlayerScore( playerid, 2 );
 								GivePlayerExperience( playerid, E_ROLEPLAY, 0.5 );
 								GivePlayerCash( playerid, money_earned );
@@ -138,10 +138,10 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 		if ( total_experience < 2500 )
 		{
 			RemovePlayerFromVehicle( playerid );
-			return SendServerMessage( playerid, "You must have 2,500XP to use a Firetruck." );
+			return SendServerMessage( playerid, "你必须拥有 2,500XP 才能使用消防车." );
 		}
 
-		ShowPlayerHelpDialog( playerid, 2500, "You can see where fires are using ~g~/fires" );
+		ShowPlayerHelpDialog( playerid, 2500, "你可以使用 ~g~/fires 查看火灾发生的地方" );
 	}
 	return 1;
 }
@@ -155,12 +155,12 @@ CMD:fires( playerid, params[ ] )
 	if ( p_FireTracker{ playerid } )
 	{
 		UpdatePlayerFireTracker( playerid );
-		return SendServerMessage( playerid, "All house fires are now in your minimap as red markers." );
+		return SendServerMessage( playerid, "所有房屋火灾现在都在你的小地图中以红色标记显示." );
 	}
 	else
 	{
 		StopPlayerFireTracker( playerid );
-		return SendServerMessage( playerid, "You have hidden all the fires from your radar." );
+		return SendServerMessage( playerid, "你已经隐藏了雷达上的所有火力." );
 	}
 }
 
@@ -182,7 +182,7 @@ stock HouseFire_Create( )
 
 			g_fireData[ fireid ] [ E_HEALTH ] = 100.0 + fRandomEx( 1, 25 );
 			g_fireData[ fireid ] [ E_HOUSE ] = houseid;
-			g_fireData[ fireid ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "House Fire %0.1f%", g_fireData[ fireid ] [ E_HEALTH ] ), 0xA83434FF, X, Y, Z + 0.5, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, -1 );
+			g_fireData[ fireid ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "房屋火灾 %0.1f%", g_fireData[ fireid ] [ E_HEALTH ] ), 0xA83434FF, X, Y, Z + 0.5, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, -1 );
 			g_fireData[ fireid ] [ E_OBJECT ] = CreateDynamicObject( 18691, X, Y, Z - 2.3, 0.0, 0.0, 0.0 );
 
 			// fire map icons

@@ -24,8 +24,8 @@ enum E_REWARDS_DATA
 
 static stock
 	g_casinoRewardsItems[ ] [ E_REWARDS_DATA ] = {
-		{ "10 Explosive Bullets", 12500.0 },
-		{ "Highroller Access", 200000.0 }
+		{ "10 爆炸子弹", 12500.0 },
+		{ "豪赌者访问", 200000.0 }
 	},
 	E_SHOP_ITEMS: g_casinoRewardsShopItems[ ] = {
 		SHOP_ITEM_SCISSOR,
@@ -51,7 +51,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 {
 	if ( dialogid == DIALOG_CASINO_REWARDS && response )
 	{
-	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
+	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
 
 	    if ( listitem >= sizeof( g_casinoRewardsShopItems ) )
 	    {
@@ -64,21 +64,21 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	    	new Float: rewards_points = g_casinoRewardsItems[ rewards_item ] [ E_POINTS ];
 
     		if ( p_CasinoRewardsPoints[ playerid ] < rewards_points )
-    			return SendError( playerid, "You need %s rewards points for this item.", points_format( rewards_points ) );
+                return SendError( playerid, "你需要 %s 奖励积分才能购买该物品.", points_format( rewards_points ) );
 
     		switch ( rewards_item )
     		{
     			case 0:
     			{
 					if ( p_ExplosiveBullets[ playerid ] >= MAX_EXPLOSIVE_ROUNDS )
-						return SendError( playerid, "You can only purchase a max of %d rounds.", MAX_EXPLOSIVE_ROUNDS );
+						return SendError( playerid, "你最多只能购买 %d 轮.", MAX_EXPLOSIVE_ROUNDS );
 
     				p_ExplosiveBullets[ playerid ] += 10;
-    				ShowPlayerHelpDialog( playerid, 3000, "Press ~r~~k~~CONVERSATION_NO~~w~ to activate explosive bullets." );
+                    ShowPlayerHelpDialog( playerid, 3000, "按 ~r~~k~~CONVERSATION_NO~~w~ 激活爆炸子弹." );
     			}
     			case 1: // highroller
     			{
-    				if ( p_IsCasinoHighRoller{ playerid } ) return SendError( playerid, "You are already considered a casino highroller." );
+                    if ( p_IsCasinoHighRoller{ playerid } ) return SendError( playerid, "你已经被视为赌场豪客." );
 					mysql_single_query( sprintf( "UPDATE `USERS` SET `VISAGE_HIGHROLLER`=1 WHERE `ID`=%d", p_AccountID[ playerid ] ) );
 					DestroyDynamicObject( p_HighrollersBarrier[ playerid ] [ 0 ] ), p_HighrollersBarrier[ playerid ] [ 0 ] = -1;
 					DestroyDynamicObject( p_HighrollersBarrier[ playerid ] [ 1 ] ), p_HighrollersBarrier[ playerid ] [ 1 ] = -1;
@@ -88,7 +88,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
     		p_CasinoRewardsPoints[ playerid ] -= rewards_points;
 			mysql_single_query( sprintf( "UPDATE `USERS` SET `CASINO_REWARDS` = %f WHERE `ID`=%d", p_CasinoRewardsPoints[ playerid ], p_AccountID[ playerid ] ) );
-			SendServerMessage( playerid, "You have bought "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE" rewards points.", g_casinoRewardsItems[ rewards_item ] [ E_NAME ], points_format( rewards_points ) );
+			SendServerMessage( playerid, "你已经买了 "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE" 奖励积分.", g_casinoRewardsItems[ rewards_item ] [ E_NAME ], points_format( rewards_points ) );
     		return ShowPlayerRewardsMenu( playerid );
 	    }
 	    else
@@ -100,16 +100,16 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		    		new Float: rewards_cost = ( float( g_shopItemData[ i ] [ E_PRICE ] ) * CASINO_REWARDS_COST_MP ) / CASINO_REWARDS_DIVISOR;
 
 		    		if ( p_CasinoRewardsPoints[ playerid ] < rewards_cost )
-		    			return SendError( playerid, "You need %s rewards points for this item.", points_format( rewards_cost ) );
+                        return SendError( playerid, "你需要 %s 奖励积分才能购买该物品.", points_format( rewards_cost ) );
 
 		    		// shop limits
 		    		if ( g_shopItemData[ i ] [ E_LIMIT ] == 1 )
 		    		{
 		    			if ( g_shopItemData[ i ] [ E_ID ] == SHOP_ITEM_DRILL ) {
-		        			if ( p_drillStrength[ playerid ] == MAX_DRILL_STRENGTH ) return SendError( playerid, "You have already purchased this item." );
+                            if ( p_drillStrength[ playerid ] == MAX_DRILL_STRENGTH ) return SendError( playerid, "你已经购买了该物品." );
 		        			p_drillStrength[ playerid ] = MAX_DRILL_STRENGTH;
 		    			} else if ( g_shopItemData[ i ] [ E_ID ] == SHOP_ITEM_MONEY_CASE ) {
-		        			if ( p_MoneyBag{ playerid } == true ) return SendError( playerid, "You have already purchased this item." );
+                            if ( p_MoneyBag{ playerid } == true ) return SendError( playerid, "你已经购买了该物品." );
 							if ( p_Class[ playerid ] != CLASS_POLICE ) SetPlayerAttachedObject( playerid, 1, 1210, 7, 0.302650, -0.002469, -0.193321, 296.124053, 270.396881, 8.941717, 1.000000, 1.000000, 1.000000 );
 		        			p_MoneyBag{ playerid } = true;
 	        			}
@@ -120,7 +120,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			    		new iLimit = g_shopItemData[ i ] [ E_LIMIT ] + ( 2 * p_VIPLevel[ playerid ] );
 
 			    		if ( iCurrentQuantity >= iLimit )
-			    			return SendError( playerid, "You cannot buy more of this item with your rewards points." );
+                            return SendError( playerid, "你无法用你的奖励积分购买更多该物品." );
 
 		    			SetPlayerShopItemAmount( playerid, i, iCurrentQuantity + 1 );
 		    		}
@@ -128,7 +128,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		    		// deduct points
 					p_CasinoRewardsPoints[ playerid ] -= rewards_cost;
 					mysql_single_query( sprintf( "UPDATE `USERS` SET `CASINO_REWARDS` = %f WHERE `ID`=%d", p_CasinoRewardsPoints[ playerid ], p_AccountID[ playerid ] ) );
-					SendServerMessage( playerid, "You have bought 1x "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE" rewards points.", g_shopItemData[ i ] [ E_NAME ], points_format( rewards_cost ) );
+					SendServerMessage( playerid, "你已经购买了1x "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE" 奖励积分.", g_shopItemData[ i ] [ E_NAME ], points_format( rewards_cost ) );
 		    		return ShowPlayerRewardsMenu( playerid );
 		    	}
 		    	x ++;
@@ -138,14 +138,14 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	}
 	else if ( dialogid == DIALOG_CASINO_BAR && response )
 	{
-		if ( p_CasinoRewardsPoints[ playerid ] < 20.0 ) return SendError( playerid, "You need 20.0 casino rewards points to buy an item from the casino's bar." );
+		if ( p_CasinoRewardsPoints[ playerid ] < 20.0 ) return SendError( playerid, "你需要 20.0 赌场奖励积分才能从赌场酒吧购买物品." );
 
 		// what did they buy
 		switch ( listitem )
 		{
-			case 0: SetPlayerSpecialAction( playerid, 20 ), SendServerMessage( playerid, "You have bought a beer for "COL_GOLD"20.0 casino rewards points"COL_WHITE"." );
-			case 1: SetPlayerSpecialAction( playerid, 21 ), SendServerMessage( playerid, "You have bought a cigar for "COL_GOLD"20.0 casino rewards points"COL_WHITE"." );
-			case 2: SetPlayerSpecialAction( playerid, 22 ), SendServerMessage( playerid, "You have bought wine for "COL_GOLD"20.0 casino rewards points"COL_WHITE"." );
+			case 0: SetPlayerSpecialAction( playerid, 20 ), SendServerMessage( playerid, "你买了一瓶啤酒 "COL_GOLD"20.0 赌场奖励积分"COL_WHITE"." );
+			case 1: SetPlayerSpecialAction( playerid, 21 ), SendServerMessage( playerid, "你买了一支雪茄 "COL_GOLD"20.0 赌场奖励积分"COL_WHITE"." );
+			case 2: SetPlayerSpecialAction( playerid, 22 ), SendServerMessage( playerid, "你买了酒 "COL_GOLD"20.0 赌场奖励积分"COL_WHITE"." );
 		}
 
 		// update account
@@ -164,12 +164,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 		if ( sell_amount < CASINO_POINTS_SELL_MINIMUM )
 		{
-			SendError( playerid, "Minimum amount of Casino Points that you can sell is %s.", number_format( CASINO_POINTS_SELL_MINIMUM ) );
+			SendError( playerid, "你可以出售的赌场积分的最低金额为 %s.", number_format( CASINO_POINTS_SELL_MINIMUM ) );
 			return ShowPlayerSellMenu( playerid );
 		}
 		else if ( sell_amount > total_points )
 		{
-			SendError( playerid, "You do not have this much Casino Points." );
+			SendError( playerid, "你没有这么多赌场积分." );
 			return ShowPlayerSellMenu( playerid );
 		}
 		else
@@ -179,7 +179,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 			GivePlayerCash( playerid, credit );
 			p_CasinoRewardsPoints[ playerid ] -= float( sell_amount );
-			SendGlobalMessage( -1, ""COL_GREY"[CASINO]{FFFFFF} %s(%d) has sold %s casino points for "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, points_format( sell_amount ), cash_format( credit ) );
+			SendGlobalMessage( -1, ""COL_GREY"[赌场]{FFFFFF} %s(%d) 已售出 %s 赌场积分 "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( playerid ), playerid, points_format( sell_amount ), cash_format( credit ) );
 			mysql_single_query( sprintf( "UPDATE `USERS` SET `CASINO_REWARDS` = %f WHERE `ID`=%d", p_CasinoRewardsPoints[ playerid ], p_AccountID[ playerid ] ) );
 		}
 		return 1;
@@ -193,14 +193,14 @@ hook OnPlayerUpdateEx( playerid )
 		return 1;
 
 	// Update casino labels
-	UpdateDynamic3DTextLabelText( p_RewardsLabel_Caligs[ playerid ], COLOR_GOLD, sprintf( "[CASINO REWARDS]\n\n"COL_WHITE"You have %s rewards points!", points_format( p_CasinoRewardsPoints[ playerid ] ) ) );
-	UpdateDynamic3DTextLabelText( p_RewardsLabel_4Drags[ playerid ], COLOR_GOLD, sprintf( "[CASINO REWARDS]\n\n"COL_WHITE"You have %s rewards points!", points_format( p_CasinoRewardsPoints[ playerid ] ) ) );
-	UpdateDynamic3DTextLabelText( p_RewardsLabel_Visage[ playerid ], COLOR_GOLD, sprintf( "[CASINO REWARDS]\n\n"COL_WHITE"You have %s rewards points!", points_format( p_CasinoRewardsPoints[ playerid ] ) ) );
+	UpdateDynamic3DTextLabelText( p_RewardsLabel_Caligs[ playerid ], COLOR_GOLD, sprintf( "[赌场奖励]\n\n"COL_WHITE"你有 %s 奖励积分!", points_format( p_CasinoRewardsPoints[ playerid ] ) ) );
+	UpdateDynamic3DTextLabelText( p_RewardsLabel_4Drags[ playerid ], COLOR_GOLD, sprintf( "[赌场奖励]\n\n"COL_WHITE"你有 %s 奖励积分!", points_format( p_CasinoRewardsPoints[ playerid ] ) ) );
+	UpdateDynamic3DTextLabelText( p_RewardsLabel_Visage[ playerid ], COLOR_GOLD, sprintf( "[赌场奖励]\n\n"COL_WHITE"你有 %s 奖励积分!", points_format( p_CasinoRewardsPoints[ playerid ] ) ) );
 
  	// Remove invalid visage highrollers
  	if ( ! p_IsCasinoHighRoller{ playerid } && IsPlayerInHighRoller( playerid ) ) {
  		SetPlayerPos( playerid, 2597.8943, 1603.1852, 1506.1733 );
- 		SendError( playerid, "You need to be a Highroller to access this area. Get access through Casino Rewards." );
+        SendError( playerid, "你需要成为豪赌者才能进入该区域.通过赌场奖励获得访问权限." );
  	}
 	return 1;
 }
@@ -211,9 +211,9 @@ hook OnPlayerConnect( playerid )
 	DestroyDynamic3DTextLabel( p_RewardsLabel_Caligs[ playerid ] );
 	DestroyDynamic3DTextLabel( p_RewardsLabel_4Drags[ playerid ] );
 	DestroyDynamic3DTextLabel( p_RewardsLabel_Visage[ playerid ] );
-	p_RewardsLabel_Caligs[ playerid ] = CreateDynamic3DTextLabel( "[CASINO REWARDS]", COLOR_GOLD, 2157.6294, 1599.4355, 1006.1797, 20.0, .playerid = playerid );
-	p_RewardsLabel_4Drags[ playerid ] = CreateDynamic3DTextLabel( "[CASINO REWARDS]", COLOR_GOLD, 1951.7191, 997.55550, 992.85940, 20.0, .playerid = playerid );
-	p_RewardsLabel_Visage[ playerid ] = CreateDynamic3DTextLabel( "[CASINO REWARDS]", COLOR_GOLD, 2604.1323, 1570.1182, 1508.3530, 20.0, .playerid = playerid );
+	p_RewardsLabel_Caligs[ playerid ] = CreateDynamic3DTextLabel( "[赌场奖励]", COLOR_GOLD, 2157.6294, 1599.4355, 1006.1797, 20.0, .playerid = playerid );
+	p_RewardsLabel_4Drags[ playerid ] = CreateDynamic3DTextLabel( "[赌场奖励]", COLOR_GOLD, 1951.7191, 997.55550, 992.85940, 20.0, .playerid = playerid );
+	p_RewardsLabel_Visage[ playerid ] = CreateDynamic3DTextLabel( "[赌场奖励]", COLOR_GOLD, 2604.1323, 1570.1182, 1508.3530, 20.0, .playerid = playerid );
 
 	// Create highroller objects
 	p_HighrollersBarrier[ playerid ] [ 0 ] = CreateDynamicObject( 19545, 2592.604980, 1610.016967, 1499.139038, 90.000000, 90.000000, 0.000000, .worldid = VISAGE_WORLD, .playerid = playerid );
@@ -245,10 +245,10 @@ hook OnPlayerLogin( playerid )
 CMD:casino( playerid, params[ ] )
 {
 	if ( strmatch( params, "rewards" ) ) {
-		if ( ! IsPlayerInCasino( playerid ) ) return SendError( playerid, "You need to be in a casino to use this feature." );
+		if ( ! IsPlayerInCasino( playerid ) ) return SendError( playerid, "你需要在赌场才能使用此功能." );
 		return ShowPlayerRewardsMenu( playerid );
 	} else if ( strmatch( params, "points" ) ) {
-		return SendServerMessage( playerid, "You currently have "COL_GOLD"%s"COL_WHITE" casino rewards points.", points_format( p_CasinoRewardsPoints[ playerid ] ) );
+		return SendServerMessage( playerid, "你目前有 "COL_GOLD"%s"COL_WHITE" 赌场奖励积分.", points_format( p_CasinoRewardsPoints[ playerid ] ) );
 	}
 	return SendUsage( playerid, "/casino [REWARDS/POINTS]" );
 }
@@ -269,17 +269,17 @@ stock ShowPlayerRewardsMenu( playerid )
 
 	if ( szString[ 0 ] == '\0' )
 	{
-		strcat( szString, ""COL_WHITE"Item\t"COL_WHITE"Purpose\t"COL_WHITE"Rewards Points\n" );
+		strcat( szString, ""COL_WHITE"物品\t"COL_WHITE"目的\t"COL_WHITE"奖励积分\n" );
 		for( new i; i < sizeof( g_shopItemData ); i++ ) if ( IsCasinoRewardsShopItem( g_shopItemData[ i ] [ E_ID ] ) ) {
 			new Float: rewards_cost = ( float( g_shopItemData[ i ] [ E_PRICE ] ) * CASINO_REWARDS_COST_MP ) / CASINO_REWARDS_DIVISOR;
-	 		format( szString, sizeof( szString ), "%s%s\t"COL_GREY"%s\t"COL_GOLD"%s points\n", szString, g_shopItemData[ i ] [ E_NAME ], g_shopItemData[ i ] [ E_USAGE ], points_format( rewards_cost ) );
+            format( szString, sizeof( szString ), "%s%s\t"COL_GREY"%s\t"COL_GOLD"%s 点 \n", szString, g_shopItemData[ i ] [ E_NAME ], g_shopItemData[ i ] [ E_USAGE ], points_format( rewards_cost ) );
 		}
 		for ( new i = 0; i < sizeof( g_casinoRewardsItems ); i ++ ) {
-	 		format( szString, sizeof( szString ), "%s%s\t \t"COL_GOLD"%s points\n", szString, g_casinoRewardsItems[ i ] [ E_NAME ], points_format( g_casinoRewardsItems[ i ] [ E_POINTS ] ) );
+            format( szString, sizeof( szString ), "%s%s\t \t"COL_GOLD"%s 点 \n", szString, g_casinoRewardsItems[ i ] [ E_NAME ], points_format( g_casinoRewardsItems[ i ] [ E_POINTS ] ) );
 		}
-		strcat( szString, ""COL_GREEN"Sell Your Points\t \t"COL_GREEN">>>" );
+		strcat( szString, ""COL_GREEN"出售你的积分\t \t"COL_GREEN">>>" );
 	}
-	return ShowPlayerDialog( playerid, DIALOG_CASINO_REWARDS, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Casino Rewards Items", szString, "Buy", "Cancel" );
+	return ShowPlayerDialog( playerid, DIALOG_CASINO_REWARDS, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}赌场奖励物品", szString, "买", "取消" );
 }
 
 stock ShowPlayerSellMenu( playerid )
@@ -287,15 +287,15 @@ stock ShowPlayerSellMenu( playerid )
 	new value = floatround( p_CasinoRewardsPoints[ playerid ] * CASINO_POINTS_SELL_VALUE );
 
 	format( szBigString, sizeof( szBigString ),
-		""COL_WHITE"Please input how much Casino Points you want to sell.\n\n"\
-		"Exchange Rate is "COL_GOLD"1 "COL_WHITE"Casino Point for "COL_GOLD"%s\n\n"\
-		""COL_WHITE"You have "COL_GOLD"%s "COL_WHITE"Casino Points that can be sold for "COL_GOLD"%s",
+		""COL_WHITE"请输入你想出售多少赌场积分.\n\n"\
+		"汇率为 "COL_GOLD"1 "COL_WHITE"赌场积分 "COL_GOLD"%s\n\n"\
+		""COL_WHITE"你已"COL_GOLD"%s "COL_WHITE"可以出售的赌场积分 "COL_GOLD"%s",
 		cash_format( CASINO_POINTS_SELL_VALUE, .decimals = 0 ),
 		points_format( p_CasinoRewardsPoints[ playerid ] ),
 		cash_format( value, .decimals = 0 )
 	);
 
-	return ShowPlayerDialog( playerid, DIALOG_CASINO_POINTS_MARKET, DIALOG_STYLE_INPUT, "{FFFFFF}Casino Points Market", szBigString, "Sell", "Back" );
+	return ShowPlayerDialog( playerid, DIALOG_CASINO_POINTS_MARKET, DIALOG_STYLE_INPUT, "{FFFFFF}赌场积分市场", szBigString, "出售", "返回" );
 }
 
 stock IsCasinoRewardsShopItem( E_SHOP_ITEMS: itemid ) {

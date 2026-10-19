@@ -33,7 +33,7 @@ hook OnPlayerSpawn( playerid )
 		DisableRemoteVehicleCollisions( playerid, p_AdminOnDuty{ playerid } );
 		SetPlayerHealth( playerid, INVALID_PLAYER_ID );
 		Delete3DTextLabel( p_SpawnKillLabel[ playerid ] );
-		p_SpawnKillLabel[ playerid ] = Create3DTextLabel( "Spawn Protected!", COLOR_GOLD, 0.0, 0.0, 0.0, 15.0, 0 );
+		p_SpawnKillLabel[ playerid ] = Create3DTextLabel( "出生保护中!", COLOR_GOLD, 0.0, 0.0, 0.0, 15.0, 0 );
 		p_AntiSpawnKill[ playerid ] = g_iTime + 15;
 	    Attach3DTextLabelToPlayer( p_SpawnKillLabel[ playerid ], playerid, 0.0, 0.0, 0.3 );
 	    p_AntiSpawnKillEnabled{ playerid } = true;

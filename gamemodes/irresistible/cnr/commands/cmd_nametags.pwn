@@ -17,11 +17,11 @@ CMD:nametags( playerid, params[ ] )
 	if ( strmatch( params, "off" ) ) {
 		foreach( new i : Player ) { ShowPlayerNameTagForPlayer( playerid, i, 0 ); }
 		p_HiddenNameTags{ playerid } = true;
-	    SendClientMessage( playerid, 0x84aa63ff, "-> Name tags disabled" );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> 已隐藏玩家名牌" );
 	} else if ( strmatch( params, "on" ) ) {
 		foreach( new i : Player ) { ShowPlayerNameTagForPlayer( playerid, i, 1 ); }
 		p_HiddenNameTags{ playerid } = false;
-	    SendClientMessage( playerid, 0x84aa63ff, "-> Name tags enabled" );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> 已显示玩家名牌" );
 	}
 	else SendClientMessage( playerid, 0xa9c4e4ff, "-> /nametags [ON/OFF]" );
 	return 1;

@@ -34,11 +34,11 @@ enum E_BV_DATA
 new
 	g_BVCategories[ ] [ 16 ] =
 	{
-		{ "Airplanes" },		{ "Helicopters" },		{ "Bikes" },
-		{ "Convertibles" },		{ "Industrial" },		{ "Lowriders" },
-		{ "Off Road" },			{ "Public Service" },	{ "Saloons" },
-		{ "Sport Vehicles" },	{ "Station Wagons" },	{ "Boats" },
-		{ "Unique Vehicles" }
+		{ "飞机" },		{ "直升机" },		{ "自行车" },
+		{ "敞篷车" },		{ "工业的" },		{ "低骑士" },
+		{ "越野" },			{ "公共服务" },	{ "轿车" },
+		{ "运动车" },	{ "旅行车" },	{ "船" },
+		{ "独特的车辆" }
 	},
 	g_BuyableVehicleData 			[ ] [ E_BV_DATA ] =
 	{
@@ -52,7 +52,7 @@ new
 		{ BV_TYPE_AIRPLANES, 		593, 0, 3000000, 	"Dodo" },
 		{ BV_TYPE_AIRPLANES, 		476, 1, 3000000, 	"Rustler" },
 		{ BV_TYPE_AIRPLANES, 		460, 1, 2700000, 	"Skimmer" },
-		{ BV_TYPE_AIRPLANES, 		512, 0, 2200000, 	"Cropduster" },
+		{ BV_TYPE_AIRPLANES, 		512, 0, 2200000, 	"农作物喷粉机" },
 
 		// Helicopters
 		{ BV_TYPE_HELICOPTERS, 		487, 0, 7500000, 	"Maverick" },
@@ -91,7 +91,7 @@ new
 		{ BV_TYPE_INDUSTRIAL, 		554, 0, 500000, 	"Yosemite" },
 		{ BV_TYPE_INDUSTRIAL, 		482, 0, 500000, 	"Burrito" },
 		{ BV_TYPE_INDUSTRIAL, 		600, 0, 375000, 	"Picador" },
-		{ BV_TYPE_INDUSTRIAL, 		552, 1, 300000, 	"Utility Van" },
+		{ BV_TYPE_INDUSTRIAL, 		552, 1, 300000, 	"多用途货车" },
 		{ BV_TYPE_INDUSTRIAL, 		413, 0, 300000, 	"Pony" },
 		{ BV_TYPE_INDUSTRIAL, 		582, 1, 250000, 	"Newsvan" },
 		{ BV_TYPE_INDUSTRIAL, 		440, 0, 250000, 	"Rumpo" },
@@ -129,9 +129,9 @@ new
 
 		// Public Service
 		{ BV_TYPE_PUBLIC_SERVICE,	601, 1, 3000000, 	"S.W.A.T." },
-		{ BV_TYPE_PUBLIC_SERVICE, 	596, 1, 2500000, 	"Police Car (LSPD)" },
-		{ BV_TYPE_PUBLIC_SERVICE, 	597, 1, 2500000, 	"Police Car (SFPD)" },
-		{ BV_TYPE_PUBLIC_SERVICE, 	598, 1, 2500000, 	"Police Car (LVPD)" },
+		{ BV_TYPE_PUBLIC_SERVICE, 	596, 1, 2500000, 	"警车(LSPD)" },
+		{ BV_TYPE_PUBLIC_SERVICE, 	597, 1, 2500000, 	"警车 (SFPD)" },
+		{ BV_TYPE_PUBLIC_SERVICE, 	598, 1, 2500000, 	"警车 (LVPD)" },
 		{ BV_TYPE_PUBLIC_SERVICE, 	416, 1, 2500000, 	"Ambulance" },
 		{ BV_TYPE_PUBLIC_SERVICE, 	407, 1, 2500000, 	"Firetruck"},
 		{ BV_TYPE_PUBLIC_SERVICE, 	544, 1, 2500000, 	"Firetruck LA" },
@@ -187,7 +187,7 @@ new
 		{ BV_TYPE_SPORTS, 			415, 0, 2600000, 	"Cheetah" },
 		{ BV_TYPE_SPORTS, 			494, 1, 2500000, 	"Hotring Racer A" },
 		{ BV_TYPE_SPORTS, 			502, 1, 2500000, 	"Hotring Racer B" },
-		{ BV_TYPE_SPORTS, 			503, 1, 2500000, 	"Hotring Racer C" },
+		{ BV_TYPE_SPORTS, 			503, 1, 2500000, 	"热环赛车C" },
 		{ BV_TYPE_SPORTS, 			402, 0, 2250000, 	"Buffalo" },
 		{ BV_TYPE_SPORTS, 			429, 0, 1750000, 	"Banshee" },
 		{ BV_TYPE_SPORTS, 			565, 0, 1250000, 	"Flash" },
@@ -222,7 +222,7 @@ new
 
 		// Unique
 		{ BV_TYPE_UNIQUE, 			406, 1, 2900000, 	"Dumper" },
-		{ BV_TYPE_UNIQUE,			532, 1, 2500000, 	"Combine Harvester" },
+		{ BV_TYPE_UNIQUE,			532, 1, 2500000, 	"联合收割机" },
 		{ BV_TYPE_UNIQUE, 			409, 0, 2000000, 	"Stretch" },
 		{ BV_TYPE_UNIQUE, 			539, 1, 2000000, 	"Vortex" },
 		{ BV_TYPE_UNIQUE, 			508, 1, 2000000, 	"Journey" },
@@ -251,9 +251,9 @@ hook OnScriptInit( )
 	g_VehicleDealerCP[ 1 ] = CreateDynamicCP( -126.2794, 117.3427, 1004.7233, 1.0, -1, -1, -1, 25.0 );
 	g_VehicleDealerCP[ 2 ] = CreateDynamicCP( 540.7507, -1299.1378, 17.2859, 1.0, -1, -1, -1, 25.0 );
 
-	CreateDynamic3DTextLabel( "[PURCHASE VEHICLE]", COLOR_GOLD, -1867.9092, -646.3469, 1002.1284, 20.0 );
-	CreateDynamic3DTextLabel( "[PURCHASE VEHICLE]", COLOR_GOLD, -126.2794, 117.3427, 1004.7233, 20.0 );
-	CreateDynamic3DTextLabel( "[PURCHASE VEHICLE]", COLOR_GOLD, 540.7507, -1299.1378, 17.2859, 20.0 );
+	CreateDynamic3DTextLabel( "[购买载具]", COLOR_GOLD, -1867.9092, -646.3469, 1002.1284, 20.0 );
+	CreateDynamic3DTextLabel( "[购买载具]", COLOR_GOLD, -126.2794, 117.3427, 1004.7233, 20.0 );
+	CreateDynamic3DTextLabel( "[购买载具]", COLOR_GOLD, 540.7507, -1299.1378, 17.2859, 20.0 );
 	return 1;
 }
 
@@ -284,14 +284,14 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			       	if ( x == listitem )
 			      	{
 			      		SetPVarInt( playerid, "buying_vehicle", id );
-			      		ShowPlayerDialog( playerid, DIALOG_VEHDEALER_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Vehicle Dealership", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
+                        ShowPlayerDialog( playerid, DIALOG_VEHDEALER_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}汽车经销店", "购买这辆车\n预览车", "选择", "返回" );
 			      		return 1;
 					}
 			      	x++;
 				}
 			}
 
-			ShowBuyableVehiclesList( playerid ), SendError( playerid, "An error has occurred. (0x68F)");
+			ShowBuyableVehiclesList( playerid ), SendError( playerid, "发生错误. (0x68F)");
 		}
 		else ShowBuyableVehiclesList( playerid );
 	}
@@ -308,18 +308,18 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					data_id = GetPVarInt( playerid, "buying_vehicle" ),
 					model = g_BuyableVehicleData[ data_id ] [ E_MODEL ]
 				;
-			    if ( p_OwnedVehicles[ playerid ] >= GetPlayerVehicleSlots( playerid ) ) return SendError( playerid, "You have reached the limit of purchasing vehicles." );
-				if ( GetPlayerScore( playerid ) < 200 ) return SendError( playerid, "You need at least 200 score to buy a vehicle." );
-				if ( GetPlayerCash( playerid ) < g_BuyableVehicleData[ data_id ] [ E_PRICE ] ) return SendError( playerid, "You don't have enough money for this vehicle." );
+			    if ( p_OwnedVehicles[ playerid ] >= GetPlayerVehicleSlots( playerid ) ) return SendError( playerid, "你已达到购买车辆的限制." );
+				if ( GetPlayerScore( playerid ) < 200 ) return SendError( playerid, "你至少需要 200 分数 才能购买车辆." );
+				if ( GetPlayerCash( playerid ) < g_BuyableVehicleData[ data_id ] [ E_PRICE ] ) return SendError( playerid, "你没有足够的钱购买这辆车." );
 
 				// VIP Check
 				if ( g_BuyableVehicleData[ data_id ] [ E_VIP ] )
 				{
 					if ( p_VIPLevel[ playerid ] < VIP_REGULAR )
-						return SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+						return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 
 					if ( ( ( p_VIPExpiretime[ playerid ] - g_iTime ) / 86400 ) < 3 )
-						return SendError( playerid, "You need more than 3 days of V.I.P in order to complete this." );
+						return SendError( playerid, "你需要超过 3 天的 VIP 才能完成此任务." );
 				}
 
 		        new Float: X, Float: Y, Float: Z, Float: fA;
@@ -352,7 +352,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		        Z += 3; // Just plane jams or someshit...
 
 			   	new bID = CreateBuyableVehicle( playerid, model, random( 126 ), random( 126 ), X, Y, Z, fA, g_BuyableVehicleData[ data_id ] [ E_PRICE ] );
-				if ( bID == -1 ) return SendClientMessage( playerid, -1, ""COL_GREY"[VEHICLE]"COL_WHITE" Unable to create a vehicle due to a unexpected error." );
+				if ( bID == -1 ) return SendClientMessage( playerid, -1, ""COL_GREY"[载具]"COL_WHITE" 由于意外错误,无法创建车辆." );
 				GivePlayerCash( playerid, -g_BuyableVehicleData[ data_id ] [ E_PRICE ] );
 
 		        GetVehicleParamsEx( g_vehicleData[ playerid ] [ bID ] [ E_VEHICLE_ID ], engine, lights, alarm, doors, bonnet, boot, objective );
@@ -361,16 +361,16 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				StockMarket_UpdateEarnings( E_STOCK_VEHICLE_DEALERSHIP, g_BuyableVehicleData[ data_id ] [ E_PRICE ], 0.01 );
 
-				SendServerMessage( playerid, "You have bought an "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE"!", g_BuyableVehicleData[ data_id ] [ E_NAME ], cash_format( g_BuyableVehicleData[ data_id ] [ E_PRICE ] )  );
+				SendServerMessage( playerid, "你已经购买了 "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE"!", g_BuyableVehicleData[ data_id ] [ E_NAME ], cash_format( g_BuyableVehicleData[ data_id ] [ E_PRICE ] )  );
 
 				if ( p_OwnedVehicles[ playerid ] < 3 ) {
-					ShowPlayerDialog( playerid, DIALOG_BOUGHT_VEH, DIALOG_STYLE_MSGBOX, "{FFFFFF}You've purchased a vehicle!", "{FFFFFF}Glad to see you've purchased a vehicle. Please ensure you read:\n\n* Vehicles are kept until you sell them or go two months inactive. This is not refundable.\n* Do not mispark your vehicle or it can be removed/impounded.\n* Check out /v for vehicle commands.\n* Find an acceptable place to park your new vehicle such as your house or a parking lot.", "Okay", "" );
+					ShowPlayerDialog( playerid, DIALOG_BOUGHT_VEH, DIALOG_STYLE_MSGBOX, "{FFFFFF}你购买了车辆!", "{FFFFFF}感谢购买载具, 请仔细阅读:\n\n* 载具保留至你出售或连续两个月未上线为止, 不予退款.\n* 请勿违规停车, 否则载具可能被移除或扣押.\n* 输入 /v 查看载具命令.\n* 请将新载具停放在合适位置, 如自家附近或停车场.", "确定", "" );
 					SetPVarInt( playerid, "bought_veh_ts", g_iTime + 30 );
 				}
 			}
 			case 1:
 			{
-				return ShowPlayerModelPreview( playerid, PREVIEW_MODEL_VEHICLE, "Vehicle Preview", g_BuyableVehicleData[ GetPVarInt( playerid, "buying_vehicle" ) ] [ E_MODEL ] );
+				return ShowPlayerModelPreview( playerid, PREVIEW_MODEL_VEHICLE, "车辆预览", g_BuyableVehicleData[ GetPVarInt( playerid, "buying_vehicle" ) ] [ E_MODEL ] );
 			}
 		}
 	}
@@ -381,8 +381,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			DeletePVar( playerid, "bought_veh_ts" );
 			return 1;
 		}
-		SendServerMessage( playerid, "Please read this thoroughly so you know what you can be facing. %d seconds left.", GetPVarInt( playerid, "bought_veh_ts" ) - g_iTime );
-		ShowPlayerDialog( playerid, DIALOG_BOUGHT_VEH, DIALOG_STYLE_MSGBOX, "{FFFFFF}You've purchased a vehicle!", "{FFFFFF}Glad to see you've purchased a vehicle. Please ensure you read:\n\n* Vehicles are kept until you sell them or go two months inactive. This is not refundable.\n* Do not mispark your vehicle or it can be removed/impounded.\n* Check out /v for vehicle commands.\n* Find an acceptable place to park your new vehicle such as your house or a parking lot.", "Okay", "" );
+		SendServerMessage( playerid, "请仔细阅读本文,以便了解你可能面临的情况.还剩 %d 秒.", GetPVarInt( playerid, "bought_veh_ts" ) - g_iTime );
+		ShowPlayerDialog( playerid, DIALOG_BOUGHT_VEH, DIALOG_STYLE_MSGBOX, "{FFFFFF}你购买了车辆!", "{FFFFFF}感谢购买载具, 请仔细阅读:\n\n* 载具保留至你出售或连续两个月未上线为止, 不予退款.\n* 请勿违规停车, 否则载具可能被移除或扣押.\n* 输入 /v 查看载具命令.\n* 请将新载具停放在合适位置, 如自家附近或停车场.", "确定", "" );
 	}
 	return 1;
 }
@@ -391,15 +391,15 @@ hook OnPlayerEndModelPreview( playerid, handleid )
 {
 	if ( handleid == PREVIEW_MODEL_VEHICLE )
 	{
-		SendServerMessage( playerid, "You have finished looking at the vehicle's preview." );
-		ShowPlayerDialog( playerid, DIALOG_VEHDEALER_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Vehicle Dealership", "Purchase This Vehicle\nPreview Vehicle", "Select", "Back" );
+		SendServerMessage( playerid, "你已完成车辆预览的查看." );
+		ShowPlayerDialog( playerid, DIALOG_VEHDEALER_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}汽车经销店", "购买这辆车\n预览车", "选择", "返回" );
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
 	return 1;
 }
 
 /* ** Functions ** */
-stock ShowBuyableVehiclesList( playerid, dialogid = DIALOG_VEHDEALER, secondary_button[ ] = "Cancel" )
+stock ShowBuyableVehiclesList( playerid, dialogid = DIALOG_VEHDEALER, secondary_button[ ] = "取消" )
 {
 	static
 		szCategory[ 16 * sizeof( g_BVCategories ) ];
@@ -409,7 +409,7 @@ stock ShowBuyableVehiclesList( playerid, dialogid = DIALOG_VEHDEALER, secondary_
 			format( szCategory, sizeof( szCategory ), "%s%s\n", szCategory, g_BVCategories[ i ] );
 		}
 	}
-	return ShowPlayerDialog( playerid, dialogid, DIALOG_STYLE_LIST, "{FFFFFF}Vehicle Dealership", szCategory, "Select", secondary_button );
+	return ShowPlayerDialog( playerid, dialogid, DIALOG_STYLE_LIST, "{FFFFFF}汽车经销店", szCategory, "选择", secondary_button );
 }
 
 stock ShowBuyableVehiclesTypeDialog( playerid, type_id )
@@ -417,11 +417,11 @@ stock ShowBuyableVehiclesTypeDialog( playerid, type_id )
 	static
 		buyable_vehicles[ 1400 ], i;
 
-	for ( i = 0, buyable_vehicles = ""COL_WHITE"Vehicle\t"COL_WHITE"Price ($)\n"; i < sizeof( g_BuyableVehicleData ); i ++ ) if ( g_BuyableVehicleData[ i ] [ E_TYPE ] == type_id ) {
+	for ( i = 0, buyable_vehicles = ""COL_WHITE"载具\t"COL_WHITE"价格($)\n"; i < sizeof( g_BuyableVehicleData ); i ++ ) if ( g_BuyableVehicleData[ i ] [ E_TYPE ] == type_id ) {
 		format( buyable_vehicles, sizeof( buyable_vehicles ), "%s%s%s\t"COL_GREEN"%s\n", buyable_vehicles, g_BuyableVehicleData[ i ] [ E_VIP ] ? ( COL_GOLD ) : ( COL_WHITE ), g_BuyableVehicleData[ i ] [ E_NAME ], cash_format( g_BuyableVehicleData[ i ] [ E_PRICE ] ) );
 	}
 
-	ShowPlayerDialog( playerid, DIALOG_VEHDEALER_BUY, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Vehicle Dealership", buyable_vehicles, "Options", "Cancel" );
+	ShowPlayerDialog( playerid, DIALOG_VEHDEALER_BUY, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}汽车经销店", buyable_vehicles, "选项", "取消" );
 	SetPVarInt( playerid, "vehicle_preview", type_id );
 	return 1;
 }

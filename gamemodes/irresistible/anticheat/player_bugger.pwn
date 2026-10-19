@@ -47,7 +47,7 @@ hook OnPlayerUpdate( playerid )
 	GetPlayerPos( playerid, X, Y, Z );
 
 	if ( X >= 99999.0 || Y >= 99999.0 || Z >= 99999.0 || X <= -99999.0 || Y <= -99999.0 || Z <= -99999.0 ) {
-	  	SendClientMessage( playerid, 0xa9c4e4ff, "Warning: Excessive X, Y, Z has been breached thus last location set." );
+        SendClientMessage( playerid, 0xa9c4e4ff, "警告:过多的 X,Y,Z 已被破坏,因此最后的位置设置已被破坏." );
 		SetPlayerPos( playerid, p_PlayerBuggerX[ playerid ], p_PlayerBuggerY[ playerid ], p_PlayerBuggerZ[ playerid ] );
 	} else {
 	    p_PlayerBuggerX[ playerid ] = X;

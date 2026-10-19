@@ -62,9 +62,9 @@ thread Banning_CheckPlayerBan( playerid )
 			if ( !bannedExpire )
 			{
 				// "COL_ORANGE"Ban evading will be fatal to your account. Do not do it.
-				format( szLargeString, 600, "{FFFFFF}You are banned from this server.\n{FFFFFF}If you feel wrongfully banned, please appeal at "COL_BLUE""#SERVER_WEBSITE"{FFFFFF}\n\n"COL_RED"Username:{FFFFFF} %s\n"COL_RED"IP Address:{FFFFFF} %s\n", bannedUser, bannedIP );
-				format( szLargeString, 600, "%s"COL_RED"Reason:{FFFFFF} %s\n"COL_RED"Server:{FFFFFF} %s\n"COL_RED"Banned by:{FFFFFF} %s%s", szLargeString, bannedReason, GetServerName( server ), bannedbyUser, strmatch( ReturnPlayerName( playerid ), bannedUser ) ? ("") : ( serial ? ("\n\n"COL_RED"Our ban evasion system picked you up! If this is in error then please visit our forums.") : ("\n\n"COL_RED"Your IP Address is banned, if this is a problem then visit our forums.") ) );
-		      	ShowPlayerDialog( playerid, DIALOG_BANNED, DIALOG_STYLE_MSGBOX, "{FFFFFF}Ban Information", szLargeString, "Okay", "" );
+				format( szLargeString, 600, "{FFFFFF}你已被此服务器封禁.\n{FFFFFF}如有异议, 请前往以下地址申诉: "COL_BLUE""#SERVER_WEBSITE"{FFFFFF}\n\n"COL_RED"用户名:{FFFFFF} %s\n"COL_RED"IP 地址:{FFFFFF} %s\n", bannedUser, bannedIP );
+				format( szLargeString, 600, "%s"COL_RED"原因:{FFFFFF} %s\n"COL_RED"服务器:{FFFFFF} %s\n"COL_RED"禁止者:{FFFFFF} %s%s", szLargeString, bannedReason, GetServerName( server ), bannedbyUser, strmatch( ReturnPlayerName( playerid ), bannedUser ) ? ("") : ( serial ? ("\n\n"COL_RED"我们的禁令规避系统找到了你!如果这是错误的,请访问我们的论坛.") : ("\n\n"COL_RED"你的 IP 地址已被封禁,如果这是问题,请访问我们的论坛.") ) );
+                ShowPlayerDialog( playerid, DIALOG_BANNED, DIALOG_STYLE_MSGBOX, "{FFFFFF}封禁信息", szLargeString, "确定", "" );
 		      	KickPlayerTimed( playerid );
 		  		return 1;
 			}
@@ -72,15 +72,15 @@ thread Banning_CheckPlayerBan( playerid )
 			{
 				if ( GetServerTime( ) > bannedExpire )
 				{
-					SendServerMessage( playerid, "The suspension of this account has expired as of now, this account is available for playing." );
+					SendServerMessage( playerid, "此账号的停权期限已结束, 现在可以继续游戏." );
 					mysql_format( dbHandle, szNormalString, 100, "DELETE FROM `BANS` WHERE `NAME`= '%e' OR `IP` = '%e'", ReturnPlayerName( playerid ), ReturnPlayerIP( playerid ) );
                     mysql_single_query( szNormalString );
 				}
 				else
 				{
-					format( szLargeString, 700, "{FFFFFF}You are suspended from this server.\n{FFFFFF}If you feel wrongfully suspended, please appeal at "COL_BLUE""#SERVER_WEBSITE"{FFFFFF}\n\n"COL_RED"Username:{FFFFFF} %s\n"COL_RED"IP Address:{FFFFFF} %s\n", bannedUser, bannedIP );
-					format( szLargeString, 700, "%s"COL_RED"Reason:{FFFFFF} %s\n"COL_RED"Server:{FFFFFF} %s\n"COL_RED"Suspended by:{FFFFFF} %s\n"COL_RED"Expire Time:{FFFFFF} %s%s", szLargeString, bannedReason, GetServerName( server ), bannedbyUser, secondstotime( bannedExpire - GetServerTime( ) ), strmatch( ReturnPlayerName( playerid ), bannedUser ) ? (" ") : ("\n\n"COL_RED"Your IP Address is suspended, if this is a problem, visit our forums.") );
-			      	ShowPlayerDialog( playerid, DIALOG_BANNED, DIALOG_STYLE_MSGBOX, "{FFFFFF}Suspension Information", szLargeString, "Okay", "" );
+					format( szLargeString, 700, "{FFFFFF}此账号已被暂停使用.\n{FFFFFF}如有异议, 请前往以下地址申诉: "COL_BLUE""#SERVER_WEBSITE"{FFFFFF}\n\n"COL_RED"用户名:{FFFFFF} %s\n"COL_RED"IP 地址:{FFFFFF} %s\n", bannedUser, bannedIP );
+					format( szLargeString, 700, "%s"COL_RED"原因:{FFFFFF} %s\n"COL_RED"服务器:{FFFFFF} %s\n"COL_RED"暂停人:{FFFFFF} %s\n"COL_RED"过期时间:{FFFFFF} %s%s", szLargeString, bannedReason, GetServerName( server ), bannedbyUser, secondstotime( bannedExpire - GetServerTime( ) ), strmatch( ReturnPlayerName( playerid ), bannedUser ) ? (" ") : ("\n\n"COL_RED"你的 IP 地址已被暂停,如果这是问题,请访问我们的论坛.") );
+                    ShowPlayerDialog( playerid, DIALOG_BANNED, DIALOG_STYLE_MSGBOX, "{FFFFFF}停权信息", szLargeString, "确定", "" );
 		      		KickPlayerTimed( playerid );
 			  		return 1;
 			  	}

@@ -9,10 +9,10 @@
 #include 							< YSI\y_hooks >
 
 /* ** Definitions ** */
-#define SERVER_NAME					"San Fierro Cops And Robbers (0.3.7)"
-#define SERVER_MODE_TEXT 			"Cops And Robbers / DM / Gangs"
-#define SERVER_MAP 					"San Fierro"
-#define SERVER_LANGUAGE				"English"
+#define SERVER_NAME					"SF-CNR \202;\165;\183;\198;\210;\174;\194;\222;\190;\175;\183;\203; (0.3.7)"
+#define SERVER_MODE_TEXT 			"\190;\175;\183;\203; / DM / \176;\239;\197;\201;"
+#define SERVER_MAP 					"\202;\165;\183;\198;\210;\174;\194;\222;"
+#define SERVER_LANGUAGE				"Chinese"
 #define SERVER_WEBSITE				"www.sfcnr.com"
 #define SERVER_IP					"54.36.127.43:7777"
 #define SERVER_TWITTER 				"IrresistibleDev"

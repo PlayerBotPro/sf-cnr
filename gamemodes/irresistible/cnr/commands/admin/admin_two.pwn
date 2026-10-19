@@ -54,7 +54,7 @@ CMD:slay( playerid, params[ ] )
 		SetPlayerHealth( pID, -1 );
 		AddAdminLogLineFormatted( "%s(%d) has slain %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have slain %s(%d)!", ReturnPlayerName( pID ), pID );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have been slain by %s(%d)!", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你已经被%s(%d)杀死了!", ReturnPlayerName( playerid ), playerid );
 	}
 	return 1;
 }
@@ -211,7 +211,7 @@ CMD:mute( playerid, params[ ] )
 		p_AdminCommandPause[ pID ] = g_iTime + ADMIN_COMMAND_TIME;
 		AddAdminLogLineFormatted( "%s(%d) has muted %s(%d) for %d seconds", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, seconds );
         SendGlobalMessage( -1, ""COL_PINK"[ADMIN]{FFFFFF} %s has been muted by %s for %d seconds "COL_GREEN"[REASON: %s]", ReturnPlayerName( pID ), ReturnPlayerName( playerid ), seconds, reason );
-		GameTextForPlayer( pID, "~r~Muted!", 4000, 4 );
+		GameTextForPlayer( pID, "~r~静音!", 4000, 4 );
         p_Muted{ pID } = true;
         p_MutedTime[ pID ] = g_iTime + seconds;
     }
@@ -231,7 +231,7 @@ CMD:unmute( playerid, params[ ] )
 	{
 		AddAdminLogLineFormatted( "%s(%d) has un-muted %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
         SendGlobalMessage( -1, ""COL_PINK"[ADMIN]{FFFFFF} %s has been un-muted by %s.", ReturnPlayerName(pID), ReturnPlayerName( playerid ));
-		GameTextForPlayer( pID, "~g~Un-Muted!", 4000, 4 );
+		GameTextForPlayer( pID, "~g~取消静音!", 4000, 4 );
         p_Muted{ pID } = false;
         p_MutedTime[ pID ] = 0;
     }

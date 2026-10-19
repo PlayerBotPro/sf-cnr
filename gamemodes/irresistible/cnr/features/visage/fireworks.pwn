@@ -80,45 +80,45 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 {
 	if (dialogid == DIALOG_FIREWORKS)
 	{
-		if ( GetPlayerFireworks( playerid ) < 1 ) return SendError( playerid, "You do not have any fireworks." );
+		if ( GetPlayerFireworks( playerid ) < 1 ) return SendError( playerid, "你没有任何烟花." );
 		switch ( listitem )
 		{
 			case 0:
 			{
 				SetPVarInt(playerid, "FW_ColorsNumber", 2);
 				SetPVarInt(playerid, "FW_MenuItem", FW_FOUNTAIN);
-				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "White\nRed\nGreen\nBlue", "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "白色\n红色\n绿色\n蓝色", "选择", "返回" );
 			}
 			case 1:
 			{
 				SetPVarInt(playerid, "FW_ColorsNumber", 2);
 				SetPVarInt(playerid, "FW_MenuItem", FW_ROCKET);
-				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "White\nRed\nGreen\nBlue", "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "白色\n红色\n绿色\n蓝色", "选择", "返回" );
 			}
 			case 2:
 			{
 				SetPVarInt(playerid, "FW_ColorsNumber", 2);
 				SetPVarInt(playerid, "FW_MenuItem", FW_SPLITTER);
-				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "White\nRed\nGreen\nBlue", "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "白色\n红色\n绿色\n蓝色", "选择", "返回" );
 			}
 			case 3:
 			{
 				SetPVarInt(playerid, "FW_ColorsNumber", 2);
 				SetPVarInt(playerid, "FW_MenuItem", FW_UMBRELLA);
-				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "White\nRed\nGreen\nBlue", "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "白色\n红色\n绿色\n蓝色", "选择", "返回" );
 			}
 			case 4:
 			{
 				SetPVarInt(playerid, "FW_ColorsNumber", 2);
 				SetPVarInt(playerid, "FW_MenuItem", FW_CAKE);
-				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "White\nRed\nGreen\nBlue", "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "白色\n红色\n绿色\n蓝色", "选择", "返回" );
 			}
 		}
 		return 1;
 	}
 	else if ( dialogid == DIALOG_FIREWORKS_COLOR )
 	{
-		if ( GetPlayerFireworks( playerid ) < 1 ) return SendError( playerid, "You do not have any fireworks." );
+		if ( GetPlayerFireworks( playerid ) < 1 ) return SendError( playerid, "你没有任何烟花." );
 
 		if ( ! response )
 		{
@@ -144,8 +144,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				FW_MainCreate(playerid, GetPVarInt(playerid, "FW_MenuItem"));
 				return 1;
 			}
-			SendServerMessage( playerid, "Please select the primary color for your firework." );
-			ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "White\nRed\nGreen\nBlue", "Select", "Back" );
+			SendServerMessage( playerid, "请选择烟花的原色." );
+			ShowPlayerDialog( playerid, DIALOG_FIREWORKS_COLOR, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "白色\n红色\n绿色\n蓝色", "选择", "返回" );
 			return 1;
 		}
 		if (GetPVarInt(playerid, "FW_Color1") > 1 && !GetPVarInt(playerid, "FW_Color2"))
@@ -157,7 +157,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				case 2: SetPVarInt(playerid, "FW_Color2", 19297);
 				case 3: SetPVarInt(playerid, "FW_Color2", 19298);
 			}
-			SendServerMessage( playerid, "Please select the secondary color of your firework." );
+			SendServerMessage( playerid, "请选择烟花的辅助颜色." );
 			FW_MainCreate(playerid, GetPVarInt(playerid, "FW_MenuItem"));
 			DeletePVar(playerid, "FW_MenuItem");
 			DeletePVar(playerid, "FW_ColorsNumber");
@@ -458,7 +458,7 @@ stock FW_MainCreate(playerid, firework)
 
 	if (GetPlayerInterior(playerid) != 0)
 	{
-		SendError( playerid, "You can't light fireworks inside!" );
+		SendError( playerid, "你不能在里面燃放烟花!" );
 		return 0;
 	}
 
@@ -468,7 +468,7 @@ stock FW_MainCreate(playerid, firework)
 		{
 			case FW_UNKNOWN:
 			{
-				SendError( playerid, "Fireworks couldn't be created!" );
+				SendError( playerid, "无法创建烟花!" );
 				return 0;
 			}
 			case FW_FOUNTAIN, FW_ROCKET, FW_SPLITTER, FW_UMBRELLA, FW_CAKE:
@@ -480,7 +480,7 @@ stock FW_MainCreate(playerid, firework)
 		}
 	}
 	else {
-		SendError( playerid, "You have to be on foot to place fireworks down!" );
+		SendError( playerid, "你必须步行才能放下烟花!" );
 	}
 	return 0;
 }
@@ -521,7 +521,7 @@ public FW_MainCreateEnd(playerid, firework)
 			case FW_SPLITTER: FW_SplitterCreate(playerid, fw, fwX, fwY, Z, R, GetPVarInt(playerid, "FW_Color1"), GetPVarInt(playerid, "FW_Color2"));
 			case FW_UMBRELLA: FW_UmbrelllaCreate(playerid, fw, fwX, fwY, Z, R, GetPVarInt(playerid, "FW_Color1"), GetPVarInt(playerid, "FW_Color2"));
 			case FW_CAKE: FW_CakeCreate(playerid, fw, fwX, fwY, Z, R, GetPVarInt(playerid, "FW_Color1"), GetPVarInt(playerid, "FW_Color2"));
-			default: return SendError( playerid, "Fireworks couldn't be created!" );
+			default: return SendError( playerid, "无法创建烟花!" );
 		}
 
 		// reset colors
@@ -530,10 +530,10 @@ public FW_MainCreateEnd(playerid, firework)
 
 		// give a less firework
 		GivePlayerFireworks( playerid, -1 );
-		SendServerMessage( playerid, "You have placed a firework. You now have %d remaining fireworks.", GetPlayerFireworks( playerid ) );
+		SendServerMessage( playerid, "你已经放了烟花.你现在还有 %d 剩余烟花.", GetPlayerFireworks( playerid ) );
 		return 1;
 	}
-	return SendError( playerid, "Server limit is reached! Light some before you place more." ), 0;
+	return SendError( playerid, "已达到服务器限制!在放置更多之前先点燃一些." ), 0;
 }
 
 function FW_MainFire(playerid)
@@ -550,7 +550,7 @@ function FW_MainFire(playerid)
 				case FW_UNKNOWN:
 				{
 					FW_DATA[ fw ] [ E_CREATOR ] = -1;
-					SendError( playerid, "Fireworks couldn't be lighted!" );
+					SendError( playerid, "烟花无法点燃!" );
 					return 0;
 				}
 				case FW_FOUNTAIN:
@@ -1125,7 +1125,7 @@ stock RemoveWeaponFromSlot(playerid, weaponslot)
 /* ** Commands ** */
 CMD:fireworks( playerid, params[] )
 {
-	if ( GetPlayerFireworks( playerid ) < 1 ) return SendError( playerid, "You do not have any fireworks." );
-	ShowPlayerDialog( playerid, DIALOG_FIREWORKS, DIALOG_STYLE_LIST, ""COL_WHITE"Fireworks", "Fountain\nRocket\nSplitter\nUmbrella\nCake", "Select", "Back" );
+	if ( GetPlayerFireworks( playerid ) < 1 ) return SendError( playerid, "你没有任何烟花." );
+	ShowPlayerDialog( playerid, DIALOG_FIREWORKS, DIALOG_STYLE_LIST, ""COL_WHITE"烟花", "喷泉\n火箭\n分裂器\n伞\n蛋糕", "选择", "返回" );
 	return 1;
 }

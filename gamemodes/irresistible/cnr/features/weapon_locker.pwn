@@ -36,7 +36,7 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 	{
 		foreach ( new lockerid : WeaponLockers ) if ( checkpointid == g_weaponLockerCheckpoint[ lockerid ] )
 		{
-			return ShowAmmunationMenu( playerid, "{FFFFFF}Weapon Locker - Purchase Weapons", DIALOG_WEAPON_LOCKER );
+			return ShowAmmunationMenu( playerid, "{FFFFFF}武器柜 - 购买武器", DIALOG_WEAPON_LOCKER );
 		}
 	}
 	return 1;
@@ -47,13 +47,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	if ( ( dialogid == DIALOG_WEAPON_LOCKER ) && response )
 	{
     	p_WeaponLockerMenu{ playerid } = listitem;
-      	return RedirectAmmunation( playerid, listitem, "{FFFFFF}Weapon Locker - Purchase Weapons", DIALOG_WEAPON_LOCKER_BUY, 1.25 );
+        return RedirectAmmunation( playerid, listitem, "{FFFFFF}武器柜 - 购买武器", DIALOG_WEAPON_LOCKER_BUY, 1.25 );
 	}
 	else if ( dialogid == DIALOG_WEAPON_LOCKER_BUY )
 	{
-	   	if ( p_Class[ playerid ] != CLASS_POLICE ) return SendError( playerid, "You must be a law enforcement officer to use this feature." );
-	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot buy weapons in jail." );
-		if ( GetPlayerState( playerid ) == PLAYER_STATE_WASTED || !IsPlayerSpawned( playerid ) ) return SendError( playerid, "You are unable to purchase any weapons at this time." );
+        if ( p_Class[ playerid ] != CLASS_POLICE ) return SendError( playerid, "你必须是执法人员才能使用此功能." );
+	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "你不能在监狱里购买武器." );
+		if ( GetPlayerState( playerid ) == PLAYER_STATE_WASTED || !IsPlayerSpawned( playerid ) ) return SendError( playerid, "你目前无法购买任何武器." );
 
 		// Check if user is in the locker checkpoint
 		foreach (new lockerid : WeaponLockers)
@@ -73,8 +73,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 							 	if ( iCostPrice > GetPlayerCash( playerid ) )
 								{
-								    SendError( playerid, "You don't have enough money for this." );
-								    RedirectAmmunation( playerid, p_WeaponLockerMenu{ playerid }, "{FFFFFF}Weapon Locker - Purchase Weapons", DIALOG_WEAPON_LOCKER_BUY, 1.25 );
+								    SendError( playerid, "你没有足够的钱来做这个." );
+								    RedirectAmmunation( playerid, p_WeaponLockerMenu{ playerid }, "{FFFFFF}武器柜 - 购买武器", DIALOG_WEAPON_LOCKER_BUY, 1.25 );
 									return 1;
 								}
 
@@ -83,8 +83,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 								if ( g_AmmunationWeapons[ i ] [ E_WEPID ] == 101 ) SetPlayerArmour( playerid, float( g_AmmunationWeapons[ i ] [ E_AMMO ] ) );
 								else GivePlayerWeapon( playerid, g_AmmunationWeapons[ i ] [ E_WEPID ], g_AmmunationWeapons[ i ] [ E_AMMO ] );
 
-								RedirectAmmunation( playerid, p_WeaponLockerMenu{ playerid }, "{FFFFFF}Weapon Locker - Purchase Weapons", DIALOG_WEAPON_LOCKER_BUY, 1.25 );
-								SendServerMessage( playerid, "You have purchased %s(%d) for "COL_GOLD"%s"COL_WHITE"%s (inc. fees).", g_AmmunationWeapons[ i ] [ E_NAME ], g_AmmunationWeapons[ i ] [ E_AMMO ], cash_format( iCostPrice ) );
+								RedirectAmmunation( playerid, p_WeaponLockerMenu{ playerid }, "{FFFFFF}武器柜 - 购买武器", DIALOG_WEAPON_LOCKER_BUY, 1.25 );
+								SendServerMessage( playerid, "你已购买 %s(%d) "COL_GOLD"%s"COL_WHITE"%s(含费用).", g_AmmunationWeapons[ i ] [ E_NAME ], g_AmmunationWeapons[ i ] [ E_AMMO ], cash_format( iCostPrice ) );
 								break;
 				            }
 				            x ++;
@@ -93,12 +93,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				}
 				else
 				{
-					ShowAmmunationMenu( playerid, "{FFFFFF}Weapon Locker - Purchase Weapons", DIALOG_WEAPON_LOCKER );
+					ShowAmmunationMenu( playerid, "{FFFFFF}武器柜 - 购买武器", DIALOG_WEAPON_LOCKER );
 				}
 				return 1;
 			}
 		}
-		return SendError( playerid, "You are not inside any gun locker checkpoint." );
+		return SendError( playerid, "你不在任何枪柜检查站内." );
 	}
 	return 1;
 }
@@ -120,7 +120,7 @@ stock CreateAmmunationLocker( Float: X, Float: Y, Float: Z, Float: rX )
 
 		g_weaponLockerCheckpoint[ lockerid ] = CreateDynamicCP( nX, nY, Z, 2.0 , -1, -1, -1, 100.0 );
 		CreateDynamicObject( 14782, X, Y, Z, 0.0, 0.0, rX, -1, -1, -1, 100.0 );
-		CreateDynamic3DTextLabel( "[WEAPON LOCKER]", COLOR_GOLD, nX, nY, Z, 20.0 );
+		CreateDynamic3DTextLabel( "[武器柜]", COLOR_GOLD, nX, nY, Z, 20.0 );
 	}
 	return lockerid;
 }

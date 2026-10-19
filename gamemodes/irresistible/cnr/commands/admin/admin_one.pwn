@@ -175,7 +175,7 @@ CMD:aod( playerid, params[ ] )
 	    DisableRemoteVehicleCollisions( playerid, 0 );
 	    SendClientMessage( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have disabled administration mode." );
 	}
-	SendClientMessageToAllFormatted( -1, ""COL_PINK"[ADMIN]"COL_WHITE" %s(%d) is now %s-duty.", ReturnPlayerName( playerid ), playerid, p_AdminOnDuty{ playerid } == true ? ( "on" ) : ( "off" ) );
+	SendClientMessageToAllFormatted( -1, ""COL_PINK"[管理]"COL_WHITE" %s(%d) 现在是 %s-职责.", ReturnPlayerName( playerid ), playerid, p_AdminOnDuty{ playerid } == true ? ( "上" ) : ( "关闭" ) );
 	SetPlayerColorToTeam( playerid );
 	return 1;
 }
@@ -243,7 +243,7 @@ CMD:freeze( playerid, params[ ] )
 	else
 	{
 	    AddAdminLogLineFormatted( "%s(%d) has frozen %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have been frozen by %s(%d)!", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你已经被%s(%d)冻结了!", ReturnPlayerName( playerid ), playerid );
 	   	SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have frozen %s(%d)!", ReturnPlayerName( pID ), pID );
 	   	TogglePlayerControllable( pID, 0 );
 	}
@@ -263,7 +263,7 @@ CMD:unfreeze( playerid, params[ ] )
 	else
 	{
 	    AddAdminLogLineFormatted( "%s(%d) has unfrozen %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have been unfrozen by %s(%d)!", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你已被 %s(%d) 解冻!", ReturnPlayerName( playerid ), playerid );
 	   	SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have unfrozen %s(%d)!", ReturnPlayerName( pID ), pID );
 	   	TogglePlayerControllable( pID, 1 );
 	}
@@ -355,7 +355,7 @@ CMD:ans( playerid, params[ ] )
 	{
 		SendClientMessageToAdmins( -1, ""COL_PINK"[ANSWER]"COL_GREY" (%s >> %s):"COL_WHITE" %s", ReturnPlayerName( playerid ), ReturnPlayerName( pID ), msg );
 		AddAdminLogLineFormatted( "%s(%d) has answered %s(%d)'s question", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
-        SendClientMessageFormatted( pID, -1, "{FE5700}[ANSWER] From %s(%d):{FFFFFF} %s", ReturnPlayerName( playerid ), playerid, msg );
+        SendClientMessageFormatted( pID, -1, "{FE5700}[回复] 来自 %s(%d):{FFFFFF} %s", ReturnPlayerName( playerid ), playerid, msg );
         p_AnswerDelay[ pID ] = iTime + 4;
         Beep( pID ), Beep( playerid );
 	}
@@ -376,7 +376,7 @@ CMD:respond( playerid, params[ ] )
 	{
 		AddAdminLogLineFormatted( "%s(%d) is responding to %s(%d)'s report", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 		SendClientMessageToAdmins( -1, ""COL_PINK"[REPORT]"COL_GREY" %s(%d) responded to %s(%d)'s report!", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
-        SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_GREY" %s(%d) is now looking into your report. Please wait!", ReturnPlayerName( playerid ), playerid );
+        SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_GREY" %s(%d) 正在调查你的报告.请稍等!", ReturnPlayerName( playerid ), playerid );
         p_RespondDelay[ pID ] = g_iTime + 4;
         Beep( pID ), Beep( playerid );
 	}
@@ -398,7 +398,7 @@ CMD:aspawn( playerid, params[ ] )
 		SpawnPlayer( pID );
 		AddAdminLogLineFormatted( "%s(%d) has spawned %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
         SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have spawned %s(%d)!", ReturnPlayerName( pID ), pID );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have been spawned by %s(%d)!", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你是由 %s(%d) 生成的!", ReturnPlayerName( playerid ), playerid );
 	}
 	return 1;
 }
@@ -422,7 +422,7 @@ CMD:warn( playerid, params[ ] )
 		p_AdminCommandPause[ pID ] = g_iTime + ADMIN_COMMAND_TIME;
 
 	    p_Warns[ pID ] ++;
-		GameTextForPlayer( pID, "~r~WARNED!", 4000, 4 );
+		GameTextForPlayer( pID, "~r~警告!", 4000, 4 );
 	    AddAdminLogLineFormatted( "%s(%d) has warned %s(%d) [%d/3]", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, p_Warns[ pID ] );
         SendGlobalMessage( -1, ""COL_PINK"[ADMIN]"COL_WHITE" %s(%d) has been warned by %s(%d) "COL_GREEN"[REASON: %s]", ReturnPlayerName( pID ), pID, ReturnPlayerName( playerid ), playerid, reason );
 		if ( p_Warns[ pID ] >= 3 )
@@ -456,7 +456,7 @@ CMD:setskin( playerid, params[ ] )
 	  	SyncObject( pID );
         SetPlayerSkin( pID, skin );
 	    if ( pID != playerid ) {
-		    SendClientMessageFormatted( pID, COLOR_PINK, "[ADMIN]"COL_WHITE" %s(%d) has changed your skin ID to %d.", ReturnPlayerName( playerid ), playerid, skin );
+		    SendClientMessageFormatted( pID, COLOR_PINK, "[管理]"COL_WHITE" %s(%d) 已将你的皮肤 ID 更改为 %d.", ReturnPlayerName( playerid ), playerid, skin );
 		    SendClientMessageFormatted( playerid, COLOR_PINK, "[ADMIN]"COL_WHITE" You have changed %s(%d)'s skin to ID %d.", ReturnPlayerName( pID ), pID, skin );
 		}
 		else SendClientMessageFormatted( playerid, COLOR_PINK, "[ADMIN]"COL_WHITE" You have changed your skin to ID %d.", skin );

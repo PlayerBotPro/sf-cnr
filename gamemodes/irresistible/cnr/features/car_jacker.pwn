@@ -63,11 +63,11 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 	{
 		if ( g_LastExportModel[ playerid ] == GetVehicleModel( vehicleid ) )
 		{
-			ShowPlayerHelpDialog( playerid, 4000, "You have already exported this vehicle recently and cannot export it again at the docks." );
+			ShowPlayerHelpDialog( playerid, 4000, "你最近已出口过此载具, 暂时不能再次在码头出口." );
 		}
 		else
 		{
-			ShowPlayerHelpDialog( playerid, 6000, "You can export this vehicle at the docks for around ~g~%s~w~~h~.~n~~n~~r~Damaging the vehicle will further decrease the value.", cash_format( iVehiclePrice ) );
+			ShowPlayerHelpDialog( playerid, 6000, "在码头出口此载具可获得约 ~g~%s~w~~h~.~n~~n~~r~载具受损会降低售价.", cash_format( iVehiclePrice ) );
 		}
 	}
 	return 1;
@@ -91,22 +91,22 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 				if ( checkpointid == g_containerData[ i ] [ E_CHECKPOINT ] && ! g_containerData[ i ] [ E_CLOSED ] )
 				{
 					if ( ! IsPlayerJob( playerid, JOB_DIRTY_MECHANIC ) ) {
-						ShowPlayerHelpDialog( playerid, 4000, "You need to be a ~r~dirty mechanic~w~~h~ to export stolen vehicles!" );
+						ShowPlayerHelpDialog( playerid, 4000, "必须是~r~黑市修车工~w~~h~才能出口赃车!" );
 						break;
 					}
 
 					if ( g_LastExportModel[ playerid ] == vModel ) {
-						ShowPlayerHelpDialog( playerid, 4000, "You cannot export the same type of vehicle, ~y~find a different vehicle." );
+						ShowPlayerHelpDialog( playerid, 4000, "不能连续出口同类载具, ~y~请换一种载具." );
 						break;
 					}
 
 					if ( !iCash ) {
-						ShowPlayerHelpDialog( playerid, 4000, "~r~You cannot export this vehicle." );
+						ShowPlayerHelpDialog( playerid, 4000, "~r~此载具无法出口." );
 						break;
 					}
 
 					if ( p_AntiExportCarSpam[ playerid ] > g_iTime ) {
-						ShowPlayerHelpDialog( playerid, 4000, "You can export your next vehicle in %s.", secondstotime( p_AntiExportCarSpam[ playerid ] - g_iTime ) );
+						ShowPlayerHelpDialog( playerid, 4000, "距离下次出口载具还需 %s.", secondstotime( p_AntiExportCarSpam[ playerid ] - g_iTime ) );
 						break;
 					}
 
@@ -132,7 +132,7 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 					//GivePlayerExperience( playerid, E_CAR_JACKER );
 					ach_HandleCarJacked( playerid );
 					SetTimerEx( "ExportVehicle", 3000, false, "dd", iVehicle, i );
-					SendServerMessage( playerid, "You have exported your "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE".", GetVehicleName( GetVehicleModel( iVehicle ) ), cash_format( iCash ) );
+					SendServerMessage( playerid, "你出口了"COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE".", GetVehicleName( GetVehicleModel( iVehicle ) ), cash_format( iCash ) );
 					break;
 				}
 			}
@@ -163,7 +163,7 @@ stock CreateCarjackerContainer( Float: X, Float: Y, Float: Z, Float: Angle, {Flo
 
 		g_containerData[ id ] [ E_CLOSED ] 		= false;
 	    g_containerData[ id ] [ E_CHECKPOINT ] 	= CreateDynamicCP( X, Y, Z, 2.0, -1, -1 );
-	    g_containerData[ id ] [ E_LABEL ] 		= CreateDynamic3DTextLabel( "[VEHICLE EXPORT]", COLOR_GOLD, X, Y, Z, 15.0 );
+	    g_containerData[ id ] [ E_LABEL ] 		= CreateDynamic3DTextLabel( "[载具出口]", COLOR_GOLD, X, Y, Z, 15.0 );
 
 	    Iter_Add(containers, id);
 	}

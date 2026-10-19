@@ -73,7 +73,7 @@ thread OnVisageApartmentLoad( )
 				}
 
 				// appearance
-				CreateDynamic3DTextLabel( "[EXIT]", COLOR_GOLD, VISAGE_APARTMENT_EXIT[ 0 ], VISAGE_APARTMENT_EXIT[ 1 ], VISAGE_APARTMENT_EXIT[ 2 ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, -1, g_VisageApartmentData[ handle ] [ E_WORLD ] );
+				CreateDynamic3DTextLabel( "[出口]", COLOR_GOLD, VISAGE_APARTMENT_EXIT[ 0 ], VISAGE_APARTMENT_EXIT[ 1 ], VISAGE_APARTMENT_EXIT[ 2 ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, -1, g_VisageApartmentData[ handle ] [ E_WORLD ] );
 				g_VisageApartmentData[ handle ] [ E_EXIT_CP ] = CreateDynamicCP( VISAGE_APARTMENT_EXIT[ 0 ], VISAGE_APARTMENT_EXIT[ 1 ], VISAGE_APARTMENT_EXIT[ 2 ], 1.0, .worldid = g_VisageApartmentData[ handle ] [ E_WORLD ], .streamdistance = 50.0 );
 
 				// add to array
@@ -95,7 +95,7 @@ hook OnGameModeInit( )
 	mysql_function_query( dbHandle, "SELECT u.`NAME` as `OWNER`, a.* FROM `VISAGE_APARTMENTS` a LEFT JOIN `USERS` u ON a.`OWNER_ID`=u.`ID`", true, "OnVisageApartmentLoad", "" );
 
 	// create checkpoints
-	CreateDynamic3DTextLabel( "[PRIVATE APARTMENTS]", COLOR_GOLD, VISAGE_APARTMENT_ENTRANCE[ 0 ], VISAGE_APARTMENT_ENTRANCE[ 1 ], VISAGE_APARTMENT_ENTRANCE[ 2 ], 20.0 );
+	CreateDynamic3DTextLabel( "[私人公寓]", COLOR_GOLD, VISAGE_APARTMENT_ENTRANCE[ 0 ], VISAGE_APARTMENT_ENTRANCE[ 1 ], VISAGE_APARTMENT_ENTRANCE[ 2 ], 20.0 );
 	g_entranceCheckpoint = CreateDynamicCP( VISAGE_APARTMENT_ENTRANCE[ 0 ], VISAGE_APARTMENT_ENTRANCE[ 1 ], VISAGE_APARTMENT_ENTRANCE[ 2 ], 2.0, .streamdistance = 100.0 );
 	return 1;
 }
@@ -140,7 +140,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != account_id && ! isnull( g_VisageApartmentData[ handle ] [ E_PASSCODE ] ) ) {
 					SetPVarInt( playerid, "visage_accessing_apt", handle );
-					return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PW, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartments -"COL_RED" Password Restricted", ""COL_WHITE"This apartment requires a passcode to access. Please enter it below.", "Access", "Back" );
+					return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PW, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓 -"COL_RED" 密码受限", ""COL_WHITE"这间公寓需要密码才能进入.请在下面输入.", "进入", "返回" );
 				} else {
 					SetPlayerToVisageApartment( playerid, handle );
 				}
@@ -158,13 +158,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			handle = GetPVarInt( playerid, "visage_accessing_apt" );
 
 		if ( ! Iter_Contains( visageapartments, handle ) )
-			return SendError( playerid, "You have attempted to access an invalid apartment." );
+			return SendError( playerid, "你试图进入无效的公寓." );
 
 		new
 			passcode[ MAX_PASSCODE ];
 
-		if ( sscanf( inputtext, "s["#MAX_PASSCODE"]", passcode ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PW, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartments -"COL_RED" Password Restricted", ""COL_WHITE"This apartment requires a passcode to access. Please enter it below.", "Access", "Back" );
-		else if ( ! strmatch( passcode, g_VisageApartmentData[ handle ] [ E_PASSCODE ] ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PW, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartments -"COL_RED" Password Restricted", ""COL_WHITE"This apartment requires a passcode to access. Please enter it below.\n\n"COL_RED"Incorrect passcode! Access denied.", "Access", "Back" );
+		if ( sscanf( inputtext, "s["#MAX_PASSCODE"]", passcode ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PW, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓 -"COL_RED" 密码受限", ""COL_WHITE"这间公寓需要密码才能进入.请在下面输入.", "进入", "返回" );
+		else if ( ! strmatch( passcode, g_VisageApartmentData[ handle ] [ E_PASSCODE ] ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PW, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓 -"COL_RED" 密码受限", ""COL_WHITE"这间公寓需要密码才能进入.请在下面输入.\n\n"COL_RED"密码不正确!拒绝访问.", "进入", "返回" );
 		else SetPlayerToVisageApartment( playerid, handle );
 	}
 	else if ( dialogid == DIALOG_VISAGE_APT_CONFIG && response )
@@ -173,16 +173,16 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			handle = GetPVarInt( playerid, "in_visage_apartment" );
 
 		if ( ! Iter_Contains( visageapartments, handle ) )
-			return SendError( playerid, "You have attempted to modify an invalid apartment." );
+			return SendError( playerid, "你试图修改无效的公寓." );
 
 		if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != GetPlayerAccountID( playerid ) )
-			return SendError( playerid, "You are not the owner of this apartment." );
+			return SendError( playerid, "你不是这间公寓的业主." );
 
 		switch ( listitem )
 		{
-			case 0: ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TRANSFER, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter the player name or id of the user to transfer apartment ownership to:", "Transfer", "Back" );
-			case 1: ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TITLE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter your new apartment title below:", "Edit", "Back" );
-			case 2: ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PASSCODE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter your new apartment passcode below:", "Edit", "Back" );
+			case 0: ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TRANSFER, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"输入玩家姓名或用户 ID,以将公寓所有权转让给:", "转移", "返回" );
+			case 1: ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TITLE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"在下面输入你的新公寓名称:", "编辑", "返回" );
+			case 2: ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PASSCODE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"在下面输入你的新公寓密码:", "编辑", "返回" );
 		}
 		return 1;
 	}
@@ -195,16 +195,16 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			handle = GetPVarInt( playerid, "in_visage_apartment" );
 
 		if ( ! Iter_Contains( visageapartments, handle ) )
-			return SendError( playerid, "You have attempted to modify an invalid apartment." );
+			return SendError( playerid, "你试图修改无效的公寓." );
 
 		if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != GetPlayerAccountID( playerid ) )
-			return SendError( playerid, "You are not the owner of this apartment." );
+			return SendError( playerid, "你不是这间公寓的业主." );
 
 		new
 			ownerid;
 
-		if ( sscanf( inputtext, "u", ownerid ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TRANSFER, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter the player name or id of the user to transfer apartment ownership to:\n\n"COL_RED"Invalid Player ID.", "Transfer", "Back" );
-		else if ( ! IsPlayerConnected( ownerid ) || IsPlayerNPC( ownerid ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TRANSFER, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter the player name or id of the user to transfer apartment ownership to:\n\n"COL_RED"Invalid Player ID.", "Transfer", "Back" );
+		if ( sscanf( inputtext, "u", ownerid ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TRANSFER, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"输入玩家姓名或用户 ID,以将公寓所有权转让至:\n\n"COL_RED"玩家 ID 无效.", "转移", "返回" );
+		else if ( ! IsPlayerConnected( ownerid ) || IsPlayerNPC( ownerid ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TRANSFER, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"输入玩家姓名或用户 ID,以将公寓所有权转让至:\n\n"COL_RED"玩家 ID 无效.", "转移", "返回" );
 		else
 		{
 			// set owner
@@ -216,7 +216,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
             mysql_single_query( szNormalString );
 
             // message
-            return SendServerMessage( playerid, "Your apartment ownership has been transferred to "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( ownerid ) );
+            return SendServerMessage( playerid, "你的公寓所有权已转移至 "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( ownerid ) );
 		}
 	}
 	else if ( dialogid == DIALOG_VISAGE_APT_TITLE )
@@ -228,17 +228,17 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			handle = GetPVarInt( playerid, "in_visage_apartment" );
 
 		if ( ! Iter_Contains( visageapartments, handle ) )
-			return SendError( playerid, "You have attempted to modify an invalid apartment." );
+			return SendError( playerid, "你试图修改无效的公寓." );
 
 		if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != GetPlayerAccountID( playerid ) )
-			return SendError( playerid, "You are not the owner of this apartment." );
+			return SendError( playerid, "你不是这间公寓的业主." );
 
 		// todo
 		new
 			title[ 30 ];
 
-		if ( sscanf( inputtext, "S[30]", title ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TITLE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter your new apartment title below:\n\n"COL_RED"Must be between 3 and 30 characters.", "Edit", "Back" );
-		else if ( ! ( 3 <= strlen( title ) < sizeof ( title ) - 1 ) )  return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TITLE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter your new apartment title below:\n\n"COL_RED"Must be between 3 and 30 characters.", "Edit", "Back" );
+		if ( sscanf( inputtext, "S[30]", title ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TITLE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"在下面输入你的新公寓名称:\n\n"COL_RED"必须介于 3 和 30 字符之间.", "编辑", "返回" );
+		else if ( ! ( 3 <= strlen( title ) < sizeof ( title ) - 1 ) )  return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_TITLE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"在下面输入你的新公寓名称:\n\n"COL_RED"必须介于 3 和 30 字符之间.", "编辑", "返回" );
 		else
 		{
 			// format title
@@ -249,7 +249,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
             mysql_single_query( szNormalString );
 
             // message
-            return SendServerMessage( playerid, "Your apartment title is now: "COL_GREY"%s"COL_WHITE".", title );
+            return SendServerMessage( playerid, "你的公寓所有权现在是: "COL_GREY"%s"COL_WHITE".", title );
 		}
 	}
 	else if ( dialogid == DIALOG_VISAGE_APT_PASSCODE )
@@ -261,25 +261,25 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			handle = GetPVarInt( playerid, "in_visage_apartment" );
 
 		if ( ! Iter_Contains( visageapartments, handle ) )
-			return SendError( playerid, "You have attempted to modify an invalid apartment." );
+			return SendError( playerid, "你试图修改无效的公寓." );
 
 		if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != GetPlayerAccountID( playerid ) )
-			return SendError( playerid, "You are not the owner of this apartment." );
+			return SendError( playerid, "你不是这间公寓的业主." );
 
 		if ( strlen( inputtext ) <= 0 )
 		{
 			// reset passcode
 			g_VisageApartmentData[ handle ] [ E_PASSCODE ] = '\0';
             mysql_single_query( sprintf( "UPDATE `VISAGE_APARTMENTS` SET `PASSCODE`=NULL WHERE `ID`=%d", g_VisageApartmentData[ handle ] [ E_SQL_ID ] ) );
-            return SendServerMessage( playerid, "Your apartment passcode has been reset.", g_VisageApartmentData[ handle ] [ E_PASSCODE ] );
+            return SendServerMessage( playerid, "你的公寓密码已重置.", g_VisageApartmentData[ handle ] [ E_PASSCODE ] );
 		}
 		else
 		{
 			new
 				passcode;
 
-			if ( sscanf( inputtext, "d", passcode ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PASSCODE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter your new apartment passcode below:\n\nEnter nothing to make it accessibly by everyone.\n\n"COL_RED"Passcode must be an integer between 0000 and 9999", "Edit", "Back" );
-			else if ( ! ( 1000 <= passcode <= 9999 ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PASSCODE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage Apartment", ""COL_WHITE"Enter your new apartment passcode below:\n\nEnter nothing to make it accessibly by everyone.\n\n"COL_RED"Passcode must be an integer between 0000 and 9999", "Edit", "Back" );
+			if ( sscanf( inputtext, "d", passcode ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PASSCODE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"在下面输入你的新公寓密码:\n\n不输入任何内容以使每个人都可以访问该密码.\n\n"COL_RED"密码必须是 0000 和 9999 之间的整数", "编辑", "返回" );
+			else if ( ! ( 1000 <= passcode <= 9999 ) ) return ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_PASSCODE, DIALOG_STYLE_INPUT, ""COL_GOLD"Visage 公寓", ""COL_WHITE"在下面输入你的新公寓密码:\n\n不输入任何内容以使每个人都可以访问该密码.\n\n"COL_RED"密码必须是 0000 和 9999 之间的整数", "编辑", "返回" );
 			else
 			{
 				// set owner
@@ -290,7 +290,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	            mysql_single_query( szNormalString );
 
 	            // message
-	            return SendServerMessage( playerid, "Your apartment passcode has been set to "COL_GREY"%s"COL_WHITE".", g_VisageApartmentData[ handle ] [ E_PASSCODE ] );
+	            return SendServerMessage( playerid, "你的公寓密码已设置为 "COL_GREY"%s"COL_WHITE".", g_VisageApartmentData[ handle ] [ E_PASSCODE ] );
 			}
 		}
 	}
@@ -305,7 +305,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		foreach ( new handle : visageapartments ) if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] == GetPlayerAccountID( playerid ) ) {
 			if ( x == listitem ) {
 				SetPlayerSpawnLocation( playerid, "VIZ", handle );
-				SendServerMessage( playerid, "Visage apartment spawning has been set at "COL_GREY"%s"COL_WHITE".", g_VisageApartmentData[ handle ] [ E_TITLE ] );
+				SendServerMessage( playerid, "Visage 公寓生成已设置为 "COL_GREY"%s"COL_WHITE".", g_VisageApartmentData[ handle ] [ E_TITLE ] );
 				break;
 			}
 			x ++;
@@ -323,16 +323,16 @@ CMD:visage( playerid, params[ ] )
 		new
 			handle = GetPVarInt( playerid, "in_visage_apartment" );
 
-		if ( ! Iter_Contains( visageapartments, handle ) ) return SendError( playerid, "You are not inside of any apartment" );
-		else if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != GetPlayerAccountID( playerid ) ) return SendError( playerid, "You do not own this apartment." );
+		if ( ! Iter_Contains( visageapartments, handle ) ) return SendError( playerid, "你不在任何公寓内" );
+		else if ( g_VisageApartmentData[ handle ] [ E_OWNER_ID ] != GetPlayerAccountID( playerid ) ) return SendError( playerid, "你不拥有这间公寓." );
 		else {
-			ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_CONFIG, DIALOG_STYLE_LIST, ""COL_GOLD"Visage Apartment", "Transfer Ownership\nChange Apartment Title\nChange Apartment Passcode", "Select", "Close" );
+			ShowPlayerDialog( playerid, DIALOG_VISAGE_APT_CONFIG, DIALOG_STYLE_LIST, ""COL_GOLD"Visage 公寓", "转让所有权\n更改公寓产权\n更改公寓密码", "选择", "关闭" );
 		}
 		return 1;
 	}
 	else if ( strmatch( params, "spawn" ) )
 	{
-		SendServerMessage( playerid, "We have changed the command to simply "COL_GREY"/spawn"COL_WHITE"." );
+		SendServerMessage( playerid, "此命令已改为"COL_GREY"/spawn"COL_WHITE"." );
 		return ShowPlayerSpawnMenu( playerid );
 	}
 	return SendUsage( playerid, "/visage [CONFIG/SPAWN]" );
@@ -341,11 +341,11 @@ CMD:visage( playerid, params[ ] )
 /* ** Functions ** */
 stock ShowPlayerVisageApartments( playerid )
 {
-	szLargeString = ""COL_WHITE"Owner\t"COL_WHITE"Title\n";
+	szLargeString = ""COL_WHITE"所有者\t"COL_WHITE"标题\n";
 	foreach ( new handle : visageapartments ) {
 		format( szLargeString, sizeof ( szLargeString ), "%s"COL_GREY"%s\t%s\n", szLargeString, g_VisageApartmentData[ handle ] [ E_OWNER_NAME ], g_VisageApartmentData[ handle ] [ E_TITLE ] );
 	}
-	ShowPlayerDialog( playerid, DIALOG_VISAGE_APTS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Visage Apartment", szLargeString, "Access", "Close" );
+	ShowPlayerDialog( playerid, DIALOG_VISAGE_APTS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Visage 公寓", szLargeString, "进入", "关闭" );
 	return 1;
 }
 
@@ -364,7 +364,7 @@ stock SetPlayerToVisageApartment( playerid, handle )
 	SetPlayerInterior( playerid, VISAGE_APARTMENT_INT );
 
 	// greeting
-	SendServerMessage( playerid, "You are now inside of the "COL_GREY"%s"COL_WHITE".", g_VisageApartmentData[ handle ] [ E_TITLE ] );
+	SendServerMessage( playerid, "你现在在里面 "COL_GREY"%s"COL_WHITE".", g_VisageApartmentData[ handle ] [ E_TITLE ] );
 }
 
 // purpose: creates the player associated apartments
@@ -488,7 +488,7 @@ static stock InitializeCasinoApartments( )
 	}
 
 	// Ashley Apartment
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 1988.261962, 1914.888305, 86.762825, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, "Ashley's Apartment", 120, "Comic Sans MS", 64, 1, -52429, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 1988.261962, 1914.888305, 86.762825, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, "阿什利的公寓", 120, "Comic Sans MS", 64, 1, -52429, 0, 1 );
 	CreateDynamicObject( 948, 1983.599975, 1914.543945, 83.289001, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 19940, 1992.917968, 1900.991943, 84.791000, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 19940, 1990.614990, 1903.052978, 84.791000, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
@@ -561,7 +561,7 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 2773, 1996.227050, 1913.718994, 83.792999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2773, 1993.347045, 1913.718994, 83.792999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	SetDynamicObjectMaterial( CreateDynamicObject( 13187, 2002.598022, 1914.932006, 85.485000, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, 19174, "samppictures", "samppicture4", 0 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.813964, 1914.990966, 85.614997, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, "BLACKJACK", 130, "Times new roman", 70, 0, -38476, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.813964, 1914.990966, 85.614997, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, "二十一点", 130, "Times new roman", 70, 0, -38476, 0, 1 );
 	CreateDynamicObject( 638, 2000.806030, 1914.500976, 83.964996, 0.000000, 0.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 638, 2004.326049, 1914.500976, 83.964996, 0.000000, 0.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 948, 2007.816040, 1902.025024, 83.245002, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
@@ -584,7 +584,7 @@ static stock InitializeCasinoApartments( )
 	SetDynamicObjectMaterial( CreateDynamicObject( 19328, 1988.310058, 1893.479003, 85.464996, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, 14737, "whorewallstuff", "ah_painting2", 0 );
 	CreateDynamicObject( 19786, 1992.977050, 1887.991943, 85.474998, 0.000000, 0.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 948, 1993.422973, 1890.686035, 83.275001, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1983.336059, 1909.404052, 86.815002, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, "Top Floor", 130, "Times new roman", 60, 1, -38476, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1983.336059, 1909.404052, 86.815002, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT ), 0, "顶楼", 130, "Times new roman", 60, 1, -38476, 0, 1 );
 	CreatePokerTable( 100000, 2000, 1998.760009, 1907.958984, 83.654998, 4, VISAGE_APARTMENT_WORLD[ 0 ], VISAGE_APARTMENT_INT );
 	CreateBlackjackTable( 50000, 1994.765991, 1912.642944, 84.275001, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ] );
 	CreateRouletteTable( 2004.796997, 1908.604003, 84.324996, 0.000000, VISAGE_APARTMENT_WORLD[ 0 ] );
@@ -748,8 +748,8 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 1727, 1993.500000, 1905.933959, 83.275001, 0.000000, 0.000000, -152.500000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 1820, 1991.338989, 1906.152954, 83.263000, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 14804, 1991.631958, 1905.001953, 84.303001, 0.000000, 0.000000, -133.699996, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19906, 1989.886962, 1914.927978, 87.352996, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT ), 0, "Brads Hotel", 130, "Times new Roman", 70, 1, -16777216, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19906, 1989.886962, 1914.927978, 86.623001, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT ), 0, "Room", 130, "Times new Roman", 70, 0, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19906, 1989.886962, 1914.927978, 87.352996, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT ), 0, "布拉兹酒店", 130, "Times new Roman", 70, 1, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19906, 1989.886962, 1914.927978, 86.623001, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT ), 0, "房间", 130, "Times new Roman", 70, 0, -16777216, 0, 1 );
 	CreateDynamicObject( 640, 1989.848022, 1914.374023, 83.944999, 0.000000, 0.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 2666, 1983.452026, 1909.348999, 86.584999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT ), 0, "10", 130, "TIMES NEW ROMAN", 110, 0, -16777216, 0, 1 );
 	CreateDynamicObject( 1724, 1999.197998, 1898.532958, 83.264999, 0.000000, 0.000000, 101.199996, VISAGE_APARTMENT_WORLD[ 2 ], VISAGE_APARTMENT_INT );
@@ -760,8 +760,8 @@ static stock InitializeCasinoApartments( )
 	CreateRouletteTable( 1999.801025, 1912.094970, 84.315002, 90.000000, VISAGE_APARTMENT_WORLD[ 2 ] );
 
 	// Daniel Apartment
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.682006, 1904.172973, 86.000999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, "Daniel's", 130, "Times New Roman", 70, 0, -16777216, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.682006, 1904.180053, 85.070999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, "Apartment", 130, "Times New Roman", 70, 0, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.682006, 1904.172973, 86.000999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, "丹尼尔的", 130, "Times New Roman", 70, 0, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.682006, 1904.180053, 85.070999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, "公寓", 130, "Times New Roman", 70, 0, -16777216, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18980, 2007.673950, 1897.963989, 82.768997, 0.000000, 90.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, 13724, "docg01_lahills", "ab_tile2", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18980, 2007.673950, 1898.925048, 82.768997, 0.000000, 90.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, 13724, "docg01_lahills", "ab_tile2", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 18980, 2007.673950, 1902.426025, 82.764999, 0.000000, 90.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 3 ], VISAGE_APARTMENT_INT ), 0, 13724, "docg01_lahills", "ab_tile2", -16 );
@@ -1112,7 +1112,7 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 2231, 1980.385986, 1890.692993, 83.285003, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2231, 1980.489990, 1887.833007, 83.285003, 0.000000, 0.000000, 115.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2231, 1980.645996, 1891.619995, 83.285003, 0.000000, 0.000000, 65.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 1980.621948, 1889.514038, 86.313003, 9.600000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT ), 0, "CONNECTING...", 130, "Grandma's Television", 20, 0, -1, -16777216, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19861, 1980.621948, 1889.514038, 86.313003, 9.600000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT ), 0, "正在连接...", 130, "Grandma's Television", 20, 0, -1, -16777216, 1 );
 	CreateDynamicObject( 1702, 1984.057006, 1890.446044, 83.275001, 0.000000, 0.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 1705, 1983.687988, 1892.425048, 83.275001, 0.000000, 0.000000, -77.599998, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 1705, 1983.761962, 1887.453979, 83.275001, 0.000000, 0.000000, -111.199996, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
@@ -1189,7 +1189,7 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 19610, 1998.243041, 1899.801025, 84.915000, 0.000000, 0.000000, -113.400001, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 11719, 1980.624023, 1898.061035, 84.305000, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.057983, 1901.673950, 86.154998, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT ), 0, "Visage", 130, "Times new Roman", 100, 0, COLOR_GOLD, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.057983, 1901.673950, 85.105003, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT ), 0, "Casino", 130, "Times new Roman", 110, 0, COLOR_GOLD, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.057983, 1901.673950, 85.105003, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT ), 0, "赌场", 130, "Times new Roman", 110, 0, COLOR_GOLD, 0, 1 );
 	CreateDynamicActor( 257, 1981.520019, 1897.949951, 84.285003, 90.000000, 1, 100.0, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	tmpVariable = CreateDynamicActor( 251, 1997.329956, 1899.079956, 84.285003, 0.000000, 1, 100.0, VISAGE_APARTMENT_WORLD[ 6 ], VISAGE_APARTMENT_INT );
 	ApplyDynamicActorAnimation( tmpVariable, "STRIP", "STR_Loop_B", 4.1, 1, 1, 1, 1, 0 );
@@ -1250,10 +1250,10 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 2105, 1980.696044, 1892.093017, 84.714996, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2105, 1980.696044, 1886.569946, 84.714996, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 19937, 1992.754028, 1888.782958, 83.264999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.681030, 1904.133056, 86.425003, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "Welcome", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.681030, 1904.133056, 85.625000, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "To", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1992.181030, 1904.133056, 84.824996, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "Nibble's", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.181030, 1904.133056, 84.025001, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "Apartment", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.681030, 1904.133056, 86.425003, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "欢迎", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.681030, 1904.133056, 85.625000, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "到", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1992.181030, 1904.133056, 84.824996, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "尼布尔的", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.181030, 1904.133056, 84.025001, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, "公寓", 130, "Times new Roman", 70, 0, -16768462, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 9131, 2007.827026, 1900.542968, 83.665000, 0.000000, 90.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, 1675, "wshxrefhse", "greygreensubuild_128", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 9131, 2007.828979, 1899.303955, 83.666999, 0.000000, 90.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, 1675, "wshxrefhse", "greygreensubuild_128", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19843, 2007.946044, 1901.687988, 84.997001, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 7 ], VISAGE_APARTMENT_INT ), 0, 1675, "wshxrefhse", "greygreensubuild_128", -16 );
@@ -1393,7 +1393,7 @@ static stock InitializeCasinoApartments( )
 	SetDynamicObjectMaterial( CreateDynamicObject( 2286, 2005.655029, 1914.886962, 85.404998, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT ), 0, 2254, "picture_frame_clip", "CJ_PAINTING27", 0 );
 	CreateDynamicObject( 2257, 1991.749023, 1904.250976, 85.944999, 0.000000, 0.000000, 180.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 18749, 1998.840942, 1914.598022, 84.775001, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.354003, 1894.404052, 85.794998, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT ), 0, "Kitchen", 130, "Times new roman", 110, 0, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1991.354003, 1894.404052, 85.794998, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT ), 0, "厨房", 130, "Times new roman", 110, 0, -16777216, 0, 1 );
 	CreateDynamicObject( 948, 1992.740966, 1902.876953, 83.264999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2754, 1991.400024, 1894.937988, 84.144996, 0.000000, 0.000000, -90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 1829, 1985.767944, 1899.942993, 83.764999, 0.000000, 0.000000, 180.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
@@ -1416,7 +1416,7 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 19174, 1987.495971, 1893.463012, 85.815002, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2284, 1983.113037, 1892.996948, 85.254997, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2281, 1980.839965, 1890.355957, 85.425003, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19173, 2005.635986, 1899.865966, 83.694999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT ), 0, "Streaming", 130, "David", 70, 0, -1, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19173, 2005.635986, 1899.865966, 83.694999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT ), 0, "流媒体", 130, "David", 70, 0, -1, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 2898, 1983.770996, 1909.444946, 83.264999, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT ), 0, 10412, "hotel1", "carpet_red_256", -16 );
 	CreateDynamicActor( 172, 2006.579956, 1891.839965, 84.277000, 90.000000, 1, 100.0, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
 	CreatePokerTable( 100000, 2000, 2004.244018, 1906.128051, 83.665000, 4, VISAGE_APARTMENT_WORLD[ 8 ], VISAGE_APARTMENT_INT );
@@ -1483,7 +1483,7 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 1716, 1990.582031, 1913.776977, 83.264999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 1716, 1989.031005, 1913.776977, 83.264999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 1716, 1992.052978, 1913.776977, 83.264999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.052978, 1901.660034, 85.794998, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT ), 0, "Shinis Apartment", 130, "Times new Roman", 70, 0, -1, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19355, 1994.052978, 1901.660034, 85.794998, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT ), 0, "希尼斯公寓", 130, "Times new Roman", 70, 0, -1, 0, 1 );
 	CreateDynamicObject( 633, 2007.755004, 1885.885009, 84.254997, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 633, 1994.614013, 1886.135009, 84.254997, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2600, 2004.015991, 1886.296997, 84.044998, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 9 ], VISAGE_APARTMENT_INT );
@@ -1625,7 +1625,7 @@ static stock InitializeCasinoApartments( )
 	CreateDynamicObject( 1212, 2004.629028, 1894.430053, 84.056999, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 10 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 2010, 1994.365966, 1894.034057, 83.294998, 0.000000, 0.000000, 140.000000, VISAGE_APARTMENT_WORLD[ 10 ], VISAGE_APARTMENT_INT );
 	CreateDynamicObject( 11713, 1983.464965, 1905.215942, 85.235000, 0.000000, 0.000000, 0.000000, VISAGE_APARTMENT_WORLD[ 10 ], VISAGE_APARTMENT_INT );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19325, 1989.410766, 1914.895507, 85.692817, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 10 ], VISAGE_APARTMENT_INT ), 0, "Visage Apartment", 120, "Times New Roman", 64, 1, -16777216, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19325, 1989.410766, 1914.895507, 85.692817, 0.000000, 0.000000, 90.000000, VISAGE_APARTMENT_WORLD[ 10 ], VISAGE_APARTMENT_INT ), 0, "Visage 公寓", 120, "Times New Roman", 64, 1, -16777216, 0, 1 );
 	CreatePokerTable( 100000, 2000, 2003.975219, 1889.492553, 83.664772, 4, VISAGE_APARTMENT_WORLD[ 10 ], VISAGE_APARTMENT_INT );
 	CreateBlackjackTable( 50000, 2004.537963, 1912.535034, 84.264999, 0.000000, VISAGE_APARTMENT_WORLD[ 10 ] );
 	CreateRouletteTable( 1998.226074, 1912.094970, 84.315002, 90.000000, VISAGE_APARTMENT_WORLD[ 10 ] );

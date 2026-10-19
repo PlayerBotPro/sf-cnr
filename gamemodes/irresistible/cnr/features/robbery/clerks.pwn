@@ -103,9 +103,9 @@ hook OnPlayerUpdateEx( playerid )
 				if ( g_robberyNpcData[ clerkid ] [ E_TIMEOUT ] < g_iTime && g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] == -1 && g_robberyNpcData[ clerkid ] [ E_LOOT ] && ! g_robberyNpcData[ clerkid ] [ E_PROVOKED ] && distance < 10.0 && ! is_melee )
 				{
 					GivePlayerWantedLevel( playerid, 6 );
-					PlayerTextDrawSetString( playerid, p_RobberyRiskTD[ playerid ], "~y~~h~Clerk is confused" );
+					PlayerTextDrawSetString( playerid, p_RobberyRiskTD[ playerid ], "~y~~h~职员很困惑" );
 					PlayerTextDrawShow( playerid, p_RobberyRiskTD[ playerid ] );
-					PlayerTextDrawSetString( playerid, p_RobberyAmountTD[ playerid ], "Robbed ~g~~h~$0" );
+					PlayerTextDrawSetString( playerid, p_RobberyAmountTD[ playerid ], "被抢劫了 ~g~~h~$0" );
 					PlayerTextDrawShow( playerid, p_RobberyAmountTD[ playerid ] );
 
 					FCNPC_ApplyAnimation( aiming_player, "SHOP", "SHP_Rob_React", 4.1, 0, 1, 1, 1, 0 );
@@ -163,13 +163,13 @@ hook FCNPC_OnDeath( npcid, killerid, weaponid )
 			szLocation[ MAX_ZONE_NAME ], szCity[ MAX_ZONE_NAME ];
 
 		if ( GetPlayerLocation( killerid, szCity, szLocation ) )
-			SendClientMessageToCops( -1, ""COL_BLUE"[POLICE RADIO]"COL_WHITE" %s has murdered "COL_GREY"%s"COL_WHITE" near %s in %s.", ReturnPlayerName( killerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], szLocation, szCity );
+			SendClientMessageToCops( -1, ""COL_BLUE"[警用电台]"COL_WHITE" %s 谋杀了 "COL_GREY"%s"COL_WHITE" 附近%s在%s.", ReturnPlayerName( killerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 		else
-			SendClientMessageToCops( -1, ""COL_BLUE"[POLICE RADIO]"COL_WHITE" %s has murdered "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( killerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] );
+			SendClientMessageToCops( -1, ""COL_BLUE"[警用电台]"COL_WHITE" %s 谋杀了 "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( killerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] );
 
 		CreateCrimeReport( killerid );
 		GivePlayerWantedLevel( killerid, 6 );
-		SendServerMessage( killerid, "You have killed the clerk! "COL_RED"The cops have been informed." );
+		SendServerMessage( killerid, "你杀了店员! "COL_RED"警察已获悉." );
 	}
 	return 1;
 }
@@ -279,11 +279,11 @@ stock CreateRobberyNPC( name[ ], max_loot, Float: X, Float: Y, Float: Z, Float: 
 
 			Iter_Add(RobberyNpc, clerkid);
 
-			if ( strlen( worldid != -1 ? sprintf( "[BOT]%s%d", szBotName, clerkid ) : sprintf( "[BOT]%s", szBotName )  ) >= MAX_PLAYER_NAME )
+			if ( strlen( worldid != -1 ? sprintf( "[机器人]%s%d", szBotName, clerkid ) : sprintf( "[机器人]%s", szBotName )  ) >= MAX_PLAYER_NAME )
 				printf( "Warning: NPC name is too long (%s)", worldid != -1 ? sprintf( "[BOT]%s%d", szBotName, clerkid ) : sprintf( "[BOT]%s", szBotName ) );
 
 			format( g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], MAX_PLAYER_NAME, "%s", name );
-			g_robberyNpcData[ clerkid ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s\n"COL_WHITE"Aim To Start Robbery", name ), COLOR_GOLD, X, Y, Z, 25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0, .worldid = worldid );
+			g_robberyNpcData[ clerkid ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s\n"COL_WHITE"旨在开始抢劫", name ), COLOR_GOLD, X, Y, Z, 25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0, .worldid = worldid );
 			g_robberyNpcData[ clerkid ] [ E_NPC_ID ] = FCNPC_Create( worldid != -1 ? sprintf( "[BOT]%s%d", szBotName, clerkid ) : sprintf( "[BOT]%s", szBotName ) );
 			g_robberyNpcData[ clerkid ] [ E_WORLD ] = worldid == -1 ? 0 : worldid;
 			g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] = -1;
@@ -352,7 +352,7 @@ stock ReplenishRobberyNpc( clerkid, bool: fullreplenish = true )
 		g_robberyNpcData[ clerkid ] [ E_PROVOKED ] = false;
 
 		KillTimer( g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] ), g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] = -1;
-		UpdateDynamic3DTextLabelText( g_robberyNpcData[ clerkid ] [ E_LABEL ], COLOR_GOLD, sprintf( "%s\n"COL_WHITE"Aim To Start Robbery", g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] ) );
+		UpdateDynamic3DTextLabelText( g_robberyNpcData[ clerkid ] [ E_LABEL ], COLOR_GOLD, sprintf( "%s\n"COL_WHITE"旨在开始抢劫", g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] ) );
 
 		// Options
 		if ( fullreplenish ) {
@@ -402,7 +402,7 @@ stock StopPlayerNpcRobbery( playerid, clerkid = -1, bool: cower = true )
 
 		// Reset timer
 		KillTimer( g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] ), g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] = -1;
-		UpdateDynamic3DTextLabelText( g_robberyNpcData[ clerkid ] [ E_LABEL ], COLOR_GOLD, sprintf( "%s\n"COL_RED"Unavailable For Robbery", g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] ) );
+		UpdateDynamic3DTextLabelText( g_robberyNpcData[ clerkid ] [ E_LABEL ], COLOR_GOLD, sprintf( "%s\n"COL_RED"不可用于抢劫", g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] ) );
 	}
 	return 1;
 }
@@ -468,7 +468,7 @@ stock TriggerRobberyForClerks( playerid, robberyid )
 		g_robberyNpcData[ clerkid ] [ E_PROVOKED ] = true;
 		KillTimer( g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] ), g_robberyNpcData[ clerkid ] [ E_HOLDUP_TIMER ] = -1;
 		TriggerClosestCivilians( playerid, clerkid );
-		SendServerMessage( playerid, "You have committed a robbery while the clerk is concious! "COL_ORANGE"The police have been informed." );
+		SendServerMessage( playerid, "你在店员意识清醒的情况下犯了抢劫罪! "COL_ORANGE"警方已获悉." );
 	}
 }
 
@@ -494,15 +494,15 @@ function OnPlayerHoldupStore( playerid, clerkid, step )
 	if ( step == 0 )
 	{
 		if ( GetPlayerLocation( playerid, szCity, szLocation ) ) {
-			SendClientMessageToCops( -1, ""COL_BLUE"[POLICE RADIO]"COL_WHITE" %s began robbing "COL_GREY"%s"COL_WHITE" near %s in %s.", ReturnPlayerName( playerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], szLocation, szCity );
+			SendClientMessageToCops( -1, ""COL_BLUE"[警用电台]"COL_WHITE" %s 开始抢劫 "COL_GREY"%s"COL_WHITE" 附近%s在%s.", ReturnPlayerName( playerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 		} else {
-			SendClientMessageToCops( -1, ""COL_BLUE"[POLICE RADIO]"COL_WHITE" %s began robbing "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] );
+			SendClientMessageToCops( -1, ""COL_BLUE"[警用电台]"COL_WHITE" %s 开始抢劫 "COL_GREY"%s"COL_WHITE".", ReturnPlayerName( playerid ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] );
 		}
 
 		CreateCrimeReport( playerid );
 		DeletePVar( playerid, sprintf( "robbedNpc_%d", clerkid ) );
-		PlayerTextDrawSetString( playerid, p_RobberyRiskTD[ playerid ], "~g~~h~Clerk is scared" );
-		UpdateDynamic3DTextLabelText( g_robberyNpcData[ clerkid ] [ E_LABEL ], COLOR_GOLD, sprintf( "%s\n"COL_GREY"Currently Being Robbed", g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] ) );
+		PlayerTextDrawSetString( playerid, p_RobberyRiskTD[ playerid ], "~g~~h~职员害怕了" );
+		UpdateDynamic3DTextLabelText( g_robberyNpcData[ clerkid ] [ E_LABEL ], COLOR_GOLD, sprintf( "%s\n"COL_GREY"目前正在被抢劫", g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] ) );
 	}
 	else
 	{
@@ -537,9 +537,9 @@ function OnPlayerHoldupStore( playerid, clerkid, step )
 			robbedNpc = g_robberyNpcData[ clerkid ] [ E_MAX_LOOT ];
 
 			if ( GetPlayerLocation( playerid, szCity, szLocation ) ) {
-				SendGlobalMessage( -1, ""COL_GOLD"[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from a %s near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( robbedNpc ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], szLocation, szCity );
+				SendGlobalMessage( -1, ""COL_GOLD"[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE", 目标: %s, 地点: %s (%s)!", ReturnPlayerName( playerid ), playerid, cash_format( robbedNpc ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ], GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 			} else {
-				SendGlobalMessage( -1, ""COL_GOLD"[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from a %s!", ReturnPlayerName( playerid ), playerid, cash_format( robbedNpc ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] );
+				SendGlobalMessage( -1, ""COL_GOLD"[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE" 来自%s!", ReturnPlayerName( playerid ), playerid, cash_format( robbedNpc ), g_robberyNpcData[ clerkid ] [ E_NPC_NAME ] );
 			}
 
 			/*new Float: safeDistance = 99999.99;
@@ -557,12 +557,12 @@ function OnPlayerHoldupStore( playerid, clerkid, step )
 		}
 
 		if ( !( 0 <= amount < 10000 ) )
-			return SendError( playerid, "A money exploit occurred. Contact " SERVER_OPERATOR " ASAP." );
+			return SendError( playerid, "发生了金钱剥削.联系方式 " SERVER_OPERATOR " 尽快." );
 
 		GivePlayerCash( playerid, amount );
 		GivePlayerExperience( playerid, E_ROBBERY, 0.2 ); // give 10% of what it normally does, since it does this for like 4-5 times
 		SetPVarInt( playerid, sprintf( "robbedNpc_%d", clerkid ), robbedNpc );
-		PlayerTextDrawSetString( playerid, p_RobberyAmountTD[ playerid ], sprintf( "Robbed ~g~~h~%s", cash_format( robbedNpc ) ) );
+		PlayerTextDrawSetString( playerid, p_RobberyAmountTD[ playerid ], sprintf( "被抢劫了 ~g~~h~%s", cash_format( robbedNpc ) ) );
 	}
 
 	FCNPC_ApplyAnimation( npcid, "SHOP", "SHP_Rob_GiveCash", 4.1, 0, 1, 1, 1, 0 );

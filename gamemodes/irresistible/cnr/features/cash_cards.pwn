@@ -14,8 +14,8 @@
 CMD:redeemcashcard( playerid, params[ ] ) return cmd_cashcard( playerid, params );
 CMD:cashcard( playerid, params[ ] )
 {
-	if ( ! IsPlayerEmailVerified( playerid ) ) return SendError( playerid, "This feature is accessible only to players that have an "COL_GREY"/email"COL_WHITE" on their account." );
-	ShowPlayerDialog( playerid, DIALOG_CASH_CARD, DIALOG_STYLE_INPUT, ""COL_GREEN"Redeem Cash Card", ""COL_WHITE"Redeem your cash card by entering the code down below:", "Redeem", "Cancel" );
+	if ( ! IsPlayerEmailVerified( playerid ) ) return SendError( playerid, "使用此功能需要先通过以下命令为账号绑定"COL_GREY"/email"COL_WHITE"邮箱." );
+	ShowPlayerDialog( playerid, DIALOG_CASH_CARD, DIALOG_STYLE_INPUT, ""COL_GREEN"兑换现金卡", ""COL_WHITE"请在下方输入现金卡兑换码:", "兑换", "取消" );
 	return 1;
 }
 
@@ -28,8 +28,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 		if ( sscanf( inputtext, "s[32]", cash_card ) )
 		{
-			SendError( playerid, "Your cash card must be between 1 and 32 characters." );
-			ShowPlayerDialog( playerid, DIALOG_CASH_CARD, DIALOG_STYLE_INPUT, ""COL_GREEN"Redeem Cash Card", ""COL_WHITE"Redeem your cash card by entering the code down below:\n\n"COL_RED"Your cash card code must be between 1 and 32 characters.", "Redeem", "Cancel" );
+			SendError( playerid, "现金卡兑换码长度必须为 1 至 32 个字符." );
+			ShowPlayerDialog( playerid, DIALOG_CASH_CARD, DIALOG_STYLE_INPUT, ""COL_GREEN"兑换现金卡", ""COL_WHITE"请在下方输入现金卡兑换码:\n\n"COL_RED"现金卡兑换码长度必须为 1 至 32 个字符.", "兑换", "取消" );
 			return 1;
 		}
 
@@ -48,18 +48,18 @@ thread OnCheckCashCard( playerid )
 	cache_get_data( rows, tmpVariable );
 
 	if ( ! rows )
-		return SendError( playerid, "This cash card does not exist." ), 1;
+		return SendError( playerid, "此现金卡不存在." ), 1;
 
 	new max_uses = cache_get_field_content_int( 0, "MAX_USES", dbHandle );
 	new uses = cache_get_field_content_int( 0, "USES", dbHandle );
 
 	if ( uses >= max_uses )
-		return SendError( playerid, "This cash card cannot be redeemed anymore as it had a limit of %d uses.", max_uses ), 1;
+		return SendError( playerid, "此现金卡已达到 %d 次的兑换上限.", max_uses ), 1;
 
 	new expire_time = cache_get_field_content_int( 0, "EXPIRE_TIME", dbHandle );
 
 	if ( expire_time != 0 && GetServerTime( ) > expire_time )
-		return SendError( playerid, "This cash card cannot be redeemed anymore as it has expired." ), 1;
+		return SendError( playerid, "此现金卡已过期, 无法兑换." ), 1;
 
 	new card_id = cache_get_field_content_int( 0, "ID", dbHandle );
 	new card_value = cache_get_field_content_int( 0, "VALUE", dbHandle );
@@ -77,11 +77,11 @@ thread OnPlayerRedeemCashCard( playerid, card_id, card_value )
 	cache_get_data( rows, tmpVariable );
 
 	if ( rows )
-		return SendError( playerid, "You have already redeemed this cash card before." );
+		return SendError( playerid, "你已经兑换过此现金卡." );
 
 	// alert and give cash
 	GivePlayerCash( playerid, card_value );
-	SendClientMessageToAllFormatted( COLOR_GREY, "[SERVER]"COL_WHITE" %s(%d) has redeemed a "COL_GOLD"%s"COL_WHITE" cash card.", ReturnPlayerName( playerid ), playerid, cash_format( card_value ) );
+	SendClientMessageToAllFormatted( COLOR_GREY, "[服务器]"COL_WHITE" %s(%d) 兑换了"COL_GOLD"%s"COL_WHITE"的现金卡.", ReturnPlayerName( playerid ), playerid, cash_format( card_value ) );
 
 	// insert into database
 	mysql_single_query( sprintf( "UPDATE `CASH_CARDS` SET `USES` = `USES` + 1 WHERE `ID`=%d", card_id ) );

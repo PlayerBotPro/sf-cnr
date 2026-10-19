@@ -102,25 +102,25 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	    {
 	        listitem -= 1; // So it starts from 0...
 			g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ] = g_gangColors[ listitem ];
-			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has changed the gang color to %s", ReturnPlayerName( playerid ), playerid, ReturnGangNameColor( listitem ) );
+			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已将帮派颜色更改为 %s", ReturnPlayerName( playerid ), playerid, ReturnGangNameColor( listitem ) );
 	      	SetGangColorsToGang( p_GangID[ playerid ] );
 		}
 		else {
-			if ( p_VIPLevel[ playerid ] < VIP_REGULAR ) return SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
-			ShowPlayerDialog( playerid, DIALOG_GANG_COLOR_INPUT, DIALOG_STYLE_INPUT, "{FFFFFF}Gang Colors", "{FFFFFF}Write a hexidecimal color within the textbox", "Submit", "Cancel" );
+			if ( p_VIPLevel[ playerid ] < VIP_REGULAR ) return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
+			ShowPlayerDialog( playerid, DIALOG_GANG_COLOR_INPUT, DIALOG_STYLE_INPUT, "{FFFFFF}帮派颜色", "{FFFFFF}在文本框中写入十六进制颜色", "提交", "取消" );
 		}
 	}
 	else if ( dialogid == DIALOG_GANG_COLOR_INPUT && response )
 	{
 		if ( !strlen( inputtext ) || !isHex( inputtext ) )
-		    return ShowPlayerDialog( playerid, DIALOG_GANG_COLOR_INPUT, DIALOG_STYLE_INPUT, "{FFFFFF}Gang Colors", "{FFFFFF}Write a hexidecimal color within the textbox\n\n{ff0000}Invalid HEX color.", "Submit", "Cancel" );
+		    return ShowPlayerDialog( playerid, DIALOG_GANG_COLOR_INPUT, DIALOG_STYLE_INPUT, "{FFFFFF}帮派颜色", "{FFFFFF}在文本框中写入十六进制颜色\n\n{ff0000}无效的十六进制颜色.", "提交", "取消" );
 
 		new gangid = p_GangID[ playerid ];
 		new hex_to_int = HexToInt( inputtext );
 
 		g_gangData[ gangid ] [ E_COLOR ] = setAlpha( hex_to_int, 0xFF );
 
-		SendClientMessageToGang( gangid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has changed the gang color to %06x", ReturnPlayerName( playerid ), playerid, hex_to_int >>> 8 );
+		SendClientMessageToGang( gangid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已将帮派颜色更改为 %06x", ReturnPlayerName( playerid ), playerid, hex_to_int >>> 8 );
 	 	SetGangColorsToGang( gangid );
 	}
 	else if ( dialogid == DIALOG_GANG_LIST && response )
@@ -139,7 +139,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	      			curr_gang_sql = g_gangData[ curr_gang ] [ E_SQL_ID ];
 
 	      		SetPVarInt( playerid, "viewing_gang_sql", g_sortedGangData[ g ] [ E_SQL_ID ] );
-	      		ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Options", sprintf( "%sJoin Gang\nView Statistics\nView Gang Members", curr_gang_sql != g_sortedGangData[ g ] [ E_SQL_ID ] && ! g_sortedGangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "Select", "Back" );
+                ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派选项", sprintf( "%s加入帮派\n查看统计数据\n查看帮派成员", curr_gang_sql != g_sortedGangData[ g ] [ E_SQL_ID ] && ! g_sortedGangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "选择", "返回" );
 				break;
 	   		}
 	      	x ++;
@@ -159,31 +159,31 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		}
 
 		if ( ! ( 0 <= g < MAX_GANGS ) || ! Iter_Contains( gangs, g ) )
-			return SendError( playerid, "Unable to discover gang information as it no longer is loaded, please try again. (0x7D)" );
+			return SendError( playerid, "无法发现帮派信息,因为不再加载,请重试. (0x7D)" );
 
 		switch( listitem )
 		{
 			case 0: // Join gang
 			{
 				if ( p_Class[ playerid ] != CLASS_CIVILIAN ) {
-					SendError( playerid, "You must be a civilian to switch gangs." );
+					SendError( playerid, "你必须是平民才能切换帮派." );
 				} else if ( p_GangID[ playerid ] == g ) {
-					SendError( playerid, "You are already in this gang." );
+					SendError( playerid, "你已经在这个帮派里了." );
 				} else if ( IsGangPrivate( g ) ) {
-					SendError( playerid, "You can no longer join this gang as it is private." );
+					SendError( playerid, "你不能再加入这个团伙,因为它是私人的." );
 				} else if ( ! SetPlayerGang( playerid, g ) ) {
-					SendError( playerid, "You can no longer join this gang." );
+					SendError( playerid, "你不能再加入这个帮派了." );
 				}
-				ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Options", sprintf( "%sJoin Gang\nView Statistics\nView Gang Members", p_GangID[ playerid ] != g && ! g_gangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "Select", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派选项", sprintf( "%s加入帮派\n查看统计数据\n查看帮派成员", p_GangID[ playerid ] != g && ! g_gangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "选择", "返回" );
 			}
 
 			case 1: // View statistics
 			{
 				new iPlayers = GetOnlineGangMembers( g );
 				SetPVarInt( playerid, "gang_members_id", g );
-				format( szLargeString, 350, ""COL_GREY"Gang ID:"COL_WHITE" %d\n"COL_GREY"Online Members:"COL_WHITE" %d\n"COL_GREY"Score:"COL_WHITE" %d\n"COL_GREY"Kills:"COL_WHITE" %d\n"COL_GREY"Deaths:"COL_WHITE" %d\n"COL_GREY"K/D Ratio:"COL_WHITE" %0.2f\n", g_gangData[ g ] [ E_SQL_ID ], iPlayers, g_gangData[ g ] [ E_SCORE ], g_gangData[ g ] [ E_KILLS ], g_gangData[ g ] [ E_DEATHS ], floatdiv( g_gangData[ g ] [ E_KILLS ], g_gangData[ g ] [ E_DEATHS ] ) );
-				format( szLargeString, 350, "%s"COL_GREY"Bank:"COL_WHITE" %s\n"COL_GREY"Zones Captured:"COL_WHITE" %d", szLargeString, cash_format( g_gangData[ g ] [ E_BANK ] ), GetGangCapturedTurfs( g ) );
-				ShowPlayerDialog( playerid, DIALOG_GANG_LIST_RESPONSE, DIALOG_STYLE_MSGBOX, "{FFFFFF}Gang Statistics", szLargeString, "Close", "Back" );
+				format( szLargeString, 350, ""COL_GREY"帮派 ID:"COL_WHITE" %d\n"COL_GREY"在线会员:"COL_WHITE" %d\n"COL_GREY"分数:"COL_WHITE" %d\n"COL_GREY"杀戮:"COL_WHITE" %d\n"COL_GREY"死亡人数:"COL_WHITE" %d\n"COL_GREY"K/D 比率:"COL_WHITE" %0.2f\n", g_gangData[ g ] [ E_SQL_ID ], iPlayers, g_gangData[ g ] [ E_SCORE ], g_gangData[ g ] [ E_KILLS ], g_gangData[ g ] [ E_DEATHS ], floatdiv( g_gangData[ g ] [ E_KILLS ], g_gangData[ g ] [ E_DEATHS ] ) );
+				format( szLargeString, 350, "%s"COL_GREY"账户:"COL_WHITE" %s\n"COL_GREY"占领区域:"COL_WHITE" %d", szLargeString, cash_format( g_gangData[ g ] [ E_BANK ] ), GetGangCapturedTurfs( g ) );
+				ShowPlayerDialog( playerid, DIALOG_GANG_LIST_RESPONSE, DIALOG_STYLE_MSGBOX, "{FFFFFF}帮派统计", szLargeString, "关闭", "返回" );
 			}
 
 			case 2:
@@ -202,9 +202,9 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new g = GetPVarInt( playerid, "gang_members_id" );
 
 		if ( ! Iter_Contains( gangs, g ) )
-			return SendError( playerid, "Could not find gang. Try again." );
+			return SendError( playerid, "找不到帮派.再试一次." );
 
-		return ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Options", sprintf( "%sJoin Gang\nView Statistics\nView Gang Members", p_GangID[ playerid ] != g && ! g_gangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "Select", "Back" );
+		return ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派选项", sprintf( "%s加入帮派\n查看统计数据\n查看帮派成员", p_GangID[ playerid ] != g && ! g_gangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "选择", "返回" );
 	}
 	else if ( dialogid == DIALOG_GANG_LIST_MEMBERS )
 	{
@@ -213,10 +213,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new page = GetPVarInt( playerid, "gang_members_page" );
 
 		if ( ! Iter_Contains( gangs, g ) )
-			return SendError( playerid, "Could not find gang. Try again." );
+			return SendError( playerid, "找不到帮派.再试一次." );
 
 		if ( ! response && page == 0 )
-			return ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}Gang Options", sprintf( "%sJoin Gang\nView Statistics\nView Gang Members", p_GangID[ playerid ] != g && ! g_gangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "Select", "Back" );
+			return ShowPlayerDialog( playerid, DIALOG_GANG_LIST_OPTIONS, DIALOG_STYLE_LIST, "{FFFFFF}帮派选项", sprintf( "%s加入帮派\n查看统计数据\n查看帮派成员", p_GangID[ playerid ] != g && ! g_gangData[ g ] [ E_INVITE_ONLY ] ? ( COL_WHITE ) : ( COL_BLACK ) ), "选择", "返回" );
 
 		if ( members_shown < 20 && response )
 			return 1;
@@ -240,13 +240,13 @@ public OnPlayerLeaveGang( playerid, gangid, reason )
 	switch( reason )
 	{
 	    case GANG_LEAVE_KICK:
-	    	SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has left the gang (KICKED)", ReturnPlayerName( playerid ), playerid );
+            SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已离开帮派(踢)", ReturnPlayerName( playerid ), playerid );
 
 	    case GANG_LEAVE_QUIT:
-	    	SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has left the gang (LEFT)", ReturnPlayerName( playerid ), playerid );
+            SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已离开帮派(左)", ReturnPlayerName( playerid ), playerid );
 
 	    case GANG_LEAVE_UNKNOWN:
-	    	SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has left the gang (UNKNOWN)", ReturnPlayerName( playerid ), playerid );
+            SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已离开帮派(未知)", ReturnPlayerName( playerid ), playerid );
 	}
 	return 1;
 }
@@ -261,19 +261,19 @@ CMD:clans( playerid, params[ ] )
 CMD:gangs( playerid, params[ ] )
 {
 	if ( !Iter_Count(gangs) )
-		return SendError( playerid, "There are no gangs to list." );
+		return SendError( playerid, "没有可列出的帮派." );
 
 	// store current sort into gangs & sort by respect
 	g_sortedGangData = g_gangData;
 	SortDeepArray( g_sortedGangData, E_RESPECT, .order = SORT_DESC );
 
 	// create dialog
-	szHugeString = ""COL_WHITE"Gang\t"COL_WHITE"Respect\n";
+	szHugeString = ""COL_WHITE"刚\t"COL_WHITE"尊重\n";
 
 	for ( new g = 0; g < sizeof( g_sortedGangData ); g ++ ) if ( g_sortedGangData[ g ] [ E_SQL_ID ] != 0 ) {
 		format( szHugeString, sizeof( szHugeString ), "%s{%06x}%s\t%d\n", szHugeString, g_sortedGangData[ g ] [ E_COLOR ] >>> 8, g_sortedGangData[ g ] [ E_NAME ], g_sortedGangData[ g ] [ E_RESPECT ] );
 	}
-	return ShowPlayerDialog( playerid, DIALOG_GANG_LIST, DIALOG_STYLE_TABLIST_HEADERS, "Gangs List", szHugeString, "Select", "Cancel" );
+	return ShowPlayerDialog( playerid, DIALOG_GANG_LIST, DIALOG_STYLE_TABLIST_HEADERS, "帮派名单", szHugeString, "选择", "取消" );
 }
 
 CMD:getgang( playerid, params[ ] )
@@ -283,15 +283,15 @@ CMD:getgang( playerid, params[ ] )
 	;
 
 	if ( sscanf( params, "u", pID ) ) return SendUsage( playerid, "/getgang [PLAYER_ID]" );
-	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
-	else if ( p_PlayerLogged{ pID } == false ) return SendError( playerid, "This player is not logged in." );
+	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
+	else if ( p_PlayerLogged{ pID } == false ) return SendError( playerid, "该玩家尚未登录." );
 	else
 	{
 		if (p_GangID[ pID ] == INVALID_GANG_ID) {
-			SendServerMessage( playerid, ""COL_GREY"%s(%d) is not in a gang.", ReturnPlayerName( pID ), pID );
+			SendServerMessage( playerid, ""COL_GREY"%s(%d) 不在帮派中.", ReturnPlayerName( pID ), pID );
 		}
 		else {
-			SendServerMessage( playerid, ""COL_GREY"%s(%d) is in {%06x}%s", ReturnPlayerName( pID ), pID, g_gangData[ p_GangID[ pID ] ] [ E_COLOR ] >>> 8, g_gangData[ p_GangID[ pID ] ][ E_NAME ] );
+			SendServerMessage( playerid, ""COL_GREY"%s(%d) 位于 {%06x}%s", ReturnPlayerName( pID ), pID, g_gangData[ p_GangID[ pID ] ] [ E_COLOR ] >>> 8, g_gangData[ p_GangID[ pID ] ][ E_NAME ] );
 		}
 	}
 	return 1;
@@ -299,7 +299,7 @@ CMD:getgang( playerid, params[ ] )
 
 CMD:gang( playerid, params[ ] )
 {
-	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "This is restricted to civilians only." );
+	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "此功能仅限平民使用." );
 
 	if ( !strcmp( params, "offlinekick", false, 11 ) )
 	{
@@ -308,7 +308,7 @@ CMD:gang( playerid, params[ ] )
 			p_Name[ MAX_PLAYER_NAME ];
 
 		if ( ! IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) )
-			return SendError( playerid, "You are not the gang leader." );
+			return SendError( playerid, "你不是帮派头目." );
 
 		if ( sscanf( params[ 12 ], "s[24]", p_Name ) )
 			return SendUsage( playerid, "/gang offlinekick [PLAYER_NAME]" );
@@ -324,16 +324,16 @@ CMD:gang( playerid, params[ ] )
 		new
 		    pID
 		;
-	    if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not inside a gang." );
-		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ], .only_leader = 1 ) ) return SendError( playerid, "You are not the gang leader." );
+	    if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不在帮派内." );
+		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ], .only_leader = 1 ) ) return SendError( playerid, "你不是帮派头目." );
 		else if ( sscanf( params[ 7 ], "u", pID ) ) return SendUsage( playerid, "/gang leader [PLAYER_ID]" );
-		else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
-		else if ( pID == playerid ) return SendError( playerid, "You cannot apply this action to yourself." );
-		else if ( p_GangID[ pID ] != p_GangID[ playerid ] ) return SendError( playerid, "This player isn't in your gang." );
+		else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
+		else if ( pID == playerid ) return SendError( playerid, "你不能将此操作应用于你自己." );
+		else if ( p_GangID[ pID ] != p_GangID[ playerid ] ) return SendError( playerid, "该玩家不属于你的帮派." );
 		else
 		{
 	        g_gangData[ p_GangID[ playerid ] ] [ E_LEADER ] = p_AccountID[ pID ];
-			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) is the new gang leader.", ReturnPlayerName( pID ), pID );
+			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 是新的帮派头目.", ReturnPlayerName( pID ), pID );
             SaveGangData( p_GangID[ playerid ] );
 		}
 		return 1;
@@ -343,12 +343,12 @@ CMD:gang( playerid, params[ ] )
 		new
 			gangid = p_GangID[ playerid ], pID;
 
-	    if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not inside a gang." );
-		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ], .only_leader = 1 ) ) return SendError( playerid, "You are not the gang leader." );
+	    if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不在帮派内." );
+		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ], .only_leader = 1 ) ) return SendError( playerid, "你不是帮派头目." );
 		else if ( sscanf( params[ 9 ], "u", pID ) ) return SendUsage( playerid, "/gang coleader [PLAYER_ID]" );
-		else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
-		else if ( pID == playerid ) return SendError( playerid, "You cannot apply this action to yourself." );
-		else if ( p_GangID[ pID ] != p_GangID[ playerid ] ) return SendError( playerid, "This player isn't in your gang." );
+		else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
+		else if ( pID == playerid ) return SendError( playerid, "你不能将此操作应用于你自己." );
+		else if ( p_GangID[ pID ] != p_GangID[ playerid ] ) return SendError( playerid, "该玩家不属于你的帮派." );
 		else
 		{
 			new
@@ -358,7 +358,7 @@ CMD:gang( playerid, params[ ] )
 			{
 				// check for dupes
 				if ( g_gangData[ gangid ] [ E_COLEADER ] [ i ] == p_AccountID[ pID ] )
-					return SendError( playerid, "This player is already a coleader of your gang." );
+					return SendError( playerid, "该玩家已经是你帮派的共同头目." );
 
 				// find slot
 				if ( ! g_gangData[ gangid ] [ E_COLEADER ] [ i ] ) {
@@ -370,10 +370,10 @@ CMD:gang( playerid, params[ ] )
 			if ( slotid != -1 )
 			{
 		        g_gangData[ gangid ] [ E_COLEADER ] [ slotid ] = p_AccountID[ pID ];
-				SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) is the #%d co-leader.", ReturnPlayerName( pID ), pID, slotid + 1 );
+				SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 是#%d 联合领导者.", ReturnPlayerName( pID ), pID, slotid + 1 );
 				mysql_single_query( sprintf( "INSERT INTO `GANG_COLEADERS` (`GANG_ID`,`USER_ID`) VALUES (%d, %d)", g_gangData[ gangid ] [ E_SQL_ID ], p_AccountID[ pID ] ) );
 			}
-			else SendError( playerid, "There can only be a maximum of %d gang co-leaders. Kick one of them first.", MAX_COLEADERS );
+			else SendError( playerid, "最多只能有 %d 个帮派联合头目.先踢掉其中一个.", MAX_COLEADERS );
 		}
 		return 1;
 	}
@@ -383,12 +383,12 @@ CMD:gang( playerid, params[ ] )
 		    pID
 		;
 
-		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not inside a gang." );
-		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) ) return SendError( playerid, "You are not the gang leader." );
+		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不在帮派内." );
+		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) ) return SendError( playerid, "你不是帮派头目." );
 		else if ( sscanf( params[ 5 ], "u", pID ) ) return SendUsage( playerid, "/gang kick [PLAYER_ID]" );
-		else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
-		else if ( p_GangID[ pID ] != p_GangID[ playerid ] ) return SendError( playerid, "This player isn't in your gang." );
-		else if ( IsPlayerGangLeader( pID, p_GangID[ playerid ], .only_leader = 1 ) ) return SendError( playerid, "This person is the gang leader." );
+		else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
+		else if ( p_GangID[ pID ] != p_GangID[ playerid ] ) return SendError( playerid, "该玩家不属于你的帮派." );
+		else if ( IsPlayerGangLeader( pID, p_GangID[ playerid ], .only_leader = 1 ) ) return SendError( playerid, "此人是帮派头目." );
 		else
 		{
 			RemovePlayerFromGang( pID, GANG_LEAVE_KICK, playerid );
@@ -401,26 +401,26 @@ CMD:gang( playerid, params[ ] )
 		    szName[ 30 ]
 		;
 
-		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not inside a gang." );
-		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) ) return SendError( playerid, "You are not the gang leader." );
+		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不在帮派内." );
+		else if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) ) return SendError( playerid, "你不是帮派头目." );
 		else if ( sscanf( params[ 5 ], "s[30]", szName ) ) return SendUsage( playerid, "/gang name [GANG_NAME]" );
-		else if ( textContainsIP( szName ) || textContainsBadTextdrawLetters( szName ) ) return SendError( playerid, "Invalid Gang Name." );
-		else if ( gangNameExists( szName ) ) return SendError( playerid, "This gang already exists, try another name." );
+		else if ( textContainsIP( szName ) || textContainsBadTextdrawLetters( szName ) ) return SendError( playerid, "帮派名称无效." );
+		else if ( gangNameExists( szName ) ) return SendError( playerid, "该帮派已存在,请尝试其他名称." );
 		else
 		{
 			trimString( szName );
 			format( g_gangData[ p_GangID[ playerid ] ] [ E_NAME ], 30, "%s", szName );
-			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has changed the gang's name to {%06x}%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ] >>> 8, szName );
+			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已将该帮派的名称更改为 {%06x}%s"COL_WHITE".", ReturnPlayerName( playerid ), playerid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ] >>> 8, szName );
             SaveGangData( p_GangID[ playerid ] );
 		}
 		return 1;
 	}
 	else if ( !strcmp( params, "color", false, 5 ) )
 	{
-		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not inside a gang." );
-		if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) ) return SendError( playerid, "You are not the gang leader." );
+		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不在帮派内." );
+		if ( !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) ) return SendError( playerid, "你不是帮派头目." );
 
-		return ShowPlayerDialog( playerid, DIALOG_GANG_COLOR, DIALOG_STYLE_LIST, "Gang Colors", ""COL_GREY"Custom Hex Code "COL_GOLD"[V.I.P]\n{99FF00}Yellow Green\n{00CC00}Green\n{009999}Blue Green\n{0033CC}Blue\n{330099}Blue Violet\n{660099}Violet\n{CC0099}Red Violet", "Select", "Cancel" );
+		return ShowPlayerDialog( playerid, DIALOG_GANG_COLOR, DIALOG_STYLE_LIST, "帮派颜色", ""COL_GREY"自定义十六进制代码 "COL_GOLD"[VIP]\n{99FF00}黄绿色\n{00CC00}绿色\n{009999}蓝绿色\n{0033CC}蓝色\n{330099}蓝紫色\n{660099}紫色\n{CC0099}红紫色", "选择", "取消" );
 	}
 	else if ( !strcmp( params, "create", false, 5 ) )
 	{
@@ -429,9 +429,9 @@ CMD:gang( playerid, params[ ] )
 		;
 
 		if ( sscanf( params[ 6 ], "s[30]", szName ) ) return SendUsage( playerid, "/gang create [GANG_NAME]" );
-		else if ( p_GangID[ playerid ] != INVALID_GANG_ID ) return SendError( playerid, "To make a gang, you must leave your current gang with /gang leave" );
-		else if ( textContainsIP( szName ) || textContainsBadTextdrawLetters( szName ) ) return SendError( playerid, "Invalid Gang Name." );
-		else if ( gangNameExists( szName ) ) return SendError( playerid, "This gang already exists, try another name." );
+		else if ( p_GangID[ playerid ] != INVALID_GANG_ID ) return SendError( playerid, "要组建帮派,你必须以 /gang leave 离开当前的帮派" );
+		else if ( textContainsIP( szName ) || textContainsBadTextdrawLetters( szName ) ) return SendError( playerid, "帮派名称无效." );
+		else if ( gangNameExists( szName ) ) return SendError( playerid, "该帮派已存在,请尝试其他名称." );
 		else
 		{
 			new
@@ -445,9 +445,9 @@ CMD:gang( playerid, params[ ] )
 			    	SetPlayerColor( playerid, g_gangData[ handle ] [ E_COLOR ] );
 
 				mysql_single_query( sprintf( "UPDATE `USERS` SET `GANG_ID`=%d WHERE `ID`=%d", g_gangData[ handle ] [ E_SQL_ID ], p_AccountID[ playerid ] ) );
-			    SendClientMessageToGang( handle, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} You have created the gang: %s (%d)", szName, g_gangData[ handle ] [ E_SQL_ID ] );
+			    SendClientMessageToGang( handle, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} 你已创建帮派:%s (%d)", szName, g_gangData[ handle ] [ E_SQL_ID ] );
 			}
-			else SendError( playerid, "There are no available slots to create a gang." );
+			else SendError( playerid, "没有可用的槽位来创建帮派." );
 		}
 		return 1;
 	}
@@ -456,21 +456,21 @@ CMD:gang( playerid, params[ ] )
 		new
 			gangid = p_GangID[ playerid ];
 
-		if ( gangid == INVALID_GANG_ID ) return SendError( playerid, "You are not inside any gang." );
-		if ( !IsPlayerGangLeader( playerid, gangid ) ) return SendError( playerid, "You are not the gang leader." );
+		if ( gangid == INVALID_GANG_ID ) return SendError( playerid, "你不属于任何帮派." );
+		if ( !IsPlayerGangLeader( playerid, gangid ) ) return SendError( playerid, "你不是帮派头目." );
 
 		if ( sscanf( params[ 8 ], "s[96]", g_gangData[ gangid ] [ E_JOIN_MSG ] ) )
 		{
 			mysql_single_query( sprintf( "UPDATE `GANGS` SET `JOIN_MSG`=NULL WHERE `ID`=%d", g_gangData[ gangid ] [ E_SQL_ID ] ) );
-			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) removed the gang's join message.", ReturnPlayerName( playerid ), playerid );
+			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 删除了帮派的加入消息.", ReturnPlayerName( playerid ), playerid );
 		}
 		else
 		{
 			format( szBigString, sizeof( szBigString ), "UPDATE `GANGS` SET `JOIN_MSG`='%s' WHERE `ID`=%d", mysql_escape( g_gangData[ gangid ] [ E_JOIN_MSG ] ), g_gangData[ gangid ] [ E_SQL_ID ] );
 			mysql_single_query( szBigString );
 
-			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) set the gang's join message:", ReturnPlayerName( playerid ), playerid );
-			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]"COL_GREY" %s", g_gangData[ gangid ] [ E_JOIN_MSG ] );
+			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 设置帮派的加入消息:", ReturnPlayerName( playerid ), playerid );
+			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]"COL_GREY" %s", g_gangData[ gangid ] [ E_JOIN_MSG ] );
 		}
 		return 1;
 	}
@@ -480,11 +480,11 @@ CMD:gang( playerid, params[ ] )
 		    gID
 		;
 		if ( sscanf( params[ 5 ], "d", gID ) ) return SendUsage( playerid, "/gang join [GANG_ID]" );
-		else if ( gID < 0 || gID >= MAX_GANGS ) return SendError( playerid, "Invalid Gang ID." );
-		else if ( !Iter_Contains( gangs, gID ) ) return SendError( playerid, "Invalid Gang ID." );
-		else if ( p_gangInvited[ playerid ] [ gID ] == false ) return SendError( playerid, "You haven't been invited to this gang." );
-		else if ( g_iTime > p_gangInviteTick[ playerid ] ) return p_gangInvited[ playerid ] [ gID ] = false, SendError( playerid, "This invite has expired, each invite only lasts for 2 minutes." );
-		else if ( p_GangID[ playerid ] != INVALID_GANG_ID ) return SendError( playerid, "You are already inside a gang." );
+		else if ( gID < 0 || gID >= MAX_GANGS ) return SendError( playerid, "帮派 ID 无效." );
+		else if ( !Iter_Contains( gangs, gID ) ) return SendError( playerid, "帮派 ID 无效." );
+		else if ( p_gangInvited[ playerid ] [ gID ] == false ) return SendError( playerid, "你还没有被邀请加入这个帮派." );
+		else if ( g_iTime > p_gangInviteTick[ playerid ] ) return p_gangInvited[ playerid ] [ gID ] = false, SendError( playerid, "此邀请已过期,每个邀请仅持续 2 分钟." );
+		else if ( p_GangID[ playerid ] != INVALID_GANG_ID ) return SendError( playerid, "你已经在帮派内了." );
 		else
 		{
 		    p_gangInvited[ playerid ] [ gID ] = false;
@@ -499,33 +499,33 @@ CMD:gang( playerid, params[ ] )
 		;
 
 		if ( sscanf( params[ 7 ], "u", pID ) ) return SendUsage( playerid, "/gang invite [PLAYER_ID]" );
-		else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "This player is not connected." );
-		else if ( p_Class[ pID ] != CLASS_CIVILIAN ) return SendError( playerid, "You cannot invite people from non-civilian classes." );
-		else if ( IsPlayerSettingToggled( pID, SETTING_GANG_INVITES ) ) return SendError( playerid, "This player has disabled gang invites." );
-		else if ( pID == playerid ) return SendError( playerid, "You cannot use this on yourself." );
-		else if ( p_GangID[ pID ] != INVALID_GANG_ID ) return SendError( playerid, "This player is already inside a gang." );
-		else if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not inside any gang." );
-		else if ( p_GangID[ pID ] == p_GangID[ playerid ] ) return SendError( playerid, "This player is in your gang." );
+		else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "此玩家不在线." );
+		else if ( p_Class[ pID ] != CLASS_CIVILIAN ) return SendError( playerid, "你不能邀请非平民阶层的人." );
+		else if ( IsPlayerSettingToggled( pID, SETTING_GANG_INVITES ) ) return SendError( playerid, "该玩家已禁用帮派邀请." );
+		else if ( pID == playerid ) return SendError( playerid, "你不能对自己使用这个." );
+		else if ( p_GangID[ pID ] != INVALID_GANG_ID ) return SendError( playerid, "该玩家已经在帮派内." );
+		else if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不属于任何帮派." );
+		else if ( p_GangID[ pID ] == p_GangID[ playerid ] ) return SendError( playerid, "该玩家在你的帮派中." );
 		else
 		{
 			if ( g_gangData[ p_GangID[ playerid ] ] [ E_INVITE_ONLY ] && !IsPlayerGangLeader( playerid, p_GangID[ playerid ] ) )
-				return SendError( playerid, "You are not the gang leader." );
+				return SendError( playerid, "你不是帮派头目." );
 
 		    p_gangInvited[ pID ] [ p_GangID[ playerid ] ] = true;
 		    p_gangInviteTick[ pID ] = g_iTime + 120;
 			GameTextForPlayer( pID, sprintf( "~n~~y~~h~/gang join %d", p_GangID[ playerid ] ), 2000, 4 );
-		    format( szNormalString, sizeof( szNormalString ), "[GANG]{FFFFFF} %s(%d) has invited you to join %s, to join type \"/gang join %d\"", ReturnPlayerName( playerid ), playerid, g_gangData[ p_GangID[ playerid ] ] [ E_NAME ], p_GangID[ playerid ] );
+		    format( szNormalString, sizeof( szNormalString ), "[帮派]{FFFFFF} %s(%d) 邀请你加入 %s,加入类型 \"/gang join %d\"", ReturnPlayerName( playerid ), playerid, g_gangData[ p_GangID[ playerid ] ] [ E_NAME ], p_GangID[ playerid ] );
 			SendClientMessage( pID, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], szNormalString );
-			format( szNormalString, sizeof( szNormalString ), "[GANG]{FFFFFF} You have invited %s(%d) to join your gang.", ReturnPlayerName( pID ), pID );
+			format( szNormalString, sizeof( szNormalString ), "[帮派]{FFFFFF} 你已邀请 %s(%d) 加入你的帮派.", ReturnPlayerName( pID ), pID );
 			SendClientMessage( playerid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], szNormalString );
 		}
 		return 1;
 	}
 	else if ( !strcmp( params, "leave", false, 5 ) )
 	{
-		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not in any gang." );
+		if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不属于任何帮派." );
 		RemovePlayerFromGang( playerid, GANG_LEAVE_QUIT );
-		return SendServerMessage( playerid, "You have left your previous gang." );
+		return SendServerMessage( playerid, "你已经离开了以前的帮派." );
 	}
 	else if ( !strcmp( params, "splitprofit", false, 11 ) )
 	{
@@ -533,20 +533,20 @@ CMD:gang( playerid, params[ ] )
 			fProfitSplit;
 
 		if ( sscanf( params[ 12 ], "d", fProfitSplit ) ) SendUsage( playerid, "/gang splitprofit [PERCENTAGE]" );
-		else if ( p_GangID[ playerid ] == INVALID_GANG_ID ) SendError( playerid, "You are not inside any gang." );
-		else if ( fProfitSplit == 0 && p_GangSplitProfits[ playerid ] == 0 ) SendError( playerid, "You are already not splitting any profit among your gang bank." );
+		else if ( p_GangID[ playerid ] == INVALID_GANG_ID ) SendError( playerid, "你不属于任何帮派." );
+		else if ( fProfitSplit == 0 && p_GangSplitProfits[ playerid ] == 0 ) SendError( playerid, "你已经没有在你的帮派银行之间分配任何利润." );
 		else if ( fProfitSplit == 0 )
 		{
 			p_GangSplitProfits[ playerid ] = 0;
-			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has decided to no longer split his profits to the gang.", ReturnPlayerName( playerid ), playerid );
+			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 决定不再将利润分配给该团伙.", ReturnPlayerName( playerid ), playerid );
 		}
-		else if ( fProfitSplit == p_GangSplitProfits[ playerid ] && fProfitSplit != 0 ) SendError( playerid, "Your current profit split is the same as the percentage you specified." );
-		else if ( 0 < fProfitSplit > 100 ) SendError( playerid, "Choose a percentage between 0 and 100." );
-		else if ( fProfitSplit > 99999999 || fProfitSplit < 0 ) SendError( playerid, "Choose a percentage between 0 and 100." ); // Going over billions
+		else if ( fProfitSplit == p_GangSplitProfits[ playerid ] && fProfitSplit != 0 ) SendError( playerid, "你当前的利润分配与你指定的百分比相同." );
+		else if ( 0 < fProfitSplit > 100 ) SendError( playerid, "选择 0 和 100. 之间的百分比" );
+		else if ( fProfitSplit > 99999999 || fProfitSplit < 0 ) SendError( playerid, "选择 0 和 100. 之间的百分比" ); // Going over billions
 		else
 		{
 			p_GangSplitProfits[ playerid ] = fProfitSplit;
-			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has decided to split %d%s of his profit into the gang bank.", ReturnPlayerName( playerid ), playerid, fProfitSplit, "%%" );
+			SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 决定将其利润的 %d%s 分入帮派银行.", ReturnPlayerName( playerid ), playerid, fProfitSplit, "%%" );
 		}
 		return 1;
 	}
@@ -555,8 +555,8 @@ CMD:gang( playerid, params[ ] )
 		new
 			gangid = p_GangID[ playerid ];
 
-		if ( gangid == INVALID_GANG_ID ) return SendError( playerid, "You are not inside any gang." );
-		else if ( ! IsPlayerGangLeader( playerid, gangid ) ) return SendError( playerid, "You are not a gang leader." );
+		if ( gangid == INVALID_GANG_ID ) return SendError( playerid, "你不属于任何帮派." );
+		else if ( ! IsPlayerGangLeader( playerid, gangid ) ) return SendError( playerid, "你不是帮派头目." );
 		else
 		{
 			// Reset all gang invites
@@ -566,7 +566,7 @@ CMD:gang( playerid, params[ ] )
 
 			// Update private status
 			mysql_single_query( sprintf( "UPDATE `GANGS` SET `INVITE_ONLY`=%d WHERE `ID`=%d", ( g_gangData[ gangid ] [ E_INVITE_ONLY ] = !g_gangData[ gangid ] [ E_INVITE_ONLY ] ), g_gangData[ gangid ] [ E_SQL_ID ] ) );
-			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) %s made the gang private.", ReturnPlayerName( playerid ), playerid, g_gangData[ gangid ] [ E_INVITE_ONLY ] ? ( "has" ) : ( "has not" ) );
+			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) %s 将该团伙设为私有.", ReturnPlayerName( playerid ), playerid, g_gangData[ gangid ] [ E_INVITE_ONLY ] ? ( "有" ) : ( "还没有" ) );
 		}
 		return 1;
 	}
@@ -579,12 +579,12 @@ CMD:g( playerid, params[ ] )
 	    msg[ 90 ]
 	;
 
-	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "Civilians can use this command only." );
-	else if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "You are not in any gang." );
+	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "平民只能使用此命令." );
+	else if ( p_GangID[ playerid ] == INVALID_GANG_ID ) return SendError( playerid, "你不属于任何帮派." );
     else if ( sscanf( params, "s[90]", msg ) ) return SendUsage( playerid, "/g [MESSAGE]" );
     else
 	{
-		SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "<Gang Chat> %s(%d):{FFFFFF} %s", ReturnPlayerName( playerid ), playerid, msg );
+		SendClientMessageToGang( p_GangID[ playerid ], g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "<帮派聊天> %s(%d):{FFFFFF} %s", ReturnPlayerName( playerid ), playerid, msg );
 	}
 	return 1;
 }
@@ -635,7 +635,7 @@ thread OnPlayerGangLoaded( playerid )
 		else
 		{
 			p_GangID[ playerid ] = -1;
-			SendServerMessage( playerid, "Had an issue loading your gang. Contact " SERVER_OPERATOR " (0x92F)." );
+			SendServerMessage( playerid, "加载你的帮派时出现问题.联系方式 " SERVER_OPERATOR " (0x92F)." );
 			printf("[GANG] [ERROR] Had an issue loading a gang row id %d", gang_sql_id );
 		}
 	}
@@ -689,12 +689,12 @@ thread OnListGangMembers( playerid, gangid, page )
 		SetPVarInt( playerid, "gang_members_id", gangid );
 		SetPVarInt( playerid, "gang_members_results", rows );
 		SetPVarInt( playerid, "gang_members_page", page );
-		ShowPlayerDialog( playerid, DIALOG_GANG_LIST_MEMBERS, DIALOG_STYLE_LIST, sprintf( ""COL_WHITE"Gang Members - Page %d", page + 1 ), szLargeString, rows >= 20 ? ( "Next" ) : ( "Close" ), "Back" );
+		ShowPlayerDialog( playerid, DIALOG_GANG_LIST_MEMBERS, DIALOG_STYLE_LIST, sprintf( ""COL_WHITE"帮派成员 - 第 %d 页", page + 1 ), szLargeString, rows >= 20 ? ( "下一个" ) : ( "关闭" ), "返回" );
 	}
 	else
 	{
 		// Notify user
-		SendError( playerid, "This gang no longer has any members." );
+		SendError( playerid, "这个团伙不再有任何成员." );
 	}
 	return 1;
 }
@@ -714,7 +714,7 @@ thread OnListClans( playerid )
     		iScore, iColor
     	;
 
-    	szLargeString = ""COL_WHITE"Tag\t"COL_WHITE"Name\t"COL_WHITE"Score\n";
+        szLargeString = ""COL_WHITE"标签\t"COL_WHITE"名称\t"COL_WHITE"分数\n";
 
     	for( new i = 0; i < rows; i++ )
 		{
@@ -726,9 +726,9 @@ thread OnListClans( playerid )
 			format( szLargeString, sizeof( szLargeString ), "%s[%s]\t{%06x}%s\t%d\n", szLargeString, szTag, iColor >>> 8, szName, iScore );
 		}
 
-		return ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, "Clan List", szLargeString, "Close", "" ), 1;
+		return ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, "部落列表", szLargeString, "关闭", "" ), 1;
 	}
-	SendError( playerid, "There are no clans to show." );
+	SendError( playerid, "没有可显示的氏族." );
 	return 1;
 }
 
@@ -752,7 +752,7 @@ thread OnGangKickOffline( playerid, gangid )
 			GetPlayerName( scanid, scan_name, sizeof( scan_name ) );
 
 			if ( strmatch( player_name, scan_name ) ) {
-				return SendError( playerid, "You cannot use this command on a online player." ), 1;
+				return SendError( playerid, "你无法在在线播放器上使用此命令." ), 1;
 			}
 		}
 
@@ -760,11 +760,11 @@ thread OnGangKickOffline( playerid, gangid )
 		new player_gangid = cache_get_field_content_int( 0, "GANG_ID", dbHandle );
 
 		if ( IsPlayerGangLeader( playerid, player_gangid, .only_leader = 1 ) ) {
-			return SendError( playerid, "You cannot kick this player from the gang." );
+			return SendError( playerid, "你不能将该玩家从帮派中踢出." );
 		}
 
 		if ( player_gangid != gangid ) {
-			return SendError( playerid, "This player is not in your gang." );
+			return SendError( playerid, "该玩家不属于你的帮派." );
 		}
 
 		// remove as coleader
@@ -775,11 +775,11 @@ thread OnGangKickOffline( playerid, gangid )
  			g_gangData[ gangid ] [ E_COLEADER ] [ i ] = 0;
 		}
 
-		SendClientMessageToGang( static_gangid, g_gangData[ static_gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s has left the gang (KICKED)", player_name );
+		SendClientMessageToGang( static_gangid, g_gangData[ static_gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s 已经离开帮派(被踢)", player_name );
 	}
 	else
 	{
-		SendError( playerid, "It seems like this player isn't in your gang!" );
+		SendError( playerid, "看来这位玩家不属于你的帮派!" );
 	}
 	return 1;
 }
@@ -922,16 +922,16 @@ stock SetPlayerFindOrCreateGang( playerid, gang_sql )
 
 	// Send gang join message
 	if ( p_GangID[ playerid ] != INVALID_GANG_ID && strlen( g_gangData[ p_GangID[ playerid ] ] [ E_JOIN_MSG ] ) ) {
-		SendClientMessageFormatted( playerid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[GANG]"COL_GREY" %s", g_gangData[ p_GangID[ playerid ] ] [ E_JOIN_MSG ] );
+		SendClientMessageFormatted( playerid, g_gangData[ p_GangID[ playerid ] ] [ E_COLOR ], "[帮派]"COL_GREY" %s", g_gangData[ p_GangID[ playerid ] ] [ E_JOIN_MSG ] );
 	}
 }
 
 stock InformGangConnectMessage( playerid, gangid )
 {
 	if ( ! strlen( g_gangData[ gangid ] [ E_JOIN_MSG ] ) ) {
-  		SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]"COL_GREY" %s has been loaded into the server.", g_gangData[ gangid ] [ E_NAME ] );
+        SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]"COL_GREY" %s 已加载到服务器中.", g_gangData[ gangid ] [ E_NAME ] );
 	} else {
-  		SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]"COL_GREY" %s", g_gangData[ gangid ] [ E_JOIN_MSG ] );
+        SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]"COL_GREY" %s", g_gangData[ gangid ] [ E_JOIN_MSG ] );
 	}
 	return 1;
 }
@@ -1005,7 +1005,7 @@ stock RemovePlayerFromGang( playerid, E_GANG_LEAVE_REASON: reason = GANG_LEAVE_U
  		{
 	 		g_gangData[ gangid ] [ E_LEADER ] = g_gangData[ gangid ] [ E_COLEADER ] [ selected_coleader ];
 	 		g_gangData[ gangid ] [ E_COLEADER ] [ selected_coleader ] = 0;
-			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} The co-leader of the gang has been selected as the gang leader (acc id %d).", selected_coleader );
+			SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} 副首领已接任帮派首领 (账号 ID %d).", selected_coleader );
  		}
  		else
  		{
@@ -1020,7 +1020,7 @@ stock RemovePlayerFromGang( playerid, E_GANG_LEAVE_REASON: reason = GANG_LEAVE_U
 					// Update color gang
 					SetGangColorsToGang( gangid );
 				    g_gangData[ gangid ] [ E_LEADER ] = p_AccountID[ memberid ];
-					SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has been selected as the gang leader.", ReturnPlayerName( memberid ), memberid );
+					SendClientMessageToGang( gangid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已被选为帮派头目.", ReturnPlayerName( memberid ), memberid );
 					break;
 				}
 		 	}
@@ -1029,7 +1029,7 @@ stock RemovePlayerFromGang( playerid, E_GANG_LEAVE_REASON: reason = GANG_LEAVE_U
 		 	if ( g_gangData[ gangid ] [ E_LEADER ] == -1 )
 		 	{
 		 		// Warn gang owner about gang
-		 	    SendClientMessage( playerid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} There was nobody online that could be a leader for this gang therefore it has been deleted from the server." );
+                SendClientMessage( playerid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} 网上没有人可以成为这个团伙的领导者,因此它已从服务器中删除." );
 
 		 		// Destroy gang internally
 		 		DestroyGang( gangid, false );
@@ -1058,10 +1058,10 @@ stock RemovePlayerFromGang( playerid, E_GANG_LEAVE_REASON: reason = GANG_LEAVE_U
 		switch( reason )
 		{
 		    case GANG_LEAVE_KICK:
-		    	SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has been kicked from the gang by %s(%d)!", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( otherid ), otherid );
+                SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已被 %s(%d) 从帮派中踢出!", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( otherid ), otherid );
 
 		    case GANG_LEAVE_UNKNOWN, GANG_LEAVE_QUIT:
-		    	SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has left the gang!", ReturnPlayerName( playerid ), playerid );
+                SendClientMessageFormatted( playerid, g_gangData[ gangid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已离开帮派!", ReturnPlayerName( playerid ), playerid );
 		}
 	}
 	return 1;
@@ -1080,7 +1080,7 @@ stock SetPlayerGang( playerid, joining_gang )
 	p_GangID[ playerid ] = joining_gang;
     if ( GetPlayerWantedLevel( playerid ) < 1 ) SetPlayerColor( playerid, g_gangData[ joining_gang ] [ E_COLOR ] );
 	mysql_single_query( sprintf( "UPDATE `USERS` SET `GANG_ID`=%d WHERE `ID`=%d", g_gangData[ joining_gang ] [ E_SQL_ID ], GetPlayerAccountID( playerid ) ) );
-	SendClientMessageToGang( joining_gang, g_gangData[ joining_gang ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) has joined the gang.", ReturnPlayerName( playerid ), playerid );
+	SendClientMessageToGang( joining_gang, g_gangData[ joining_gang ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 已加入帮派.", ReturnPlayerName( playerid ), playerid );
 	CallLocalFunction( "OnPlayerJoinGang", "dd", playerid, joining_gang );
 	return 1;
 }
@@ -1116,7 +1116,7 @@ stock SetGangColorsToGang( gangid )
 stock ReturnGangName( i )
 {
 	new
-		szGang[ 30 ] = "Unknown";
+		szGang[ 30 ] = "未知";
 
 	if ( IsValidGangID( i ) ) {
 		format( szGang, sizeof( szGang ), "%s", g_gangData[ i ] [ E_NAME ] );
@@ -1140,7 +1140,7 @@ stock SplitPlayerCashForGang( playerid, Float: cashRobbed )
 		new
 			iRoundedBanked = floatround( cashBanked, floatround_floor );
 
-		SendServerMessage( playerid, "You've split %s (%d%s) towards your gang's bank balance.", cash_format( iRoundedBanked ), p_GangSplitProfits[ playerid ], "%%" );
+		SendServerMessage( playerid, "你已将 %s (%d%s) 分配给你帮派的银行余额.", cash_format( iRoundedBanked ), p_GangSplitProfits[ playerid ], "%%" );
 
 		/*if ( -1 < iRoundedBanked > 50000 )
 		{

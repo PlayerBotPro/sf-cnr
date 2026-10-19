@@ -41,9 +41,9 @@ CMD:tax( playerid, params[ ] )
 	new player_tax = floatround( float( GetPlayerTotalCash( playerid ) ) * ( tax_rate / 100.0 ) );
 	if ( player_tax < 0 ) player_tax = 0;
 	if ( tax_discount != 1.0 ) {
-		SendServerMessage( playerid, "Your tax is "COL_GOLD"%s"COL_WHITE" at %0.2f%s in %s. "COL_GOLD"(50%s Reduced)", cash_format( player_tax ), tax_rate, "%%", secondstotime( GetGVarInt( "taxtime" ) - g_iTime ), "%%" );
+		SendServerMessage( playerid, "应缴税款: "COL_GOLD"%s"COL_WHITE", 税率 %0.2f%s, %s 后征收. "COL_GOLD"(减免50%s)", cash_format( player_tax ), tax_rate, "%%", secondstotime( GetGVarInt( "taxtime" ) - g_iTime ), "%%" );
 	} else {
-		SendServerMessage( playerid, "Your tax is "COL_GOLD"%s"COL_WHITE" at %0.2f%s in %s.", cash_format( player_tax ), tax_rate, "%%", secondstotime( GetGVarInt( "taxtime" ) - g_iTime ) );
+		SendServerMessage( playerid, "应缴税款: "COL_GOLD"%s"COL_WHITE", 税率 %0.2f%s, %s 后征收.", cash_format( player_tax ), tax_rate, "%%", secondstotime( GetGVarInt( "taxtime" ) - g_iTime ) );
 	}
 	return 1;
 }
@@ -82,7 +82,7 @@ thread OnTaxEconomy( starting )
 			new player_tax = floatround( float( GetPlayerTotalCash( playerid ) ) * tax_rate * tax_discount );
 
 			if ( player_tax > 0 ) {
-				ShowPlayerHelpDialog( playerid, 5000, sprintf( "~w~You have paid ~r~%s~w~ in tax", cash_format( player_tax ) ) );
+				ShowPlayerHelpDialog( playerid, 5000, sprintf( "~w~你已缴纳 ~r~%s~w~ 税", cash_format( player_tax ) ) );
 				GivePlayerCash( playerid, -player_tax );
 			}
 		}
@@ -143,13 +143,13 @@ thread gettotalcash( playerid )
 		new gang_cash = cache_get_field_content_int( 0, "GANG_CASH", dbHandle );
 		new total_cash = user_cash + biz_cash + gang_cash;
 
-		format( szLargeString, 512, "Total User Cash\t"COL_GREY"%s\nTotal Gang Cash\t"COL_GREY"%s\nTotal Business Cash\t"COL_GREY"%s\nTotal Server Cash\t"COL_GOLD"%s\nTotal Tax Profit (Day)\t"COL_GOLD"%s",
+		format( szLargeString, 512, "用户现金总额\t"COL_GREY"%s\n帮派现金总额\t"COL_GREY"%s\n商业现金总额\t"COL_GREY"%s\n服务器现金总额\t"COL_GOLD"%s\n税收利润总额(天)\t"COL_GOLD"%s",
 				cash_format( user_cash ), cash_format( gang_cash ), cash_format( biz_cash ), cash_format( total_cash ), cash_format( tax_profit ) );
 
 		// SendServerMessage( playerid, "Total: "COL_GOLD"%s"COL_WHITE", Tax Rate: "COL_GOLD"%s"COL_WHITE" per 24 mins.", cash_format( total_cash ), cash_format( tax_rate ) );
-  		ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST, "{FFFFFF}SF-CNR Economy", szLargeString, "Close", "" );
+        ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST, "{FFFFFF}SF-CNR 经济", szLargeString, "关闭", "" );
 	}
-	else SendError( playerid, "An error has occurred, try again later." );
+	else SendError( playerid, "发生错误, 请稍后重试." );
 	return 1;
 }
 

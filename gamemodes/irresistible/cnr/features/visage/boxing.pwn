@@ -10,8 +10,8 @@
 
 /* ** Definitions ** */
 #define IsPlayerBoxing(%0) 			(g_boxingPlayerData[ %0 ] [ E_FIGHTING ])
-#define SendBoxing(%0,%1) 			(SendClientMessageFormatted( %0, -1, "{B74AFF}[BOXING] {FFFFFF}" # %1))
-#define SendBoxingGlobal(%0) 		(SendClientMessageFormatted( INVALID_PLAYER_ID, -1, "{B74AFF}[BOXING] {FFFFFF}" # %0))
+#define SendBoxing(%0,%1) 			(SendClientMessageFormatted( %0, -1, "{B74AFF}[\200;\173;\187;\247;] {FFFFFF}" # %1))
+#define SendBoxingGlobal(%0) 		(SendClientMessageFormatted( INVALID_PLAYER_ID, -1, "{B74AFF}[\200;\173;\187;\247;] {FFFFFF}" # %0))
 #define IsPlayerNearBoxingArena(%0) (GetPlayerDistanceFromPoint( %0, 2654.885986, 1613.157958, 1506.269042 ) < 25.0)
 
 /* ** Variables ** */
@@ -46,7 +46,7 @@ new Text3D: arenaLabel 				= Text3D: INVALID_3DTEXT_ID;
 /* ** Hooks ** */
 hook OnGameModeInit( ) {
 	print( "-> Boxing System - By: Damen" );
-	arenaLabel = CreateDynamic3DTextLabel( "Boxing Arena\n{FFFFFF}/boxing fight", COLOR_GREY, 2655.3022, 1613.6146, 1507.0977, 15.0 );
+	arenaLabel = CreateDynamic3DTextLabel( "拳击竞技场\n{FFFFFF}/boxing fight", COLOR_GREY, 2655.3022, 1613.6146, 1507.0977, 15.0 );
 	return 1;
 }
 
@@ -81,54 +81,54 @@ hook OnPlayerDeath( playerid, killerid, reason )
 CMD:boxing( playerid, params[ ] ) {
 
 	if ( !IsPlayerNearBoxingArena( playerid ) )
-		return SendError( playerid, "You must be within 25 meters of the arena to use this command." );
+		return SendError( playerid, "你必须位于竞技场 25 米范围内才能使用此命令." );
 
 	if ( g_boxingArenaData[ E_OCCUPIED ] == true )
-		return SendError( playerid, "The arena is currently occupied. Please wait for the arena to clear." );
+		return SendError( playerid, "竞技场当前已被占用.请等待竞技场清空." );
 
 	if ( GetPlayerWantedLevel( playerid ) )
-		return SendError( playerid, "You cannot box while you are currently wanted." );
+		return SendError( playerid, "当你当前被通缉时,你不能装箱." );
 
 	if ( !strcmp( params, "fight", true, 5 ) ) {
 
 		new targetID, betAmount, rounds;
 
 		if ( g_boxingPlayerData[ playerid ] [ E_FIGHTING ] == true )
-			return SendError( playerid, "You are currently fighting an opponent. Please finish your fight." );
+			return SendError( playerid, "你当前正在与对手战斗.请结束你的战斗." );
 
 		if ( sscanf( params[ 6 ], "uD(0)D(3)", targetID, betAmount, rounds ) )
 			return SendUsage( playerid, "/boxing fight [PLAYER_ID] [BET_AMOUNT (0)] [ROUNDS (3)]" );
 
 		if ( ! IsPlayerConnected( targetID ) )
-			return SendError( playerid, "Player is not connected." );
+			return SendError( playerid, "播放器未连接." );
 
 		if ( targetID == playerid )
-			return SendError( playerid, "You cannot invite yourself to a boxing match." );
+			return SendError( playerid, "你不能邀请自己参加拳击比赛." );
 
 		if ( !IsPlayerNearBoxingArena( targetID ) )
-			return SendError( playerid, "The player you have invited to a boxing match is not near the boxing arena." );
+			return SendError( playerid, "你邀请参加拳击比赛的选手不在拳击场附近." );
 
 		if ( GetPlayerCash( targetID ) < betAmount )
-			return SendError( playerid, "The player you invited does not have enough money to wager that amount." );
+			return SendError( playerid, "你邀请的玩家没有足够的钱来下注该金额." );
 
 		if ( ! ( 0 <= betAmount <= 10000000 ) )
-			return SendError( playerid, "Please specify an amount between $0 and $10,000,000." );
+			return SendError( playerid, "请指定介于 $0 和 $10,000,000. 之间的金额" );
 
 		if ( rounds != 1 && rounds != 3 && rounds != 5 && rounds != 9 )
-			return SendError( playerid, "Please choose between 1, 3, 5, or 9 rounds." );
+			return SendError( playerid, "请在 1, 3, 5, 或 9 轮之间进行选择." );
 
 		if ( g_boxingPlayerData[ targetID ] [ E_INVITED ] == true )
-			return SendError( playerid, "That player has already been invited to a fight." );
+			return SendError( playerid, "该玩家已被邀请参加战斗." );
 
 		if ( g_boxingPlayerData[ targetID ] [ E_FIGHTING ] == true )
-			return SendError( playerid, "That player is currently fighting another opponent. Please wait until after their match to reinvite them." );
+			return SendError( playerid, "该玩家当前正在与另一个对手战斗.请等到比赛结束后再重新邀请他们." );
 
 		if ( GetPlayerWantedLevel( targetID ) )
-			return SendError( playerid, "You cannot box a wanted player." );
+			return SendError( playerid, "你不能对通缉的球员进行拳击." );
 
 		if ( g_boxingPlayerData[ playerid ] [ E_INVITED ] == true ) {
-			SendBoxing( playerid, "You have cancelled your invite to %s.", ReturnPlayerName( g_boxingPlayerData[ playerid ] [ E_OPPONENT ] ) );
-			SendBoxing( g_boxingPlayerData[ playerid ] [ E_OPPONENT ], "%s has cancelled the match invite.", ReturnPlayerName( playerid ) );
+			SendBoxing( playerid, "你已取消对 %s 的邀请.", ReturnPlayerName( g_boxingPlayerData[ playerid ] [ E_OPPONENT ] ) );
+			SendBoxing( g_boxingPlayerData[ playerid ] [ E_OPPONENT ], "%s 已取消比赛邀请.", ReturnPlayerName( playerid ) );
 			ResetBoxingPlayerVariables( playerid, g_boxingPlayerData[ playerid ] [ E_OPPONENT ] );
 		}
 
@@ -143,19 +143,19 @@ CMD:boxing( playerid, params[ ] ) {
 
 		if ( g_boxingPlayerData[ playerid ] [ E_BET_AMOUNT_SET ] == 0 ) {
 
-			SendBoxing( playerid, "You have invited %s to a boxing match with no wager through %i round(s).", ReturnPlayerName( targetID ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
-			SendBoxing( playerid, "To cancel your invite, use /boxing [CANCEL]." );
+			SendBoxing( playerid, "你已邀请 %s 参加一场拳击比赛,但在 %i 轮中没有下注.", ReturnPlayerName( targetID ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
+			SendBoxing( playerid, "要取消你的邀请,请使用 /boxing [取消]." );
 
-			SendBoxing( targetID, "%s has invited you to a boxing match with no wager through %i round(s).", ReturnPlayerName( playerid ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
-			SendBoxing( targetID, "To accept or decline the invite, use /boxing [ACCEPT/DECLINE]." );
+			SendBoxing( targetID, "%s 邀请你参加一场 %i 轮无赌注的拳击比赛.", ReturnPlayerName( playerid ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
+			SendBoxing( targetID, "要接受或拒绝邀请,请使用 /boxing [ACCEPT/DECLINE]." );
 
 		} else {
 
-			SendBoxing( playerid, "You have invited %s to a boxing match with a %s wager through %i round(s).", ReturnPlayerName( targetID ), cash_format( g_boxingPlayerData[ playerid ] [ E_BET_AMOUNT_SET ] ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
-			SendBoxing( playerid, "To cancel your invite, use /boxing [CANCEL]." );
+			SendBoxing( playerid, "你已邀请 %s 参加一场拳击比赛,赌注为 %s 至 %i 轮.", ReturnPlayerName( targetID ), cash_format( g_boxingPlayerData[ playerid ] [ E_BET_AMOUNT_SET ] ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
+			SendBoxing( playerid, "要取消你的邀请,请使用 /boxing [取消]." );
 
-			SendBoxing( targetID, "%s has invited you to a boxing match with a %s wager through %i round(s).", ReturnPlayerName( playerid ), cash_format( g_boxingPlayerData[ playerid ] [ E_BET_AMOUNT_SET ] ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
-			SendBoxing( targetID, "To accept or decline the invite, use /boxing [ACCEPT/DECLINE]." );
+			SendBoxing( targetID, "%s 邀请你参加一场拳击比赛,赌注为 %s 至 %i 轮.", ReturnPlayerName( playerid ), cash_format( g_boxingPlayerData[ playerid ] [ E_BET_AMOUNT_SET ] ), g_boxingPlayerData[ playerid ] [ E_ROUNDS_SET ] );
+			SendBoxing( targetID, "要接受或拒绝邀请,请使用 /boxing [ACCEPT/DECLINE]." );
 
 		}
 		return 1;
@@ -165,13 +165,13 @@ CMD:boxing( playerid, params[ ] ) {
 		new opponent = g_boxingPlayerData[ playerid ] [ E_OPPONENT ];
 
 		if ( g_boxingPlayerData[ playerid ] [ E_FIGHTING ] == true )
-			return SendError( playerid, "You're currently in a boxing match. Use /boxing [FORFEIT] if you would like to forfeit the match." );
+			return SendError( playerid, "你当前正在参加一场拳击比赛.如果你想放弃比赛,请使用 /boxing [弃权]." );
 
 		if ( g_boxingPlayerData[ playerid ] [ E_IS_HOST ] == false )
-			return SendError( playerid, "You have no boxing match invites to cancel." );
+			return SendError( playerid, "你没有可&#8203;&#8203;以取消的拳击比赛邀请." );
 
-		SendBoxing( opponent, "%s has cancelled the boxing match invitation.", ReturnPlayerName( playerid ) );
-		SendBoxing( playerid, "You have cancelled the boxing match invitation sent to %s.", ReturnPlayerName( opponent ) );
+		SendBoxing( opponent, "%s 已取消拳击比赛邀请.", ReturnPlayerName( playerid ) );
+		SendBoxing( playerid, "你已取消发送至 %s 的拳击比赛邀请.", ReturnPlayerName( opponent ) );
 		ResetBoxingPlayerVariables( playerid, opponent );
 		return 1;
 
@@ -180,35 +180,35 @@ CMD:boxing( playerid, params[ ] ) {
 		new opponent = g_boxingPlayerData[ playerid ] [ E_OPPONENT ];
 
 		if ( GetServerTime( ) > g_boxingPlayerData[ playerid ] [ E_INVITE_TIMESTAMP ] && g_boxingPlayerData[ playerid ] [ E_INVITED ] ) {
-			SendServerMessage( opponent, "%s has attempted to accept your boxing invite after it has expired.", ReturnPlayerName( playerid ) );
+			SendServerMessage( opponent, "%s 在你的拳击邀请过期后尝试接受它.", ReturnPlayerName( playerid ) );
 			ResetBoxingPlayerVariables( playerid, opponent );
-			return SendError( playerid, "This invitation has expired." );
+			return SendError( playerid, "此邀请已过期." );
 		}
 
 		if ( g_boxingPlayerData[ playerid ] [ E_INVITED ] == false )
-			return SendError( playerid, "You do not have any boxing match invitations to accept." );
+			return SendError( playerid, "你没有任何要接受的拳击比赛邀请." );
 
 		if ( opponent == -1 )
-			return SendError( playerid, "Your opponent is no longer available to fight." );
+			return SendError( playerid, "你的对手无法再战斗." );
 
 		if ( !IsPlayerNearBoxingArena( opponent ) ) {
 
-			SendError( playerid, "%s is no longer near the arena. Your invitation has been cancelled.", ReturnPlayerName( opponent ) );
-			SendBoxing( opponent, "%s has attempted to accept your invite while you were not near the arena.", ReturnPlayerName( playerid ) );
+			SendError( playerid, "%s 不再靠近竞技场.你的邀请已被取消.", ReturnPlayerName( opponent ) );
+			SendBoxing( opponent, "当你不在竞技场附近时,%s 已尝试接受你的邀请.", ReturnPlayerName( playerid ) );
 			return ResetBoxingPlayerVariables( playerid, opponent );
 
 		}
 
 		if ( GetPlayerCash( playerid ) < g_boxingPlayerData[ opponent ] [ E_BET_AMOUNT_SET ] ) {
 
-			SendError( playerid, "You do not have enough money to participate in the match with the bet amount set." );
-			SendError( opponent, "%s does not have enough money to participate in the match with the bet amount set.", ReturnPlayerName( playerid ) );
+			SendError( playerid, "你没有足够的钱来参加所设置的投注金额的比赛." );
+			SendError( opponent, "%s 没有足够的钱来参加所设定的投注金额的比赛.", ReturnPlayerName( playerid ) );
 			return ResetBoxingPlayerVariables( playerid, opponent );
 
 		} else if ( GetPlayerCash( opponent ) < g_boxingPlayerData[ opponent ] [ E_BET_AMOUNT_SET ] ) {
 
-			SendError( opponent, "You do not have enough money to participate in the match with the bet amount set." );
-			SendError( playerid, "%s does not have enough money to participate in the match with the bet amount set.", ReturnPlayerName( opponent ) );
+			SendError( opponent, "你没有足够的钱来参加所设置的投注金额的比赛." );
+			SendError( playerid, "%s 没有足够的钱来参加所设定的投注金额的比赛.", ReturnPlayerName( opponent ) );
 			return ResetBoxingPlayerVariables( playerid, opponent );
 
 		}
@@ -229,20 +229,20 @@ CMD:boxing( playerid, params[ ] ) {
 		new opponent = g_boxingPlayerData[ playerid ] [ E_OPPONENT ];
 
 		if ( g_boxingPlayerData[ playerid ] [ E_INVITED ] == false )
-			return SendError( playerid, "You do not have any boxing match invitations to decline." );
+			return SendError( playerid, "你没有任何要拒绝的拳击比赛邀请." );
 
 		if ( g_boxingPlayerData[ playerid ] [ E_OPPONENT ] == -1 )
-			return SendError( playerid, "Your opponent is no longer available to fight." );
+			return SendError( playerid, "你的对手无法再战斗." );
 
-		SendBoxing( opponent, "%s has declined your invitation.", ReturnPlayerName( playerid ) );
+		SendBoxing( opponent, "%s 已拒绝你的邀请.", ReturnPlayerName( playerid ) );
 
-		SendBoxing( playerid, "You have declined %s's invitation.", ReturnPlayerName( opponent ) );
+		SendBoxing( playerid, "你拒绝了 %s 的邀请.", ReturnPlayerName( opponent ) );
 
 		return ResetBoxingPlayerVariables( playerid, opponent );
 
 	} else if ( !strcmp( params, "forfeit", true, 7 ) ) {
 		if ( ! boxing_ForfeitMatch( playerid, g_boxingPlayerData[ playerid ] [ E_OPPONENT ] ) ) {
-			return SendError( playerid, "You're not fighting anyone." );
+			return SendError( playerid, "你没有与任何人战斗." );
 		}
 		return 1;
 	}
@@ -293,14 +293,14 @@ stock StartMatch( playerid, targetID ) {
 		KillTimer( g_boxingArenaData[ E_CD_TIMER ] );
 		g_boxingArenaData[ E_CD_TIMER ] = SetTimerEx( "boxingCountDown", 960, false, "d", 5 );
 
-		SendBoxing( playerid, "You are fighting %s through the best of %i round(s). Good luck!", ReturnPlayerName( targetID ), g_boxingArenaData[ E_ROUNDS ] );
-		SendBoxing( targetID, "You are fighting %s through the best of %i round(s). Good luck!", ReturnPlayerName( playerid ), g_boxingArenaData[ E_ROUNDS ] );
+		SendBoxing( playerid, "你正在与 %s 进行 %i 轮的最佳比赛.祝你好运!", ReturnPlayerName( targetID ), g_boxingArenaData[ E_ROUNDS ] );
+		SendBoxing( targetID, "你正在与 %s 进行 %i 轮的最佳比赛.祝你好运!", ReturnPlayerName( playerid ), g_boxingArenaData[ E_ROUNDS ] );
 
 		UpdateArenaScoreLabel( playerid, targetID );
 		return true;
 
 	} else {
-		return SendError( playerid, "I'm sorry. Something has gone terribly wrong with starting the match. Please try again." );
+		return SendError( playerid, "对不起.比赛开始时出了严重的问题.请再试一次." );
 	}
 }
 
@@ -319,11 +319,11 @@ stock EndMatch( playerid, targetID ) {
 	new loserid = winnerid == playerid ? targetID : playerid;
 
 	if ( g_boxingArenaData[ E_BET ] <= 0 ) {
-		SendBoxingGlobal( "%s has won a boxing match against %s with a final score of %i!", ReturnPlayerName( winnerid ), ReturnPlayerName( loserid ), g_boxingPlayerData[ winnerid ] [ E_SCORE ] );
+		SendBoxingGlobal( "%s 赢得了一场对 %s 的拳击比赛,最终 分数 为 %i!", ReturnPlayerName( winnerid ), ReturnPlayerName( loserid ), g_boxingPlayerData[ winnerid ] [ E_SCORE ] );
 	} else {
 		new winning_prize = floatround( float( g_boxingArenaData[ E_BET ] ) * 1.9 ); // We take 5% of the total pot
 		GivePlayerCash( winnerid, winning_prize );
-		SendBoxingGlobal( "%s has won a boxing match against %s for %s with a final score of %i!", ReturnPlayerName( winnerid ), ReturnPlayerName( loserid ), cash_format( g_boxingArenaData[ E_BET ] ), g_boxingPlayerData[ winnerid ] [ E_SCORE ] );
+		SendBoxingGlobal( "%s 赢得了与 %s 的拳击比赛, 获得 %s, 最终比分 %i!", ReturnPlayerName( winnerid ), ReturnPlayerName( loserid ), cash_format( g_boxingArenaData[ E_BET ] ), g_boxingPlayerData[ winnerid ] [ E_SCORE ] );
 	}
 
 	boxing_RestorePlayer( playerid );
@@ -334,7 +334,7 @@ stock EndMatch( playerid, targetID ) {
 
 	ResetBoxingArenaVariables();
 	ResetBoxingPlayerVariables( playerid, targetID );
-	UpdateDynamic3DTextLabelText( arenaLabel, COLOR_GREY, "Boxing Arena\n"COL_WHITE"/boxing fight" );
+	UpdateDynamic3DTextLabelText( arenaLabel, COLOR_GREY, "拳击竞技场\n"COL_WHITE"/boxing fight" );
 	return 1;
 }
 
@@ -359,10 +359,10 @@ stock boxing_ForfeitMatch( playerid, targetID ) {
 	if ( ! g_boxingPlayerData[ playerid ] [ E_FIGHTING ] ) return 0;
 
 	if ( g_boxingArenaData[ E_BET ] == 0 ) {
-		SendBoxingGlobal( "%s has won a boxing match by forfeit against %s.", ReturnPlayerName( targetID ), ReturnPlayerName( playerid ) );
+		SendBoxingGlobal( "%s 通过对 %s 的弃权赢得了一场拳击比赛.", ReturnPlayerName( targetID ), ReturnPlayerName( playerid ) );
 	} else if ( g_boxingArenaData[ E_BET ] > 0 ) {
 		GivePlayerCash( targetID, g_boxingArenaData[ E_BET ] );
-		SendBoxingGlobal( "%s has won a boxing match by forfeit against %s for %s.", ReturnPlayerName( targetID ), ReturnPlayerName( playerid ), cash_format( g_boxingArenaData[ E_BET ] ) );
+		SendBoxingGlobal( "%s通过弃权赢得了一场拳击比赛%s对于%s.", ReturnPlayerName( targetID ), ReturnPlayerName( playerid ), cash_format( g_boxingArenaData[ E_BET ] ) );
 	}
 
 	boxing_RestorePlayer( playerid );
@@ -375,7 +375,7 @@ stock boxing_ForfeitMatch( playerid, targetID ) {
 
 	ResetBoxingArenaVariables();
 	ResetBoxingPlayerVariables( playerid, targetID );
-	UpdateDynamic3DTextLabelText( arenaLabel, COLOR_GREY, "Boxing Arena\n"COL_WHITE"/boxing fight" );
+	UpdateDynamic3DTextLabelText( arenaLabel, COLOR_GREY, "拳击竞技场\n"COL_WHITE"/boxing fight" );
 	return 1;
 }
 
@@ -410,7 +410,7 @@ function boxingCountDown( time ) {
 	if ( !time ) {
 		foreach( new playerid : Player ) {
 			if ( g_boxingPlayerData[ playerid ] [ E_FIGHTING ] == true ) {
-				format( szNormalString, sizeof( szNormalString ), "~r~FIGHT!", time );
+				format( szNormalString, sizeof( szNormalString ), "~r~战斗!", time );
 				GameTextForPlayer( playerid, szNormalString, 2000, 3 );
 				PlayerPlaySound( playerid, 1057, 0.0, 0.0, 0.0 );
 				TogglePlayerControllable( playerid, 1 );
@@ -490,11 +490,11 @@ hook OnPlayerGiveDamage( playerid, damagedid, Float: amount, weaponid, bodypart 
 				return EndMatch( damagedid, opponent );
 			}
 
-			SendBoxing( damagedid, "You have lost the round. Let the next round begin." );
-			SendBoxing( opponent, "You have won the round. Let the next round begin." );
+			SendBoxing( damagedid, "你已经输掉了这一轮.让下一轮开始吧." );
+			SendBoxing( opponent, "你已经赢得了这一轮.让下一轮开始吧." );
 
-			SendBoxing( damagedid, "Best of %i - [ %s: %i ] - [ %s: %i ]", g_boxingArenaData[ E_ROUNDS ], ReturnPlayerName( damagedid ), g_boxingPlayerData[ damagedid ] [ E_SCORE ], ReturnPlayerName( opponent ), g_boxingPlayerData[ opponent ] [ E_SCORE ]  );
-			SendBoxing( opponent, "Best of %i - [ %s: %i ] - [ %s: %i ]", g_boxingArenaData[ E_ROUNDS ], ReturnPlayerName( damagedid ), g_boxingPlayerData[ damagedid ] [ E_SCORE ], ReturnPlayerName( opponent ), g_boxingPlayerData[ opponent ] [ E_SCORE ]  );
+			SendBoxing( damagedid, "最佳 %i - [ %s: %i ] - [ %s: %i ]", g_boxingArenaData[ E_ROUNDS ], ReturnPlayerName( damagedid ), g_boxingPlayerData[ damagedid ] [ E_SCORE ], ReturnPlayerName( opponent ), g_boxingPlayerData[ opponent ] [ E_SCORE ]  );
+			SendBoxing( opponent, "最佳 %i - [ %s: %i ] - [ %s: %i ]", g_boxingArenaData[ E_ROUNDS ], ReturnPlayerName( damagedid ), g_boxingPlayerData[ damagedid ] [ E_SCORE ], ReturnPlayerName( opponent ), g_boxingPlayerData[ opponent ] [ E_SCORE ]  );
 
 			NextRound( damagedid, opponent );
 		}

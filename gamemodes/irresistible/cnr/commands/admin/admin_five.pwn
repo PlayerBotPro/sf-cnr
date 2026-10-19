@@ -16,7 +16,7 @@ CMD:givearmour( playerid, params[ ] )
     else if ( IsPlayerAdminOnDuty( pID ) ) return SendError( playerid, "This player is an admin on duty, you cannot do this." );
     else
     {
-        SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" %s(%d) gave you armour.", ReturnPlayerName( playerid ), playerid );
+        SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" %s(%d) 给了你盔甲.", ReturnPlayerName( playerid ), playerid );
         SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have given armour to %s(%d).", ReturnPlayerName( pID ), pID );
         AddAdminLogLineFormatted( "%s(%d) has given armour to %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
         SetPlayerArmour( pID, 100.0 );
@@ -462,7 +462,7 @@ thread OnAdminChangePlayerName( playerid, pID, nName[ ] )
 
 		SaveToAdminLogFormatted( playerid, 0, "changename %s to %s", ReturnPlayerName( pID ), nName );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have changed %s(%d)'s name to %s!", ReturnPlayerName( pID ), pID, nName );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" Your name has been changed to %s by %s(%d)!", nName, ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你的昵称已改为 %s, 操作者: %s(%d)!", nName, ReturnPlayerName( playerid ), playerid );
         AddAdminLogLineFormatted( "%s(%d) has changed %s(%d)'s name to %s", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, nName );
 
 		SetPlayerName( pID, nName );
@@ -555,7 +555,7 @@ thread OnPlayerUnbanPlayer( playerid, irc, player[ ] )
 		mysql_single_query( szNormalString );
 
 		SaveToAdminLogFormatted( playerid, 0, "unban %s", player );
-	 	SendClientMessageToAllFormatted(-1, ""COL_PINK"[ADMIN]{FFFFFF} \"%s\" has been un-banned from the server.", player);
+        SendClientMessageToAllFormatted(-1, ""COL_PINK"[管理]{FFFFFF} \"%s\" 已解除封禁.", player);
 	}
 	else {
 		if ( !irc ) SendError(playerid, "This player is not recognised!");
@@ -573,12 +573,12 @@ CMD:doublexp( playerid, params[ ] )
 	if ( IsDoubleXP( ) )
 	{
 		TextDrawShowForAll( g_DoubleXPTD );
-		GameTextForAll( "~w~DOUBLE ~y~~h~XP~g~~h~~h~ ACTIVATED!", 6000, 3 );
+		GameTextForAll( "~w~双倍~y~~h~经验~g~~h~~h~已开启!", 6000, 3 );
 	}
 	else
 	{
 		TextDrawHideForAll( g_DoubleXPTD );
-		GameTextForAll( "~w~DOUBLE ~y~~h~XP~r~~h~~h~ DEACTIVATED!", 6000, 3 );
+		GameTextForAll( "~w~双倍~y~~h~经验~r~~h~~h~已关闭!", 6000, 3 );
 	}
 
 	SaveToAdminLogFormatted( playerid, 0, "doublexp %s", IsDoubleXP( ) ? ("toggled") : ("un-toggled") );
@@ -1001,7 +1001,7 @@ thread OnPlayerUnforceAC( playerid, player[ ], pID, bool:offline )
 		mysql_single_query( Query );
 
 		SaveToAdminLogFormatted( playerid, 0, "Offline Unforced %s", player );
-		SendClientMessageToAllFormatted( -1, ""COL_PINK"[ADMIN]{FFFFFF} \"%s\" (offline) has been unforced to use the AC on the server.", player );
+		SendClientMessageToAllFormatted( -1, ""COL_PINK"[管理]{FFFFFF} \"%s\" (离线) 已解除强制反作弊要求.", player );
 
 	}
 	else
@@ -1012,7 +1012,7 @@ thread OnPlayerUnforceAC( playerid, player[ ], pID, bool:offline )
 		mysql_single_query( Query );
 
 		SaveToAdminLogFormatted( playerid, 0, "Unforced %s", player );
-		SendClientMessageToAllFormatted( -1, ""COL_PINK"[ADMIN]{FFFFFF} \"%s\" has been unforced to use the AC on the server.", player );
+		SendClientMessageToAllFormatted( -1, ""COL_PINK"[管理]{FFFFFF} \"%s\" 已解除强制反作弊要求.", player );
 		p_forcedAnticheat[ pID ] = 0;
 
 	}
@@ -1030,7 +1030,7 @@ CMD:giveboombox( playerid, params[ ] )
 	else if ( GetPlayerBoombox( pID ) ) return SendError( playerid, "Player already has boombox in his inventory." );
 	else
 	{
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" %s(%d) gave you boombox.", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" %s(%d) 为你提供了便携音响.", ReturnPlayerName( playerid ), playerid );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have given boombox to %s(%d).", ReturnPlayerName( pID ), pID );
 		AddAdminLogLineFormatted( "%s(%d) has given boombox to %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 		SetPlayerBoombox( pID, true );
@@ -1049,7 +1049,7 @@ CMD:removeboombox( playerid, params[ ] )
 	else if ( ! GetPlayerBoombox( pID ) ) return SendError( playerid, "Player doesn't have boombox in his inventory." );
 	else
 	{
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" %s(%d) has removed your boombox.", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" %s(%d) 已移除你的便携音响.", ReturnPlayerName( playerid ), playerid );
 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have removed boombox from %s(%d).", ReturnPlayerName( pID ), pID );
 		AddAdminLogLineFormatted( "%s(%d) has removed boombox from %s(%d)", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID );
 		SetPlayerBoombox( pID, false );

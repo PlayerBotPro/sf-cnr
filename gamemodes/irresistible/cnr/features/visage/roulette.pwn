@@ -212,7 +212,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				rouletteid = p_RouletteTable[ playerid ];
 
 			if ( ! Iter_Contains( roulettetables, rouletteid ) )
-				return SendServerMessage( playerid, "Invalid Roulette Table." );
+				return SendServerMessage( playerid, "轮盘赌桌无效." );
 
 			if ( GetDistanceFromPlayerSquared( playerid, g_rouletteTableData[ rouletteid ] [ E_X ], g_rouletteTableData[ rouletteid ] [ E_Y ], g_rouletteTableData[ rouletteid ] [ E_Z ] ) > 16.0 ) // Squared
 				return RemovePlayerFromRoulette( playerid );
@@ -221,19 +221,19 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 			if ( PRESSED( KEY_SPRINT ) )
 			{
 				if ( g_rouletteTableData[ rouletteid ] [ E_NO_MORE_BETS ] )
-					return SendError( playerid, "This roulette table must finish its spin before you can bet again." );
+					return SendError( playerid, "在你可以再次下注之前,该轮盘赌桌必须完成其旋转." );
 
 				if ( p_rouletteBetLocked{ playerid } )
-					return SendError( playerid, "You have already locked in your bet. Wait for the spin to finish." );
+					return SendError( playerid, "你已经锁定了你的赌注.等待旋转完成." );
 
 				new
 					totalBet = GetPlayerTotalRouletteBet( playerid );
 
 				if ( totalBet <= 0 )
-					return SendError( playerid, "You cannot spin the roulette without having placed any bets." );
+					return SendError( playerid, "在没有下注的情况下,你无法旋转轮盘赌." );
 
 				if ( totalBet > GetPlayerCash( playerid ) )
-					return SendError( playerid, "You do not have enough money to make this bet." );
+					return SendError( playerid, "你没有足够的钱来进行此投注." );
 
 				// deduct money
 				GivePlayerCash( playerid, -totalBet );
@@ -254,7 +254,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 						TextDrawShowForPlayer( i, g_rouletteNumberTD[ rouletteid ] );
 
 						if ( ! p_rouletteBetLocked{ i } ) {
-							SendServerMessage( i, "%s(%d) has waged %s with this spin, press SPACE to join the spin!", ReturnPlayerName( playerid ), playerid, cash_format( totalBet ) );
+							SendServerMessage( i, "%s(%d) 在这次旋转中发起了 %s,请按空格键加入旋转!", ReturnPlayerName( playerid ), playerid, cash_format( totalBet ) );
 						}
 					}
 
@@ -270,9 +270,9 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					g_rouletteTableData[ rouletteid ] [ E_SPINNING_TIMER ] = SetTimerEx( "OnSpinRouletteTable", 25, false, "ddd", rouletteid, 0, 1 );
 
 					// inform other players
-					SendServerMessage( playerid, "You have begun the spin with a wager of %s. Good luck!", cash_format( totalBet ) );
+					SendServerMessage( playerid, "你已经以 %s 的赌注开始旋转.祝你好运!", cash_format( totalBet ) );
 				}
-				else SendServerMessage( playerid, "You have joined the spin. Good luck!" );
+				else SendServerMessage( playerid, "你已经加入了旋转.祝你好运!" );
 			}
 			// decrease bet
 			if ( PRESSED( KEY_WALK ) )
@@ -280,7 +280,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				if ( ( p_rouletteBetValue[ playerid ] /= 2 ) < 1000 )
 					p_rouletteBetValue[ playerid ] = 1000;
 
-				SendServerMessage( playerid, "You are now betting %s, gamble responsibly!", cash_format( p_rouletteBetValue[ playerid ] ) );
+				SendServerMessage( playerid, "你现在投注%s,负责任地赌博!", cash_format( p_rouletteBetValue[ playerid ] ) );
 			}
 
 			// increase bet
@@ -289,14 +289,14 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				if ( ( p_rouletteBetValue[ playerid ] *= 2 ) > g_rouletteTableData[ rouletteid ] [ E_MAX_BET ] )
 					p_rouletteBetValue[ playerid ] = g_rouletteTableData[ rouletteid ] [ E_MAX_BET ];
 
-				SendServerMessage( playerid, "You are now betting %s, gamble responsibly!", cash_format( p_rouletteBetValue[ playerid ] ) );
+				SendServerMessage( playerid, "你现在投注%s,负责任地赌博!", cash_format( p_rouletteBetValue[ playerid ] ) );
 			}
 
 			// Cancel Bets
 			if ( PRESSED( KEY_CROUCH ) )
 			{
 				if ( p_rouletteBetLocked{ playerid } )
-					return SendError( playerid, "You cannot cancel your bet once you have entered a spin." );
+					return SendError( playerid, "一旦进入旋转,你就无法取消投注." );
 
 				for ( new column = 0; column < sizeof( g_rouletteOffsets ); column ++ )
 				{
@@ -311,7 +311,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 			if ( PRESSED( KEY_FIRE ) || PRESSED( KEY_AIM ) )
 			{
 				if ( p_rouletteBetLocked{ playerid } )
-					return SendError( playerid, "You cannot change your bet once you have entered a spin." );
+					return SendError( playerid, "一旦进入旋转,你就无法更改你的赌注." );
 
 				new
 					column = p_RouletteMarkerColumn{ playerid };
@@ -326,12 +326,12 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 
 					// Check if the player has even money
 					if ( totalBet > GetPlayerCash( playerid ) ) {
-						return SendError( playerid, "You cannot afford to wager any more money!" );
+						return SendError( playerid, "你不能再赌更多的钱了!" );
 					}
 
 					// Exceeded The Maximum
 					if ( totalBet + p_rouletteBetValue[ playerid ] > g_rouletteTableData[ rouletteid ] [ E_MAX_BET ] ) {
-						return SendError( playerid, "You are only allowed to bet a total of %s per spin on this table.", cash_format( g_rouletteTableData[ rouletteid ] [ E_MAX_BET ] ) );
+						return SendError( playerid, "每次旋转你只能在此赌台上总共下注 %s.", cash_format( g_rouletteTableData[ rouletteid ] [ E_MAX_BET ] ) );
 					}
 
 					PlayerPlaySound( playerid, 1083, 0.0, 0.0, 5.0 );
@@ -393,7 +393,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 		if ( PRESSED( KEY_SECONDARY_ATTACK ) )
 		{
 			if ( p_rouletteBetLocked{ playerid } )
-				return SendError( playerid, "Please wait until the spin is completed before leaving the table." );
+				return SendError( playerid, "请等到旋转完成后再离开桌子." );
 
 			if ( p_RouletteTable[ playerid ] != -1 )
 				return RemovePlayerFromRoulette( playerid );
@@ -433,11 +433,11 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					// starting bet
 					p_rouletteBetValue[ playerid ] = 1000;
 					g_rouletteChipColor[ playerid ] = makeColor( RandomEx( 128, 255 ), RandomEx( 128, 255 ), RandomEx( 128, 255 ), 0xFF );
-					SendServerMessage( playerid, "Your starting bet is $1,000 for this table. {%06x}This is your chip color.", g_rouletteChipColor[ playerid ] >>> 8 );
+					SendServerMessage( playerid, "这张牌桌的起始赌注是 $1,000. {%06x}这是你的芯片颜色.", g_rouletteChipColor[ playerid ] >>> 8 );
 
 					ApplyAnimation( playerid, "DEALER", "DEALER_IDLE", 4.1, 1, 1, 1, 1, 0, 1 );
 
-					szBigString = "~y~~k~~PED_SPRINT~~w~ - Spin Wheel~n~~y~~k~~PED_FIREWEAPON~/~k~~PED_LOCK_TARGET~~w~ - Place/Remove Bet~n~~y~~k~~PED_JUMPING~/~k~~SNEAK_ABOUT~~w~ - Increase/Decrease Bet~n~~y~~k~~PED_DUCK~~w~ - Cancel Bets~n~~y~~k~~VEHICLE_ENTER_EXIT~~w~ - Exit";
+					szBigString = "~y~~k~~PED_SPRINT~~w~ - 旋转轮~n~~y~~k~~PED_FIREWEAPON~/~k~~PED_LOCK_TARGET~~w~ - 放置/Remove 下注~n~~y~~k~~PED_JUMPING~/~k~~SNEAK_ABOUT~~w~ - 增加/Decrease 下注~n~~y~~k~~PED_DUCK~~w~ - 取消下注~n~~y~~k~~VEHICLE_ENTER_EXIT~~w~ - 退出";
 					ShowPlayerHelpDialog( playerid, 0, szBigString );
 
 					// printf("(%s) BEFORE TIMER %d", ReturnPlayerName( playerid ), p_RouletteMarkerTimer[ playerid ] );
@@ -473,7 +473,7 @@ stock CreateRouletteTable( Float: X, Float: Y, Float: Z, Float: Angle, world, ma
 		X += 1.365 * floatcos( Angle + 98.0, degrees );
 		Y += 1.365 * floatsin( Angle + 98.0, degrees );
 
-		CreateDynamic3DTextLabel( sprintf( "Press ENTER To Play Roulette\n"COL_WHITE"%s Maximum", cash_format( maxbet ) ), COLOR_GREY, X, Y, Z + 0.02, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .worldid = world, .testlos = 0 );
+		CreateDynamic3DTextLabel( sprintf( "按 Enter 玩轮盘赌\n"COL_WHITE"%s 最大", cash_format( maxbet ) ), COLOR_GREY, X, Y, Z + 0.02, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .worldid = world, .testlos = 0 );
 
 		new Float: a_x = g_rouletteTableData[ id ] [ E_X ] + 1.4 * floatcos( Angle + 29.0, degrees );
 		new Float: a_y = g_rouletteTableData[ id ] [ E_Y ] + 1.4 * floatsin( Angle + 29.0, degrees );
@@ -687,7 +687,7 @@ public OnRouletteWheelStop( rouletteid, winner )
 		// inform users
 		if ( profit >= 10000 ) {
 			foreach ( new i : Player ) if ( ! IsPlayerSettingToggled( i, SETTING_HIDE_GAMB_MSG ) ) {
-				SendClientMessageFormatted( i, -1, ""COL_GREY"[CASINO]{FFFFFF} %s(%d) has won "COL_GOLD"%s"COL_WHITE" from roulette!", ReturnPlayerName( playerid ), playerid, cash_format( profit ) );
+				SendClientMessageFormatted( i, -1, ""COL_GREY"[赌场]{FFFFFF} %s(%d) 赢了 "COL_GOLD"%s"COL_WHITE" 从轮盘赌!", ReturnPlayerName( playerid ), playerid, cash_format( profit ) );
 			}
 		}
 
@@ -696,12 +696,12 @@ public OnRouletteWheelStop( rouletteid, winner )
 
 		// gametext
 		if ( profit > 0 )  {
-		 	GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s won!", cash_format( profit ) ), 4000, 3 );
-			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[ROULETTE]"COL_WHITE" You have bet a total of %s and profited %s! (winning no %d)", cash_format( waged ), cash_format( profit ), winner );
+            GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s 赢了!", cash_format( profit ) ), 4000, 3 );
+			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[轮盘赌]"COL_WHITE" 你总共下注 %s 并获利 %s! (获胜编号为 %d)", cash_format( waged ), cash_format( profit ), winner );
 		} else {
 			profit *= -1; // to improve the client message
-		 	GameTextForPlayer( playerid, "~n~~n~~r~No win!", 4000, 3 );
-			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[ROULETTE]"COL_WHITE" You have bet a total of %s and lost %s! (winning no %d)", cash_format( waged ), cash_format( profit ), winner );
+            GameTextForPlayer( playerid, "~n~~n~~r~没有赢!", 4000, 3 );
+			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[轮盘赌]"COL_WHITE" 你总共下注 %s,输了 %s! (获胜编号为 %d)", cash_format( waged ), cash_format( profit ), winner );
 		}
 	}
 

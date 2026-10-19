@@ -35,180 +35,180 @@ enum E_FURINTURE_DATA
 new
   	g_furnitureCategory[ ] [ ] =
 	{
-	    { "Doors" }, { "Tables and Chairs" }, { "Fitness" }, { "Kitchen and Bathroom" }, { "Electronics" }, { "Bedroom" },
-	    { "Lounge" }, { "Flowers and Plants" }, { "Miscellaneous" }, { "Weapons" }, { "Holiday" }, { "Food/Drink" }
+	    { "门" }, { "桌椅" }, { "健身器材" }, { "厨房和浴室" }, { "电子产品" }, { "卧室" },
+	    { "客厅" }, { "花卉和植物" }, { "杂项" }, { "武器" }, { "节日装饰" }, { "食品饮料" }
 	},
 	g_houseFurniture[ ] [ E_FURINTURE_DATA ] =
 	{
 		// Doors
-	    { FC_DOORS, 		"Red Door", 			1504, 175 },
-	    { FC_DOORS, 		"Blue Door", 			1505, 175 },
-	    { FC_DOORS, 		"White Door", 			1506, 175 },
-	    { FC_DOORS, 		"Yellow Door", 			1507, 175 },
+	    { FC_DOORS, 		"红门", 			1504, 175 },
+	    { FC_DOORS, 		"蓝门", 			1505, 175 },
+	    { FC_DOORS, 		"白门", 			1506, 175 },
+	    { FC_DOORS, 		"黄门", 			1507, 175 },
 	    // Tables and Chairs
-  	  	{ FC_TABLECHAIR, 	"Wooden Open Table", 	1817, 50 },
-	    { FC_TABLECHAIR,    "Dining Chair",         2079, 60 },
-	    { FC_TABLECHAIR,    "Office Chair",         1806, 62 },
-	    { FC_TABLECHAIR, 	"Wooden Circle Table", 	1815, 75 },
-		{ FC_TABLECHAIR, 	"Cluckin' Table Sml",	2763, 80 },
-		{ FC_TABLECHAIR, 	"Cluckin' Table", 		2762, 125 },
-		{ FC_TABLECHAIR,    "Dining Table",         2115, 135 },
-		{ FC_TABLECHAIR,    "Circle Dining Chair",  2125, 135 },
-		{ FC_TABLECHAIR,    "Circle Dining Table",  2030, 150 },
-		{ FC_TABLECHAIR,    "Swivel Chair",      	1663, 180 },
-		{ FC_TABLECHAIR, 	"Rocking Chair", 		11734, 200 },
-		{ FC_TABLECHAIR, 	"Gamer Chair", 			19999, 320 },
-		{ FC_TABLECHAIR, 	"Poker Table", 			19474, 500 },
-		{ FC_TABLECHAIR, 	"Lab Table",			3383, 900 },
+        { FC_TABLECHAIR, 	"木制开放式桌子", 	1817, 50 },
+	    { FC_TABLECHAIR,    "餐椅",         2079, 60 },
+	    { FC_TABLECHAIR,    "办公椅",         1806, 62 },
+	    { FC_TABLECHAIR, 	"木圆桌", 	1815, 75 },
+		{ FC_TABLECHAIR, 	"Cluckin' 小餐桌",	2763, 80 },
+		{ FC_TABLECHAIR, 	"咯咯的桌子", 		2762, 125 },
+		{ FC_TABLECHAIR,    "餐桌",         2115, 135 },
+		{ FC_TABLECHAIR,    "圆形餐椅",  2125, 135 },
+		{ FC_TABLECHAIR,    "圆形餐桌",  2030, 150 },
+		{ FC_TABLECHAIR,    "转椅",      	1663, 180 },
+		{ FC_TABLECHAIR, 	"摇椅", 		11734, 200 },
+		{ FC_TABLECHAIR, 	"游戏椅", 			19999, 320 },
+		{ FC_TABLECHAIR, 	"扑克桌", 			19474, 500 },
+		{ FC_TABLECHAIR, 	"实验台",			3383, 900 },
 		// Fitness
-	    { FC_FITNESS, 		"Mattress #1", 			2815, 50 },
-	    { FC_FITNESS, 		"Mattress #2", 			2817, 50 },
-	    { FC_FITNESS, 		"Mattress #3", 			2833, 50 },
-	    { FC_FITNESS, 		"Mattress #4", 			2836, 50 },
-	    { FC_FITNESS, 		"Mattress #5", 			2847, 50 },
-	    { FC_FITNESS, 		"Cycle", 				2630, 950 },
-	    { FC_FITNESS, 		"Treadmill", 			2627, 1250 },
-	    { FC_FITNESS, 		"Weight Lifting", 		2628, 1550 },
+	    { FC_FITNESS, 		"床垫 #1", 			2815, 50 },
+	    { FC_FITNESS, 		"床垫 #2", 			2817, 50 },
+	    { FC_FITNESS, 		"床垫#3", 			2833, 50 },
+	    { FC_FITNESS, 		"床垫#4", 			2836, 50 },
+	    { FC_FITNESS, 		"床垫#5", 			2847, 50 },
+	    { FC_FITNESS, 		"健身车", 				2630, 950 },
+	    { FC_FITNESS, 		"跑步机", 			2627, 1250 },
+	    { FC_FITNESS, 		"举重", 		2628, 1550 },
 	    // Kitchen and Bathroom
-		{ FC_KITCHENBATH, 	"Soap", 				19874, 15 },
-		{ FC_KITCHENBATH, 	"Toilet Paper", 		19873, 20 },
-		{ FC_KITCHENBATH, 	"Towel holder", 		11707, 300 },
-	    { FC_KITCHENBATH,	"Double Metal Cabin", 	2007, 400 },
-	    { FC_KITCHENBATH,	"Metal Shelf x4", 		2063, 400 },
-	    { FC_KITCHENBATH,	"Metal Table", 			941, 500 },
-	    { FC_KITCHENBATH,	"Metal Counter", 		937, 600 },
-	    { FC_KITCHENBATH,	"Metal Bench-top", 		936, 685 },
-	    { FC_KITCHENBATH,	"Toilet",  				2514, 700 },
-	    { FC_KITCHENBATH,	"Bathroom Sink", 		2523, 900 },
-	    { FC_KITCHENBATH,   "Wooden Double Draw", 	2139, 910 },
-	    { FC_KITCHENBATH,   "Wooden Low-unit",      2138, 925 },
-	    { FC_KITCHENBATH,	"Washing Machine", 		1208, 925 },
-	    { FC_KITCHENBATH,   "Laundry Unit",         2303, 980 },
-	    { FC_KITCHENBATH,	"White Bath Tub",		2519, 1000 },
-	    { FC_KITCHENBATH,   "Corner Wooden Bench",	2305, 1100 },
-	    { FC_KITCHENBATH,   "Wooden Bench w/ Sink", 2136, 1185 },
-	    { FC_KITCHENBATH,   "Stable Counter",       2339, 1200 },
-	    { FC_KITCHENBATH,	"Bath Tub", 			2526, 1200 },
-	    { FC_KITCHENBATH,	"Shower System",		14481, 1290 },
-	    { FC_KITCHENBATH,   "Stable Shelf",       	2141, 1300 },
-	    { FC_KITCHENBATH,   "Stable Sink",          2132, 1500 },
-		{ FC_KITCHENBATH, 	"Love Spa", 			11732, 2000 },
-	    { FC_KITCHENBATH,   "Cooker and Oven",      2135, 2200 },
-	    { FC_KITCHENBATH,	"Deep Fryer", 			2413, 2300 },
+		{ FC_KITCHENBATH, 	"肥皂", 				19874, 15 },
+		{ FC_KITCHENBATH, 	"卫生纸", 		19873, 20 },
+		{ FC_KITCHENBATH, 	"毛巾架", 		11707, 300 },
+	    { FC_KITCHENBATH,	"双金属舱", 	2007, 400 },
+	    { FC_KITCHENBATH,	"金属架 x4", 		2063, 400 },
+	    { FC_KITCHENBATH,	"金属桌", 			941, 500 },
+	    { FC_KITCHENBATH,	"金属柜台", 		937, 600 },
+	    { FC_KITCHENBATH,	"金属台式", 		936, 685 },
+	    { FC_KITCHENBATH,	"洗手间",  				2514, 700 },
+	    { FC_KITCHENBATH,	"浴室水槽", 		2523, 900 },
+	    { FC_KITCHENBATH,   "木制双抽", 	2139, 910 },
+	    { FC_KITCHENBATH,   "木质低单元",      2138, 925 },
+	    { FC_KITCHENBATH,	"洗衣机", 		1208, 925 },
+	    { FC_KITCHENBATH,   "洗衣房",         2303, 980 },
+	    { FC_KITCHENBATH,	"白色浴缸",		2519, 1000 },
+	    { FC_KITCHENBATH,   "转角木凳",	2305, 1100 },
+	    { FC_KITCHENBATH,   "带水槽的木凳", 2136, 1185 },
+	    { FC_KITCHENBATH,   "稳定柜台",       2339, 1200 },
+	    { FC_KITCHENBATH,	"浴缸", 			2526, 1200 },
+	    { FC_KITCHENBATH,	"淋浴系统",		14481, 1290 },
+	    { FC_KITCHENBATH,   "稳定的架子",       	2141, 1300 },
+	    { FC_KITCHENBATH,   "稳定的水槽",          2132, 1500 },
+		{ FC_KITCHENBATH, 	"爱情水疗中心", 			11732, 2000 },
+	    { FC_KITCHENBATH,   "炊具和烤箱",      2135, 2200 },
+	    { FC_KITCHENBATH,	"油炸锅", 			2413, 2300 },
 		// Electronics
-		{ FC_ELECTRONIC, 	"Blender", 				19830, 120 },
-	    { FC_ELECTRONIC,	"Mini Stereo Speaker", 	2233, 450 },
-		{ FC_ELECTRONIC, 	"Coffee Machine", 		11743, 500 },
-	    { FC_ELECTRONIC,	"Red Guitar",          	19317, 650 },
-	    { FC_ELECTRONIC,	"White Guitar",        	19318, 675 },
-	    { FC_ELECTRONIC,	"Bass speaker", 		2229, 675 },
-	    { FC_ELECTRONIC,	"Black Guitar",       	19319, 700 },
-	    { FC_ELECTRONIC,	"8 Bit TV", 			1748, 700 },
-	    { FC_ELECTRONIC,	"VCR Player", 			1719, 900 },
-	    { FC_ELECTRONIC, 	"Gaming Console",		2028, 1000 },
-	    { FC_ELECTRONIC, 	"Small TV with VCR",	2595, 1100 },
-		{ FC_ELECTRONIC, 	"Laptop", 				19893, 1250 },
-	    { FC_ELECTRONIC,	"TV Small", 			1518, 1575 },
-	    { FC_ELECTRONIC, 	"Swank TV",				1792, 1600 },
-	    { FC_ELECTRONIC,	"TV with Wall Hook", 	2596, 1790 },
-	    { FC_ELECTRONIC,    "TV With Stance",       1717, 2000 },
-	    { FC_ELECTRONIC, 	"Doozy TV with Stance",	2224, 2050 },
-	    { FC_ELECTRONIC,	"Stereo System", 		2100, 2175 },
-	    { FC_ELECTRONIC,	"Wide-screen TV", 		1786, 2500 },
-		{ FC_ELECTRONIC, 	"Huge LCD", 			19786, 3000 },
-	    { FC_ELECTRONIC,    "PC with Desk",     	2181, 3400 },
-	    { FC_ELECTRONIC,	"Small TV Unit", 		2297, 3700 },
-	    { FC_ELECTRONIC,    "TV Unit",              2296, 4000 },
+		{ FC_ELECTRONIC, 	"混合器", 				19830, 120 },
+	    { FC_ELECTRONIC,	"迷你音响", 	2233, 450 },
+		{ FC_ELECTRONIC, 	"咖啡机", 		11743, 500 },
+	    { FC_ELECTRONIC,	"红色吉他",          	19317, 650 },
+	    { FC_ELECTRONIC,	"白色吉他",        	19318, 675 },
+	    { FC_ELECTRONIC,	"低音音响", 		2229, 675 },
+	    { FC_ELECTRONIC,	"黑吉他",       	19319, 700 },
+	    { FC_ELECTRONIC,	"8 位电视", 			1748, 700 },
+	    { FC_ELECTRONIC,	"录像机播放器", 			1719, 900 },
+	    { FC_ELECTRONIC, 	"游戏机",		2028, 1000 },
+	    { FC_ELECTRONIC, 	"带录像机的小电视",	2595, 1100 },
+		{ FC_ELECTRONIC, 	"笔记本电脑", 				19893, 1250 },
+	    { FC_ELECTRONIC,	"电视小", 			1518, 1575 },
+	    { FC_ELECTRONIC, 	"豪华电视",				1792, 1600 },
+	    { FC_ELECTRONIC,	"带壁钩的电视", 	2596, 1790 },
+	    { FC_ELECTRONIC,    "电视有立场",       1717, 2000 },
+	    { FC_ELECTRONIC, 	"Doozy 立式电视",	2224, 2050 },
+	    { FC_ELECTRONIC,	"立体声系统", 		2100, 2175 },
+	    { FC_ELECTRONIC,	"宽屏电视", 		1786, 2500 },
+		{ FC_ELECTRONIC, 	"巨大的液晶显示屏", 			19786, 3000 },
+	    { FC_ELECTRONIC,    "带办公桌的电脑",     	2181, 3400 },
+	    { FC_ELECTRONIC,	"小型电视机", 		2297, 3700 },
+	    { FC_ELECTRONIC,    "电视单元",              2296, 4000 },
 		// Bedroom
-	    { FC_BEDROOM,		"Wooden Stance", 		1743, 650 },
-	    { FC_BEDROOM,		"Wooden Counter", 		1416, 750 },
-	    { FC_BEDROOM,		"Wooden Drawer", 		1417, 800 },
-	    { FC_BEDROOM,		"Hobo bed", 			1745, 800 },
-	    { FC_BEDROOM,		"Luxurious bed", 		2298, 1300 },
-	    { FC_BEDROOM,		"Super Luxurious bed", 	2563, 1750 },
-		{ FC_BEDROOM, 		"Lavish Red Bed", 		11720, 2000 },
-		{ FC_BEDROOM, 		"Love Bed", 			11731, 4200 },
+	    { FC_BEDROOM,		"木架", 		1743, 650 },
+	    { FC_BEDROOM,		"木制柜台", 		1416, 750 },
+	    { FC_BEDROOM,		"木抽屉", 		1417, 800 },
+	    { FC_BEDROOM,		"流浪汉床", 			1745, 800 },
+	    { FC_BEDROOM,		"豪华床", 		2298, 1300 },
+	    { FC_BEDROOM,		"超豪华床", 	2563, 1750 },
+		{ FC_BEDROOM, 		"奢华的红床", 		11720, 2000 },
+		{ FC_BEDROOM, 		"爱床", 			11731, 4200 },
 		// Lounge
-	    { FC_LOUNGE,		"Wooden Couch", 		1755, 275 },
-	    { FC_LOUNGE,		"Couch", 				1754, 350 },
-	    { FC_LOUNGE,		"Leather Couch",		1702, 500 },
-	    { FC_LOUNGE,		"Single Couch", 		1704, 850 },
-	    { FC_LOUNGE, 		"Luxury Mattress", 		1828, 900 },
-	    { FC_LOUNGE,		"Bookshelf", 			1742, 1000 },
-	    { FC_LOUNGE,		"Leather Couch",		1723, 1650 },
-	    { FC_LOUNGE,		"TV Stand",				2313, 1700 },
-		{ FC_LOUNGE, 		"Fireplace", 			11724, 4800 },
-		{ FC_LOUNGE, 		"Chandelier",			19806, 5200 },
+	    { FC_LOUNGE,		"木沙发", 		1755, 275 },
+	    { FC_LOUNGE,		"长椅", 				1754, 350 },
+	    { FC_LOUNGE,		"真皮沙发",		1702, 500 },
+	    { FC_LOUNGE,		"单人沙发", 		1704, 850 },
+	    { FC_LOUNGE, 		"豪华床垫", 		1828, 900 },
+	    { FC_LOUNGE,		"书架", 			1742, 1000 },
+	    { FC_LOUNGE,		"真皮沙发",		1723, 1650 },
+	    { FC_LOUNGE,		"电视柜",				2313, 1700 },
+		{ FC_LOUNGE, 		"壁炉", 			11724, 4800 },
+		{ FC_LOUNGE, 		"枝形吊灯",			19806, 5200 },
 		// Flowers and plants
-	    { FC_FLOWERS,		"Flower Plant 3", 		2001, 30 },
-	    { FC_FLOWERS,		"Flower Plant 4", 		2253, 35 },
-	    { FC_FLOWERS, 		"Clear Flower Vase",	2247, 35 },
-	    { FC_FLOWERS,		"Painted Flower Vase", 	2251, 40 },
-	    { FC_FLOWERS,		"Plant Vase", 			2245, 50 },
-	    { FC_FLOWERS,		"Flower Wall-Mount", 	3810, 120 },
-	    { FC_FLOWERS,		"Weed Plant", 			19473, 2250 },
+	    { FC_FLOWERS,		"花卉植物3", 		2001, 30 },
+	    { FC_FLOWERS,		"花卉植物4", 		2253, 35 },
+	    { FC_FLOWERS, 		"透明花瓶",	2247, 35 },
+	    { FC_FLOWERS,		"彩绘花瓶", 	2251, 40 },
+	    { FC_FLOWERS,		"植物花瓶", 			2245, 50 },
+	    { FC_FLOWERS,		"花壁挂式", 	3810, 120 },
+	    { FC_FLOWERS,		"大麻 植物", 			19473, 2250 },
 		// Miscellaneous
-		{ FC_MISC, 			"Chainsaw Dildo", 		19086, 69 },
-		{ FC_MISC,			"Massive Die",			1851, 80 },
-	    { FC_MISC,			"Deer Head Mount",   	1736, 120 },
-	    { FC_MISC,			"Striped Surfboard",   	2404, 140 },
-	    { FC_MISC,			"Beach Surfboard",     	2406, 150 },
-	    { FC_MISC,			"Flamed Torch",       	3461, 175 },
-		{ FC_MISC, 			"Rocking Unicorn", 		11733, 180 },
-		{ FC_MISC, 			"Do Not Cross Tape",	19834, 250 },
-		{ FC_MISC, 			"Grill",				19831, 300 },
-	    { FC_MISC,			"Boxing Bag",         	1985, 300 },
-		{ FC_MISC, 			"Car Engine", 			19917, 500 },
-		{ FC_MISC, 			"Drum Kit",				19609, 800 },
-		{ FC_MISC, 			"Mechanic Computer", 	19903, 1000 },
-	    { FC_MISC,			"Pool Table",         	2964, 1250 },
-		{ FC_MISC, 			"Cow",					19833, 1337 },
-	    { FC_MISC,			"Deer", 				19315, 1337 },
-	    { FC_MISC,			"Money Safe", 			2332, 2000 },
-		{ FC_MISC, 			"Mechanic Shelves",		19899, 2000 },
-	    { FC_MISC,			"Dance Floor", 			19128, 3250 },
-	    { FC_MISC,			"Craps Table", 			1824, 4000 },
-	    { FC_MISC, 			"Boxing Arena",			14781, 15000 },
+		{ FC_MISC, 			"电锯假阳具", 		19086, 69 },
+		{ FC_MISC,			"大型模具",			1851, 80 },
+	    { FC_MISC,			"鹿头支架",   	1736, 120 },
+	    { FC_MISC,			"条纹冲浪板",   	2404, 140 },
+	    { FC_MISC,			"海滩冲浪板",     	2406, 150 },
+	    { FC_MISC,			"火焰火炬",       	3461, 175 },
+		{ FC_MISC, 			"摇摆独角兽", 		11733, 180 },
+		{ FC_MISC, 			"不要交叉胶带",	19834, 250 },
+		{ FC_MISC, 			"炙烤",				19831, 300 },
+	    { FC_MISC,			"拳击袋",         	1985, 300 },
+		{ FC_MISC, 			"汽车发动机", 			19917, 500 },
+		{ FC_MISC, 			"鼓组",				19609, 800 },
+		{ FC_MISC, 			"机械计算机", 	19903, 1000 },
+	    { FC_MISC,			"台球桌",         	2964, 1250 },
+		{ FC_MISC, 			"奶牛",					19833, 1337 },
+	    { FC_MISC,			"鹿", 				19315, 1337 },
+	    { FC_MISC,			"资金安全", 			2332, 2000 },
+		{ FC_MISC, 			"机械货架",		19899, 2000 },
+	    { FC_MISC,			"舞池", 			19128, 3250 },
+	    { FC_MISC,			"掷骰子桌", 			1824, 4000 },
+	    { FC_MISC, 			"拳击场",			14781, 15000 },
 	    // Weapons
-		{ FC_WEAPONS, 		"Brass Knuckles", 		331, 25 },
-		{ FC_WEAPONS,		"Pool Cue",				338, 40 },
-		{ FC_WEAPONS, 		"Parachute", 			371, 60 },
-		{ FC_WEAPONS, 		"Purple Dildo", 		321, 69 },
-		{ FC_WEAPONS, 		"Sledge Hammer", 		19631, 90 },
-		{ FC_WEAPONS, 		"Landmine", 			19602, 100 },
-		{ FC_WEAPONS, 		"Ammo Box", 			19832, 120 },
-		{ FC_WEAPONS, 		"Antique Sword", 		19590, 250 },
+		{ FC_WEAPONS, 		"指虎", 		331, 25 },
+		{ FC_WEAPONS,		"台球杆",				338, 40 },
+		{ FC_WEAPONS, 		"降落伞", 			371, 60 },
+		{ FC_WEAPONS, 		"紫色假阳具", 		321, 69 },
+		{ FC_WEAPONS, 		"大锤", 		19631, 90 },
+		{ FC_WEAPONS, 		"地雷", 			19602, 100 },
+		{ FC_WEAPONS, 		"弹药箱", 			19832, 120 },
+		{ FC_WEAPONS, 		"古董剑", 		19590, 250 },
 		{ FC_WEAPONS, 		"Mac 10", 				352, 250 },
 		{ FC_WEAPONS, 		"Tec 9", 				372, 290 },
-		{ FC_WEAPONS, 		"Rifle", 				357, 300 },
-		{ FC_WEAPONS, 		"Desert Eagle", 		348, 500 },
-		{ FC_WEAPONS, 		"Shotgun", 				349, 600 },
-		{ FC_WEAPONS, 		"Sawn-off Shotgun", 	350, 800 },
-		{ FC_WEAPONS, 		"Sniper", 				358, 800 },
+		{ FC_WEAPONS, 		"步枪", 				357, 300 },
+		{ FC_WEAPONS, 		"沙漠之鹰", 		348, 500 },
+		{ FC_WEAPONS, 		"霰弹枪", 				349, 600 },
+		{ FC_WEAPONS, 		"短管霰弹枪", 	350, 800 },
+		{ FC_WEAPONS, 		"狙击枪", 				358, 800 },
 		{ FC_WEAPONS, 		"Spas 12", 				351, 900 },
 		{ FC_WEAPONS, 		"M4", 					356, 900 },
-		{ FC_WEAPONS, 		"Minigun", 				362, 1337 },
-		{ FC_WEAPONS, 		"Heatseeker", 			360, 1337 },
+		{ FC_WEAPONS, 		"转机枪", 				362, 1337 },
+		{ FC_WEAPONS, 		"追踪火箭筒", 			360, 1337 },
 		{ FC_WEAPONS, 		"RPG", 					359, 1337 },
 		// Holiday
-		{ FC_HOLIDAYS, 		"Xmas Box 1", 			19054, 100 },
-		{ FC_HOLIDAYS, 		"Xmas Box 2", 			19055, 100 },
-		{ FC_HOLIDAYS, 		"Xmas Box 3", 			19056, 100 },
-		{ FC_HOLIDAYS, 		"Xmas Box 4", 			19057, 100 },
-		{ FC_HOLIDAYS, 		"Xmas Box 5", 			19058, 100 },
-		{ FC_HOLIDAYS, 		"Witch Pot",			19527, 200 },
-		{ FC_HOLIDAYS, 		"Devil Face",			11704, 666 },
-		{ FC_HOLIDAYS, 		"Xmas Tree", 			19076, 777 },
+		{ FC_HOLIDAYS, 		"圣诞盒1", 			19054, 100 },
+		{ FC_HOLIDAYS, 		"圣诞盒2", 			19055, 100 },
+		{ FC_HOLIDAYS, 		"圣诞盒3", 			19056, 100 },
+		{ FC_HOLIDAYS, 		"圣诞盒4", 			19057, 100 },
+		{ FC_HOLIDAYS, 		"圣诞盒5", 			19058, 100 },
+		{ FC_HOLIDAYS, 		"女巫锅",			19527, 200 },
+		{ FC_HOLIDAYS, 		"恶魔脸",			11704, 666 },
+		{ FC_HOLIDAYS, 		"圣诞树", 			19076, 777 },
 		// Food/Drink
-		{ FC_FOODRINK, 		"Pizza Box", 			19571, 10 },
-		{ FC_FOODRINK, 		"Coffee Mug", 			19835, 15 },
-		{ FC_FOODRINK, 		"Pizza", 				19580, 30 },
-		{ FC_FOODRINK, 		"Ordinary Brandy", 		19821, 45 },
-		{ FC_FOODRINK, 		"Fine Scotch", 			19823, 90 },
-		{ FC_FOODRINK, 		"Beer Keg", 			19812, 150 },
-		{ FC_FOODRINK, 		"Vintage Whiskey", 		19824, 155 },
-		{ FC_FOODRINK, 		"Premium Brandy", 		19820, 190 },
-		{ FC_FOODRINK, 		"Premium Wine", 		19822, 220 }
+		{ FC_FOODRINK, 		"披萨盒", 			19571, 10 },
+		{ FC_FOODRINK, 		"咖啡杯", 			19835, 15 },
+		{ FC_FOODRINK, 		"比萨", 				19580, 30 },
+		{ FC_FOODRINK, 		"普通白兰地", 		19821, 45 },
+		{ FC_FOODRINK, 		"优质苏格兰威士忌", 			19823, 90 },
+		{ FC_FOODRINK, 		"啤酒桶", 			19812, 150 },
+		{ FC_FOODRINK, 		"复古威士忌", 		19824, 155 },
+		{ FC_FOODRINK, 		"优质白兰地", 		19820, 190 },
+		{ FC_FOODRINK, 		"优质葡萄酒", 		19822, 220 }
 	},
 	g_houseFurnitureData 			[ MAX_HOUSES ] [ MAX_FURNITURE ],
 	Iterator: housefurniture 		[ MAX_HOUSES ] < MAX_FURNITURE >
@@ -232,10 +232,10 @@ hook OnPlayerEditDynObject( playerid, objectid, response, Float: x, Float: y, Fl
 	 	new editing_furniture = GetPVarInt( playerid, "furniture_id" );
 
 	    if ( houseid != editing_house )
-	   		return SendError( playerid, "There was an issue editing the furniture of this home, try again." );
+            return SendError( playerid, "编辑这个家的家具时出现问题,请重试." );
 
 	   	if ( ! IsPlayerHomeOwner( playerid, houseid ) )
-	   	 	return SendError( playerid, "You are not the owner of this house." );
+            return SendError( playerid, "你不是这所房子的主人." );
 
 		static Float: lastX, Float: lastY, Float: lastZ;
 		static Float: lastRX, Float: lastRY, Float: lastRZ;
@@ -253,15 +253,15 @@ hook OnPlayerEditDynObject( playerid, objectid, response, Float: x, Float: y, Fl
 				format( szBigString, sizeof( szBigString ), "UPDATE `FURNITURE` SET `X`=%f,`Y`=%f,`Z`=%f,`RX`=%f,`RY`=%f,`RZ`=%f WHERE `ID`=%d AND `HOUSE_ID`=%d", x, y, z, rx, ry, rz, editing_furniture, editing_house );
 				mysql_single_query( szBigString );
 
-				SendServerMessage( playerid, "Furniture has been successfully updated." );
-	        	ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+				SendServerMessage( playerid, "家具已成功更新." );
+                ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 			}
 			case EDIT_RESPONSE_CANCEL:
 			{
 				SetDynamicObjectPos( objectid, lastX, lastY, lastZ );
 				SetDynamicObjectRot( objectid, lastRX, lastRY, lastRZ );
-				SendServerMessage( playerid, "You have canceled editing the piece of furniture selected." );
-	        	ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+				SendServerMessage( playerid, "你已取消编辑所选家具." );
+                ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 			}
 		}
 	}
@@ -275,28 +275,28 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new houseid = p_InHouse[ playerid ];
 
 	    if ( houseid == -1 )
-	   		return SendError( playerid, "You're not inside any house." );
+            return SendError( playerid, "你不在任何房子里." );
 
 		if ( !IsPlayerHomeOwner( playerid, houseid ) )
-	   	 	return SendError( playerid, "You are not the owner of this house." );
+            return SendError( playerid, "你不是这所房子的主人." );
 
 	    if ( response )
 	    {
 			switch( listitem )
 			{
 			    case 0: ShowFurnitureCategory( playerid );
-			    case 1: SendServerMessage( playerid, "You are now editing your furniture. Simply drag your mouse over a piece of furniture and click to edit." ), SelectObject( playerid );
+			    case 1: SendServerMessage( playerid, "你现在正在编辑你的家具.只需将鼠标拖动到一件家具上并单击即可进行编辑." ), SelectObject( playerid );
 				case 2: ShowOwnedFurnitureList( playerid, houseid );
 				case 3:
 				{
 					new fhandle = ITER_NONE;
 				    new i = GetClosestFurniture( houseid, playerid, .furniture_handle = fhandle );
-				    if ( i == INVALID_OBJECT_ID || fhandle == ITER_NONE ) return SendError( playerid, "There are no nearby furniture." );
+				    if ( i == INVALID_OBJECT_ID || fhandle == ITER_NONE ) return SendError( playerid, "附近没有家具." );
 			    	SetPVarInt( playerid, "furniture_house", houseid );
 			    	SetPVarInt( playerid, "furniture_id", fhandle );
-					ShowPlayerDialog( playerid, DIALOG_FURNITURE_OPTION, DIALOG_STYLE_LIST, "Furniture", "Use Editor\nEdit Rotation X\nEdit Rotation Y\nEdit Rotation Z\nSell Object", "Select", "Back" );
+					ShowPlayerDialog( playerid, DIALOG_FURNITURE_OPTION, DIALOG_STYLE_LIST, "家具", "使用编辑器\n编辑旋转 X\n编辑旋转 Y\n编辑旋转 Z\n出售对象", "选择", "返回" );
       			}
-      			case 4: ShowPlayerDialog( playerid, DIALOG_TRUNCATE_FURNITURE, DIALOG_STYLE_MSGBOX, "Furniture", ""COL_WHITE"Are you sure you want to truncate your furniture?", "Confirm", "Back" );
+                case 4: ShowPlayerDialog( playerid, DIALOG_TRUNCATE_FURNITURE, DIALOG_STYLE_MSGBOX, "家具", ""COL_WHITE"确定要清空所有家具吗?", "确认", "返回" );
 			}
 	    }
 	    else
@@ -308,19 +308,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	else if ( dialogid == DIALOG_TRUNCATE_FURNITURE )
 	{
 	    if ( p_InHouse[ playerid ] == -1 )
-	   		return SendError( playerid, "You're not inside any house." );
+            return SendError( playerid, "你不在任何房子里." );
 
 		if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) )
-	   	 	return SendError( playerid, "You are not the owner of this house." );
+            return SendError( playerid, "你不是这所房子的主人." );
 
 		if ( response )
 	   	 	destroyAllFurniture( p_InHouse[ playerid ] );
 
-		return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+		return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 	}
 	else if ( dialogid == DIALOG_FURNITURE_CATEGORY )
 	{
-		if ( !response ) return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+		if ( !response ) return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 		ShowFurnitureList( playerid, listitem );
 		p_FurnitureCategory{ playerid } = listitem;
 	}
@@ -331,10 +331,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	    	new houseid = p_InHouse[ playerid ];
 
 		    if ( houseid == -1 )
-		   		return SendError( playerid, "You're not inside any house." );
+                return SendError( playerid, "你不在任何房子里." );
 
 			if ( !IsPlayerHomeOwner( playerid, houseid ) )
-		   	 	return SendError( playerid, "You are not the owner of this house." );
+                return SendError( playerid, "你不是这所房子的主人." );
 
 		   	new x = 0;
 
@@ -348,19 +348,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				    {
 				    	SetPVarInt( playerid, "furniture_house", houseid );
 				    	SetPVarInt( playerid, "furniture_id", fhandle );
-						ShowPlayerDialog( playerid, DIALOG_FURNITURE_OPTION, DIALOG_STYLE_LIST, "Furniture", "Use Editor\nEdit Rotation X\nEdit Rotation Y\nEdit Rotation Z\nSell Object", "Select", "Back" );
+						ShowPlayerDialog( playerid, DIALOG_FURNITURE_OPTION, DIALOG_STYLE_LIST, "家具", "使用编辑器\n编辑旋转 X\n编辑旋转 Y\n编辑旋转 Z\n出售对象", "选择", "返回" );
 				        break;
 				    }
 				    x++;
 				}
 			}
 	    }
-	    else ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+	    else ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 	}
 	else if ( dialogid == DIALOG_FURNITURE_OPTION )
 	{
 	    if ( !response )
-	    	return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+            return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 
 	 	new editing_house = GetPVarInt( playerid, "furniture_house" );
 	 	new editing_furniture = GetPVarInt( playerid, "furniture_id" );
@@ -368,13 +368,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new houseid = p_InHouse[ playerid ];
 
 	    if ( houseid == -1 )
-	   		return SendError( playerid, "You're not inside any house." );
+            return SendError( playerid, "你不在任何房子里." );
 
 	    if ( houseid != editing_house )
-	   		return SendError( playerid, "There was an issue editing the furniture of this home, try again." );
+            return SendError( playerid, "编辑这个家的家具时出现问题,请重试." );
 
 	   	if ( !IsPlayerHomeOwner( playerid, houseid ) )
-	   	 	return SendError( playerid, "You are not the owner of this house." );
+            return SendError( playerid, "你不是这所房子的主人." );
 
 	 	new objectid = g_houseFurnitureData[ editing_house ] [ editing_furniture ];
 	 	new modelid = Streamer_GetIntData( STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MODEL_ID );
@@ -385,17 +385,17 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
             case 1 .. 3:
             {
             	p_FurnitureRotAxis{ playerid } = listitem;
-            	ShowPlayerDialog( playerid, DIALOG_FURNITURE_ROTATION, DIALOG_STYLE_INPUT, "{FFFFFF}Furniture", "{FFFFFF}Input your axis' value below.", "Confirm", "Back" );
+                ShowPlayerDialog( playerid, DIALOG_FURNITURE_ROTATION, DIALOG_STYLE_INPUT, "{FFFFFF}家具", "{FFFFFF}在下面输入你的轴值.", "确认", "返回" );
             }
             case 4:
             {
 				new i = getFurnitureID( modelid );
 
 		        if ( ! Iter_Count( housefurniture[ houseid ] ) )
-		        	return SendError( playerid, "There is no furniture left to sell." );
+                    return SendError( playerid, "没有家具可供出售." );
 
 				if ( i == -1 )
-					return SendError( playerid, "Unable to sell furniture due to an unexpected error (0x8F)." );
+					return SendError( playerid, "由于意外错误 (0x8F),无法出售家具." );
 
                 DestroyDynamicObject( objectid );
 				mysql_single_query( sprintf( "DELETE FROM `FURNITURE` WHERE `ID`=%d AND `HOUSE_ID`=%d", editing_furniture, editing_house ) );
@@ -404,8 +404,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				new iNetProfit = floatround( g_houseFurniture[ i ] [ E_COST ] / 2 );
 
 				GivePlayerCash( playerid, iNetProfit );
-				SendClientMessageFormatted( playerid, -1, ""COL_GREY"[FURNITURE]"COL_WHITE" You have successfully sold your "COL_WHITE"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE".", g_houseFurniture[ i ] [ E_NAME ], cash_format( iNetProfit ) );
-        		ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+				SendClientMessageFormatted( playerid, -1, ""COL_GREY"[家具]"COL_WHITE" 你已成功出售你的 "COL_WHITE"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE".", g_houseFurniture[ i ] [ E_NAME ], cash_format( iNetProfit ) );
+                ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 			}
         }
 	}
@@ -417,23 +417,23 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new houseid = p_InHouse[ playerid ];
 
 	    if ( houseid == -1 )
-	   		return SendError( playerid, "You're not inside any house." );
+            return SendError( playerid, "你不在任何房子里." );
 
 	    if ( houseid != editing_house )
-	   		return SendError( playerid, "There was an issue editing the furniture of this home, try again." );
+            return SendError( playerid, "编辑这个家的家具时出现问题,请重试." );
 
 	   	if ( !IsPlayerHomeOwner( playerid, houseid ) )
-	   	 	return SendError( playerid, "You are not the owner of this house." );
+            return SendError( playerid, "你不是这所房子的主人." );
 
 	 	new objectid = g_houseFurnitureData[ editing_house ] [ editing_furniture ];
 
 	    if ( !response )
-	    	return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+            return ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 
 		new Float: angle;
 
 		if ( sscanf( inputtext, "f", angle ) )
-			return ShowPlayerDialog( playerid, DIALOG_FURNITURE_ROTATION, DIALOG_STYLE_INPUT, "{FFFFFF}Furniture", "{FFFFFF}Input your axis' value below.\n\n"COL_RED"Invalid Value!", "Confirm", "Back" );
+			return ShowPlayerDialog( playerid, DIALOG_FURNITURE_ROTATION, DIALOG_STYLE_INPUT, "{FFFFFF}家具", "{FFFFFF}在下面输入你的轴值.\n\n"COL_RED"无效值!", "确认", "返回" );
 
 		new Float: rotX, Float: rotY, Float: rotZ;
 	    GetDynamicObjectRot( objectid, rotX, rotY, rotZ );
@@ -449,8 +449,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		format( szBigString, sizeof( szBigString ), "UPDATE `FURNITURE` SET `RX`=%f,`RY`=%f,`RZ`=%f WHERE `ID`=%d AND `HOUSE_ID`=%d", rotX, rotY, rotZ, editing_furniture, editing_house );
 		mysql_single_query( szBigString );
 
-		SendServerMessage( playerid, "Furniture has been successfully updated." );
-        ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+		SendServerMessage( playerid, "家具已成功更新." );
+        ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 	}
 	else if ( dialogid == DIALOG_FURNITURE_LIST )
 	{
@@ -459,10 +459,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new houseid = p_InHouse[ playerid ];
 
 	    if ( houseid == -1 )
-	   		return SendError( playerid, "You're not inside any house." );
+            return SendError( playerid, "你不在任何房子里." );
 
 	   	if ( !IsPlayerHomeOwner( playerid, houseid ) )
-	   	 	return SendError( playerid, "You are not the owner of this house." );
+            return SendError( playerid, "你不是这所房子的主人." );
 
 		new vip_slots = 25 + ( GetPlayerVIPLevel( playerid ) * 5 );
 
@@ -472,7 +472,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new total_furniture = Iter_Count( housefurniture[ houseid ] );
 
 		if ( total_furniture > vip_slots )
-			return SendError( playerid, "You have reached the maximum furniture limit of %d.", vip_slots );
+			return SendError( playerid, "你已达到最大家具限制 %d.", vip_slots );
 
 	    for( new i, x = 0; i < sizeof( g_houseFurniture ); i++ )
 		{
@@ -483,7 +483,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		      		if ( GetPlayerCash( playerid ) < g_houseFurniture[ i ] [ E_COST ] )
 				    {
 						ShowFurnitureList( playerid, p_FurnitureCategory{ playerid } );
-				        return SendError( playerid, "You don't have enough money for this piece of furniture." );
+				        return SendError( playerid, "你没有足够的钱买这件家具." );
 				    }
 
 					new Float: X, Float: Y, Float: Z;
@@ -492,12 +492,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					new fhandle = CreateFurniture( houseid, g_houseFurniture[ i ] [ E_MODEL ], X, Y, Z, 0.0, 0.0, 0.0, .creator = p_AccountID[ playerid ] );
 
 					if ( fhandle == ITER_NONE )
-						return SendError( playerid, "You do not have any more slots available to add furniture." );
+						return SendError( playerid, "你没有更多空位可用于添加家具." );
 
 					GivePlayerCash( playerid, -g_houseFurniture[ i ] [ E_COST ] );
 					Streamer_Update( playerid ); // SyncObject( playerid );
 
-					SendServerMessage( playerid, "You have purchased a "COL_GREY"%s"COL_WHITE". "COL_ORANGE"[%d/%d]", g_houseFurniture[ i ] [ E_NAME ], total_furniture, vip_slots );
+					SendServerMessage( playerid, "你已购买了 "COL_GREY"%s"COL_WHITE". "COL_ORANGE"[%d/%d]", g_houseFurniture[ i ] [ E_NAME ], total_furniture, vip_slots );
 					ShowFurnitureList( playerid, p_FurnitureCategory{ playerid } );
 				 	break;
 	      		}
@@ -513,10 +513,10 @@ hook OnPlayerSelectDynObject( playerid, objectid, modelid, Float:x, Float:y, Flo
 	new houseid = p_InHouse[ playerid ];
 
 	if ( houseid == -1 )
-		return SendError( playerid, "You're not inside any house." );
+		return SendError( playerid, "你不在任何房子里." );
 
 	if ( ! IsPlayerHomeOwner( playerid, houseid ) )
-		return SendError( playerid, "You are not the owner of this house." );
+		return SendError( playerid, "你不是这所房子的主人." );
 
 	if ( isFurnitureObject( modelid ) )
 	{
@@ -532,9 +532,9 @@ hook OnPlayerSelectDynObject( playerid, objectid, modelid, Float:x, Float:y, Flo
 		if ( fhandle != ITER_NONE ) {
 			SetPVarInt( playerid, "furniture_house", houseid );
 			SetPVarInt( playerid, "furniture_id", fhandle );
-			ShowPlayerDialog( playerid, DIALOG_FURNITURE_OPTION, DIALOG_STYLE_LIST, "Furniture", "Use Editor\nEdit Rotation X\nEdit Rotation Y\nEdit Rotation Z\nSell Object", "Select", "Back" );
+			ShowPlayerDialog( playerid, DIALOG_FURNITURE_OPTION, DIALOG_STYLE_LIST, "家具", "使用编辑器\n编辑旋转 X\n编辑旋转 Y\n编辑旋转 Z\n出售对象", "选择", "返回" );
 		}
-		else SendError( playerid, "This furniture item cannot be edited as its model is unrecogized in the house." );
+		else SendError( playerid, "该家具项目无法编辑,因为其模型在房屋中无法识别." );
 	}
 	CancelEdit( playerid );
 	return 1;
@@ -1120,22 +1120,22 @@ stock ShowOwnedFurnitureList( playerid, houseid )
 {
 	if ( Iter_Count( housefurniture[ houseid ] ) > 0 )
 	{
-		szLargeString = ""COL_WHITE"Furniture Item\n";
+		szLargeString = ""COL_WHITE"家具物品\n";
 		foreach ( new fhandle : housefurniture[ houseid ] ) {
 			new modelid = Streamer_GetIntData( STREAMER_TYPE_OBJECT, g_houseFurnitureData[ houseid ] [ fhandle ], E_STREAMER_MODEL_ID );
 			new furniture_item = getFurnitureID( modelid );
 			if ( furniture_item != -1 ) {
 				format( szLargeString, sizeof( szLargeString ), "%s%s\n", szLargeString, g_houseFurniture[ furniture_item ] [ E_NAME ] );
 			} else {
-				strcat( szLargeString, "Unknown\n" );
+				strcat( szLargeString, "未知\n" );
 			}
 		}
-		ShowPlayerDialog( playerid, DIALOG_FURNITURE_MAN_SEL, DIALOG_STYLE_TABLIST_HEADERS, "Furniture", szLargeString, "Select", "Back" );
+		ShowPlayerDialog( playerid, DIALOG_FURNITURE_MAN_SEL, DIALOG_STYLE_TABLIST_HEADERS, "家具", szLargeString, "选择", "返回" );
 	}
 	else
 	{
-		SendError( playerid, "You don't own any furniture." );
-		ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+		SendError( playerid, "你不拥有任何家具." );
+		ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 	}
 }
 
@@ -1149,18 +1149,18 @@ stock ShowFurnitureCategory( playerid )
 	    for( new i = 0; i < sizeof( g_furnitureCategory ); i++ )
 	        format( szCategory, sizeof( szCategory ), "%s%s\n", szCategory, g_furnitureCategory[ i ] );
 	}
-	ShowPlayerDialog( playerid, DIALOG_FURNITURE_CATEGORY, DIALOG_STYLE_LIST, "Furniture", szCategory, "Select", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_FURNITURE_CATEGORY, DIALOG_STYLE_LIST, "家具", szCategory, "选择", "返回" );
 	return 1;
 }
 
 stock ShowFurnitureList( playerid, category )
 {
-	szLargeString = ""COL_WHITE"Furniture\t"COL_WHITE"Cost\n";
+	szLargeString = ""COL_WHITE"家具\t"COL_WHITE"费用\n";
 
     for( new i = 0; i < sizeof( g_houseFurniture ); i++ ) if ( g_houseFurniture[ i ] [ E_CATEGORY ] == category )
 		format( szLargeString, sizeof( szLargeString ), "%s%s\t"COL_GOLD"%s\n", szLargeString, g_houseFurniture[ i ] [ E_NAME ], cash_format( g_houseFurniture[ i ] [ E_COST ] ) );
 
-	ShowPlayerDialog( playerid, DIALOG_FURNITURE_LIST, DIALOG_STYLE_TABLIST_HEADERS, "Furniture", szLargeString, "Select", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_FURNITURE_LIST, DIALOG_STYLE_TABLIST_HEADERS, "家具", szLargeString, "选择", "返回" );
 }
 
 stock GetClosestFurniture( houseid, playerid, &Float: dis = 99999.99, &furniture_handle = ITER_NONE )

@@ -164,7 +164,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				if ( ( p_AutoSpin{ playerid } = ! p_AutoSpin{ playerid } ) == true )
 					TriggerPlayerSlotMachine( playerid, machineid );
 
-				return SendServerMessage( playerid, "You have %s autospin for this slot machine.", p_AutoSpin{ playerid } ? ( "enabled" ) : ( "disabled" ) );
+				return SendServerMessage( playerid, "此老虎机有 %s 自动旋转.", p_AutoSpin{ playerid } ? ( "启用" ) : ( "禁用" ) );
 			}
 
 			if ( PRESSED( KEY_SPRINT ) ) {
@@ -174,7 +174,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 			if ( PRESSED( KEY_SECONDARY_ATTACK ) )
 			{
 				if ( g_slotmachineData[ machineid ] [ E_ROLLING ] )
-					return SendError( playerid, "Please wait for the slot machine to finish spinning." );
+					return SendError( playerid, "请等待老虎机完成旋转." );
 
 				return StopPlayerUsingSlotMachine( playerid );
 			}
@@ -223,7 +223,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 						TextDrawShowForPlayer( playerid, g_SlotMachineBoxTD[ 1 ] );
 
 						KillTimer( p_SafeHelperTimer[ playerid ] ), p_SafeHelperTimer[ playerid ] = -1; // Stop safe helper
-						return ShowPlayerHelpDialog( playerid, 0, "~y~~h~~k~~PED_SPRINT~~w~ - Spin The Wheels~n~~y~~h~~k~~PED_JUMPING~~w~ - Toggle Autospin~n~~y~~h~~k~~VEHICLE_ENTER_EXIT~~w~ - Exit" );
+						return ShowPlayerHelpDialog( playerid, 0, "~y~~h~~k~~PED_SPRINT~~w~ - 旋转轮子~n~~y~~h~~k~~PED_JUMPING~~w~ - 切换自动旋转~n~~y~~h~~k~~VEHICLE_ENTER_EXIT~~w~ - 退出" );
 					}
 				}
 			}
@@ -251,15 +251,15 @@ hook OnPlayerDeath( playerid, killerid, reason )
 /* ** Commands ** */
 CMD:jackpots( playerid, params[ ] )
 {
-	format( szBigString, sizeof( szBigString ), "The Visage Casino\t"COL_GREEN"%s\n\
-												4 Dragons Casino\t"COL_GREEN"%s\n\
-												Caligulas Casino\t"COL_GREEN"%s",
+	format( szBigString, sizeof( szBigString ), "Visage 赌场\t"COL_GREEN"%s\n\
+												4 龙赌场\t"COL_GREEN"%s\n\
+												卡利古拉斯赌场\t"COL_GREEN"%s",
 												cash_format( g_casinoPoolData[ 2 ] [ E_POOL ] ),
 												cash_format( g_casinoPoolData[ 1 ] [ E_POOL ] ),
 												cash_format( g_casinoPoolData[ 0 ] [ E_POOL ] )
 											);
 
-	ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST, ""COL_GOLD"Jackpots", szBigString, "Okay", "" );
+	ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST, ""COL_GOLD"头奖", szBigString, "确定", "" );
 	return 1;
 }
 
@@ -270,7 +270,7 @@ public OnPlayerUseSlotMachine( playerid, slotid, first_combo, second_combo, thir
 		poolid = g_slotmachineData[ slotid ] [ E_POOL_ID ];
 
 	if ( ! Iter_Contains( CasinoPool, poolid ) )
-		return SendError( playerid, "This machine has an invalid casino pool! (0xFF33)" );
+		return SendError( playerid, "此老虎机的赌场奖池无效! (0xFF33)" );
 
 	// autospin
 	if ( p_AutoSpin{ playerid } )
@@ -304,21 +304,21 @@ public OnPlayerUseSlotMachine( playerid, slotid, first_combo, second_combo, thir
 		if ( iNetWin > g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] ) {
    			// SendGlobalMessage( -1, ""COL_GREY"[CASINO]{FFFFFF} %s(%d) has won "COL_GOLD"%s"COL_WHITE" from the %s casino slots!", ReturnPlayerName( playerid ), playerid, cash_format( iNetWin ), g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] == 10000 ? ( "Four Dragons" ) : ( g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] >= 25000 ? ( "Visage" ) : ( "Caligulas" ) ) );
 			foreach ( new i : Player ) if ( ! IsPlayerSettingToggled( i, SETTING_HIDE_GAMB_MSG ) ) {
-				SendClientMessageFormatted( i, -1, ""COL_GREY"[CASINO]{FFFFFF} %s(%d) has won "COL_GOLD"%s"COL_WHITE" from the %s casino slots!", ReturnPlayerName( playerid ), playerid, cash_format( iNetWin ), g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] == 10000 ? ( "Four Dragons" ) : ( g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] >= 25000 ? ( "Visage" ) : ( "Caligulas" ) ) );
+				SendClientMessageFormatted( i, -1, ""COL_GREY"[赌场]{FFFFFF} %s(%d) 赢了 "COL_GOLD"%s"COL_WHITE" 来自 %s 赌场老虎机!", ReturnPlayerName( playerid ), playerid, cash_format( iNetWin ), g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] == 10000 ? ( "四龙" ) : ( g_slotmachineData[ slotid ] [ E_ENTRY_FEE ] >= 25000 ? ( "Visage" ) : ( "卡利古拉斯" ) ) );
 			}
 		} else {
-   			SendServerMessage( playerid, "Congratulations, you've won "COL_GOLD"%s"COL_WHITE"!", cash_format( iNetWin ) );
+            SendServerMessage( playerid, "恭喜你,你赢了 "COL_GOLD"%s"COL_WHITE"!", cash_format( iNetWin ) );
    		}
 
 		// give the cash
 		GivePlayerCash( playerid, iNetWin );
       	StockMarket_UpdateEarnings( E_STOCK_CASINO, -iNetWin, 0.05 );
 		PlayerPlaySound( playerid, 4201, 0.0, 0.0, 0.0 ); // Coin fall
-		GameTextForPlayer( playerid, "~w~~h~winner!", 5000, 6 );
+		GameTextForPlayer( playerid, "~w~~h~获胜者!", 5000, 6 );
    		return 1;
 	}
 
-	return GameTextForPlayer( playerid, "~w~~h~no win!", 2500, 6 );
+	return GameTextForPlayer( playerid, "~w~~h~没有赢!", 2500, 6 );
 }
 
 /* ** SQL Threads ** */
@@ -358,11 +358,11 @@ thread OnCasinoPoolsLoad( )
 						g_casinoPoolData[ poolid ] [ E_OBJECT ] [ 3 ] = CreateDynamicObject( 3074, 2190.8913, 1677.1768, 11.5257, 0.0000, 20.3999, 179.7994 );
 						g_casinoPoolData[ poolid ] [ E_OBJECT ] [ 4 ] = CreateDynamicObject( 3074, 2255.6259, 1620.6029, 1006.5472, 0.0000, 2.5, -90.0 );
 
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2218.8115, 1616.7198, 1008.1833, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2218.5430, 1590.5162, 1008.1849, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 2 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2271.5161, 1606.4812, 1008.1797, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 3 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2219.1663, 1603.9136, 1008.1797, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 4 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2255.1665, 1613.9871, 1008.1797, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2218.8115, 1616.7198, 1008.1833, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2218.5430, 1590.5162, 1008.1849, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 2 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2271.5161, 1606.4812, 1008.1797, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 3 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2219.1663, 1603.9136, 1008.1797, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+                        g_casinoPoolData[ poolid ] [ E_LABEL ] [ 4 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2255.1665, 1613.9871, 1008.1797, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
 					}
 
 	    			// dragons low
@@ -374,8 +374,8 @@ thread OnCasinoPoolsLoad( )
 	    				g_casinoPoolData[ poolid ] [ E_OBJECT ] [ 3 ] = CreateDynamicObject( 3074, 1968.7106, 1044.6326, 991.4962, 0.0000, -90.1000, 30.9680 );
 	    				g_casinoPoolData[ poolid ] [ E_OBJECT ] [ 4 ] = CreateDynamicObject( 3074, 2026.9927, 1008.0256, 9.630300, 0.0000, 0.000000, 1.70270 );
 
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 1962.2894, 992.08720, 994.5215, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 1962.1710, 1043.5509, 994.5215, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 1962.2894, 992.08720, 994.5215, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 1962.1710, 1043.5509, 994.5215, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
 	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 2 ] = Text3D: INVALID_3DTEXT_ID;
 	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 3 ] = Text3D: INVALID_3DTEXT_ID;
 	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 4 ] = Text3D: INVALID_3DTEXT_ID;
@@ -389,11 +389,11 @@ thread OnCasinoPoolsLoad( )
 	    				g_casinoPoolData[ poolid ] [ E_OBJECT ] [ 3 ] = CreateDynamicObject( 3074, 2591.430908, 1612.844970, 1506.615966, 0.000000, 13.600000, 180.000 );
 	    				g_casinoPoolData[ poolid ] [ E_OBJECT ] [ 4 ] = CreateDynamicObject( 3074, 2016.567749, 1916.915039, 13.85102100, 0.000000, 15.600006, 0.00000 );
 
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2609.0510, 1591.3191, 1507.1743, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2608.9717, 1615.6409, 1507.1766, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 2 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2597.7310, 1615.8630, 1507.1765, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 3 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2597.7532, 1591.0193, 1507.1741, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
-	    				g_casinoPoolData[ poolid ] [ E_LABEL ] [ 4 ] = CreateDynamic3DTextLabel( "LOADING", COLOR_GREEN, 2587.2305, 1611.8252, 1507.1733, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2609.0510, 1591.3191, 1507.1743, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+						g_casinoPoolData[ poolid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2608.9717, 1615.6409, 1507.1766, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+                        g_casinoPoolData[ poolid ] [ E_LABEL ] [ 2 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2597.7310, 1615.8630, 1507.1765, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+                        g_casinoPoolData[ poolid ] [ E_LABEL ] [ 3 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2597.7532, 1591.0193, 1507.1741, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
+                        g_casinoPoolData[ poolid ] [ E_LABEL ] [ 4 ] = CreateDynamic3DTextLabel( "正在加载", COLOR_GREEN, 2587.2305, 1611.8252, 1507.1733, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 0 );
 	    			}
 	    		}
 
@@ -450,7 +450,7 @@ thread OnSlotMachinesLoad( )
 				// 3d Text
 				fOffsetX = 1.0 * floatsin( -rZ, degrees );
 				fOffsetY = 1.0 * floatcos( -rZ, degrees );
-				CreateDynamic3DTextLabel( sprintf( "Press ENTER To Play\n"COL_WHITE"%s Minimum", cash_format( g_slotmachineData[ id ] [ E_ENTRY_FEE ] ) ), COLOR_GREY, X + fOffsetX, Y + fOffsetY, Z - 0.1, 5.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 1 );
+				CreateDynamic3DTextLabel( sprintf( "按 Enter 开始播放\n"COL_WHITE"最低下注 %s", cash_format( g_slotmachineData[ id ] [ E_ENTRY_FEE ] ) ), COLOR_GREY, X + fOffsetX, Y + fOffsetY, Z - 0.1, 5.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, .testlos = 1 );
 
 				// Misc variables
 				g_slotmachineData[ id ] [ E_TIMER ] = -1;
@@ -516,7 +516,7 @@ stock TriggerPlayerSlotMachine( playerid, machineid )
 		new poolContribute = floatround( float( entryFee ) * ( 1.0 - g_slotOddsPayout[ oddid ] [ E_TAX ] ) );
 
 		if ( GetPlayerCash( playerid ) < entryFee )
-			return SendError( playerid, "You must have at least %s to use this slot machine.", cash_format( entryFee ) ), ( p_AutoSpin{ playerid } = false ), 1;
+			return SendError( playerid, "你必须至少拥有 %s 才能使用此老虎机.", cash_format( entryFee ) ), ( p_AutoSpin{ playerid } = false ), 1;
 
 		// Update casino pool
 		GivePlayerCasinoRewardsPoints( playerid, g_slotmachineData[ machineid ] [ E_ENTRY_FEE ], .house_edge = g_slotOddsPayout[ oddid ] [ E_TAX ] * 100.0 );
@@ -538,10 +538,10 @@ stock UpdateCasinoPoolLabels( poolid )
 	for( new i = 0; i < POOL_ENTITIES; i ++ )
 	{
 		if ( IsValidDynamicObject( g_casinoPoolData[ poolid ] [ E_OBJECT ] [ i ] ) )
-			SetDynamicObjectMaterialText( g_casinoPoolData[ poolid ] [ E_OBJECT ] [ i ], 0, sprintf( "%s PRIZE", cash_format( g_casinoPoolData[ poolid ] [ E_POOL ] ) ), 130, "Arial", 20, 1, 0xFF00FF00, 0, 1 );
+			SetDynamicObjectMaterialText( g_casinoPoolData[ poolid ] [ E_OBJECT ] [ i ], 0, sprintf( "%s 奖品", cash_format( g_casinoPoolData[ poolid ] [ E_POOL ] ) ), 130, "Arial", 20, 1, 0xFF00FF00, 0, 1 );
 
 		if ( IsValidDynamic3DTextLabel( g_casinoPoolData[ poolid ] [ E_LABEL ] [ i ] ) )
-			UpdateDynamic3DTextLabelText( g_casinoPoolData[ poolid ] [ E_LABEL ] [ i ], 0x00FF00FF, sprintf( "%s Prize Pool", cash_format( g_casinoPoolData[ poolid ] [ E_POOL ] ) ) );
+			UpdateDynamic3DTextLabelText( g_casinoPoolData[ poolid ] [ E_LABEL ] [ i ], 0x00FF00FF, sprintf( "%s 奖池", cash_format( g_casinoPoolData[ poolid ] [ E_POOL ] ) ) );
 	}
 	return 1;
 }

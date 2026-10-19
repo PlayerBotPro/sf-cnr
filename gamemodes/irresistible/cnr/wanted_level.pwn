@@ -79,7 +79,7 @@ stock GivePlayerWantedLevel( playerid, level )
 	new
 		current_wanted = GetPlayerWantedLevel( playerid );
 
-	SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[CRIME]{FFFFFF} Your wanted level has been %s by %d! Wanted level: %d", current_wanted + level > current_wanted ? ( "increased" ) : ( "decreased" ), level, current_wanted + level );
+	SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[犯罪]{FFFFFF} 你的通缉等级%s了 %d 点! 当前通缉等级: %d", current_wanted + level > current_wanted ? ( "增加" ) : ( "减少" ), level, current_wanted + level );
 	return SetPlayerWantedLevel( playerid, current_wanted + level );
 }
 

@@ -77,7 +77,7 @@ CMD:dssall( playerid, params[ ] )
 	new is_admin = GetPlayerAdminLevel( playerid );
 
 	if ( ! p_inFBI{ playerid } && ! is_admin )
-		return SendError( playerid, "You are not in the FBI." );
+		return SendError( playerid, "你不在FBI." );
 
 	foreach ( new handle : spikestrips )
 	{
@@ -93,9 +93,9 @@ CMD:dssall( playerid, params[ ] )
 	}
 
 	if ( removed ) {
-		return SendServerMessage( playerid, "You have removed all your spike strips." );
+		return SendServerMessage( playerid, "你已经移除了所有的尖刺条." );
 	} else {
-		return SendError( playerid, "There are no spike strips to remove by you." );
+		return SendError( playerid, "没有任何钉条可供你移除." );
 	}
 }
 
@@ -105,15 +105,15 @@ CMD:dss( playerid, params[ ] )
 	    rbID
 	;
 
-	if ( !p_inFBI{ playerid } ) return SendError( playerid, "You are not in the FBI." );
+	if ( !p_inFBI{ playerid } ) return SendError( playerid, "你不在FBI." );
 	else if ( sscanf( params, "d", rbID ) ) return SendUsage( playerid, "/dss [SPIKE_STRIP_ID]" );
-	else if ( rbID < 0 || rbID >= MAX_SPIKESTRIPS ) return SendError( playerid, "Invalid Spike Strip ID." );
-	else if ( !Iter_Contains( spikestrips, rbID ) ) return SendError( playerid, "Invalid Spike Strip ID." );
-	else if ( g_spikestripData[ rbID ] [ E_CREATOR ] != playerid ) return SendError( playerid, "You have not created this spike strip." );
+	else if ( rbID < 0 || rbID >= MAX_SPIKESTRIPS ) return SendError( playerid, "钉刺带 ID 无效." );
+	else if ( !Iter_Contains( spikestrips, rbID ) ) return SendError( playerid, "钉刺带 ID 无效." );
+	else if ( g_spikestripData[ rbID ] [ E_CREATOR ] != playerid ) return SendError( playerid, "你尚未创建此尖峰带." );
 	else
 	{
 	    destroySpikeStrip( rbID );
-	    SendServerMessage( playerid, "You have succesfully destroyed a spike strip." );
+	    SendServerMessage( playerid, "你已经成功摧毁了一条尖刺带." );
 	}
 	return 1;
 }
@@ -121,12 +121,12 @@ CMD:dss( playerid, params[ ] )
 CMD:spike( playerid, params[ ] ) return cmd_setspike( playerid, params );
 CMD:setspike( playerid, params[ ] )
 {
-	if ( GetPlayerInterior( playerid ) != 0 || GetPlayerVirtualWorld( playerid ) != 0 ) return SendError( playerid, "You cannot place spike strips inside buildings." );
-	else if ( IsPlayerKidnapped( playerid ) ) return SendError( playerid, "You are kidnapped, you cannot do this." );
-	else if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You are jailed, you cannot do this." );
-	else if ( IsPlayerTied( playerid ) ) return SendError( playerid, "You are tied, you cannot do this." );
-	else if ( IsPlayerInWater( playerid ) ) return SendError( playerid, "You cannot use this command since you're in water." );
-	else if ( !p_inFBI{ playerid } ) return SendError( playerid, "You are not in the FBI." );
+	if ( GetPlayerInterior( playerid ) != 0 || GetPlayerVirtualWorld( playerid ) != 0 ) return SendError( playerid, "你不能将钉条放置在建筑物内." );
+	else if ( IsPlayerKidnapped( playerid ) ) return SendError( playerid, "被绑架时无法进行此操作." );
+	else if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "你被监禁了,你不能这样做." );
+	else if ( IsPlayerTied( playerid ) ) return SendError( playerid, "被捆绑时无法进行此操作." );
+	else if ( IsPlayerInWater( playerid ) ) return SendError( playerid, "在水中无法使用此命令." );
+	else if ( !p_inFBI{ playerid } ) return SendError( playerid, "你不在FBI." );
 	else
 	{
 	  	new
@@ -145,7 +145,7 @@ CMD:setspike( playerid, params[ ] )
 			;
 
 			if ( IsBoatVehicle( iModel ) || IsAirVehicle( iModel ) )
-				return SendError( playerid, "You cannot place a spike strip in this type of vehicle." );
+				return SendError( playerid, "你不能在此类车辆中放置尖刺带." );
 
 			GetVehiclePos( iVehicle, X, Y, Z );
 			GetVehicleZAngle( iVehicle, Angle );
@@ -155,9 +155,9 @@ CMD:setspike( playerid, params[ ] )
 		}
 
 		if ( CreateSpikeStrip( playerid, X, Y, Z, Angle ) != -1 )
-			SendServerMessage( playerid, "You have succesfully created a spike strip." );
+			SendServerMessage( playerid, "你已成功创建尖峰带." );
 		else
-			SendError( playerid, "Failed to place a spike strip due to a unexpected error." );
+			SendError( playerid, "由于意外错误,无法放置尖峰带." );
 	}
 	return 1;
 }
@@ -181,7 +181,7 @@ stock CreateSpikeStrip( playerid, Float: X, Float: Y, Float: Z, Float: Angle )
 		g_spikestripData[ i ] [ E_Y ] = Y;
 		g_spikestripData[ i ] [ E_Z ] = Z;
 
-		g_spikestripData[ i ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "Spike Strip(%d)\n"COL_GREY"Placed by %s!", i, ReturnPlayerName( playerid ) ), COLOR_GOLD, X, Y, Z, 20.0 );
+		g_spikestripData[ i ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "尖刺条(%d)\n"COL_GREY"放置者:%s!", i, ReturnPlayerName( playerid ) ), COLOR_GOLD, X, Y, Z, 20.0 );
 	    g_spikestripData[ i ] [ E_OBJECT_ID ] = CreateDynamicObject( 2899, X, Y, Z - ( bVehicle ? 0.6 : 0.9 ), 0, 0, Angle - 90.0);
 		g_spikestripData[ i ] [ E_SPHERE ] = CreateDynamicCircle( X, Y, 4.0 );
 

@@ -46,13 +46,13 @@ CMD:setworld( playerid, params[ ] )
 
  	    if ( pID != playerid )
 		{
-	 	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" Your world has been set to %d by %s(%d)!", worldid, ReturnPlayerName( playerid ), playerid );
+            SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你的虚拟世界已设为 %d, 操作者: %s(%d)!", worldid, ReturnPlayerName( playerid ), playerid );
 	 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have changed %s(%d)'s world to %d!", ReturnPlayerName( pID ), pID, worldid );
 	 		AddAdminLogLineFormatted( "%s(%d) has changed %s(%d)'s world to %d", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, worldid );
 		}
 		else
 		{
-			SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have set your world to %d.", worldid );
+			SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" You have set your world to %d.", worldid );
 	 		AddAdminLogLineFormatted( "%s(%d) has changed their world to %d", ReturnPlayerName( pID ), pID, worldid );
 		}
 	}
@@ -71,13 +71,13 @@ CMD:setinterior( playerid, params[ ] )
 
  	    if ( pID != playerid )
 		{
-	 	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" Your interior has been set to %d by %s(%d)!", worldid, ReturnPlayerName( playerid ), playerid );
+            SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你的室内场景已设为 %d, 操作者: %s(%d)!", worldid, ReturnPlayerName( playerid ), playerid );
 	 		SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have changed %s(%d)'s interior to %d!", ReturnPlayerName( pID ), pID, worldid );
 	 		AddAdminLogLineFormatted( "%s(%d) has changed %s(%d)'s interior to %d", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, worldid );
 		}
 		else
 		{
-			SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have your interior to %d.", worldid );
+			SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" You have your interior to %d.", worldid );
 	 		AddAdminLogLineFormatted( "%s(%d) has changed his interior to %d", ReturnPlayerName( pID ), pID, worldid );
 		}
 	}
@@ -231,12 +231,12 @@ CMD:circleall( playerid, params[ ] )
 	        		continue;
 
 	        	if ( IsPlayerAFK( i ) ) {
-	        		SendServerMessage( i, "As you're AFK, you have not been teleported to the event/mass teleportation." );
+                    SendServerMessage( i, " 你正在挂机, 未参与此次活动或集体传送." );
 	        		continue;
 	        	}
 
 	        	if ( IsPlayerInPaintBall( i ) || IsPlayerDueling( i ) ) {
-	        		SendServerMessage( i, "As you're in paintball, you have not been teleported to the event/mass teleportation." );
+                    SendServerMessage( i, "你正在参加彩弹竞技, 未参与此次活动或集体传送." );
 	        		continue;
 	        	}
 

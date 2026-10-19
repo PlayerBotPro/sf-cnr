@@ -27,7 +27,7 @@ hook OnScriptInit( )
 	TextDrawBoxColor(g_MovieModeTD[ 0 ], 80);
 	TextDrawTextSize(g_MovieModeTD[ 0 ], 620.000000, 0.000000);
 
-	g_MovieModeTD[ 1 ] = TextDrawCreate(516.000000, 398.000000, "San Fierro");
+	g_MovieModeTD[ 1 ] = TextDrawCreate(516.000000, 398.000000, "圣菲耶罗");
 	TextDrawBackgroundColor(g_MovieModeTD[ 1 ], 255);
 	TextDrawFont(g_MovieModeTD[ 1 ], 3);
 	TextDrawLetterSize(g_MovieModeTD[ 1 ], 0.529999, 2.299999);
@@ -35,7 +35,7 @@ hook OnScriptInit( )
 	TextDrawSetOutline(g_MovieModeTD[ 1 ], 1);
 	TextDrawSetProportional(g_MovieModeTD[ 1 ], 1);
 
-	g_MovieModeTD[ 2 ] = TextDrawCreate(530.000000, 414.000000, "Cops and Robbers");
+	g_MovieModeTD[ 2 ] = TextDrawCreate(530.000000, 414.000000, "警察与强盗");
 	TextDrawBackgroundColor(g_MovieModeTD[ 2 ], 255);
 	TextDrawFont(g_MovieModeTD[ 2 ], 0);
 	TextDrawLetterSize(g_MovieModeTD[ 2 ], 0.310000, 1.100000);
@@ -89,14 +89,14 @@ CMD:moviemode( playerid, params[ ] )
 		case true:
 		{
 		    p_inMovieMode{ playerid } = false;
-		    SendServerMessage( playerid, "Movie mode has been un-toggled." );
+		    SendServerMessage( playerid, "电影模式已取消切换." );
 			CallLocalFunction( "OnPlayerLoadTextdraws", "d", playerid );
 	        for ( new i = 0; i < sizeof( g_MovieModeTD ); i ++ ) TextDrawHideForPlayer( playerid, g_MovieModeTD[ i ] );
 		}
 		case false:
 		{
 		    p_inMovieMode{ playerid } = true;
-		    SendServerMessage( playerid, "Movie mode has been toggled." );
+		    SendServerMessage( playerid, "电影模式已切换." );
 			CallLocalFunction( "OnPlayerUnloadTextdraws", "d", playerid );
 	        for ( new i = 0; i < sizeof( g_MovieModeTD ); i ++ ) TextDrawShowForPlayer( playerid, g_MovieModeTD[ i ] );
 		}

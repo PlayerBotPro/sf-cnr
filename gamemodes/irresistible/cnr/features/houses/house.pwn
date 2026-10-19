@@ -88,12 +88,35 @@ new
 	p_InHouse                       [ MAX_PLAYERS ]
 ;
 
+
+static const g_houseInteriorDisplayNames[][48] =
+{
+	"卡图斯内饰",
+	"阿萨姆内饰",
+	"福索尔内饰",
+	"欧加努内饰",
+	"极光内饰",
+	"弗拉戈内饰",
+	"阿图斯内饰",
+	"凯勒姆内饰",
+	"罗塔内饰",
+	"升腾内饰",
+	"内政上校",
+	"最新内饰",
+	"诺伟斯内饰",
+	"安全内饰",
+	"麦德道格斯大厦",
+	"屠夫内饰",
+	"酒吧内饰",
+	"赌场内部"
+};
+
 /* ** Hooks ** */
 hook OnScriptInit( )
 {
 	// load all house interiors into a string once
 	for( new i = 0; i < sizeof( g_houseInteriors ); i++ ) {
-		format( szg_houseInteriors, sizeof( szg_houseInteriors ), "%s%s%s\n", szg_houseInteriors, g_houseInteriors[ i ] [ E_VIP ] ? ( COL_GOLD ) : "", g_houseInteriors[ i ] [ E_NAME ] );
+		format( szg_houseInteriors, sizeof( szg_houseInteriors ), "%s%s%s\n", szg_houseInteriors, g_houseInteriors[ i ] [ E_VIP ] ? ( COL_GOLD ) : "", g_houseInteriorDisplayNames[ i ] );
 	}
 
 	// load all houses
@@ -109,46 +132,46 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			ID = GetPVarInt( playerid, "house_sell_id" );
 
 		if ( ! Iter_Contains( houses, ID ) || ! IsPlayerHomeOwner( playerid, ID ) ) {
-			return SendError( playerid, "You do not have access to this feature." );
+			return SendError( playerid, "你无权使用此功能." );
 		}
 
-		format( szBigString, sizeof( szBigString ), "[SELL] [%s] %s | %s | %d\r\n", getCurrentDate( ), ReturnPlayerName( playerid ), g_houseData[ ID ][ E_OWNER ], ID );
+		format( szBigString, sizeof( szBigString ), "[出售] [%s] %s | %s | %d\r\n", getCurrentDate( ), ReturnPlayerName( playerid ), g_houseData[ ID ][ E_OWNER ], ID );
 		AddFileLogLine( "log_houses.txt", szBigString );
 		p_OwnedHouses[ playerid ] --;
 		SetHouseForAuction( ID );
 		GivePlayerCash( playerid, ( g_houseData[ ID ] [ E_COST ] / 2 ) );
 		SetPlayerPos( playerid, g_houseData[ ID ] [ E_EX ], g_houseData[ ID ] [ E_EY ], g_houseData[ ID ] [ E_EZ ] );
 		SetPlayerInterior( playerid, 0 ), SetPlayerVirtualWorld( playerid, 0 );
-		SendServerMessage( playerid, "You have successfully sold your house for "COL_GOLD"%s", cash_format( ( g_houseData[ ID ] [ E_COST ] / 2 ) ) );
+		SendServerMessage( playerid, "你已经成功卖掉了你的房子 "COL_GOLD"%s", cash_format( ( g_houseData[ ID ] [ E_COST ] / 2 ) ) );
 
 		DeletePVar( playerid, "house_sell_id" );
 		return 1;
 	}
 	else if ( dialogid == DIALOG_HOUSE_CONFIG && response )
 	{
-		if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "You're not inside any house." );
-	   	if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+		if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "你不在任何房子里." );
+        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 	   	DeletePVar( playerid, "gate_edititem" ); // Definitely not in the gate dialog lol
 		switch( listitem )
 		{
-		    case 0: ShowPlayerDialog( playerid, DIALOG_HOUSE_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}Set House Title", ""COL_WHITE"Input the house title you want to change with:", "Confirm", "Back" );
-		    case 1: ShowPlayerDialog( playerid, DIALOG_HOUSE_INTERIORS, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", szg_houseInteriors, "Select", "Back" );
-		    case 2: ShowPlayerDialog( playerid, DIALOG_HOUSE_SET_PW, DIALOG_STYLE_INPUT, "{FFFFFF}Set House Password", ""COL_WHITE"Enter your desired house password below.\n\n"COL_GREY"Note:"COL_WHITE" You can disable it by typing \"N/A\" (without the quotation marks).", "Confirm", "Back" );
+		    case 0: ShowPlayerDialog( playerid, DIALOG_HOUSE_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}设置房屋所有权", ""COL_WHITE"输入你想要更改的房屋产权:", "确认", "返回" );
+		    case 1: ShowPlayerDialog( playerid, DIALOG_HOUSE_INTERIORS, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", szg_houseInteriors, "选择", "返回" );
+		    case 2: ShowPlayerDialog( playerid, DIALOG_HOUSE_SET_PW, DIALOG_STYLE_INPUT, "{FFFFFF}设置房屋密码", ""COL_WHITE"在下面输入你想要的房屋密码.\n\n"COL_GREY"注意:"COL_WHITE" 你可以通过键入 \"N/A\"(不带引号)来禁用它.", "确认", "返回" );
 			case 3: ShowHouseWeaponStorage( playerid );
-			case 4: ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}Furniture", "Purchase Furniture\nSelect Furniture Easily\nSelect Furniture Manually\nSelect Furniture Nearest\n"COL_RED"Remove All Furniture", "Confirm", "Back" );
+			case 4: ShowPlayerDialog( playerid, DIALOG_FURNITURE, DIALOG_STYLE_LIST, "{FFFFFF}家具", "购买家具\n轻松选择家具\n手动选择家具\n选择最近的家具\n"COL_RED"拆除所有家具", "确认", "返回" );
 		}
 	}
 	else if ( dialogid == DIALOG_HOUSE_WEAPONS )
 	{
-	 	if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
+        if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
 	    if ( response )
 	    {
-	        if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "You're not inside any house." );
-	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+	        if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "你不在任何房子里." );
+	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 			if ( g_HouseWeapons[ p_InHouse[ playerid ] ] [ listitem ] != 0 )
 			{
 				GivePlayerWeapon( playerid, g_HouseWeapons[ p_InHouse[ playerid ] ] [ listitem ], g_HouseWeaponAmmo[ p_InHouse[ playerid ] ] [ listitem ] );
-			    SendServerMessage( playerid, "You have withdrawn your "COL_GREY"%s"COL_WHITE" with %d ammo.", ReturnWeaponName( g_HouseWeapons[ p_InHouse[ playerid ] ] [ listitem ] ), g_HouseWeaponAmmo[ p_InHouse[ playerid ] ] [ listitem ] );
+			    SendServerMessage( playerid, "你已撤回你的 "COL_GREY"%s"COL_WHITE" 带有%d弹药.", ReturnWeaponName( g_HouseWeapons[ p_InHouse[ playerid ] ] [ listitem ] ), g_HouseWeaponAmmo[ p_InHouse[ playerid ] ] [ listitem ] );
                 g_HouseWeapons[ p_InHouse[ playerid ] ] [ listitem ] = 0;
 			    g_HouseWeaponAmmo[ p_InHouse[ playerid ] ] [ listitem ] = -1;
                 SaveHouseWeaponStorage( p_InHouse[ playerid ] );
@@ -156,9 +179,9 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			}
 			else
 			{
-				if ( listitem > 2 && p_VIPLevel[ playerid ] < VIP_REGULAR ) return SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+				if ( listitem > 2 && p_VIPLevel[ playerid ] < VIP_REGULAR ) return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 				p_HouseWeaponAddSlot{ playerid } = listitem;
-				ShowPlayerDialog( playerid, DIALOG_HOUSE_WEAPONS_ADD, DIALOG_STYLE_MSGBOX, "{FFFFFF}House Weapon Storage", "{FFFFFF}Would you like to insert your current weapon into this slot?", "Insert", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_HOUSE_WEAPONS_ADD, DIALOG_STYLE_MSGBOX, "{FFFFFF}房屋武器储藏室", "{FFFFFF}你想将当前武器插入此插槽吗?", "插入", "返回" );
 			}
 	    }
 	    else cmd_h( playerid, "config" );
@@ -167,19 +190,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	{
 	    if ( response )
 	    {
-	    	if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
-	        if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "You're not inside any house." );
-	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+            if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
+	        if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "你不在任何房子里." );
+	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 			if ( IsMeleeWeapon( GetPlayerWeapon( playerid ) ) )
 			{
-			    SendError( playerid, "You cannot insert melee weapons." );
+			    SendError( playerid, "你不能插入近战武器." );
 			    cmd_h( playerid, "config" );
 			    return 1;
 			}
 			new current_weapon = GetPlayerWeapon( playerid );
 			new current_ammo = GetPlayerAmmo( playerid );
 			if ( ( 16 <= current_weapon <= 18 ) || current_weapon == 35 ) {
-			    SendError( playerid, "You cannot store this weapon." );
+			    SendError( playerid, "你无法存放此武器." );
 			    cmd_h( playerid, "config" );
 			    return 1;
 			}
@@ -187,7 +210,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			listitem = p_HouseWeaponAddSlot{ playerid };
             g_HouseWeapons[ p_InHouse[ playerid ] ] [ listitem ] = current_weapon;
             g_HouseWeaponAmmo[ p_InHouse[ playerid ] ] [ listitem ] = current_ammo;
-            SendServerMessage( playerid, "You have inserted your "COL_GREY"%s"COL_WHITE" into your weapon storage.", ReturnWeaponName( current_weapon ) );
+            SendServerMessage( playerid, "你已插入你的 "COL_GREY"%s"COL_WHITE" 进入你的武器仓库.", ReturnWeaponName( current_weapon ) );
             RemovePlayerWeapon( playerid, current_weapon );
          	SaveHouseWeaponStorage( p_InHouse[ playerid ] );
 			ShowHouseWeaponStorage( playerid );
@@ -198,24 +221,24 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	{
 	    if ( response )
 	    {
-	        if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "You're not inside any house." );
-	        else if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+	        if ( p_InHouse[ playerid ] == -1 ) return SendError( playerid, "你不在任何房子里." );
+	        else if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 			else if ( !strlen( inputtext ) || strlen( inputtext ) > 4 )
 			{
-			    SendError( playerid, "Your password must vary between 0 and 4 characters." );
-				ShowPlayerDialog( playerid, DIALOG_HOUSE_SET_PW, DIALOG_STYLE_INPUT, "{FFFFFF}Set House Password", ""COL_WHITE"Enter your desired house password below.\n\n"COL_GREY"Note:"COL_WHITE" You can disable it by typing \"N/A\" or \"NULL\" (without the quotation marks).", "Confirm", "Back" );
+			    SendError( playerid, "你的密码必须在 0 和 4 个字符之间变化." );
+				ShowPlayerDialog( playerid, DIALOG_HOUSE_SET_PW, DIALOG_STYLE_INPUT, "{FFFFFF}设置房屋密码", ""COL_WHITE"在下面输入你想要的房屋密码.\n\n"COL_GREY"注意:"COL_WHITE" 你可以通过键入 \"N/A\" 或 \"NULL\"(不带引号)来禁用它.", "确认", "返回" );
 			}
 			else if ( strmatch( inputtext, "N/A" ) || strmatch( inputtext, "NULL" ) )
 			{
 				format( g_houseData[ p_InHouse[ playerid ] ] [ E_PASSWORD ], 4, "N/A" );
-			    SendServerMessage( playerid, "You have successfully disabled your house's password." );
+			    SendServerMessage( playerid, "你已成功禁用你房屋的密码." );
 			    format( szNormalString, 60, "UPDATE `HOUSES` SET `PASSWORD`='N/A' WHERE `ID`=%d", p_InHouse[ playerid ] );
 			    mysql_single_query( szNormalString );
 			    cmd_h( playerid, "config" );
 			}
 			else
 			{
-			    SendServerMessage( playerid, "You have changed your house password to "COL_GREY"%s"COL_WHITE".", inputtext );
+			    SendServerMessage( playerid, "你已将你的房屋密码更改为 "COL_GREY"%s"COL_WHITE".", inputtext );
 			    format( g_houseData[ p_InHouse[ playerid ] ] [ E_PASSWORD ], 5, "%s", inputtext );
 			    format( szNormalString, 60, "UPDATE `HOUSES` SET `PASSWORD`='%s' WHERE `ID`=%d", mysql_escape( inputtext ), p_InHouse[ playerid ] );
 			    mysql_single_query( szNormalString );
@@ -229,13 +252,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	    if ( response )
 	    {
 	        if ( p_InHouse[ playerid ] == -1 )
-				return SendError( playerid, "You're not inside any house." );
+				return SendError( playerid, "你不在任何房子里." );
 
 	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) )
-				return SendError( playerid, "You are not the owner of this house." );
+				return SendError( playerid, "你不是这所房子的主人." );
 
 			p_ViewingInterior{ playerid } = listitem;
-			ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", "Purchase House Interior\nPreview House Interior", "Select", "Back" );
+			ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", "购买房屋内部\n预览房屋内部", "选择", "返回" );
 		}
 	    else cmd_h( playerid, "config" );
 	}
@@ -244,10 +267,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		if ( response )
 		{
 	        if ( p_InHouse[ playerid ] == -1 )
-				return SendError( playerid, "You're not inside any house." );
+				return SendError( playerid, "你不在任何房子里." );
 
 	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) )
-				return SendError( playerid, "You are not the owner of this house." );
+				return SendError( playerid, "你不是这所房子的主人." );
 
 			new
 				intid = p_ViewingInterior{ playerid };
@@ -258,31 +281,31 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				{
 					if ( g_houseInteriors[ intid ] [ E_COST ] > GetPlayerCash( playerid ) )
 					{
-						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", "Purchase House Interior\nPreview House Interior", "Select", "Back" );
-						SendError( playerid, "This interior costs "COL_GOLD"%s"COL_WHITE". You don't have this amount.", cash_format( g_houseInteriors[ intid ] [ E_COST ] ) );
+						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", "购买房屋内部\n预览房屋内部", "选择", "返回" );
+						SendError( playerid, "这个内饰成本 "COL_GOLD"%s"COL_WHITE".你没有这个金额.", cash_format( g_houseInteriors[ intid ] [ E_COST ] ) );
 					}
 					else if ( g_houseInteriors[ intid ] [ E_VIP ] && !p_VIPLevel[ playerid ] )
 					{
-						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", "Purchase House Interior\nPreview House Interior", "Select", "Back" );
-						SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", "购买房屋内部\n预览房屋内部", "选择", "返回" );
+						SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 					}
 					else if ( ArePlayersInHouse( p_InHouse[ playerid ], playerid ) )
 					{
-						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", "Purchase House Interior\nPreview House Interior", "Select", "Back" );
-						SendError( playerid, "You cannot purchase a house interior if there are people inside the building." );
+						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", "购买房屋内部\n预览房屋内部", "选择", "返回" );
+						SendError( playerid, "如果建筑物内有人,则你无法购买房屋内部." );
 					}
 					else
 					{
 						if ( g_houseInteriors[ intid ] [ E_VIP ] && p_VIPLevel[ playerid ] && ( ( p_VIPExpiretime[ playerid ] - g_iTime ) / 86400 ) < 3 )
-							return SendError( playerid, "You need more than 3 days of V.I.P in order to complete this." );
+							return SendError( playerid, "你需要超过 3 天的 VIP 才能完成此任务." );
 
 					    new houseid = p_InHouse[ playerid ];
 					    GivePlayerCash( playerid, -( g_houseInteriors[ intid ] [ E_COST ] ) );
 
 					    if ( intid != 0 )
-							SendServerMessage( playerid, "You have purchased a %s for "COL_GOLD"%s"COL_WHITE". This has been applied to the House ID %d.", g_houseInteriors[ intid ] [ E_NAME ], cash_format( g_houseInteriors[ intid ] [ E_COST ] ), houseid );
+							SendServerMessage( playerid, "你已经购买了%s "COL_GOLD"%s"COL_WHITE".这已应用于房屋 ID %d.", g_houseInteriorDisplayNames[ intid ], cash_format( g_houseInteriors[ intid ] [ E_COST ] ), houseid );
 						else
-						    SendServerMessage( playerid, "You have successfully reset your interior to the default interior." );
+						    SendServerMessage( playerid, "你已成功将内部装饰重置为默认内部装饰." );
 
 		                destroyAllFurniture( houseid );
 						FillHomeWithFurniture( houseid, intid );
@@ -297,55 +320,55 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 						format( szBigString, sizeof( szBigString ), "UPDATE HOUSES SET TX=%f, TY=%f, TZ=%f, INTERIOR=%d WHERE ID=%d", g_houseInteriors[ intid ] [ E_EX ], g_houseInteriors[ intid ] [ E_EY ], g_houseInteriors[ intid ] [ E_EZ ], g_houseData[ houseid ] [ E_INTERIOR_ID ], houseid );
 						mysql_single_query( szBigString );
 						DestroyDynamic3DTextLabel( g_houseData[ houseid ] [ E_LABEL ] [ 1 ] );
-						g_houseData[ houseid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[EXIT]", COLOR_GOLD, g_houseData[ houseid ] [ E_TX ], g_houseData[ houseid ] [ E_TY ], g_houseData[ houseid ] [ E_TZ ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_houseData[ houseid ] [ E_WORLD ] );
+						g_houseData[ houseid ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[出口]", COLOR_GOLD, g_houseData[ houseid ] [ E_TX ], g_houseData[ houseid ] [ E_TY ], g_houseData[ houseid ] [ E_TZ ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_houseData[ houseid ] [ E_WORLD ] );
 						pauseToLoad( playerid );
 					}
 				}
 				case 1:
 				{
 					if ( p_WantedLevel[ playerid ] ) {
-						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", "Purchase House Interior\nPreview House Interior", "Select", "Back" );
-						return SendError( playerid, "This feature requires you not to have a wanted level." );
+						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", "购买房屋内部\n预览房屋内部", "选择", "返回" );
+						return SendError( playerid, "此功能要求你不能有 通缉等级." );
 					}
 					if ( ArePlayersInHouse( p_InHouse[ playerid ], playerid ) ) {
-						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", "Purchase House Interior\nPreview House Interior", "Select", "Back" );
-						return SendError( playerid, "You cannot view a house interior if there are people inside the building." );
+						ShowPlayerDialog( playerid, DIALOG_HOUSE_INT_CONFIRM, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", "购买房屋内部\n预览房屋内部", "选择", "返回" );
+						return SendError( playerid, "如果建筑物内有人,你将无法查看房屋内部." );
 					}
 					TogglePlayerControllable( playerid, 0 );
 				    SetPlayerPos( playerid, g_houseInteriors[ intid ] [ E_EX ], g_houseInteriors[ intid ] [ E_EY ], g_houseInteriors[ intid ] [ E_EZ ] );
 				    SetPlayerInterior( playerid, g_houseInteriors[ intid ] [ E_INTERIOR_ID ] );
 					InterpolateCameraPos( playerid, g_houseInteriors[ intid ] [ E_PREVIEW_POS ] [ 0 ], g_houseInteriors[ intid ] [ E_PREVIEW_POS ] [ 1 ], g_houseInteriors[ intid ] [ E_PREVIEW_POS ] [ 2 ] + 1.5, g_houseInteriors[ intid ] [ E_PREVIEW_LOOKAT ] [ 0 ], g_houseInteriors[ intid ] [ E_PREVIEW_LOOKAT ] [ 1 ], g_houseInteriors[ intid ] [ E_PREVIEW_LOOKAT ] [ 2 ], 15000, CAMERA_MOVE );
 					InterpolateCameraLookAt( playerid, g_houseInteriors[ intid ] [ E_PREVIEW_LOOKAT ] [ 0 ], g_houseInteriors[ intid ] [ E_PREVIEW_LOOKAT ] [ 1 ], g_houseInteriors[ intid ] [ E_PREVIEW_LOOKAT ] [ 2 ], g_houseInteriors[ intid ] [ E_PREVIEW_POS ] [ 0 ], g_houseInteriors[ intid ] [ E_PREVIEW_POS ] [ 1 ], g_houseInteriors[ intid ] [ E_PREVIEW_POS ] [ 2 ] + 1.5, 15000, CAMERA_MOVE );
-					SendServerMessage( playerid, "You are now previewing "COL_GREY"%s "COL_GOLD"%s"COL_WHITE". Press your enter key to stop.", g_houseInteriors[ intid ] [ E_NAME ], cash_format( g_houseInteriors[ intid ] [ E_COST ] ) );
+					SendServerMessage( playerid, "你现在正在预览 "COL_GREY"%s "COL_GOLD"%s"COL_WHITE".按 Enter 键停止.", g_houseInteriorDisplayNames[ intid ], cash_format( g_houseInteriors[ intid ] [ E_COST ] ) );
 					SetPVarInt( playerid, "viewing_houseints", 1 );
 				}
 			}
 		}
-		else ShowPlayerDialog( playerid, DIALOG_HOUSE_INTERIORS, DIALOG_STYLE_LIST, "{FFFFFF}House Interiors", szg_houseInteriors, "Select", "Back" );
+		else ShowPlayerDialog( playerid, DIALOG_HOUSE_INTERIORS, DIALOG_STYLE_LIST, "{FFFFFF}房屋内饰", szg_houseInteriors, "选择", "返回" );
 	}
 	else if ( dialogid == DIALOG_HOUSE_TITLE )
 	{
 	    if ( response )
 	    {
 	        if ( p_InHouse[ playerid ] == -1 )
-				return SendError( playerid, "You're not inside any house." );
+				return SendError( playerid, "你不在任何房子里." );
 
 	        if ( !strmatch( g_houseData[ p_InHouse[ playerid ] ] [ E_OWNER ], ReturnPlayerName( playerid ) ) )
-				return SendError( playerid, "You are not the owner of this house." );
+				return SendError( playerid, "你不是这所房子的主人." );
 
 	        if ( ! ( 1 <= strlen( inputtext ) <= 30 ) )
-				return ShowPlayerDialog( playerid, DIALOG_HOUSE_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}Set House Title", ""COL_WHITE"Input the house title you want to change with:\n\n"COL_RED"Must be between 1 and 30 characters.", "Confirm", "Back" );
+				return ShowPlayerDialog( playerid, DIALOG_HOUSE_TITLE, DIALOG_STYLE_INPUT, "{FFFFFF}设置房屋所有权", ""COL_WHITE"输入你想要更改的房屋产权:\n\n"COL_RED"必须介于 1 和 30 字符之间.", "确认", "返回" );
 
 			if ( textContainsIP( inputtext ) )
-				return SendError( playerid, "We do not condone advertising." );
+				return SendError( playerid, "禁止发布广告." );
 
 			new houseid = p_InHouse[ playerid ];
 			format( g_houseData[ houseid ] [ E_HOUSE_NAME ], 30, "%s", inputtext);
 			mysql_format( dbHandle, szNormalString, sizeof( szNormalString ), "UPDATE `HOUSES` SET `NAME`='%e' WHERE `ID`=%d", g_houseData[ houseid ] [ E_HOUSE_NAME ], p_InHouse[ playerid ] );
 			mysql_single_query( szNormalString );
-			format( szBigString, sizeof( szBigString ), ""COL_GOLD"House:"COL_WHITE" %s(%d)\n"COL_GOLD"Owner:"COL_WHITE" %s\n"COL_GOLD"Price:"COL_WHITE" %s", g_houseData[ houseid ] [ E_HOUSE_NAME ], houseid, g_houseData[ houseid ] [ E_OWNER ], cash_format( g_houseData[ houseid ] [ E_COST ] ) );
+			format( szBigString, sizeof( szBigString ), ""COL_GOLD"房子:"COL_WHITE" %s(%d)\n"COL_GOLD"所有者:"COL_WHITE" %s\n"COL_GOLD"价格:"COL_WHITE" %s", g_houseData[ houseid ] [ E_HOUSE_NAME ], houseid, g_houseData[ houseid ] [ E_OWNER ], cash_format( g_houseData[ houseid ] [ E_COST ] ) );
  			UpdateDynamic3DTextLabelText( g_houseData[ houseid ] [ E_LABEL ] [ 0 ], COLOR_WHITE, szBigString );
- 			SendServerMessage( playerid, "You have successfully changed the name of your house." );
+            SendServerMessage( playerid, "你已成功更改房屋名称." );
  			cmd_h( playerid, "config" );
 	    }
 	    else cmd_h( playerid, "config" );
@@ -353,11 +376,11 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	else if ( dialogid == DIALOG_HOUSE_PW && response )
 	{
 		new i = p_PasswordedHouse[ playerid ];
-		if ( !strlen( inputtext ) || strlen( inputtext ) > 4 || strmatch( inputtext, "N/A" ) || !strmatch( inputtext, g_houseData[ i ] [ E_PASSWORD ] ) ) ShowPlayerDialog( playerid, DIALOG_HOUSE_PW, DIALOG_STYLE_PASSWORD, "{FFFFFF}House Authentication", ""COL_GREEN"This house is password locked!\n"COL_WHITE"You may only enter this house if you enter the correct password.\n\n"COL_RED"Incorrect Password!", "Enter", "Cancel" );
+		if ( !strlen( inputtext ) || strlen( inputtext ) > 4 || strmatch( inputtext, "N/A" ) || !strmatch( inputtext, g_houseData[ i ] [ E_PASSWORD ] ) ) ShowPlayerDialog( playerid, DIALOG_HOUSE_PW, DIALOG_STYLE_PASSWORD, "{FFFFFF}房屋认证", ""COL_GREEN"这房子被密码锁住了!\n"COL_WHITE"只有输入正确的密码才能进入这所房子.\n\n"COL_RED"密码不正确!", "进入", "取消" );
 		else
 		{
-			if ( !IsPlayerInRangeOfPoint( playerid, 3.0, g_houseData[ i ] [ E_EX ], g_houseData[ i ] [ E_EY ], g_houseData[ i ] [ E_EZ ] ) ) return SendError( playerid, "You are not near the house entrance!" );
-			SendServerMessage( playerid, "Password correct. Access has been granted." );
+			if ( !IsPlayerInRangeOfPoint( playerid, 3.0, g_houseData[ i ] [ E_EX ], g_houseData[ i ] [ E_EY ], g_houseData[ i ] [ E_EZ ] ) ) return SendError( playerid, "你不在房子入口附近!" );
+			SendServerMessage( playerid, "密码正确.已授予访问权限." );
 			p_InHouse[ playerid ] = i;
 			UpdatePlayerEntranceExitTick( playerid );
 			SetPlayerPos( playerid, g_houseData[ i ] [ E_TX ], g_houseData[ i ] [ E_TY ], g_houseData[ i ] [ E_TZ ] );
@@ -380,11 +403,11 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 				ClearAnimations( playerid ); // clear-fix
 
 				if ( IsHouseOnFire( i ) ) {
-					return SendError( playerid, "This house is on fire, you cannot enter it!" ), 1;
+					return SendError( playerid, "这房子着火了,你不能进去!" ), 1;
 				}
 
 				if ( GetPlayerSpecialAction( playerid ) == SPECIAL_ACTION_CUFFED ) {
-					return SendError( playerid, "You can't do anything as you are cuffed." ), 1;
+					return SendError( playerid, "你已被铐住, 无法操作." ), 1;
 				}
 
 				if ( g_iTime > g_houseData[ i ] [ E_CRACKED_TS ] && g_houseData[ i ] [ E_CRACKED ] )
@@ -396,7 +419,7 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 				{
 					p_PasswordedHouse[ playerid ] = i;
 					CallLocalFunction( "OnPlayerAttemptBreakIn", "ddd", playerid, i, -1 ); // attempting a break in as a burglar/cop
-					ShowPlayerDialog( playerid, DIALOG_HOUSE_PW, DIALOG_STYLE_PASSWORD, "{FFFFFF}House Authentication", ""COL_GREEN"This house is password locked!\n"COL_WHITE"You may only enter this house if you enter the correct password.", "Enter", "Cancel" );
+					ShowPlayerDialog( playerid, DIALOG_HOUSE_PW, DIALOG_STYLE_PASSWORD, "{FFFFFF}房屋认证", ""COL_GREEN"这房子被密码锁住了!\n"COL_WHITE"只有输入正确的密码,你才能进入这所房子.", "进入", "取消" );
 					return 1;
 				}
 
@@ -428,12 +451,12 @@ CMD:house( playerid, params[ ] ) return cmd_h( playerid, params );
 CMD:h( playerid, params[ ] )
 {
 	if ( p_accountSecurityData[ playerid ] [ E_ID ] && ! p_accountSecurityData[ playerid ] [ E_VERIFIED ] && p_accountSecurityData[ playerid ] [ E_MODE ] != SECURITY_MODE_DISABLED )
-		return SendError( playerid, "You must be verified in order to use this feature. "COL_YELLOW"(use /verify)" );
+		return SendError( playerid, "使用此功能需要先验证账号. "COL_YELLOW"(输入 /verify)" );
 
 #if VIP_ALLOW_OVER_LIMIT == false
 	if ( ! p_VIPLevel[ playerid ] && p_OwnedHouses[ playerid ] > GetPlayerHouseSlots( playerid ) && ! strmatch( params, "sell" ) ) {
 		ResetSpawnLocation( playerid );
-		return SendError( playerid, "Please renew your V.I.P or sell this home to match your house allocated limit (/h sell)." );
+		return SendError( playerid, "请续费 VIP 或出售此房屋, 使房产数量符合上限 (/h sell)." );
 	}
 #endif
 
@@ -442,31 +465,31 @@ CMD:h( playerid, params[ ] )
 
 	if ( strmatch( params, "spawn" ) )
 	{
-		SendServerMessage( playerid, "We have changed the command to simply "COL_GREY"/spawn"COL_WHITE"." );
+		SendServerMessage( playerid, "此命令已改为"COL_GREY"/spawn"COL_WHITE"." );
 		return ShowPlayerSpawnMenu( playerid );
 	}
 	else if ( strmatch( params, "config" ) )
 	{
-		if ( ID == -1 ) return SendError( playerid, "You're not in any house." );
-		else if ( !strmatch( g_houseData[ ID ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+		if ( ID == -1 ) return SendError( playerid, "你不在任何房子里." );
+		else if ( !strmatch( g_houseData[ ID ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 		else
 		{
-			szBigString = ""COL_WHITE"Option\t"COL_WHITE"Current Value\n";
+			szBigString = ""COL_WHITE"选项\t"COL_WHITE"当前值\n";
 
-			format(szBigString, sizeof( szBigString ), "%sSet House Title\t%s\nUpgrade Interior\t\nSet House Password\t"COL_GREY"%s\nWeapon Storage\t\nFurniture\t\n",
+			format(szBigString, sizeof( szBigString ), "%s设置房屋名称\t%s\n升级内饰\t\n设置房屋密码\t"COL_GREY"%s\n武器储存\t\n家具\t\n",
 				szBigString,
 				g_houseData[ ID ] [ E_HOUSE_NAME ],
 				g_houseData[ ID ] [ E_PASSWORD ] );
 
-		    ShowPlayerDialog( playerid, DIALOG_HOUSE_CONFIG, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}House Configuration", szBigString, "Select", "Cancel" );
+		    ShowPlayerDialog( playerid, DIALOG_HOUSE_CONFIG, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}房屋配置", szBigString, "选择", "取消" );
 		    //ShowPlayerDialog( playerid, DIALOG_HOUSE_CONFIG, DIALOG_STYLE_LIST, "{FFFFFF}House Configuration", "Set House Title\nUpgrade Interior\nSet House Password\nWeapon Storage\nFurniture", "Select", "Cancel" );
 		}
 		return 1;
 	}
 	else if ( strmatch( params, "buy" ) )
 	{
-		if ( p_OwnedHouses[ playerid ] >= GetPlayerHouseSlots( playerid ) ) return SendError( playerid, "You cannot purchase any more houses, you've reached the limit." );
-		if ( GetPlayerScore( playerid ) < 200 ) return SendError( playerid, "You need at least 200 score to buy a house." );
+		if ( p_OwnedHouses[ playerid ] >= GetPlayerHouseSlots( playerid ) ) return SendError( playerid, "你无法再购买任何房屋,你已达到限制." );
+		if ( GetPlayerScore( playerid ) < 200 ) return SendError( playerid, "你至少需要 200 分数 才能买房子." );
 
 		foreach ( new i : houses )
 		{
@@ -475,31 +498,31 @@ CMD:h( playerid, params[ ] )
 			    if ( strmatch( g_houseData[ i ] [ E_OWNER ], "No-one" ) )
 			    {
 			        if ( GetPlayerCash( playerid ) < g_houseData[ i ] [ E_COST ] )
-						return SendError( playerid, "You don't have enough money to purchase this house." );
+						return SendError( playerid, "你没有足够的钱来购买这所房子." );
 
 					if ( g_houseData[ i ] [ E_COST ] == 1337 && !p_VIPLevel[ playerid ] )
-						return SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+						return SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 
 					GivePlayerCash( playerid, -( g_houseData[ i ] [ E_COST ] ) );
-					SendServerMessage( playerid, "You have bought this home for "COL_GOLD"%s"COL_WHITE"!", cash_format( g_houseData[ i ] [ E_COST ] ) );
+					SendServerMessage( playerid, "你购买此房屋的价格为 "COL_GOLD"%s"COL_WHITE"!", cash_format( g_houseData[ i ] [ E_COST ] ) );
                     SetHouseOwner( i, p_AccountID[ playerid ], ReturnPlayerName( playerid ) );
 
 					p_OwnedHouses[ playerid ] ++;
 					return 1;
 				}
-			    else return SendError( playerid, "This house isn't for sale." );
+			    else return SendError( playerid, "这所房子不出售." );
 			}
 		}
-		return SendError( playerid, "You are not around any house entrances." );
+		return SendError( playerid, "你不在任何房屋入口附近." );
 	}
 	else if ( strmatch( params, "sell" ) )
 	{
-	    if ( ID == -1 ) return SendError( playerid, "You're not in any house." );
-		else if ( !strmatch( g_houseData[ ID ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+	    if ( ID == -1 ) return SendError( playerid, "你不在任何房子里." );
+		else if ( !strmatch( g_houseData[ ID ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 		else
 		{
 			SetPVarInt( playerid, "house_sell_id", ID );
-			ShowPlayerDialog( playerid, DIALOG_HOUSE_SELL, DIALOG_STYLE_MSGBOX, ""COL_WHITE"Sell House", sprintf( ""COL_WHITE"Are you sure you want to sell this house for "COL_GOLD"%s"COL_WHITE"?", cash_format( ( g_houseData[ ID ] [ E_COST ] / 2 ) ) ), "Sell", "Cancel" );
+			ShowPlayerDialog( playerid, DIALOG_HOUSE_SELL, DIALOG_STYLE_MSGBOX, ""COL_WHITE"卖房子", sprintf( ""COL_WHITE"你确定要以以下价格出售这所房子吗 "COL_GOLD"%s"COL_WHITE"?", cash_format( ( g_houseData[ ID ] [ E_COST ] / 2 ) ) ), "出售", "取消" );
 		}
 		return 1;
 	}
@@ -521,9 +544,9 @@ CMD:h( playerid, params[ ] )
 		}
 
 		if ( bResults )
-			return SendServerMessage( playerid, "You have successfully canceled all house offers you have made to players." );
+			return SendServerMessage( playerid, "你已成功取消向玩家提供的所有房屋优惠." );
 
-		return SendError( playerid, "You have not made any house offers to anybody." );
+		return SendError( playerid, "你尚未向任何人提出任何房屋报价." );
 	}
 	else if ( strmatch( params, "offer take" ) )
 	{
@@ -533,14 +556,14 @@ CMD:h( playerid, params[ ] )
 			sellingprice = p_HouseSellingPrice[ playerid ]
 		;
 
-		if ( !IsPlayerConnected( sellerid ) ) SendError( playerid, "The person who offered you a house is no longer online." );
-		else if ( p_HouseOfferTicks[ playerid ] < g_iTime ) SendError( playerid, "This house offer has expired %d seconds ago.", g_iTime - p_HouseOfferTicks[ playerid ] );
-		else if ( GetPlayerCash( playerid ) < p_HouseSellingPrice[ playerid ] ) SendError( playerid, "You do not have enough money to accept this offer (%s).", cash_format( p_HouseSellingPrice[ playerid ] ) );
-		else if ( g_houseData[ houseid ] [ E_COST ] <= 1337 && !p_VIPLevel[ playerid ] ) SendError( playerid, "You are not a V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
-		else if ( p_OwnedHouses[ playerid ] >= GetPlayerHouseSlots( playerid ) ) SendError( playerid, "You cannot purchase any more houses, you've reached the limit." );
+		if ( !IsPlayerConnected( sellerid ) ) SendError( playerid, "为你提供房子的人不再在线." );
+		else if ( p_HouseOfferTicks[ playerid ] < g_iTime ) SendError( playerid, "此房屋报价已在 %d 秒前过期.", g_iTime - p_HouseOfferTicks[ playerid ] );
+		else if ( GetPlayerCash( playerid ) < p_HouseSellingPrice[ playerid ] ) SendError( playerid, "你没有足够的钱来接受此优惠 (%s).", cash_format( p_HouseSellingPrice[ playerid ] ) );
+		else if ( g_houseData[ houseid ] [ E_COST ] <= 1337 && !p_VIPLevel[ playerid ] ) SendError( playerid, "你还不是 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
+		else if ( p_OwnedHouses[ playerid ] >= GetPlayerHouseSlots( playerid ) ) SendError( playerid, "你无法再购买任何房屋,你已达到限制." );
 		else
 		{
-			format( szBigString, sizeof( szBigString ), "[SELL TO] [%s] %s | %s | %s | %d\r\n", getCurrentDate( ), ReturnPlayerName( playerid ), ReturnPlayerName( sellerid ), cash_format( sellingprice ), houseid );
+			format( szBigString, sizeof( szBigString ), "[出售给] [%s] %s | %s | %s | %d\r\n", getCurrentDate( ), ReturnPlayerName( playerid ), ReturnPlayerName( sellerid ), cash_format( sellingprice ), houseid );
 		    AddFileLogLine( "log_houses.txt", szBigString );
 
 			p_OwnedHouses[ sellerid ] --;
@@ -552,8 +575,8 @@ CMD:h( playerid, params[ ] )
 			GivePlayerCash( playerid, -sellingprice );
 			GivePlayerCash( sellerid, sellingprice );
 
-			SendServerMessage( sellerid, "You have successfully sold your house for "COL_GOLD"%s"COL_WHITE" to %s(%d)!", cash_format( p_HouseSellingPrice[ playerid ] ), ReturnPlayerName( playerid ), playerid );
-			SendServerMessage( playerid, "You have successfully bought %s(%d)'s home for "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( sellerid ), sellerid, cash_format( p_HouseSellingPrice[ playerid ] ) );
+			SendServerMessage( sellerid, "你已经成功卖掉了你的房子 "COL_GOLD"%s"COL_WHITE" 到 %s(%d)!", cash_format( p_HouseSellingPrice[ playerid ] ), ReturnPlayerName( playerid ), playerid );
+			SendServerMessage( playerid, "你已经成功购买了 %s(%d) 的房子 "COL_GOLD"%s"COL_WHITE"!", ReturnPlayerName( sellerid ), sellerid, cash_format( p_HouseSellingPrice[ playerid ] ) );
 		}
 		return ( p_HouseOfferer[ playerid ] = INVALID_PLAYER_ID ), ( p_HouseOfferTicks[ playerid ] = 0 ), 1;
 	}
@@ -561,17 +584,17 @@ CMD:h( playerid, params[ ] )
 	{
 	    new offerid, price;
 
-	    if ( ID == -1 ) return SendError( playerid, "You're not in any house." );
-		else if ( !strmatch( g_houseData[ ID ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+	    if ( ID == -1 ) return SendError( playerid, "你不在任何房子里." );
+		else if ( !strmatch( g_houseData[ ID ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
 	    else if ( sscanf( params[ 6 ], "ud", offerid, price ) ) return SendUsage( playerid, "/h offer [PLAYER_ID] [PRICE]" );
-	    else if ( !IsPlayerConnected( offerid ) ) return SendError( playerid, "This player is not connected." );
-	    else if ( offerid == playerid ) return SendError( playerid, "You cannot make a house offer to yourself." );
-	    else if ( price > 30000000 ) return SendError( playerid, "The maximum amount you can sell a house for is $30,000,000." );
-	    else if ( price < g_houseData[ ID ] [ E_COST ] / 2 ) return SendError( playerid, "You cannot sell your house to somebody for less than half its cost." );
-		else if ( GetDistanceBetweenPlayers( playerid, offerid ) > 4.0 ) return SendError( playerid, "You cannot send offers to players who are not near you." );
-		else if ( p_HouseOfferTicks[ offerid ] > g_iTime ) return SendError( playerid, "Please wait %d seconds to make an house price offer to this player again.", p_HouseOfferTicks[ offerid ] - g_iTime );
-		else if ( g_houseData[ ID ] [ E_COST ] <= 1337 && !p_VIPLevel[ offerid ] ) return SendError( playerid, "You cannot offer V.I.P homes to sell to regular players." );
-		else if ( p_OwnedHouses[ offerid ] >= GetPlayerHouseSlots( offerid ) ) return SendError( playerid, "This player cannot purchase any more houses, they have reached the limit." );
+	    else if ( !IsPlayerConnected( offerid ) ) return SendError( playerid, "此玩家不在线." );
+	    else if ( offerid == playerid ) return SendError( playerid, "你不能向自己提出房屋报价." );
+	    else if ( price > 30000000 ) return SendError( playerid, "出售房屋的最高金额是 $30,000,000." );
+	    else if ( price < g_houseData[ ID ] [ E_COST ] / 2 ) return SendError( playerid, "你不能以低于一半的成本将你的房子卖给某人." );
+		else if ( GetDistanceBetweenPlayers( playerid, offerid ) > 4.0 ) return SendError( playerid, "你无法向不在你附近的玩家发送报价." );
+		else if ( p_HouseOfferTicks[ offerid ] > g_iTime ) return SendError( playerid, "请等待 %d 秒,以便再次向该玩家报价.", p_HouseOfferTicks[ offerid ] - g_iTime );
+		else if ( g_houseData[ ID ] [ E_COST ] <= 1337 && !p_VIPLevel[ offerid ] ) return SendError( playerid, "你不能向普通玩家提供 VIP 房屋出售." );
+		else if ( p_OwnedHouses[ offerid ] >= GetPlayerHouseSlots( offerid ) ) return SendError( playerid, "该玩家无法再购买任何房屋,他们已达到限制." );
 		else
 	    {
 	    	// Cannot sell to non vip vip homes k
@@ -579,8 +602,8 @@ CMD:h( playerid, params[ ] )
 			p_HouseOfferTicks[ offerid ] = g_iTime + 15;
 			p_HouseSellingID[ offerid ] = ID;
 			p_HouseSellingPrice[ offerid ] = price;
-			SendServerMessage( offerid, "%s(%d) wishes to offer his house (id %d) for %s to you. Use "COL_GREY"/h offer take"COL_WHITE" to take the offer.", ReturnPlayerName( playerid ), playerid, ID, cash_format( price ) );
-			SendServerMessage( playerid, "You have offered %s(%d) %s for your house (id %d), cancel the offer with "COL_GREY"/h offer cancel"COL_WHITE".", ReturnPlayerName( offerid ), offerid, cash_format( price ), ID );
+			SendServerMessage( offerid, "%s(%d) 希望提供他的房子 (id%d)对于%s给你.使用 "COL_GREY"/h offer take"COL_WHITE" 接受邀请.", ReturnPlayerName( playerid ), playerid, ID, cash_format( price ) );
+			SendServerMessage( playerid, "你已提供%s(%d) %s你的房子(id%d),取消报价 "COL_GREY"/h offer cancel"COL_WHITE".", ReturnPlayerName( offerid ), offerid, cash_format( price ), ID );
 	    }
 	    return 1;
 	}
@@ -640,7 +663,7 @@ thread OnHouseLoad( )
 }
 
 /* ** Functions ** */
-stock CreateHouse( house_name[ 30 ], cost, Float: eX, Float: eY, Float: eZ, Float: tX = H_DEFAULT_X, Float: tY = H_DEFAULT_Y, Float: tZ = H_DEFAULT_Z, interior = 2, password[ 5 ] = "N/A", owner[ 24 ] = "No-one", sql_id = ITER_NONE )
+stock CreateHouse( house_name[ 30 ], cost, Float: eX, Float: eY, Float: eZ, Float: tX = H_DEFAULT_X, Float: tY = H_DEFAULT_Y, Float: tZ = H_DEFAULT_Z, interior = 2, password[ 5 ] = "N/A", owner[ 24 ] = "无人", sql_id = ITER_NONE )
 {
 	new
 		hID = ( 0 <= sql_id < MAX_HOUSES ) ? sql_id : Iter_Free( houses );
@@ -682,10 +705,10 @@ stock CreateHouse( house_name[ 30 ], cost, Float: eX, Float: eY, Float: eZ, Floa
 		g_houseData[ hID ] [ E_CHECKPOINT ] [ 0 ] = CreateDynamicCP( eX, eY, eZ, 1.0, -1, 0, -1, 100.0 );
 		g_houseData[ hID ] [ E_CHECKPOINT ] [ 1 ] = CreateDynamicCP( tX, tY, tZ, 1.0, g_houseData[ hID ] [ E_WORLD ], g_houseData[ hID ] [ E_INTERIOR_ID ], -1, 100.0 );
 
-		format( szBigString, sizeof( szBigString ), ""COL_GOLD"House:"COL_WHITE" %s(%d)\n"COL_GOLD"Owner:"COL_WHITE" %s\n"COL_GOLD"Price:"COL_WHITE" %s", g_houseData[ hID ] [ E_HOUSE_NAME ], hID, g_houseData[ hID ] [ E_OWNER ], cash_format( cost ) );
+		format( szBigString, sizeof( szBigString ), ""COL_GOLD"房子:"COL_WHITE" %s(%d)\n"COL_GOLD"所有者:"COL_WHITE" %s\n"COL_GOLD"价格:"COL_WHITE" %s", g_houseData[ hID ] [ E_HOUSE_NAME ], hID, g_houseData[ hID ] [ E_OWNER ], cash_format( cost ) );
 
 	    g_houseData[ hID ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( szBigString, COLOR_WHITE, eX, eY, eZ, 20.0 );
-		g_houseData[ hID ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[EXIT]", COLOR_GOLD, tX, tY, tZ, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_houseData[ hID ] [ E_WORLD ] );
+		g_houseData[ hID ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[出口]", COLOR_GOLD, tX, tY, tZ, 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_houseData[ hID ] [ E_WORLD ] );
 
 		// insert if non existant prior
 		if ( sql_id == ITER_NONE ) {
@@ -708,7 +731,7 @@ stock DestroyHouse( houseid )
 
 	if ( IsPlayerConnected( playerid ) )
 	{
-	    SendClientMessage( playerid, -1, ""COL_PINK"[HOUSE]"COL_WHITE" One of your houses has been destroyed.");
+	    SendClientMessage( playerid, -1, ""COL_PINK"[房屋]"COL_WHITE" 你的一栋房子被毁了.");
 		p_OwnedHouses[ playerid ] --;
 	}
 
@@ -741,15 +764,15 @@ stock SetHouseForAuction( ID )
 
 	if ( IsPlayerConnected( player ) )
 	{
-	    SendClientMessage( player, -1, ""COL_PINK"[HOUSE]"COL_WHITE" One of your houses has been taken for auction.");
+	    SendClientMessage( player, -1, ""COL_PINK"[房屋]"COL_WHITE" 你的一栋房子已被拍卖.");
 		p_OwnedHouses[ player ] --;
 	}
 	CallLocalFunction( "OnHouseOwnerChange", "dd", ID, 0 );
 	for( new i; i < MAX_HOUSE_WEAPONS; i++ ) { g_HouseWeapons[ ID ] [ i ] = 0, g_HouseWeaponAmmo[ ID ] [ i ] = -1; }
 	SaveHouseWeaponStorage( ID );
 	format( g_houseData[ ID ] [ E_PASSWORD ], 4, "N/A" );
-	format( g_houseData[ ID ] [ E_OWNER ], 7, "No-one" );
-	format( g_houseData[ ID ] [ E_HOUSE_NAME ], 5, "Home" );
+	format( g_houseData[ ID ] [ E_OWNER ], 7, "无人" );
+	format( g_houseData[ ID ] [ E_HOUSE_NAME ], 5, "家" );
 	g_houseData[ ID ] [ E_TX ] = g_houseInteriors[ 0 ] [ E_EX ];
 	g_houseData[ ID ] [ E_TY ] = g_houseInteriors[ 0 ] [ E_EY ];
 	g_houseData[ ID ] [ E_TZ ] = g_houseInteriors[ 0 ] [ E_EZ ];
@@ -758,10 +781,10 @@ stock SetHouseForAuction( ID )
 	FillHomeWithFurniture( ID, 0 );
 	format( query, sizeof( query ), "UPDATE HOUSES SET OWNER='No-one',PASSWORD='N/A',NAME='Home',TX=%f,TY=%f,TZ=%f,INTERIOR=%d WHERE ID=%d", g_houseData[ ID ] [ E_TX ], g_houseData[ ID ] [ E_TY ], g_houseData[ ID ] [ E_TZ ], g_houseData[ ID ] [ E_INTERIOR_ID ], ID );
     mysql_single_query( query );
-	format( szBigString, sizeof( szBigString ), ""COL_GOLD"House:"COL_WHITE" Home(%d)\n"COL_GOLD"Owner:"COL_WHITE" No-one\n"COL_GOLD"Price:"COL_WHITE" %s", ID, cash_format( g_houseData[ ID ] [ E_COST ] ) );
+	format( szBigString, sizeof( szBigString ), ""COL_GOLD"房子:"COL_WHITE" 首页(%d)\n"COL_GOLD"所有者:"COL_WHITE" 无人\n"COL_GOLD"价格:"COL_WHITE" %s", ID, cash_format( g_houseData[ ID ] [ E_COST ] ) );
 	UpdateDynamic3DTextLabelText( g_houseData[ ID ] [ E_LABEL ] [ 0 ], COLOR_WHITE, szBigString);
 	DestroyDynamic3DTextLabel( g_houseData[ ID ] [ E_LABEL ] [ 1 ] );
-	g_houseData[ ID ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[EXIT]", COLOR_GOLD, g_houseData[ ID ] [ E_TX ], g_houseData[ ID ] [ E_TY ], g_houseData[ ID ] [ E_TZ ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_houseData[ ID ] [ E_WORLD ] );
+	g_houseData[ ID ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[出口]", COLOR_GOLD, g_houseData[ ID ] [ E_TX ], g_houseData[ ID ] [ E_TY ], g_houseData[ ID ] [ E_TZ ], 20.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, g_houseData[ ID ] [ E_WORLD ] );
 	DestroyDynamicCP( g_houseData[ ID ] [ E_CHECKPOINT ] [ 1 ] );
 	g_houseData[ ID ] [ E_CHECKPOINT ] [ 1 ] = CreateDynamicCP( g_houseData[ ID ] [ E_TX ], g_houseData[ ID ] [ E_TY ], g_houseData[ ID ] [ E_TZ ], 1.0, g_houseData[ ID ] [ E_WORLD ], g_houseData[ ID ] [ E_INTERIOR_ID ], -1, 50.0 );
 	DestroyDynamicMapIcon( g_houseData[ ID ] [ E_MAP_ICON ] );
@@ -786,7 +809,7 @@ stock SetHouseOwner( houseid, owner, owner_name[ 24 ] )
 
 	// refresh label
 	DestroyDynamicMapIcon( g_houseData[ houseid ] [ E_MAP_ICON ] );
-	format( szBigString, sizeof( szBigString ), ""COL_GOLD"House:"COL_WHITE" Home(%d)\n"COL_GOLD"Owner:"COL_WHITE" %s\n"COL_GOLD"Price:"COL_WHITE" %s", houseid, g_houseData[ houseid ] [ E_OWNER ], cash_format( g_houseData[ houseid ] [ E_COST ] ) );
+	format( szBigString, sizeof( szBigString ), ""COL_GOLD"房子:"COL_WHITE" 首页(%d)\n"COL_GOLD"所有者:"COL_WHITE" %s\n"COL_GOLD"价格:"COL_WHITE" %s", houseid, g_houseData[ houseid ] [ E_OWNER ], cash_format( g_houseData[ houseid ] [ E_COST ] ) );
  	UpdateDynamic3DTextLabelText( g_houseData[ houseid ] [ E_LABEL ] [ 0 ], COLOR_WHITE, szBigString );
 	return 1;
 }
@@ -838,18 +861,18 @@ stock ShowHouseWeaponStorage( playerid )
 	    return 0;
 
     new id = p_InHouse[ playerid ];
-	if ( id == -1 ) return SendError( playerid, "You're not inside any house." );
-	if ( !strmatch( g_houseData[ id ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "You are not the owner of this house." );
+	if ( id == -1 ) return SendError( playerid, "你不在任何房子里." );
+	if ( !strmatch( g_houseData[ id ] [ E_OWNER ], ReturnPlayerName( playerid ) ) ) return SendError( playerid, "你不是这所房子的主人." );
     szLargeString[ 0 ] = '\0';
     for( new i = 0; i < MAX_HOUSE_WEAPONS; i++ )
     {
 		if ( g_HouseWeapons[ id ] [ i ] != 0 )
 			format( szLargeString, sizeof( szLargeString ), "%s%s%s(%d)\n", szLargeString, i > 2 ? (""#COL_GOLD"") : ("{FFFFFF}"), ReturnWeaponName( g_HouseWeapons[ id ] [ i ] ), g_HouseWeaponAmmo[ id ] [ i ] );
 		else
-			strcat( szLargeString, i > 2 ? ( ""COL_GOLD"Empty\n" ) : ( ""COL_WHITE"Empty\n" ) );
+			strcat( szLargeString, i > 2 ? ( ""COL_GOLD"空\n" ) : ( ""COL_WHITE"空\n" ) );
 
 	}
-	ShowPlayerDialog( playerid, DIALOG_HOUSE_WEAPONS, DIALOG_STYLE_LIST, "{FFFFFF}House Weapon Storage", szLargeString, "Withdraw", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_HOUSE_WEAPONS, DIALOG_STYLE_LIST, "{FFFFFF}房屋武器储藏室", szLargeString, "取款", "返回" );
 	return 1;
 }
 

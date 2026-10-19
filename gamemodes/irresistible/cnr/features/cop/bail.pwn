@@ -22,14 +22,14 @@ CMD:bail( playerid, params[ ] )
 	    equa
 	;
 
-	if ( p_Class[ playerid ] != CLASS_POLICE ) return SendError( playerid, "This is restricted to police only." );
+	if ( p_Class[ playerid ] != CLASS_POLICE ) return SendError( playerid, "此功能仅限警察使用." );
 	else if ( sscanf( params, "u", pID ) ) return SendUsage( playerid, "/bail [PLAYER_ID]" );
-	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "Invalid Player ID." );
-	else if ( pID == playerid ) return SendError( playerid, "You cannot bail yourself." );
-	else if ( !IsPlayerJailed( pID ) ) return SendError( playerid, "This player isn't jailed." );
-	else if ( IsPlayerAdminJailed( pID ) ) return SendError( playerid, "This player has been admin jailed." );
-	else if ( IsPlayerSettingToggled( pID, SETTING_BAILOFFERS ) ) return SendError( playerid, "This player has disabled bail notifications." );
-	else if ( GetPVarInt( pID, "bail_antispam" ) > g_iTime ) return SendError( playerid, "You must wait 10 seconds before offering a bail to this player." );
+	else if ( !IsPlayerConnected( pID ) || IsPlayerNPC( pID ) ) return SendError( playerid, "玩家 ID 无效." );
+	else if ( pID == playerid ) return SendError( playerid, "你不能为自己提供保释服务." );
+	else if ( !IsPlayerJailed( pID ) ) return SendError( playerid, "此玩家没有入狱." );
+	else if ( IsPlayerAdminJailed( pID ) ) return SendError( playerid, "此玩家已被管理员监禁." );
+	else if ( IsPlayerSettingToggled( pID, SETTING_BAILOFFERS ) ) return SendError( playerid, "此玩家已关闭保释通知." );
+	else if ( GetPVarInt( pID, "bail_antispam" ) > g_iTime ) return SendError( playerid, "你必须等待 10 秒才能向该玩家提供保释." );
 	else
 	{
 		equa = floatround( float( BAIL_DOLLARS_PER_SECOND * p_JailTime[ pID ] ) * ( 1.0 - GetPlayerLevel( pID, E_POLICE ) / 125.0 ) );
@@ -37,8 +37,8 @@ CMD:bail( playerid, params[ ] )
 		p_BailOfferer[ pID ] = playerid;
 		p_BailTimestamp[ pID ] = g_iTime + 120;
 		SetPVarInt( pID, "bail_antispam", g_iTime + 1 );
-		SendServerMessage( playerid, "You have offered %s(%d) bail for "COL_GOLD"%s", ReturnPlayerName( pID ), pID, cash_format( equa ) );
-		SendClientMessageFormatted( pID, -1, ""COL_GREY"[SERVER]"COL_WHITE" %s(%d) has offered to bail you out for "COL_GOLD"%s"COL_WHITE". "COL_ORANGE"/acceptbail"COL_WHITE" to accept the bail.", ReturnPlayerName( playerid ), playerid, cash_format( equa ) );
+		SendServerMessage( playerid, "你向 %s(%d) 提供了保释服务, 费用"COL_GOLD"%s", ReturnPlayerName( pID ), pID, cash_format( equa ) );
+		SendClientMessageFormatted( pID, -1, ""COL_GREY"[服务器]"COL_WHITE" %s(%d) 愿意为你提供保释服务, 费用"COL_GOLD"%s"COL_WHITE". "COL_ORANGE"/acceptbail"COL_WHITE"接受保释服务.", ReturnPlayerName( playerid ), playerid, cash_format( equa ) );
 	}
 	return 1;
 }
@@ -51,11 +51,11 @@ CMD:acceptbail( playerid, params[ ] )
 	if ( p_JailTime[ playerid ] >= ALCATRAZ_TIME_WANTED )
 		equa *= 2;
 
-	if ( GetPlayerCash( playerid ) < equa ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "You don't have enough to be bailed." );
-	else if ( IsPlayerAdminJailed( playerid ) ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "You have been admin jailed, therefore disallowing this." );
-	else if ( !IsPlayerJailed( playerid ) ) return SendError( playerid, "You're not jailed!" );
-	else if ( !IsPlayerConnected( p_BailOfferer[ playerid ] ) ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "The person who offered you bail is not connected." );
-	else if ( p_BailTimestamp[ playerid ] < g_iTime ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "This offer has expired a minute ago." );
+	if ( GetPlayerCash( playerid ) < equa ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "你的钱不够支付保释费用." );
+	else if ( IsPlayerAdminJailed( playerid ) ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "你已被管理员监禁, 无法使用此功能." );
+	else if ( !IsPlayerJailed( playerid ) ) return SendError( playerid, "你没有入狱!" );
+	else if ( !IsPlayerConnected( p_BailOfferer[ playerid ] ) ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "提供保释服务的玩家已离线." );
+	else if ( p_BailTimestamp[ playerid ] < g_iTime ) return p_BailOfferer[ playerid ] = INVALID_PLAYER_ID, SendError( playerid, "此保释服务已超过一分钟, 已失效." );
 	else
 	{
 		new
@@ -64,9 +64,9 @@ CMD:acceptbail( playerid, params[ ] )
 		GivePlayerCash( playerid, -equa );
 		GivePlayerCash( p_BailOfferer[ playerid ], cashEarned );
 		StockMarket_UpdateEarnings( E_STOCK_GOVERNMENT, cashEarned, 0.1 );
-		SendClientMessageFormatted( p_BailOfferer[ playerid ], -1, ""COL_GREEN"[BAIL]"COL_WHITE" %s(%d) has paid bail. You have earned "COL_GOLD"%s"COL_WHITE" from his bail.", ReturnPlayerName( playerid ), playerid, cash_format( cashEarned ) );
+		SendClientMessageFormatted( p_BailOfferer[ playerid ], -1, ""COL_GREEN"[保释]"COL_WHITE" %s(%d) 支付了保释费, 你赚取了"COL_GOLD"%s"COL_WHITE"的保释服务收入.", ReturnPlayerName( playerid ), playerid, cash_format( cashEarned ) );
     	p_BailOfferer[ playerid ] = INVALID_PLAYER_ID;
-        SendServerMessage( playerid, "You have paid for your bail. You are now free!" );
+        SendServerMessage( playerid, "你已支付保释费用, 现在自由了!" );
 	   	CallLocalFunction( "OnPlayerUnjailed", "dd", playerid, 1 );
 	}
 	return 1;

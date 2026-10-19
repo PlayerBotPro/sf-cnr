@@ -115,13 +115,13 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 						return ShowPlayerDialog(
 							playerid, DIALOG_GANG_JOIN, DIALOG_STYLE_MSGBOX,
 							sprintf( "{%06x}%s", g_gangData[ facility_gangid ] [ E_COLOR ] >>> 8, g_gangData[ facility_gangid ] [ E_NAME ] ),
-							""COL_WHITE"This gang is a public gang, would you like to join it?",
-							"Yes", "No"
+							""COL_WHITE"这个帮派是一个公共帮派,你想加入吗?",
+							"是", "否"
 						);
 					}
 					else
 					{
-						return SendError( playerid, "You are not in the gang of this facility. Capture it to enter." );
+						return SendError( playerid, "你不属于该设施的帮派.捕获它即可进入." );
 					}
 				}
 
@@ -154,7 +154,7 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 			// ammunation
 			else if ( checkpointid == g_gangFacilities[ facility ] [ E_AMMU_CP ] )
 			{
-				return ShowAmmunationMenu( playerid, "{FFFFFF}Gang Facility - Purchase Weapons", DIALOG_FACILITY_AMMU );
+				return ShowAmmunationMenu( playerid, "{FFFFFF}帮派设施 - 购买武器", DIALOG_FACILITY_AMMU );
 			}
 
 			// shop
@@ -167,7 +167,7 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 			else if ( checkpointid == g_gangFacilities[ facility ] [ E_TRAVEL_CP ] )
 			{
 				if ( GetPlayerWantedLevel( playerid ) )
-					return SendError( playerid, "You cannot travel while you are wanted." );
+					return SendError( playerid, "当你被通缉时你不能旅行." );
 
 				return ShowPlayerAirportMenu( playerid );
 			}
@@ -182,18 +182,18 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 			else if ( checkpointid == g_gangFacilities[ facility ] [ E_CANNON_CP ] )
 			{
 				if ( GetPlayerCash( playerid ) < 250000 )
-					return SendError( playerid, "You need at least $250,000 available to begin operating the orbital cannon." );
+					return SendError( playerid, "你至少需要 $250,000 可用才能开始操作轨道炮." );
 
 				if ( GetPlayerClass( playerid ) != CLASS_CIVILIAN )
-					return SendError( playerid, "You must be a civilian to use this feature." );
+					return SendError( playerid, "只有平民可以使用此功能." );
 
 				if ( StartPlayerOrbitalCannon( playerid, facility ) )
 				{
-					return SendServerMessage( playerid, "You are now operating this facility's orbital cannon." );
+					return SendServerMessage( playerid, "你现在正在操作该设施的轨道炮." );
 				}
 				else
 				{
-					return SendError( playerid, "The orbital cannon of this facility is currently in use." );
+					return SendError( playerid, "该设施的轨道炮目前正在使用中." );
 				}
 			}
 		}
@@ -206,18 +206,18 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	if ( dialogid == DIALOG_GANG_JOIN && response )
 	{
 		if ( p_GangID[ playerid ] != -1 ) {
-			return SendServerMessage( playerid, "You are already in a gang." );
+			return SendServerMessage( playerid, "你已经加入帮派了." );
 		}
 
 		new
 			joining_gang = GetPVarInt( playerid, "gang_facility_join" );
 
 		if ( IsGangPrivate( joining_gang ) ) {
-			return SendError( playerid, "You can no longer join this gang as it is private." );
+			return SendError( playerid, "你不能再加入这个团伙,因为它是私人的." );
 		}
 
 		if ( ! SetPlayerGang( playerid, joining_gang ) ) {
-			SendError( playerid, "You can no longer join this gang." );
+			SendError( playerid, "你不能再加入这个帮派了." );
 		}
 		return 1;
 	}
@@ -227,12 +227,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new player_gang = GetPlayerGang( playerid );
 
 		if ( ! Iter_Contains( gangs, player_gang ) )
-			return SendError( playerid, "You are not in any gang." );
+			return SendError( playerid, "你不属于任何帮派." );
 
 		new Float: discount = ( FACILITY_AMMU_RESPECT - float( g_gangData[ player_gang ] [ E_RESPECT ] ) ) / FACILITY_AMMU_RESPECT;
 
 		SetPVarInt( playerid, "facility_weapon_cat", listitem );
-      	RedirectAmmunation( playerid, listitem, "{FFFFFF}Gang Facility - Purchase Weapons", DIALOG_FACILITY_AMMU_BUY, discount );
+        RedirectAmmunation( playerid, listitem, "{FFFFFF}帮派设施 - 购买武器", DIALOG_FACILITY_AMMU_BUY, discount );
 	}
 
 	else if ( dialogid == DIALOG_FACILITY_AMMU_BUY )
@@ -242,14 +242,14 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			new facility = GetPVarInt( playerid, "in_facility" );
 
 			if ( ! Iter_Contains( gangfacilities, facility ) )
-				return SendError( playerid, "Cannot identify current gang facility. Please enter facility again." );
+				return SendError( playerid, "无法识别当前的帮派设施.请再次进入设施." );
 
 			new facility_gangid = Turf_GetFacility( g_gangFacilities[ facility ] [ E_TURF_ID ] );
 
-			if ( ! Iter_Contains( gangs, facility_gangid ) ) return SendError( playerid, "You are not in any gang." );
-		    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot buy weapons in jail." );
-		    if ( IsPlayerInEvent( playerid ) ) return SendError( playerid, "You cannot buy weapons in an event." );
-			if ( GetPlayerState( playerid ) == PLAYER_STATE_WASTED || !IsPlayerSpawned( playerid ) ) return SendError( playerid, "You are unable to purchase any weapons at this time." );
+			if ( ! Iter_Contains( gangs, facility_gangid ) ) return SendError( playerid, "你不属于任何帮派." );
+		    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "你不能在监狱里购买武器." );
+		    if ( IsPlayerInEvent( playerid ) ) return SendError( playerid, "你不能在活动中购买武器." );
+			if ( GetPlayerState( playerid ) == PLAYER_STATE_WASTED || !IsPlayerSpawned( playerid ) ) return SendError( playerid, "你目前无法购买任何武器." );
 
 			new gun_category = GetPVarInt( playerid, "facility_weapon_cat" );
 			new Float: gun_discount = ( FACILITY_AMMU_RESPECT - float( g_gangData[ facility_gangid ] [ E_RESPECT ] ) ) / FACILITY_AMMU_RESPECT;
@@ -269,8 +269,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					 	if ( price > GetPlayerCash( playerid ) )
 						{
-						    SendError( playerid, "You don't have enough money for this." );
-      						RedirectAmmunation( playerid, gun_category, "{FFFFFF}Gang Facility - Purchase Weapons", DIALOG_FACILITY_AMMU_BUY, gun_discount );
+						    SendError( playerid, "你没有足够的钱来做这个." );
+                            RedirectAmmunation( playerid, gun_category, "{FFFFFF}帮派设施 - 购买武器", DIALOG_FACILITY_AMMU_BUY, gun_discount );
 							return 1;
 						}
 
@@ -281,22 +281,22 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 						else if ( g_AmmunationWeapons[ i ] [ E_WEPID ] == 102 )
 						{
 							if ( p_ExplosiveBullets[ playerid ] >= MAX_EXPLOSIVE_ROUNDS )
-								return SendError( playerid, "You can only purchase a max of %d rounds.", MAX_EXPLOSIVE_ROUNDS );
+								return SendError( playerid, "你最多只能购买 %d 轮.", MAX_EXPLOSIVE_ROUNDS );
 
 							p_ExplosiveBullets[ playerid ] += g_AmmunationWeapons[ i ] [ E_AMMO ];
-							ShowPlayerHelpDialog( playerid, 3000, "Press ~r~~k~~CONVERSATION_NO~~w~ to activate explosive bullets." );
+							ShowPlayerHelpDialog( playerid, 3000, "按 ~r~~k~~CONVERSATION_NO~~w~ 激活爆炸子弹." );
 						}
 						else GivePlayerWeapon( playerid, g_AmmunationWeapons[ i ] [ E_WEPID ], g_AmmunationWeapons[ i ] [ E_AMMO ] );
 
-      					RedirectAmmunation( playerid, gun_category, "{FFFFFF}Gang Facility - Purchase Weapons", DIALOG_FACILITY_AMMU_BUY, gun_discount );
-						SendServerMessage( playerid, "You have purchased %s(%d) for "COL_GOLD"%s"COL_WHITE"%s.", g_AmmunationWeapons[ i ] [ E_NAME ], g_AmmunationWeapons[ i ] [ E_AMMO ], price > 0.0 ? cash_format( price ) : ( "FREE" ) );
+                        RedirectAmmunation( playerid, gun_category, "{FFFFFF}帮派设施 - 购买武器", DIALOG_FACILITY_AMMU_BUY, gun_discount );
+						SendServerMessage( playerid, "你已购买 %s(%d) "COL_GOLD"%s"COL_WHITE"%s.", g_AmmunationWeapons[ i ] [ E_NAME ], g_AmmunationWeapons[ i ] [ E_AMMO ], price > 0.0 ? cash_format( price ) : ( "免费" ) );
 						break;
 		            }
 		            x ++;
 		        }
 		    }
 		}
-		else return ShowAmmunationMenu( playerid, "{FFFFFF}Gang Facility - Purchase Weapons", DIALOG_FACILITY_AMMU );
+		else return ShowAmmunationMenu( playerid, "{FFFFFF}帮派设施 - 购买武器", DIALOG_FACILITY_AMMU );
 	}
 
 	else if ( dialogid == DIALOG_FACILITY_SPAWN )
@@ -307,11 +307,11 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new gangid = p_GangID[ playerid ];
 
 		if ( gangid == INVALID_GANG_ID )
-			return SendError( playerid, "You are not in any gang." ), ShowPlayerSpawnMenu( playerid );
+			return SendError( playerid, "你不属于任何帮派." ), ShowPlayerSpawnMenu( playerid );
 
 		static city[ MAX_ZONE_NAME ], location[ MAX_ZONE_NAME ];
 
-		szLargeString = ""COL_WHITE"City\t"COL_WHITE"Location\n";
+		szLargeString = ""COL_WHITE"城市\t"COL_WHITE"地点\n";
 
 		new x = 0;
 
@@ -328,7 +328,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			    GetZoneFromCoordinates( location, X, Y );
 
         		SetPlayerSpawnLocation( playerid, "GNG", handle );
-			 	SendServerMessage( playerid, "Spawning has been set the gang facility located in "COL_GREY"%s, %s"COL_WHITE".", location, city );
+                SendServerMessage( playerid, "产卵已设置在位于的帮派设施中 "COL_GREY"%s, %s"COL_WHITE".", GetLocationDisplayName(location), GetLocationDisplayName(city) );
 			 	break;
 			}
 			x ++;
@@ -418,14 +418,14 @@ thread OnGangFaciltiesLoad( )
 
 					g_gangFacilities[ id ] [ E_CHECKPOINT ] [ 0 ] = CreateDynamicCP( g_gangFacilities[ id ] [ E_X ], g_gangFacilities[ id ] [ E_Y ], g_gangFacilities[ id ] [ E_Z ], 1.0, -1, -1, -1, 100.0 );
 
-			        format( szNormalString, sizeof( szNormalString ), "Gang Facility\n"COL_WHITE" %s", gang_name );
+			        format( szNormalString, sizeof( szNormalString ), "帮派设施\n"COL_WHITE" %s", gang_name );
 			        g_gangFacilities[ id ] [ E_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( szNormalString, g_gangData[ gangid ] [ E_COLOR ], g_gangFacilities[ id ] [ E_X ], g_gangFacilities[ id ] [ E_Y ], g_gangFacilities[ id ] [ E_Z ], 20.0 );
 
 					// create interior
 					new type = g_gangFacilities[ id ] [ E_INTERIOR_TYPE ];
 
 					g_gangFacilities[ id ] [ E_CHECKPOINT ] [ 1 ] = CreateDynamicCP( g_gangFacilityInterior[ type ] [ E_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_POS ] [ 2 ], 1.0, g_gangFacilities[ id ] [ E_WORLD ], -1, -1, 100.0 );
-					g_gangFacilities[ id ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[EXIT]", COLOR_GOLD, g_gangFacilityInterior[ type ] [ E_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_POS ] [ 2 ], 20.0 );
+					g_gangFacilities[ id ] [ E_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "[出口]", COLOR_GOLD, g_gangFacilityInterior[ type ] [ E_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_POS ] [ 2 ], 20.0 );
 
 					// ammunation man
 					CreateDynamicActor( 179, g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 2 ], g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 3 ], true, 100.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
@@ -434,11 +434,11 @@ thread OnGangFaciltiesLoad( )
 					infront_y = g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 1 ] + 2.0 * floatcos( -g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 3 ], degrees );
 
 					g_gangFacilities[ id ] [ E_AMMU_CP ] = CreateDynamicCP( infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 2 ], 1.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
-					CreateDynamic3DTextLabel( "[AMMU-NATION]", COLOR_GOLD, infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
+					CreateDynamic3DTextLabel( "[弹药国]", COLOR_GOLD, infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_AMMU_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
 
 					// orbital cannon
 					g_gangFacilities[ id ] [ E_CANNON_CP ] = CreateDynamicCP( g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 2 ], 1.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
-					CreateDynamic3DTextLabel( "[ORBITAL CANNON]", COLOR_GOLD, g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
+					CreateDynamic3DTextLabel( "[轨道炮]", COLOR_GOLD, g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_CANNON_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
 
 					// shop actor
 					CreateDynamicActor( 211, g_gangFacilityInterior[ type ] [ E_SHOP_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_SHOP_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_SHOP_POS ] [ 2 ], g_gangFacilityInterior[ type ] [ E_SHOP_POS ] [ 3 ], true, 100.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
@@ -456,7 +456,7 @@ thread OnGangFaciltiesLoad( )
 					infront_y = g_gangFacilityInterior[ type ] [ E_TRAVEL_POS ] [ 1 ] + 2.0 * floatcos( -g_gangFacilityInterior[ type ] [ E_TRAVEL_POS ] [ 3 ], degrees );
 
 					g_gangFacilities[ id ] [ E_TRAVEL_CP ] = CreateDynamicCP( infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_TRAVEL_POS ] [ 2 ], 1.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
-					CreateDynamic3DTextLabel( "[FAST TRAVEL]", COLOR_GOLD, infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_TRAVEL_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
+					CreateDynamic3DTextLabel( "[快速旅行]", COLOR_GOLD, infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_TRAVEL_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
 
 					// mechanic actor
 					CreateDynamicActor( 268, g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 2 ], g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 3 ], true, 100.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
@@ -465,7 +465,7 @@ thread OnGangFaciltiesLoad( )
 					infront_y = g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 1 ] + 2.0 * floatcos( -g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 3 ], degrees );
 
 					g_gangFacilities[ id ] [ E_MECHANIC_CP ] = CreateDynamicCP( infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 2 ], 1.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
-					CreateDynamic3DTextLabel( "[GANG VEHICLES]", COLOR_GOLD, infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
+					CreateDynamic3DTextLabel( "[帮派载具]", COLOR_GOLD, infront_x, infront_y, g_gangFacilityInterior[ type ] [ E_MECHANIC_POS ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
 
 					// create atm
 					CreateATM( g_gangFacilityInterior[ type ] [ E_ATM_POS ] [ 0 ], g_gangFacilityInterior[ type ] [ E_ATM_POS ] [ 1 ], g_gangFacilityInterior[ type ] [ E_ATM_POS ] [ 2 ], g_gangFacilityInterior[ type ] [ E_ATM_POS ] [ 3 ], 0.0, g_gangFacilities[ id ] [ E_WORLD ] );
@@ -476,8 +476,8 @@ thread OnGangFaciltiesLoad( )
 
 				#if FACILITY_TAKEOVER_ENABLED == true
 					// labels
-					CreateDynamic3DTextLabel( "Server\n"COL_WHITE"Press ALT to Plant C4", COLOR_GREY, g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 0 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 1 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
-					CreateDynamic3DTextLabel( "Server\n"COL_WHITE"Press ALT to Plant C4", COLOR_GREY, g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 0 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 1 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
+					CreateDynamic3DTextLabel( "服务器\n"COL_WHITE"按 ALT 键种植 C4", COLOR_GREY, g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 0 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 1 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
+					CreateDynamic3DTextLabel( "服务器\n"COL_WHITE"按 ALT 键种植 C4", COLOR_GREY, g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 0 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 1 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 2 ], 20.0, .worldid = g_gangFacilities[ id ] [ E_WORLD ] );
 				#endif
 				}
 				else
@@ -559,7 +559,7 @@ stock PlantFacilityC4( playerid, facility )
 		infront_z = g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 2 ] - 0.5;
 
 		SetPlayerFacingAngle( playerid, g_gangFacilityInterior[ type ] [ E_BOMB_POS_1 ] [ 3 ] );
-		ShowProgressBar( playerid, "Planting C4", PROGRESS_FACILITY_PLANT, 3000, COLOR_RED, 0 );
+		ShowProgressBar( playerid, "种植C4", PROGRESS_FACILITY_PLANT, 3000, COLOR_RED, 0 );
 	}
 
 	else if ( IsPlayerInRangeOfPoint( playerid, 2.0, g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 0 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 1 ], g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 2 ] ) )
@@ -572,7 +572,7 @@ stock PlantFacilityC4( playerid, facility )
 		infront_z = g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 2 ] - 0.5;
 
 		SetPlayerFacingAngle( playerid, g_gangFacilityInterior[ type ] [ E_BOMB_POS_2 ] [ 3 ] );
-		ShowProgressBar( playerid, "Planting C4", PROGRESS_FACILITY_PLANT, 3000, COLOR_RED, 1 );
+		ShowProgressBar( playerid, "种植C4", PROGRESS_FACILITY_PLANT, 3000, COLOR_RED, 1 );
 	}
 
 	else return 1;
@@ -705,26 +705,26 @@ static stock ShowServerStatus( facility )
 	if ( g_gangFacilities[ facility ] [ E_WAR_TICK ] < 150 ) color = "y";
 	else if ( g_gangFacilities[ facility ] [ E_WAR_TICK ] < 30 ) color = "r";
 
-	format( szNormalString, sizeof( szNormalString ), "~%s~~h~Time Remaining: %s~w~~n~~n~Server 1: ", color, TimeConvert ( g_gangFacilities[ facility ] [ E_WAR_TICK ] ) );
+	format( szNormalString, sizeof( szNormalString ), "~%s~~h~剩余时间:%s~w~~n~~n~服务器1: ", color, TimeConvert ( g_gangFacilities[ facility ] [ E_WAR_TICK ] ) );
 
 	// server 1
 	if ( g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 0 ] > FACILITY_BLOWUP_TIME ) {
-		strcat( szNormalString, "~g~Secure~w~~n~" );
+		strcat( szNormalString, "~g~安全~w~~n~" );
 	} else if ( g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 0 ] <= 0 ) {
-		strcat( szNormalString, "~r~Blown~w~~n~" );
+		strcat( szNormalString, "~r~吹~w~~n~" );
 	} else {
-		format( szNormalString, sizeof( szNormalString ), "%s~r~~h~~h~%d until blown~w~~n~", szNormalString, g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 0 ] );
+		format( szNormalString, sizeof( szNormalString ), "%s~r~~h~~h~%d 直到熔断~w~~n~", szNormalString, g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 0 ] );
 	}
 
-	strcat( szNormalString, "Server 2: ");
+	strcat( szNormalString, "服务器2: ");
 
 	// server 2
 	if ( g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 1 ] >= 10 ) {
-		strcat( szNormalString, "~g~Secure~w~" );
+		strcat( szNormalString, "~g~安全~w~" );
 	} else if ( g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 1 ] <= 0 ) {
-		strcat( szNormalString, "~r~Blown~w~" );
+		strcat( szNormalString, "~r~吹爆~w~" );
 	} else {
-		format( szNormalString, sizeof( szNormalString ), "%s~r~~h~~h~%d until blown", szNormalString, g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 1 ] );
+		format( szNormalString, sizeof( szNormalString ), "%s~r~~h~~h~%d 直到熔断", szNormalString, g_gangFacilities[ facility ] [ E_BLOWUP_COUNT ] [ 1 ] );
 	}
 
 	// alert
@@ -763,22 +763,22 @@ static stock initializeFacilityObjects( )
 	CreateDynamicObject( 16648, 244.703002, 1905.211059, 1859.906005, 0.000000, 0.000000, 180.000000, -1, -1, -1 );
 	CreateDynamicObject( 16640, 263.429992, 1840.782958, 1857.109985, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	tmpVariable = CreateDynamicObject( 19786, 211.182998, 1822.728027, 1859.890991, 7.900000, 0.000000, 90.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "ACTIVE", 130, "ARIAL", 60, 1, 0, -16777216, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "\nACTIVE", 130, "ARIAL", 100, 1, -65536, -16777216, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "活跃", 130, "ARIAL", 60, 1, 0, -16777216, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "\n活跃", 130, "ARIAL", 100, 1, -65536, -16777216, 1 );
 	tmpVariable = CreateDynamicObject( 19786, 211.244003, 1822.728027, 1860.186035, 7.900000, 0.000000, 90.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "ORBITAL CANNON", 130, "ARIAL", 50, 1, 0, 0, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "ORBITAL CANNON", 130, "ARIAL", 50, 1, -1, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "轨道炮", 130, "ARIAL", 50, 1, 0, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "轨道炮", 130, "ARIAL", 50, 1, -1, 0, 1 );
 	tmpVariable = CreateDynamicObject( 19786, 212.235000, 1818.493041, 1859.784057, 7.900000, 0.000000, 117.599998, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "\nACTIVE", 130, "arial", 110, 1, -65536, -16777216, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "\nACTIVE", 130, "arial", 110, 1, -16777216, -16777216, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "\n活跃", 130, "arial", 110, 1, -65536, -16777216, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "\n活跃", 130, "arial", 110, 1, -16777216, -16777216, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19786, 212.212005, 1826.942993, 1859.744018, 7.900000, 0.000000, 62.299999, -1, -1, -1 ), 0, 1676, "wshxrefpump", "black64", 0 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19786, 212.212005, 1826.942993, 1859.744018, 7.900000, 0.000000, 62.299999, -1, -1, -1 ), 1, "\nACTIVE", 130, "arial", 110, 1, -65536, -16777216, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19786, 212.212005, 1826.942993, 1859.744018, 7.900000, 0.000000, 62.299999, -1, -1, -1 ), 1, "\n活跃", 130, "arial", 110, 1, -65536, -16777216, 1 );
 	tmpVariable = CreateDynamicObject( 19786, 212.285003, 1818.517944, 1860.119018, 7.900000, 0.000000, 117.599998, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "ORBITAL CANNON", 130, "Arial", 50, 1, -1, 0, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "ORBITAL CANNON", 130, "Arial", 50, 1, 0, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "轨道炮", 130, "Arial", 50, 1, -1, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "轨道炮", 130, "Arial", 50, 1, 0, 0, 1 );
 	tmpVariable = CreateDynamicObject( 19786, 212.263000, 1826.916992, 1860.088989, 7.900000, 0.000000, 62.299999, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "ORBITAL CANNON", 130, "Arial", 50, 1, -1, 0, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "ORBITAL CANNON", 130, "Arial", 50, 1, 0, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "轨道炮", 130, "Arial", 50, 1, -1, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "轨道炮", 130, "Arial", 50, 1, 0, 0, 1 );
 	CreateDynamicObject( 16782, 210.367004, 1822.741943, 1857.602050, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	CreateDynamicObject( 16662, 211.934005, 1823.194946, 1856.639038, 0.000000, 0.000000, 63.000000, -1, -1, -1 );
 	CreateDynamicObject( 3526, 222.003005, 1828.145019, 1855.504028, 0.000000, 0.000000, 68.900001, -1, -1, -1 );
@@ -893,20 +893,20 @@ static stock initializeFacilityObjects( )
 	tmpVariable = CreateDynamicObject( 19926, 248.494995, 1798.292968, 1856.375976, 0.000000, 0.000000, 90.000000, -1, -1, -1 );
 	SetDynamicObjectMaterial( tmpVariable, 0, 4552, "ammu_lan2", "newall4-4", 0 );
 	SetDynamicObjectMaterial( tmpVariable, 1, 4552, "ammu_lan2", "newall4-4", 0 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 247.796997, 1806.805053, 1859.504028, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "Ammunation", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19327, 233.839004, 1821.076049, 1858.443969, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "Authorized personnel\nONLY", 120, "IMPACT", 25, 0, -4671304, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 247.796997, 1806.805053, 1859.504028, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "弹药", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19327, 233.839004, 1821.076049, 1858.443969, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "仅限授权人员\n", 120, "IMPACT", 25, 0, -4671304, 0, 1 );
 	tmpVariable = CreateDynamicObject( 19173, 245.843002, 1827.785034, 1857.543945, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "SERVERS", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "SERVERS", 120, "IMPACT", 84, 1, 0, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "服务器", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "服务器", 120, "IMPACT", 84, 1, 0, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19377, 295.842010, 1821.823974, 1857.980957, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, 16644, "a51_detailstuff", "concretegroundl1_256", -47 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19377, 279.122009, 1821.823974, 1857.980957, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, 16644, "a51_detailstuff", "concretegroundl1_256", -47 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19741, 249.591003, 1868.484985, 1857.511962, 0.000000, 0.000000, 0.000000, -1, -1, -1 ), 0, 16375, "des_boneyard", "roucghstone", -256 );
 	CreateDynamicObject( 922, 242.257003, 1805.038940, 1857.333984, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 248.867004, 1842.296997, 1860.644042, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "Server Room", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 234.757003, 1822.738037, 1859.463989, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "Orbital Cannon", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 248.867004, 1842.296997, 1860.644042, 0.000000, 0.000000, 180.000000, -1, -1, -1 ), 0, "服务器机房", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 234.757003, 1822.738037, 1859.463989, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "轨道炮", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
 	tmpVariable = CreateDynamicObject( 19173, 245.843002, 1816.214965, 1857.543945, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( tmpVariable, 0, "SERVERS", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
-	SetDynamicObjectMaterialText( tmpVariable, 1, "SERVERS", 120, "IMPACT", 84, 1, 0, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 0, "服务器", 120, "IMPACT", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( tmpVariable, 1, "服务器", 120, "IMPACT", 84, 1, 0, 0, 1 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19875, 238.533996, 1871.010986, 1860.458984, 0.000000, 0.000000, -90.000000, -1, -1, -1 ), 0, 16649, "a51", "a51_weedoors", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 19875, 238.535003, 1873.715942, 1860.458984, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, 16649, "a51", "a51_weedoors", -16 );
 	SetDynamicObjectMaterial( CreateDynamicObject( 3061, 247.550003, 1841.797973, 1868.943969, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, 5722, "sunrise01_lawn", "plainglass", -16 );
@@ -965,8 +965,8 @@ static stock initializeFacilityObjects( )
 	CreateDynamicObject( 1891, 259.709838, 1859.312500, 1857.666503, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	CreateDynamicObject( 1885, 256.321441, 1859.682617, 1857.696533, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
 	CreateDynamicObject( 1885, 256.321441, 1858.931884, 1857.696533, 0.000000, 0.000000, 0.000000, -1, -1, -1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 238.587280, 1849.567504, 1860.304809, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "Gang Vehicles", 120, "Impact", 84, 0, -13421773, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 263.417633, 1869.281738, 1860.304809, 0.000000, 0.000000, -90.000000, -1, -1, -1 ), 0, "Fast Travel", 120, "Impact", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 238.587280, 1849.567504, 1860.304809, 0.000000, 0.000000, 90.000000, -1, -1, -1 ), 0, "帮派车辆", 120, "Impact", 84, 0, -13421773, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 2662, 263.417633, 1869.281738, 1860.304809, 0.000000, 0.000000, -90.000000, -1, -1, -1 ), 0, "快速旅行", 120, "Impact", 84, 0, -13421773, 0, 1 );
 }
 
 /* ** SCHEMA ** */

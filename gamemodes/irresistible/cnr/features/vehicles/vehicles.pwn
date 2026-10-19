@@ -75,7 +75,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				if ( g_vehicleData[ playerid ] [ id ] [ E_CREATED ] && g_vehicleData[ playerid ] [ id ] [ E_OWNER_ID ] == p_AccountID[ playerid ] && IsValidVehicle( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] ) )
 			 		RespawnBuyableVehicle( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] );
 
-			SendServerMessage( playerid, "You have respawned all your vehicles." );
+			SendServerMessage( playerid, "你已经重生了所有的车辆." );
 		}
 		else
 		{
@@ -86,7 +86,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			       	if ( x == listitem )
 			      	{
 						RespawnBuyableVehicle( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] );
-						SendServerMessage( playerid, "You have respawned your "COL_GREY"%s"COL_WHITE".", GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] ) ) );
+						SendServerMessage( playerid, "你已经重生了你的 "COL_GREY"%s"COL_WHITE".", GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] ) ) );
 					 	break;
 			   		}
 			      	x ++;
@@ -97,7 +97,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	else if ( dialogid == DIALOG_VEHICLE_LOCATE && response )
 	{
 		if ( GetPlayerInterior( playerid ) || GetPlayerVirtualWorld( playerid ) )
-			return SendError( playerid, "You cannot use this feature inside of an interior." );
+			return SendError( playerid, "你不能在室内使用此功能." );
 
 		for( new id, x = 0; id < MAX_BUYABLE_VEHICLES; id ++ )
 		{
@@ -106,7 +106,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		       	if ( x == listitem )
 		      	{
 		      		if ( GetPlayerCash( playerid ) < 10000 )
-		      			return SendError( playerid, "You need $10,000 to bring your vehicle to you." );
+                        return SendError( playerid, "你需要 $10,000 将你的车辆带到你身边." );
 
 				    new
 					    Float: X, Float: Y, Float: Z;
@@ -117,7 +117,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		      			{
 		      				GetPlayerPos( i, X, Y, Z );
 		      				SetPlayerPos( i, X, Y, ( Z + 0.5 ) );
-		      				SendServerMessage( i, "You have been thrown out of the vehicle as the owner has teleported it away!" );
+                            SendServerMessage( i, "你被扔出车外,因为车主已将车传送走了!" );
 		      			}
 		      		}
 
@@ -144,7 +144,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					Beep( playerid );
 					GivePlayerCash( playerid, -10000 );
 					p_VehicleBringCooldown[ playerid ] = g_iTime + 120;
-					SendServerMessage( playerid, "You have brought your "COL_GREY"%s"COL_WHITE". Check the nearest road for it.", GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] ) ) );
+					SendServerMessage( playerid, "你已经带来了你的 "COL_GREY"%s"COL_WHITE".检查最近的道路.", GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ id ] [ E_VEHICLE_ID ] ) ) );
 					break;
 		   		}
 		      	x ++;
@@ -167,7 +167,7 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 
 		if ( ownerid == playerid )
 		{
-			SendClientMessage(playerid, -1, ""COL_GREY"[VEHICLE]"COL_WHITE" Welcome back to your vehicle.");
+			SendClientMessage(playerid, -1, ""COL_GREY"[载具]"COL_WHITE" 欢迎回到你的车辆.");
 			Beep( playerid );
 			GetVehicleParamsEx( vehicleid, engine, lights, alarm, doors, bonnet, boot, objective );
 			SetVehicleParamsEx( vehicleid, VEHICLE_PARAMS_ON, lights, VEHICLE_PARAMS_OFF, doors, bonnet, boot, objective );
@@ -192,11 +192,11 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 					}
 
 					SyncObject( playerid, 1 ); // Just sets the players position where the vehicle is.
-					SendError( playerid, "You cannot drive this car, it has been locked by the owner." );
+					SendError( playerid, "你不能驾驶这辆车,它已被车主锁定." );
 				}
-				else SendClientMessage( playerid, -1, ""COL_PINK"[ADMIN]"COL_GREY" This is a locked vehicle." );
+				else SendClientMessage( playerid, -1, ""COL_PINK"[管理]"COL_GREY" 这是一辆上锁的车辆." );
 			}
-			else SendClientMessageFormatted( playerid, -1, ""COL_GREY"[VEHICLE]"COL_WHITE" This vehicle is owned by %s.", ReturnPlayerName( ownerid ) );
+			else SendClientMessageFormatted( playerid, -1, ""COL_GREY"[载具]"COL_WHITE" 这辆车的所有者是 %s.", ReturnPlayerName( ownerid ) );
 		}
 	}
 	return 1;
@@ -231,7 +231,7 @@ hook OnEnterExitModShop( playerid, enterexit, interiorid )
 						format( szBigString, sizeof( szBigString ), "UPDATE `VEHICLES` SET `MODS`='%s' WHERE `ID`=%d", szMods, g_vehicleData[ playerid ] [ v ] [ E_SQL_ID ] );
 						mysql_single_query( szBigString );
 			        }
-			        else SendError( playerid, "Couldn't update your vehicle mods due to an unexpected error (0x82FF)." );
+			        else SendError( playerid, "由于意外错误 (0x82FF),无法更新你的车辆模组." );
 			    }
 			}
 		}
@@ -279,7 +279,7 @@ CMD:vehicle( playerid, params[ ] ) return cmd_v( playerid, params );
 CMD:v( playerid, params[ ] )
 {
 	if ( p_accountSecurityData[ playerid ] [ E_ID ] && ! p_accountSecurityData[ playerid ] [ E_VERIFIED ] && p_accountSecurityData[ playerid ] [ E_MODE ] != SECURITY_MODE_DISABLED )
-		return SendError( playerid, "You must be verified in order to use this feature. "COL_YELLOW"(use /verify)" );
+		return SendError( playerid, "使用此功能需要先验证账号. "COL_YELLOW"(输入 /verify)" );
 
 #if VIP_ALLOW_OVER_LIMIT == false
 	// force hoarders to sell
@@ -287,7 +287,7 @@ CMD:v( playerid, params[ ] )
 		for( new i = 0; i < p_OwnedVehicles[ playerid ]; i++ ) if ( g_vehicleData[ playerid ] [ i ] [ E_OWNER_ID ] == p_AccountID[ playerid ] ) {
 			g_vehicleData[ playerid ] [ i ] [ E_LOCKED ] = false;
 		}
-		return SendError( playerid, "Please renew your V.I.P or sell this vehicle to match your vehicle allocated limit. (/v sell/bring only)" );
+		return SendError( playerid, "请续费 VIP 或出售载具, 使载具数量符合上限. (仅可使用 /v sell/bring)" );
 	}
 #endif
 
@@ -300,50 +300,50 @@ CMD:v( playerid, params[ ] )
 	else if ( strmatch( params, "sell" ) )
 	{
 		new v = getVehicleSlotFromID( vehicleid, ownerid );
-	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You need to be in a vehicle to use this command." );
-		else if ( v == -1 ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( g_buyableVehicle{ vehicleid } == false ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( playerid != ownerid ) return SendError( playerid, "You cannot sell this vehicle." );
+	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你需要在车辆中才能使用此命令." );
+		else if ( v == -1 ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( g_buyableVehicle{ vehicleid } == false ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( playerid != ownerid ) return SendError( playerid, "你不能出售这辆车." );
 		else
 		{
-			format( szBigString, sizeof( szBigString ), "[SELL] [%s] %s | %d | %s\r\n", getCurrentDate( ), ReturnPlayerName( playerid ), v, GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ v ] [ E_VEHICLE_ID ] ) ) );
+			format( szBigString, sizeof( szBigString ), "[出售] [%s] %s | %d | %s\r\n", getCurrentDate( ), ReturnPlayerName( playerid ), v, GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ v ] [ E_VEHICLE_ID ] ) ) );
 		    AddFileLogLine( "log_destroycar.txt", szBigString );
             GivePlayerCash( playerid, ( g_vehicleData[ playerid ] [ v ] [ E_PRICE ] / 2 ) );
-			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[VEHICLE]"COL_WHITE" You have sold this vehicle for half the price it was (%s).", cash_format( ( g_vehicleData[ playerid ] [ v ] [ E_PRICE ] / 2 ) ) );
+			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[载具]"COL_WHITE" 你已以原价一半的价格出售了这辆车 (%s).", cash_format( ( g_vehicleData[ playerid ] [ v ] [ E_PRICE ] / 2 ) ) );
             DestroyBuyableVehicle( playerid, v );
 		}
 	}
 	else if ( strmatch( params, "lock" ) )
 	{
 		new v = getVehicleSlotFromID( vehicleid, ownerid  );
-	    if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be in a vehicle to use this command." );
-		else if ( v == -1 ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( g_buyableVehicle{ vehicleid } == false ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( playerid != ownerid ) return SendError( playerid, "You cannot lock this vehicle." );
+	    if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要在车辆中才能使用此命令." );
+		else if ( v == -1 ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( g_buyableVehicle{ vehicleid } == false ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( playerid != ownerid ) return SendError( playerid, "你无法锁定此车辆." );
 		else
 		{
 		    g_vehicleData[ playerid ] [ v ] [ E_LOCKED ] = !g_vehicleData[ playerid ] [ v ] [ E_LOCKED ];
-			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[VEHICLE]"COL_WHITE" You have %s this vehicle.", g_vehicleData[ playerid ] [ v ] [ E_LOCKED ] == true ? ( "locked" ) : ( "un-locked" ) );
+			SendClientMessageFormatted( playerid, -1, ""COL_GREY"[载具]"COL_WHITE" 你有 %s 这辆车.", g_vehicleData[ playerid ] [ v ] [ E_LOCKED ] == true ? ( "锁定" ) : ( "解锁" ) );
             SaveVehicleData( playerid, v );
 		}
 	}
 	else if ( strmatch( params, "park" ) )
 	{
 		new v = getVehicleSlotFromID( vehicleid, ownerid  ), Float: X, Float: Y, Float: Z, Float: Angle;
-	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You need to be in a vehicle to use this command." );
-	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be a driver to use this command." );
-		else if ( v == -1 ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( playerid != ownerid ) return SendError( playerid, "You cannot park this vehicle." );
-		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "You cannot use this command while below sea level." );
+	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你需要在车辆中才能使用此命令." );
+	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
+		else if ( v == -1 ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( playerid != ownerid ) return SendError( playerid, "你无法停放此车辆." );
+		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "当低于海平面时,你无法使用此命令." );
 		else
 		{
-	        if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "Sorry, you're just going to have to ditch your car as soon as possible." );
+	        if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "抱歉,你必须尽快扔掉你的车." );
 
 	        new
 	        	iBreach = PlayerBreachedGarageLimit( playerid, v );
 
-	        if ( iBreach == -1 ) return SendError( playerid, "You cannot park vehicles that are not owned by the owner of this garage." );
-	        if ( iBreach == -2 ) return SendError( playerid, "This garage has already reached its capacity of %d vehicles.", GetGarageVehicleCapacity( p_InGarage[ playerid ] ) );
+	        if ( iBreach == -1 ) return SendError( playerid, "你不能停放不属于该车库所有者的车辆." );
+	        if ( iBreach == -2 ) return SendError( playerid, "该车库已达到 %d 辆车的容量.", GetGarageVehicleCapacity( p_InGarage[ playerid ] ) );
 
 			GetVehiclePos( vehicleid, X, Y, Z );
 			GetVehicleZAngle( vehicleid, Angle );
@@ -351,59 +351,59 @@ CMD:v( playerid, params[ ] )
 			PutPlayerInVehicle( playerid, RespawnBuyableVehicle( vehicleid, playerid ), 0 );
  			SetTimerEx( "timedUpdates_RBV", 25, false, "ddf", playerid, INVALID_VEHICLE_ID, -1000.0 );
             SaveVehicleData( playerid, v );
-        	SendClientMessage( playerid, -1, ""COL_GREY"[VEHICLE]"COL_WHITE" You have parked this vehicle." );
+            SendClientMessage( playerid, -1, ""COL_GREY"[载具]"COL_WHITE" 你已停放这辆车." );
 		}
 	}
 	else if ( strmatch( params, "respawn" ) )
 	{
 		if ( p_OwnedVehicles[ playerid ] > 0 )
 		{
-		    szLargeString = ""COL_GREY"Respawn All Vehicles\n";
+		    szLargeString = ""COL_GREY"重生所有车辆\n";
 			for( new i; i < p_OwnedVehicles[ playerid ]; i++ )
 		    {
 				if ( g_vehicleData[ playerid ] [ i ] [ E_OWNER_ID ] == p_AccountID[ playerid ] && IsValidVehicle( g_vehicleData[ playerid ] [ i ] [ E_VEHICLE_ID ] ) ) {
 				    format( szLargeString, sizeof( szLargeString ), "%s%s\n", szLargeString, GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ i ] [ E_VEHICLE_ID ] ) ) );
 				}
 		    }
-		    ShowPlayerDialog( playerid, DIALOG_VEHICLE_SPAWN, DIALOG_STYLE_LIST, "{FFFFFF}Spawn your vehicle", szLargeString, "Select", "Cancel" );
+		    ShowPlayerDialog( playerid, DIALOG_VEHICLE_SPAWN, DIALOG_STYLE_LIST, "{FFFFFF}生成你的载具", szLargeString, "选择", "取消" );
 		}
-		else SendError( playerid, "You don't own any vehicles." );
+		else SendError( playerid, "你不拥有任何车辆." );
 	}
-	else if ( strmatch( params, "locate" ) ) return SendServerMessage( playerid, "This feature has been replaced with "COL_GREY"/v bring"COL_WHITE"." );
+	else if ( strmatch( params, "locate" ) ) return SendServerMessage( playerid, "此功能已替换为 "COL_GREY"/v bring"COL_WHITE"." );
 	else if ( strmatch( params, "bring" ) )
 	{
 		if ( p_VehicleBringCooldown[ playerid ] > g_iTime )
-			return SendError( playerid, "You must wait %s before using this feature again.", secondstotime( p_VehicleBringCooldown[ playerid ] - g_iTime ) );
-		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "You cannot use this command while below sea level." );
+			return SendError( playerid, "再次使用此功能之前,你必须等待 %s.", secondstotime( p_VehicleBringCooldown[ playerid ] - g_iTime ) );
+		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "当低于海平面时,你无法使用此命令." );
 		else if ( p_OwnedVehicles[ playerid ] > 0 )
 		{
-		    szLargeString = ""COL_WHITE"Bringing your vehicle to you will cost $10,000!\n";
+		    szLargeString = ""COL_WHITE"把你的车带到你面前将花费 $10,000!\n";
 			for( new i; i < p_OwnedVehicles[ playerid ]; i++ )
 		    {
 				if ( g_vehicleData[ playerid ] [ i ] [ E_OWNER_ID ] == p_AccountID[ playerid ] && IsValidVehicle( g_vehicleData[ playerid ] [ i ] [ E_VEHICLE_ID ] ) ) {
 				    format( szLargeString, sizeof( szLargeString ), "%s%s\n", szLargeString, GetVehicleName( GetVehicleModel( g_vehicleData[ playerid ] [ i ] [ E_VEHICLE_ID ] ) ) );
 				}
 			}
-		    ShowPlayerDialog( playerid, DIALOG_VEHICLE_LOCATE, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Bring Vehicle", szLargeString, "Select", "Cancel" );
+		    ShowPlayerDialog( playerid, DIALOG_VEHICLE_LOCATE, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}带车辆", szLargeString, "选择", "取消" );
 		}
-		else SendError( playerid, "You don't own any vehicles." );
+		else SendError( playerid, "你不拥有任何车辆." );
 	}
 	else if ( strmatch( params, "data" ) )
 	{
-		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You are not in any vehicle." );
-		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
+		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你不在任何车辆中." );
+		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "这辆车不是可购买的车辆." );
 		else
 		{
 			new v = getVehicleSlotFromID( vehicleid, ownerid );
-	        if ( playerid != ownerid ) return SendError( playerid, "You don't own this vehicle." );
+	        if ( playerid != ownerid ) return SendError( playerid, "你不拥有这辆车." );
 
-			format( szBigString, sizeof( szBigString ),	""COL_GREY"Vehicle Owner:"COL_WHITE" %s\n"\
-			                            ""COL_GREY"Vehicle Type:"COL_WHITE" %s\n"\
-			                            ""COL_GREY"Vehicle ID:"COL_WHITE" %d\n"\
-			                            ""COL_GREY"Vehicle Price:"COL_WHITE" %s",
+			format( szBigString, sizeof( szBigString ),	""COL_GREY"车主:"COL_WHITE" %s\n"\
+			                            ""COL_GREY"车辆类型:"COL_WHITE" %s\n"\
+			                            ""COL_GREY"车辆 ID:"COL_WHITE" %d\n"\
+			                            ""COL_GREY"车辆价格:"COL_WHITE" %s",
 			                            ReturnPlayerName( ownerid ), GetVehicleName( GetVehicleModel( GetPlayerVehicleID( playerid ) ) ),
 			                            g_vehicleData[ playerid ] [ v ] [ E_SQL_ID ], cash_format( g_vehicleData[ playerid ] [ v ] [ E_PRICE ] ) );
-			ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{FFFFFF}Vehicle Data", szBigString, "Okay", "" );
+			ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, "{FFFFFF}车辆数据", szBigString, "确定", "" );
 		}
 	}
 	else if ( !strcmp( params, "color", false, 4 ) )
@@ -411,24 +411,24 @@ CMD:v( playerid, params[ ] )
 		new
 		    color1, color2
 		;
-		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You must be inside a vehicle to use this command." );
-	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be a driver to use this command." );
-		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "You cannot use this command while below sea level." );
+		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你必须在车内才能使用此命令." );
+	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
+		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "当低于海平面时,你无法使用此命令." );
 		else if ( sscanf( params[ 6 ], "dd", color1, color2 ) ) return SendUsage( playerid, "/v color [COLOR_1] [COLOR_2]" );
-		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "This isn't a buyable vehicle." );
-		else if ( GetPlayerCash( playerid ) < 100 ) return SendError( playerid, "You don't have enough cash for this." );
-		else if ( color1 > 255 || color1 < 0 || color2 > 255 || color2 < 0 ) return SendError( playerid, "Invalid vehicle color ID." );
+		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "这不是一辆可购买的车辆." );
+		else if ( GetPlayerCash( playerid ) < 100 ) return SendError( playerid, "你没有足够的现金来做这件事." );
+		else if ( color1 > 255 || color1 < 0 || color2 > 255 || color2 < 0 ) return SendError( playerid, "车辆颜色 ID 无效." );
 		else
 		{
 	        new vID = getVehicleSlotFromID( GetPlayerVehicleID( playerid ), ownerid );
-	        if ( playerid != ownerid ) return SendError( playerid, "You don't own this vehicle." );
-	        if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "Sorry, you're just going to have to ditch your car as soon as possible." );
+	        if ( playerid != ownerid ) return SendError( playerid, "你不拥有这辆车." );
+	        if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "抱歉,你必须尽快扔掉你的车." );
 	        g_vehicleData[ playerid ] [ vID ] [ E_COLOR ] [ 0 ] = color1;
 	        g_vehicleData[ playerid ] [ vID ] [ E_COLOR ] [ 1 ] = color2;
 	    	GivePlayerCash( playerid, -100 );
 			PutPlayerInVehicle( playerid, RespawnBuyableVehicle( vehicleid, playerid ), 0 );
 	        SaveVehicleData( playerid, vID );
-			SendServerMessage( playerid, "You have successfully changed your vehicle colors." );
+			SendServerMessage( playerid, "你已成功更改车辆颜色." );
 		}
 	}
 	else if ( !strcmp( params, "plate", false, 4 ) )
@@ -436,21 +436,21 @@ CMD:v( playerid, params[ ] )
 		new
 		    szPlate[ 32 ]
 		;
-		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You must be inside a vehicle to use this command." );
-	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be a driver to use this command." );
-		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "You cannot use this command while below sea level." );
+		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你必须在车内才能使用此命令." );
+	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
+		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "当低于海平面时,你无法使用此命令." );
 		else if ( sscanf( params[ 6 ], "s[32]", szPlate ) ) return SendUsage( playerid, "/v plate [TEXT]" );
-		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "This isn't a buyable vehicle." );
+		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "这不是一辆可购买的车辆." );
 		else
 		{
 	        new vID = getVehicleSlotFromID( GetPlayerVehicleID( playerid ), ownerid );
-	        if ( playerid != ownerid ) return SendError( playerid, "You don't own this vehicle." );
-			if ( IsBoatVehicle( GetVehicleModel( g_vehicleData[ playerid ] [ vID ] [ E_VEHICLE_ID ] ) ) || IsAirVehicle( GetVehicleModel( g_vehicleData[ playerid ] [ vID ] [ E_VEHICLE_ID ] ) ) ) return SendError( playerid, "Sorry, this feature is not available on planes and boats." );
-	        if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "Sorry, you're just going to have to ditch your car as soon as possible." );
+	        if ( playerid != ownerid ) return SendError( playerid, "你不拥有这辆车." );
+			if ( IsBoatVehicle( GetVehicleModel( g_vehicleData[ playerid ] [ vID ] [ E_VEHICLE_ID ] ) ) || IsAirVehicle( GetVehicleModel( g_vehicleData[ playerid ] [ vID ] [ E_VEHICLE_ID ] ) ) ) return SendError( playerid, "抱歉,此功能在飞机和船上不可用." );
+	        if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "抱歉,你必须尽快扔掉你的车." );
 			format( g_vehicleData[ playerid ] [ vID ] [ E_PLATE ], 32, "%s", szPlate );
 			PutPlayerInVehicle( playerid, RespawnBuyableVehicle( vehicleid, playerid ), 0 );
 	        SaveVehicleData( playerid, vID );
-			SendServerMessage( playerid, "Your have changed your vehicle's number plate to "COL_GREY"%s"COL_WHITE".", szPlate );
+			SendServerMessage( playerid, "你已将车辆的车牌更改为 "COL_GREY"%s"COL_WHITE".", szPlate );
 		}
 	}
 	else if ( !strcmp( params, "paintjob", false, 7 ) )
@@ -458,19 +458,19 @@ CMD:v( playerid, params[ ] )
 		new
 		    paintjobid
 		;
-		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You must be inside a vehicle to use this command." );
-	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be a driver to use this command." );
-		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "You cannot use this command while below sea level." );
+		if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你必须在车内才能使用此命令." );
+	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
+		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "当低于海平面时,你无法使用此命令." );
 		else if ( sscanf( params[ 9 ], "d", paintjobid ) ) return SendUsage( playerid, "/v paintjob [PAINT_JOB_ID]" );
-		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "This isn't a buyable vehicle." );
-		else if ( GetPlayerCash( playerid ) < 500 ) return SendError( playerid, "You don't have enough cash for this." );
-		else if ( paintjobid < 0 || paintjobid > 3 ) return SendError( playerid, "Please specify a paintjob between 0 to 3." );
+		else if ( g_buyableVehicle{ GetPlayerVehicleID( playerid ) } == false ) return SendError( playerid, "这不是一辆可购买的车辆." );
+		else if ( GetPlayerCash( playerid ) < 500 ) return SendError( playerid, "你没有足够的现金来做这件事." );
+		else if ( paintjobid < 0 || paintjobid > 3 ) return SendError( playerid, "请指定 0 到 3. 之间的涂装" );
 		else
 		{
 	        new vID = getVehicleSlotFromID( GetPlayerVehicleID( playerid ), ownerid );
-	        if ( playerid != ownerid ) return SendError( playerid, "You don't own this vehicle." );
-			if ( !IsPaintJobVehicle( GetVehicleModel( GetPlayerVehicleID( playerid ) ) ) ) return SendError( playerid, "This vehicle cannot have a paintjob installed." );
-			if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "Sorry, you're just going to have to ditch your car as soon as possible." );
+	        if ( playerid != ownerid ) return SendError( playerid, "你不拥有这辆车." );
+			if ( !IsPaintJobVehicle( GetVehicleModel( GetPlayerVehicleID( playerid ) ) ) ) return SendError( playerid, "该车辆无法安装喷漆." );
+			if ( IsVehicleUpsideDown( GetPlayerVehicleID( playerid ) ) ) return SendError( playerid, "抱歉,你必须尽快扔掉你的车." );
 	        g_vehicleData[ playerid ] [ vID ] [ E_PAINTJOB ] = paintjobid;
 		    ChangeVehiclePaintjob( GetPlayerVehicleID( playerid ), paintjobid );
 		    GivePlayerCash( playerid, -500 );
@@ -481,11 +481,11 @@ CMD:v( playerid, params[ ] )
 	else if ( !strcmp( params, "toggle", false, 5 ) )
 	{
 		new v = getVehicleSlotFromID( vehicleid, ownerid );
-	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You need to be in a vehicle to use this command." );
-	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be a driver to use this command." );
-		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "You cannot use this command while below sea level." );
-		else if ( v == -1 ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( playerid != ownerid ) return SendError( playerid, "This vehicle does not belong to you." );
+	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你需要在车辆中才能使用此命令." );
+	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
+		else if ( IsPlayerBelowSeaLevel( playerid ) ) return SendError( playerid, "当低于海平面时,你无法使用此命令." );
+		else if ( v == -1 ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( playerid != ownerid ) return SendError( playerid, "这辆车不属于你." );
 		else
 		{
 			if ( !strlen( params[ 7 ] ) )
@@ -497,11 +497,11 @@ CMD:v( playerid, params[ ] )
 				if ( !strlen( params[ 13 ] ) ) return SendUsage( playerid, "/v toggle doors [OPEN/CLOSE]" );
 				else if ( strmatch( params[ 13 ], "open" ) ) {
 					SetVehicleParamsCarDoors( vehicleid, 1, 1, 1, 1 );
-					return SendServerMessage( playerid, "You have opened the doors of this vehicle." );
+					return SendServerMessage( playerid, "你已经打开了这辆车的门." );
 				}
 				else if ( strmatch( params[ 13 ], "close" ) ) {
 					SetVehicleParamsCarDoors( vehicleid, 0, 0, 0, 0 );
-					return SendServerMessage( playerid, "You have closed the doors of this vehicle." );
+					return SendServerMessage( playerid, "你已关闭这辆车的车门." );
 				}
 				else {
 					return SendUsage( playerid, "/v toggle doors [OPEN/CLOSE]" );
@@ -512,11 +512,11 @@ CMD:v( playerid, params[ ] )
 				if ( !strlen( params[ 15 ] ) ) return SendUsage( playerid, "/v toggle windows [OPEN/CLOSE]" );
 				else if ( strmatch( params[ 15 ], "open" ) ) {
 					SetVehicleParamsCarWindows( vehicleid, 0, 0, 0, 0 );
-					return SendServerMessage( playerid, "You have opened the windows of this vehicle." );
+					return SendServerMessage( playerid, "你已打开这辆车的车窗." );
 				}
 				else if ( strmatch( params[ 15 ], "close" ) ) {
 					SetVehicleParamsCarWindows( vehicleid, 1, 1, 1, 1 );
-					return SendServerMessage( playerid, "You have closed the windows of this vehicle." );
+					return SendServerMessage( playerid, "你已关闭这辆车的车窗." );
 				}
 				else {
 					return SendUsage( playerid, "/v toggle windows [OPEN/CLOSE]" );
@@ -524,15 +524,15 @@ CMD:v( playerid, params[ ] )
 			}
 
 			else if ( strmatch( params[ 7 ], "bonnet" ) ){
-				SendServerMessage( playerid, "You have %s the bonnet of this vehicle.", ( bonnet = !bonnet ) ? ( "opened" ) : ( "closed" ) );
+				SendServerMessage( playerid, "你拥有 %s 这辆车的引擎盖.", ( bonnet = !bonnet ) ? ( "打开" ) : ( "关闭" ) );
 			}
 
 			else if ( strmatch( params[ 7 ], "boot" ) ) {
-				SendServerMessage( playerid, "You have %s the boot of this vehicle.", ( boot = !boot ) ? ( "opened" ) : ( "closed" ) );
+				SendServerMessage( playerid, "你拥有 %s 这辆车的后备箱.", ( boot = !boot ) ? ( "打开" ) : ( "关闭" ) );
 			}
 
 			else if ( strmatch( params[ 7 ], "lights" ) ) {
-				SendServerMessage( playerid, "You have %s the lights of this vehicle.", ( lights = !lights ) ? ( "switched on" ) : ( "switched off" ) );
+				SendServerMessage( playerid, "你有 %s 这辆车的灯.", ( lights = !lights ) ? ( "开启" ) : ( "关掉" ) );
 			}
 
 			else {
@@ -545,13 +545,13 @@ CMD:v( playerid, params[ ] )
 	else if ( strmatch( params, "reset" ) )
 	{
 		new v = getVehicleSlotFromID( vehicleid, ownerid );
-	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You need to be in a vehicle to use this command." );
-	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You need to be a driver to use this command." );
-		else if ( v == -1 ) return SendError( playerid, "This vehicle isn't a buyable vehicle." );
-		else if ( playerid != ownerid ) return SendError( playerid, "This vehicle does not belong to you." );
+	    if ( !IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你需要在车辆中才能使用此命令." );
+	    else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
+		else if ( v == -1 ) return SendError( playerid, "这辆车不是可购买的车辆." );
+		else if ( playerid != ownerid ) return SendError( playerid, "这辆车不属于你." );
 		else
 		{
-			if ( IsVehicleUpsideDown( vehicleid ) ) return SendError( playerid, "Sorry, you're just going to have to ditch your car as soon as possible." );
+			if ( IsVehicleUpsideDown( vehicleid ) ) return SendError( playerid, "抱歉,你必须尽快扔掉你的车." );
 			ResetBuyableVehicleMods( playerid, v, 0 );
 		    ChangeVehiclePaintjob( vehicleid, 3 );
 		    g_vehicleData[ playerid ] [ v ] [ E_PAINTJOB ] = 3;
@@ -559,7 +559,7 @@ CMD:v( playerid, params[ ] )
 	        g_vehicleData[ playerid ] [ v ] [ E_COLOR ] [ 1 ] = 0;
 			PutPlayerInVehicle( playerid, RespawnBuyableVehicle( vehicleid, playerid ), 0 );
 	        SaveVehicleData( playerid, v );
-			SendClientMessage( playerid, -1, ""COL_GREY"[SERVER]"COL_WHITE" You have reset your vehicle's appearance." );
+			SendClientMessage( playerid, -1, ""COL_GREY"[服务器]"COL_WHITE" 你已重置车辆的外观." );
 		}
 	}
 	else SendUsage( playerid, "/v [SELL/COLOR/LOCK/PARK/RESPAWN/BRING/DATA/PLATE/PAINTJOB/TOGGLE/RESET]" );
@@ -582,7 +582,7 @@ CMD:colours( playerid, params[ ] )
 		format( list, sizeof( list ), "%s{%06x}%03d%s", list, g_vehicleColors[ J ] >>> 8, J, ! ( ( J + 1 ) % COLORS_PER_ROW ) ? ( "\n" ) : ( " " ) );
 	}
 
-	ShowPlayerDialog( playerid, DIALOG_VEH_COLORS, DIALOG_STYLE_MSGBOX, ""COL_WHITE"Vehicle Colors", list, "Okay", "");
+	ShowPlayerDialog( playerid, DIALOG_VEH_COLORS, DIALOG_STYLE_MSGBOX, ""COL_WHITE"车辆颜色", list, "确定", "");
 	return 1;
 }
 
@@ -763,7 +763,7 @@ stock DestroyBuyableVehicle( playerid, vID, bool: db_remove = true )
 
 	if ( db_remove )
 	{
-	    SendClientMessage( playerid, -1, ""COL_PINK"[VEHICLE]"COL_WHITE" One of your vehicles has been destroyed.");
+	    SendClientMessage( playerid, -1, ""COL_PINK"[载具]"COL_WHITE" 你的一辆车已被摧毁.");
 		p_OwnedVehicles[ playerid ] --;
 
 		format( query, sizeof( query ), "DELETE FROM `VEHICLES` WHERE `ID`=%d", g_vehicleData[ playerid ] [ vID ] [ E_SQL_ID ] );
@@ -813,7 +813,7 @@ stock RespawnBuyableVehicle( samp_veh_id, occupantid = INVALID_PLAYER_ID )
 
 	if ( ( newVeh = CreateVehicle( g_vehicleData[ playerid ] [ id ] [ E_MODEL ], g_vehicleData[ playerid ] [ id ] [ E_X ], g_vehicleData[ playerid ] [ id ] [ E_Y ], g_vehicleData[ playerid ] [ id ] [ E_Z ], g_vehicleData[ playerid ] [ id ] [ E_ANGLE ], g_vehicleData[ playerid ] [ id ] [ E_COLOR ] [ 0 ], g_vehicleData[ playerid ] [ id ] [ E_COLOR ] [ 1 ], 999999999 ) ) == INVALID_VEHICLE_ID ) {
 	    printf( "[ERROR] CreateVehicle(%d, %f, %f, %f, %f, %d, %d, %d);", g_vehicleData[ playerid ] [ id ] [ E_MODEL ], g_vehicleData[ playerid ] [ id ] [ E_X ], g_vehicleData[ playerid ] [ id ] [ E_Y ], g_vehicleData[ playerid ] [ id ] [ E_Z ], g_vehicleData[ playerid ] [ id ] [ E_ANGLE ], g_vehicleData[ playerid ] [ id ] [ E_COLOR ] [ 0 ], g_vehicleData[ playerid ] [ id ] [ E_COLOR ] [ 1 ], 999999999 );
-		return SendError( playerid, "Couldn't update vehicle due to a unknown error." );
+		return SendError( playerid, "由于未知错误,无法更新车辆." );
 	}
 
 	// Reset special data

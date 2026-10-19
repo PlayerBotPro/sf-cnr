@@ -42,7 +42,7 @@ new
 /* ** Hooks ** */
 hook OnScriptInit( )
 {
-	g_currentXPTD = TextDrawCreate(529.000000, 405.000000, "Current XP");
+	g_currentXPTD = TextDrawCreate(529.000000, 405.000000, "当前经验");
 	TextDrawBackgroundColor(g_currentXPTD, 255);
 	TextDrawFont(g_currentXPTD, 3);
 	TextDrawLetterSize(g_currentXPTD, 0.230000, 1.000000);
@@ -50,7 +50,7 @@ hook OnScriptInit( )
 	TextDrawSetOutline(g_currentXPTD, 1);
 	TextDrawSetProportional(g_currentXPTD, 1);
 
-	g_CurrentRankTD = TextDrawCreate(529.000000, 375.000000, "Current Rank");
+	g_CurrentRankTD = TextDrawCreate(529.000000, 375.000000, "当前等级");
 	TextDrawBackgroundColor(g_CurrentRankTD, 255);
 	TextDrawFont(g_CurrentRankTD, 3);
 	TextDrawLetterSize(g_CurrentRankTD, 0.230000, 1.000000);
@@ -58,7 +58,7 @@ hook OnScriptInit( )
 	TextDrawSetOutline(g_CurrentRankTD, 1);
 	TextDrawSetProportional(g_CurrentRankTD, 1);
 
-	g_CurrentCoinsTD = TextDrawCreate(529.000000, 348.000000, "Total Coins");
+	g_CurrentCoinsTD = TextDrawCreate(529.000000, 348.000000, "代币总数");
 	TextDrawBackgroundColor(g_CurrentCoinsTD, 255);
 	TextDrawFont(g_CurrentCoinsTD, 3);
 	TextDrawLetterSize(g_CurrentCoinsTD, 0.230000, 1.000000);
@@ -118,7 +118,7 @@ hook OnScriptInit( )
 	TextDrawBoxColor(g_AchievementTD[ 2 ], 255);
 	TextDrawTextSize(g_AchievementTD[ 2 ], 403.000000, 4.000000);
 
-	g_AchievementTD[ 3 ] = TextDrawCreate(266.000000, 121.000000, "]_ACHIEVEMENT UNLOCKED_]");
+	g_AchievementTD[ 3 ] = TextDrawCreate(266.000000, 121.000000, "]_解锁成就_]");
 	TextDrawBackgroundColor(g_AchievementTD[ 3 ], 255);
 	TextDrawFont(g_AchievementTD[ 3 ], 2);
 	TextDrawLetterSize(g_AchievementTD[ 3 ], 0.210000, 1.100000);
@@ -137,7 +137,7 @@ hook OnScriptInit( )
 	TextDrawSetProportional(g_MotdTD, 1);
 	TextDrawSetString( g_MotdTD, "_" );
 
-	g_ObjectLoadTD = TextDrawCreate(320.000000, 148.000000, "Loading Objects...~n~Please Wait...");
+	g_ObjectLoadTD = TextDrawCreate(320.000000, 148.000000, "正在加载地图...~n~请稍候...");
 	TextDrawAlignment(g_ObjectLoadTD, 2);
 	TextDrawBackgroundColor(g_ObjectLoadTD, 80);
 	TextDrawFont(g_ObjectLoadTD, 2);
@@ -183,7 +183,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline(playerid, p_AchievementTD[ playerid ], 1);
 	PlayerTextDrawSetProportional(playerid, p_AchievementTD[ playerid ], 1);
 
-	p_GPSInformation[ playerid ] = CreatePlayerTextDraw(playerid, 26.000000, 200.000000, "~g~Location:~w~ No-where~n~~g~Distance:~w~ 0.0m");
+	p_GPSInformation[ playerid ] = CreatePlayerTextDraw(playerid, 26.000000, 200.000000, "~g~地点:~w~无处~n~~g~距离:~w~ 0.0米");
 	PlayerTextDrawBackgroundColor(playerid, p_GPSInformation[ playerid ], 255);
 	PlayerTextDrawFont(playerid, p_GPSInformation[ playerid ], 2);
 	PlayerTextDrawLetterSize(playerid, p_GPSInformation[ playerid ], 0.209999, 1.099999);
@@ -191,7 +191,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline(playerid, p_GPSInformation[ playerid ], 1);
 	PlayerTextDrawSetProportional(playerid, p_GPSInformation[ playerid ], 1);
 
-	p_TrackPlayerTD[ playerid ] = CreatePlayerTextDraw(playerid, 571.000000, 258.000000, "Loading~n~~w~NaN.0m");
+	p_TrackPlayerTD[ playerid ] = CreatePlayerTextDraw(playerid, 571.000000, 258.000000, "正在加载~n~~w~NaN.0m");
 	PlayerTextDrawAlignment(playerid, p_TrackPlayerTD[ playerid ], 2);
 	PlayerTextDrawBackgroundColor(playerid, p_TrackPlayerTD[ playerid ], 80);
 	PlayerTextDrawFont(playerid, p_TrackPlayerTD[ playerid ], 1);
@@ -200,7 +200,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline(playerid, p_TrackPlayerTD[ playerid ], 1);
 	PlayerTextDrawSetProportional(playerid, p_TrackPlayerTD[ playerid ], 1);
 
-	p_TruckingTD[ playerid ] = CreatePlayerTextDraw(playerid, 26.000000, 220.000000, "~b~Location:~w~ No-where~n~~b~Distance:~w~ 0.0m");
+	p_TruckingTD[ playerid ] = CreatePlayerTextDraw(playerid, 26.000000, 220.000000, "~b~地点:~w~无处~n~~b~距离:~w~ 0.0米");
 	PlayerTextDrawBackgroundColor(playerid, p_TruckingTD[ playerid ], 255);
 	PlayerTextDrawFont(playerid, p_TruckingTD[ playerid ], 2);
 	PlayerTextDrawLetterSize(playerid, p_TruckingTD[ playerid ], 0.210000, 1.100000);
@@ -208,7 +208,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline(playerid, p_TruckingTD[ playerid ], 1);
 	PlayerTextDrawSetProportional(playerid, p_TruckingTD[ playerid ], 1);
 
-	p_HelpBoxTD[ playerid ] = CreatePlayerTextDraw(playerid, 30.000000, 161.000000, "... Loading Help ...");
+	p_HelpBoxTD[ playerid ] = CreatePlayerTextDraw(playerid, 30.000000, 161.000000, "...正在加载帮助...");
 	PlayerTextDrawBackgroundColor(playerid, p_HelpBoxTD[ playerid ], 255);
 	PlayerTextDrawFont(playerid, p_HelpBoxTD[ playerid ], 1);
 	PlayerTextDrawLetterSize(playerid, p_HelpBoxTD[ playerid ], 0.219999, 1.200000);
@@ -228,7 +228,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawColor( playerid, g_ZoneOwnerTD[ playerid ], -1 );
 	PlayerTextDrawSetOutline( playerid, g_ZoneOwnerTD[ playerid ], 1 );
 
-	p_JailTimeTD[ playerid ] = CreatePlayerTextDraw(playerid, 328.000000, 24.000000, "Time Remaining:~n~250 seconds");
+	p_JailTimeTD[ playerid ] = CreatePlayerTextDraw(playerid, 328.000000, 24.000000, "剩余时间:~n~250 秒");
 	PlayerTextDrawAlignment(playerid, p_JailTimeTD[ playerid ], 2);
 	PlayerTextDrawBackgroundColor(playerid, p_JailTimeTD[ playerid ], 85);
 	PlayerTextDrawFont(playerid, p_JailTimeTD[ playerid ], 1);
@@ -237,7 +237,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline(playerid, p_JailTimeTD[ playerid ], 1);
 	PlayerTextDrawSetProportional(playerid, p_JailTimeTD[ playerid ], 1);
 
-	p_LocationTD[ playerid ] = CreatePlayerTextDraw( playerid, 86.000000, 322.000000, "Loading..." );
+	p_LocationTD[ playerid ] = CreatePlayerTextDraw( playerid, 86.000000, 322.000000, "加载中..." );
 	PlayerTextDrawAlignment( playerid, p_LocationTD[ playerid ], 2 );
 	PlayerTextDrawBackgroundColor( playerid, p_LocationTD[ playerid ], 255 );
 	PlayerTextDrawFont( playerid, p_LocationTD[ playerid ], 1 );
@@ -272,7 +272,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline( playerid, p_CoinsTD[ playerid ], 1 );
 	PlayerTextDrawSetProportional( playerid, p_CoinsTD[ playerid ], 1 );
 
-	p_PlayerRankTD[ playerid ] = CreatePlayerTextDraw( playerid, 603.000000, 386.000000, "RANK" );
+	p_PlayerRankTD[ playerid ] = CreatePlayerTextDraw( playerid, 603.000000, 386.000000, "等级" );
 	PlayerTextDrawBackgroundColor( playerid, p_PlayerRankTD[ playerid ], 0 );
 	PlayerTextDrawFont( playerid, p_PlayerRankTD[ playerid ], 5 );
 	PlayerTextDrawLetterSize( playerid, p_PlayerRankTD[ playerid ], 0.519999, 4.000000 );
@@ -286,7 +286,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetPreviewModel( playerid, p_PlayerRankTD[ playerid ], 19782 );
 	PlayerTextDrawSetPreviewRot( playerid, p_PlayerRankTD[ playerid ], 90.000000, 0.000000, 90.000000, 0.600000 );
 
-	p_PlayerRankTextTD[ playerid ] = CreatePlayerTextDraw( playerid, 529.000000, 386.000000, "Silver-1" );
+	p_PlayerRankTextTD[ playerid ] = CreatePlayerTextDraw( playerid, 529.000000, 386.000000, "银-1" );
 	PlayerTextDrawBackgroundColor( playerid, p_PlayerRankTextTD[ playerid ], 255 );
 	PlayerTextDrawFont( playerid, p_PlayerRankTextTD[ playerid ], 3 );
 	PlayerTextDrawLetterSize( playerid, p_PlayerRankTextTD[ playerid ], 0.379999, 1.899999 );
@@ -294,7 +294,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetOutline( playerid, p_PlayerRankTextTD[ playerid ], 1 );
 	PlayerTextDrawSetProportional( playerid, p_PlayerRankTextTD[ playerid ], 1 );
 
-	p_RobberyRiskTD[ playerid ] = CreatePlayerTextDraw(playerid, 320.000000, 294.000000, "clerk feels very threatened");
+	p_RobberyRiskTD[ playerid ] = CreatePlayerTextDraw(playerid, 320.000000, 294.000000, "店员感到非常受到威胁");
 	PlayerTextDrawAlignment(playerid, p_RobberyRiskTD[ playerid ], 2);
 	PlayerTextDrawBackgroundColor(playerid, p_RobberyRiskTD[ playerid ], 255);
 	PlayerTextDrawFont(playerid, p_RobberyRiskTD[ playerid ], 3);
@@ -304,7 +304,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetProportional(playerid, p_RobberyRiskTD[ playerid ], 1);
 	PlayerTextDrawSetSelectable(playerid, p_RobberyRiskTD[ playerid ], 0);
 
-	p_RobberyAmountTD[ playerid ] = CreatePlayerTextDraw(playerid, 320.000000, 280.000000, "Robbed ~g~~h~$1,800");
+	p_RobberyAmountTD[ playerid ] = CreatePlayerTextDraw(playerid, 320.000000, 280.000000, "被抢劫了~g~~h~$1,800");
 	PlayerTextDrawAlignment(playerid, p_RobberyAmountTD[ playerid ], 2);
 	PlayerTextDrawBackgroundColor(playerid, p_RobberyAmountTD[ playerid ], 255);
 	PlayerTextDrawFont(playerid, p_RobberyAmountTD[ playerid ], 3);

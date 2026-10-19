@@ -164,8 +164,8 @@ function OnPlayerOrbitalCannonUpdate( facilityid, playerid )
 
 				GivePlayerCash( playerid, -250000 );
 				PlayerPlaySound( playerid, 1057, 0.0, 0.0, 0.0 );
-	 			GameTextForPlayer( playerid, "~g~FIRED!", 2000, 3 );
-	 			SendServerMessage( playerid, "You have launched an orbital cannon for "COL_GOLD"$250,000"COL_WHITE", you have %s left.", cash_format( GetPlayerCash( playerid ) ) );
+                GameTextForPlayer( playerid, "~g~被解雇了!", 2000, 3 );
+                SendServerMessage( playerid, "你已经发射了轨道炮 "COL_GOLD"$250,000"COL_WHITE",你还剩%s.", cash_format( GetPlayerCash( playerid ) ) );
 				return SetTimerEx( "OnPlayerFireOrbitalCannon", move_speed, false, "ddfff", playerid, rocket, current_pos[ 0 ], current_pos[ 1 ], current_pos[ 2 ] );
 			}
 			else
@@ -260,7 +260,7 @@ function OnPlayerFireOrbitalCannon( playerid, rocketid, Float: X, Float: Y, Floa
 				#endif
 
 				// explode player
-				SendClientMessageToAllFormatted( -1, ""COL_ORANGE"[ORBITAL CANNON]"COL_WHITE" %s(%d) got rekt by %s(%d)'s orbital cannon.", ReturnPlayerName( i ), i, ReturnPlayerName( playerid ), playerid );
+				SendClientMessageToAllFormatted( -1, ""COL_ORANGE"[轨道炮]"COL_WHITE" %s(%d) 被 %s(%d) 的轨道炮击中.", ReturnPlayerName( i ), i, ReturnPlayerName( playerid ), playerid );
 				CreateExplosion( player_X, player_Y, player_Z, 0, 10.0 );
 				continue;
 			}
@@ -289,7 +289,7 @@ stock StartPlayerOrbitalCannon( playerid, facilityid )
 	SetPlayerVirtualWorld( playerid, 0 );
 	TogglePlayerSpectating( playerid, 1 );
 	TextDrawShowForPlayer( playerid, g_orbitalAimTD );
-	ShowPlayerHelpDialog( playerid, 0, "~y~Arrows~w~ - Move camera~n~~y~~k~~PED_FIREWEAPON~~w~ - Zoom in~n~~y~~k~~PED_LOCK_TARGET~~w~ - Zoom out~n~~y~~k~~PED_SPRINT~~w~ - Fire cannon ~g~($250,000)~n~~y~~k~~PED_DUCK~~w~ - Cancel" );
+	ShowPlayerHelpDialog( playerid, 0, "~y~箭头~w~ - 移动相机~n~~y~~k~~PED_FIREWEAPON~~w~ - 放大~n~~y~~k~~PED_LOCK_TARGET~~w~ - 缩小~n~~y~~k~~PED_SPRINT~~w~ - 发射炮~g~($250,000)~n~~y~~k~~PED_DUCK~~w~ - 取消" );
 	p_usingOrbitalCannon[ playerid ] = facilityid;
 	if ( ! IsPlayerMovieMode( playerid ) ) cmd_moviemode( playerid, "" );
 

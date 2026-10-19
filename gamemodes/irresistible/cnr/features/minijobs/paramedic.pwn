@@ -75,7 +75,7 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 		modelid = GetVehicleModel( vehicleid );
 
 	if ( modelid == 416 ) {
-		ShowPlayerHelpDialog( playerid, 2500, "You will make money by ~g~healing~w~ passengers of the vehicle" );
+		ShowPlayerHelpDialog( playerid, 2500, "你将通过~g~治疗~w~车辆乘客来赚钱" );
 	}
 	return 1;
 }

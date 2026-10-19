@@ -83,19 +83,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			format( szNormalString, sizeof( szNormalString ), "DELETE FROM `GATES` WHERE ID=%d", objectid );
 			mysql_single_query( szNormalString );
 
-			SendClientMessageFormatted( playerid, -1, ""COL_PINK"[GATE]"COL_WHITE" You have removed a gate: "COL_GREY"%s"COL_WHITE".", g_gateData[ objectid ] [ E_NAME ] );
+			SendClientMessageFormatted( playerid, -1, ""COL_PINK"[大门]"COL_WHITE" 你移除了大门: "COL_GREY"%s"COL_WHITE".", g_gateData[ objectid ] [ E_NAME ] );
 		}
-		else if ( listitem < 9 ) ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+		else if ( listitem < 9 ) ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 		else
 		{
-			SendServerMessage( playerid, "Hit the save icon to update the position of the gate." );
+			SendServerMessage( playerid, "点击保存图标以更新门的位置." );
 			EditDynamicObject( playerid, g_gateData[ objectid ] [ E_OBJECT ] );
 		}
 	}
 	else if ( dialogid == DIALOG_GATE_OWNER && response )
 	{
 		SetPVarInt( playerid, "gate_o_edititem", listitem );
-		ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"What would you like to change this to?", "Commit", "Back" );
+		ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"你想将其更改为什么?", "应用", "返回" );
 	}
 	else if ( dialogid == DIALOG_GATE_OWNER_EDIT )
 	{
@@ -103,10 +103,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			gID = GetPVarInt( playerid, "gate_o_editing" );
 
 		if ( ! Iter_Contains( gates, gID ) )
-			return SendError( playerid, "Invalid gate detected, please try again." );
+			return SendError( playerid, "检测到无效的门,请重试." );
 
 		if ( g_gateData[ gID ] [ E_OWNER ] != p_AccountID[ playerid ] )
-			return SendError( playerid, "You need to be the owner of this gate to edit it." );
+			return SendError( playerid, "你需要成为此门的所有者才能对其进行编辑." );
 
 		if ( response )
 		{
@@ -115,19 +115,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				case 0:
 				{
 					if ( strlen( inputtext ) < 3 || strlen( inputtext ) >= 24 )
-						return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"What would you like to change this to?\n\n"COL_RED"The name must range between 3 and 24 characters.", "Commit", "Back" );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"你想把它改成什么?\n\n"COL_RED"名称的范围必须介于 3 和 24 个字符之间.", "应用", "返回" );
 
 					format( g_gateData[ gID ] [ E_NAME ], 24, "%s", inputtext );
-					SendServerMessage( playerid, "Your gate name has been set to \"%s\".", g_gateData[ gID ] [ E_NAME ] );
+					SendServerMessage( playerid, "你的门名称已设置为 \"%s\".", g_gateData[ gID ] [ E_NAME ] );
 					UpdateGateData( gID, .recreate_obj = false );
 				}
 				case 1:
 				{
 					if ( strlen( inputtext ) < 3 || strlen( inputtext ) >= 8 )
-				 		return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"What would you like to change this to?\n\n"COL_RED"The password must range between 3 and 8 characters.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"你想把它改成什么?\n\n"COL_RED"密码的范围必须介于 3 和 8 个字符之间.", "应用", "返回" );
 
 					format( g_gateData[ gID ] [ E_PASS ], 8, "%s", inputtext );
-					SendServerMessage( playerid, "Your gate password has been set to \"%s\".", g_gateData[ gID ] [ E_PASS ] );
+					SendServerMessage( playerid, "你的门密码已设置为 \"%s\".", g_gateData[ gID ] [ E_PASS ] );
 					UpdateGateData( gID, .recreate_obj = false );
 				}
 				case 2:
@@ -136,7 +136,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 						sql_id;
 
 					if ( sscanf( inputtext, "D(0)", sql_id ) ) {
-						return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"What would you like to change this to?\n\n"COL_RED"The Gang ID must be an integer.", "Commit", "Back" );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"你想把它改成什么?\n\n"COL_RED"帮派 ID 必须是整数.", "应用", "返回" );
 					}
 
 					// check if valid gang lol
@@ -150,12 +150,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 						}
 
 						if ( gangId == -1 ) {
-							return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"What would you like to change this to?\n\n"COL_RED"This gang is invalid or not currently online.", "Commit", "Back" );
+							return ShowPlayerDialog( playerid, DIALOG_GATE_OWNER_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"你想把它改成什么?\n\n"COL_RED"该帮派无效或当前不在线.", "应用", "返回" );
 						} else {
-							SendServerMessage( playerid, "Your gate will be openable by members of \"%s\".", g_gangData[ gangId ] [ E_NAME ] );
+							SendServerMessage( playerid, "你的大门可由 \"%s\" 的成员打开.", g_gangData[ gangId ] [ E_NAME ] );
 						}
 					} else {
-						SendServerMessage( playerid, "You have unassigned a gang from your gate." );
+						SendServerMessage( playerid, "你已从你的大门取消分配一个帮派." );
 					}
 
 					g_gateData[ gID ] [ E_GANG_SQL_ID ] = sql_id;
@@ -165,8 +165,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		}
 
 		// redirect
-		format( szNormalString, sizeof( szNormalString ), ""COL_WHITE"Gate Label\t"COL_GREY"%s\n"COL_WHITE"Gate Password\t"COL_GREY"%s\n"COL_WHITE"Gate Gang ID\t"COL_GREY"%d", g_gateData[ gID ] [ E_NAME ], g_gateData[ gID ] [ E_PASS ], g_gateData[ gID ] [ E_GANG_SQL_ID ] );
-		ShowPlayerDialog( playerid, DIALOG_GATE_OWNER, DIALOG_STYLE_TABLIST, "{FFFFFF}Edit Gate", szNormalString, "Select", "Cancel" );
+		format( szNormalString, sizeof( szNormalString ), ""COL_WHITE"门标签\t"COL_GREY"%s\n"COL_WHITE"门禁密码\t"COL_GREY"%s\n"COL_WHITE"门帮ID\t"COL_GREY"%d", g_gateData[ gID ] [ E_NAME ], g_gateData[ gID ] [ E_PASS ], g_gateData[ gID ] [ E_GANG_SQL_ID ] );
+		ShowPlayerDialog( playerid, DIALOG_GATE_OWNER, DIALOG_STYLE_TABLIST, "{FFFFFF}编辑门", szNormalString, "选择", "取消" );
 		return 1;
 	}
 	else if ( dialogid == DIALOG_GATE_EDIT )
@@ -185,13 +185,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					if ( sscanf( inputtext, "u", pID ) )
 					{
-						SendError( playerid, "This value must be numerical." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须是数字." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					else if ( !IsPlayerConnected( pID ) )
 					{
-						SendError( playerid, "Invalid Player ID." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "玩家 ID 无效." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					g_gateData[ gID ] [ E_OWNER ] = p_AccountID[ pID ];
 				}
@@ -199,8 +199,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				{
 					if ( strlen( inputtext ) < 3 || strlen( inputtext ) >= 24 )
 					{
-						SendError( playerid, "The name must range between 3 and 24 characters." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "名称的范围必须介于 3 和 24 个字符之间." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					format( g_gateData[ gID ] [ E_NAME ], 24, "%s", inputtext );
 				}
@@ -208,8 +208,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				{
 					if ( strlen( inputtext ) < 3 || strlen( inputtext ) >= 8 )
 					{
-						SendError( playerid, "The password must range between 3 and 8 characters." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "密码的范围必须介于 3 和 8 个字符之间." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					format( g_gateData[ gID ] [ E_PASS ], 8, "%s", inputtext );
 				}
@@ -220,8 +220,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					if ( sscanf( inputtext, "d", model ) )
 					{
-						SendError( playerid, "This value must be numerical." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须是数字." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					g_gateData[ gID ] [ E_MODEL ] = model;
 				}
@@ -232,8 +232,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					if ( sscanf( inputtext, "f", speed ) )
 					{
-						SendError( playerid, "This value must be numerical." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须是数字." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					g_gateData[ gID ] [ E_SPEED ] = speed;
 				}
@@ -244,13 +244,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					if ( sscanf( inputtext, "f", range ) )
 					{
-						SendError( playerid, "This value must be numerical." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须是数字." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					else if ( ! ( 1.0 <= range <= 100.0 ) )
 					{
-						SendError( playerid, "Please specify a range between 1.0 and 100.0 metres." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "请指定 1.0 到 100.0 米之间的范围." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					g_gateData[ gID ] [ E_RANGE ] = range;
 				}
@@ -261,13 +261,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					if ( sscanf( inputtext, "d", time ) )
 					{
-						SendError( playerid, "This value must be numerical." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须是数字." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					else if ( time < 100 || time > 60000 )
 					{
-						SendError( playerid, "This value must be between 100 and 60000 miliseconds." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须介于 100 和 60000 毫秒之间." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					g_gateData[ gID ] [ E_TIME ] = time;
 				}
@@ -278,13 +278,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 					if ( sscanf( inputtext, "d", sql_id ) )
 					{
-						SendError( playerid, "This value must be numerical." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "该值必须是数字." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					else if ( ! ( 0 <= sql_id < 1000000 ) )
 					{
-						SendError( playerid, "Invalid Gang ID specified." );
-						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}Gate - Edit", ""COL_WHITE"Value to replace with:", "Commit", "Back" );
+						SendError( playerid, "指定的帮派 ID 无效." );
+						return ShowPlayerDialog( playerid, DIALOG_GATE_EDIT, DIALOG_STYLE_INPUT, "{FFFFFF}大门 - 编辑", ""COL_WHITE"请输入新值:", "应用", "返回" );
 					}
 					g_gateData[ gID ] [ E_GANG_SQL_ID ] = sql_id;
 					mysql_single_query( sprintf( "UPDATE `GATES` SET `GANG_ID`=%d WHERE `ID`=%d", sql_id, gID ) );
@@ -293,7 +293,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			UpdateGateData( gID );
 			Streamer_Update( playerid );
 			cmd_editgate( playerid, sprintf( "%d", gID ) );
-			SendServerMessage( playerid, "You have successfully updated this gate." );
+			SendServerMessage( playerid, "你已成功更新此门." );
 		}
 		else cmd_editgate( playerid, sprintf( "%d", gID ) );
 	}
@@ -322,7 +322,7 @@ hook OnPlayerEditDynObject( playerid, objectid, response, Float: x, Float: y, Fl
 					g_gateData[ gID ] [ E_RX ] = float( floatround( rx ) );
 					g_gateData[ gID ] [ E_RY ] = float( floatround( ry ) );
 					g_gateData[ gID ] [ E_RZ ] = float( floatround( rz ) );
-					SendClientMessageFormatted( playerid, -1, ""COL_PINK"[GATE]"COL_WHITE" Gate Close Position: "COL_GREY" %f, %f, %f, %f, %f, %f", g_gateData[ gID ] [ E_X ], g_gateData[ gID ] [ E_Y ], g_gateData[ gID ] [ E_Z ], g_gateData[ gID ] [ E_RX ], g_gateData[ gID ] [ E_RY ], g_gateData[ gID ] [ E_RZ ] );
+					SendClientMessageFormatted( playerid, -1, ""COL_PINK"[大门]"COL_WHITE" 门关闭位置: "COL_GREY" %f, %f, %f, %f, %f, %f", g_gateData[ gID ] [ E_X ], g_gateData[ gID ] [ E_Y ], g_gateData[ gID ] [ E_Z ], g_gateData[ gID ] [ E_RX ], g_gateData[ gID ] [ E_RY ], g_gateData[ gID ] [ E_RZ ] );
 				}
 				case 10:
 				{
@@ -332,7 +332,7 @@ hook OnPlayerEditDynObject( playerid, objectid, response, Float: x, Float: y, Fl
 					g_gateData[ gID ] [ E_MOVE_RX ] = float( floatround( rx ) );
 					g_gateData[ gID ] [ E_MOVE_RY ] = float( floatround( ry ) );
 					g_gateData[ gID ] [ E_MOVE_RZ ] = float( floatround( rz ) );
-					SendClientMessageFormatted( playerid, -1, ""COL_PINK"[GATE]"COL_WHITE" Gate Open Position: "COL_GREY" %f, %f, %f, %f, %f, %f", g_gateData[ gID ] [ E_MOVE_X ], g_gateData[ gID ] [ E_MOVE_Y ], g_gateData[ gID ] [ E_MOVE_Z ], g_gateData[ gID ] [ E_MOVE_RX ], g_gateData[ gID ] [ E_MOVE_RY ], g_gateData[ gID ] [ E_MOVE_RZ ] );
+					SendClientMessageFormatted( playerid, -1, ""COL_PINK"[大门]"COL_WHITE" 门打开位置: "COL_GREY" %f, %f, %f, %f, %f, %f", g_gateData[ gID ] [ E_MOVE_X ], g_gateData[ gID ] [ E_MOVE_Y ], g_gateData[ gID ] [ E_MOVE_Z ], g_gateData[ gID ] [ E_MOVE_RX ], g_gateData[ gID ] [ E_MOVE_RY ], g_gateData[ gID ] [ E_MOVE_RZ ] );
 				}
 			}
 			UpdateGateData( gID );
@@ -352,18 +352,18 @@ CMD:gate( playerid, params[ ] )
 	;
 
 	if ( gID == INVALID_OBJECT_ID )
-		return SendError( playerid, "You're not near any gates." );
+		return SendError( playerid, "你不靠近任何大门." );
 
 	if ( strmatch( params, "edit" ) )
 	{
 		if ( g_gateData[ gID ] [ E_OWNER ] != p_AccountID[ playerid ] )
-			return SendError( playerid, "You need to be the owner of this gate to edit it." );
+			return SendError( playerid, "你需要成为此门的所有者才能对其进行编辑." );
 
-		format( szNormalString, sizeof( szNormalString ), ""COL_WHITE"Gate Label\t"COL_GREY"%s\n"COL_WHITE"Gate Password\t"COL_GREY"%s\n"COL_WHITE"Gate Gang ID\t"COL_GREY"%d", g_gateData[ gID ] [ E_NAME ], g_gateData[ gID ] [ E_PASS ], g_gateData[ gID ] [ E_GANG_SQL_ID ] );
-		ShowPlayerDialog( playerid, DIALOG_GATE_OWNER, DIALOG_STYLE_TABLIST, "{FFFFFF}Edit Gate", szNormalString, "Select", "Cancel" );
+		format( szNormalString, sizeof( szNormalString ), ""COL_WHITE"门标签\t"COL_GREY"%s\n"COL_WHITE"门禁密码\t"COL_GREY"%s\n"COL_WHITE"门帮ID\t"COL_GREY"%d", g_gateData[ gID ] [ E_NAME ], g_gateData[ gID ] [ E_PASS ], g_gateData[ gID ] [ E_GANG_SQL_ID ] );
+		ShowPlayerDialog( playerid, DIALOG_GATE_OWNER, DIALOG_STYLE_TABLIST, "{FFFFFF}编辑门", szNormalString, "选择", "取消" );
 
 		SetPVarInt( playerid, "gate_o_editing", gID );
-		SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GATE]"COL_WHITE" You're now editing "COL_GREY"%s"COL_WHITE".", g_gateData[ gID ] [ E_NAME ] );
+		SendClientMessageFormatted( playerid, -1, ""COL_GREY"[大门]"COL_WHITE" 你现在正在编辑 "COL_GREY"%s"COL_WHITE".", g_gateData[ gID ] [ E_NAME ] );
 	}
 	else if ( !strcmp( params, "open", true, 4 ) )
 	{
@@ -390,11 +390,11 @@ CMD:gate( playerid, params[ ] )
 				gates ++;
 			}
 		}
-		return !gates ? SendError( playerid, "Either a gate is in operation, not in range or simply incorrect password." ) : 1;
+		return !gates ? SendError( playerid, "某个门正在运行,但不在范围内,或者只是密码不正确." ) : 1;
 	}
 	else if ( strmatch( params, "closest" ) && p_AdminLevel[ playerid ] > 1 )
 	{
-		SendServerMessage( playerid, "The closest gate to you is "COL_GREY"%s"COL_WHITE". (id: %d, distance: %f)", g_gateData[ gID ] [ E_NAME ], gID, distance );
+		SendServerMessage( playerid, "距离你最近的登机口是 "COL_GREY"%s"COL_WHITE". (ID:%d,距离:%f)", g_gateData[ gID ] [ E_NAME ], gID, distance );
 	}
 	else SendUsage( playerid, "/gate [OPEN/EDIT]" );
 	return 1;
@@ -457,7 +457,7 @@ stock CreateGate( playerid, password[ 8 ], model, Float: speed, Float: range, Fl
 		erase( g_gateData[ gID ] [ E_NAME ] );
 
 		format( g_gateData[ gID ] [ E_PASS ], 8, "%s", password );
-		format( g_gateData[ gID ] [ E_NAME ], 24, "Gate" );
+		format( g_gateData[ gID ] [ E_NAME ], 24, "门" );
 		g_gateData[ gID ] [ E_OWNER ] = p_AccountID[ playerid ];
 		g_gateData[ gID ] [ E_MODEL ] = model;
 		g_gateData[ gID ] [ E_SPEED ] = speed;
@@ -530,7 +530,7 @@ stock OpenPlayerGate( forplayerid, g )
 	}
 
 	if ( forplayerid != INVALID_PLAYER_ID && !strmatch( g_gateData[ g ] [ E_NAME ], "N/A" ) ) {
-		SendClientMessageFormatted( forplayerid, -1, ""COL_GREY"[GATE]"COL_WHITE" You've opened "COL_GREY"%s"COL_WHITE".", g_gateData[ g ] [ E_NAME ] );
+		SendClientMessageFormatted( forplayerid, -1, ""COL_GREY"[大门]"COL_WHITE" 你已经打开了 "COL_GREY"%s"COL_WHITE".", g_gateData[ g ] [ E_NAME ] );
 	}
 
 	new
@@ -552,10 +552,10 @@ stock Gate_Exists( gateid ) {
 stock SetPlayerEditGate( playerid, gateid )
 {
 	format( szLargeString, sizeof( szLargeString ),
-		""COL_RED"Remove This Gate?\t \nOwner ID\t"COL_GREY"%d\nName\t"COL_GREY"%s\nPassword\t"COL_GREY"%s\nModel\t"COL_GREY"%d\nSpeed\t"COL_GREY"%f\nRange\t"COL_GREY"%f\nPause\t"COL_GREY"%d MS\nGang ID\t%d\nChange Closed Positioning\t \nChange Opened Positioning\t ",
+		""COL_RED"移除这扇门?\t \n所有者 ID\t"COL_GREY"%d\n姓名\t"COL_GREY"%s\n密码\t"COL_GREY"%s\n型号\t"COL_GREY"%d\n速度\t"COL_GREY"%f\n范围\t"COL_GREY"%f\n暂停\t"COL_GREY"%d MS\n帮派 ID\t%d\n更改闭合位置\t \n更改打开位置\t ",
 		g_gateData[ gateid ] [ E_OWNER ], g_gateData[ gateid ] [ E_NAME ], g_gateData[ gateid ] [ E_PASS ], g_gateData[ gateid ] [ E_MODEL ], g_gateData[ gateid ] [ E_SPEED ], g_gateData[ gateid ] [ E_RANGE ], g_gateData[ gateid ] [ E_TIME ], g_gateData[ gateid ] [ E_GANG_SQL_ID ]
 	);
 
 	SetPVarInt( playerid, "gate_editing", gateid );
-	ShowPlayerDialog( playerid, DIALOG_GATE, DIALOG_STYLE_TABLIST, "{FFFFFF}Edit Gate", szLargeString, "Select", "Cancel" );
+	ShowPlayerDialog( playerid, DIALOG_GATE, DIALOG_STYLE_TABLIST, "{FFFFFF}编辑门", szLargeString, "选择", "取消" );
 }

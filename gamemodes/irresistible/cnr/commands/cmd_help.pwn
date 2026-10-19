@@ -18,7 +18,7 @@ forward OnHelpHTTPResponse( index, response_code, data[ ] );
 
 /* ** Commands ** */
 CMD:help( playerid, params[ ] ) {
-	return ShowPlayerDialog( playerid, DIALOG_HELP, DIALOG_STYLE_LIST, "{FFFFFF}Help", "Server Information\nFeatures\nHelp\nF.A.Q.\nGuides\nTips n' Tricks", "Okay", "" ), 1;
+	return ShowPlayerDialog( playerid, DIALOG_HELP, DIALOG_STYLE_LIST, "{FFFFFF}帮助", "服务器信息\n功能介绍\n帮助\n常见问题\n指南\n实用技巧", "确定", "" ), 1;
 }
 
 CMD:features( playerid, params[ ] ) {
@@ -53,7 +53,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			return cmd_help( playerid, "" );
 
 		if ( listitem >= 64 )
-			return SendError( playerid, "Unable to process request, contact " SERVER_OPERATOR " in regards to this." );
+			return SendError( playerid, "无法处理请求, 请联系" SERVER_OPERATOR "处理此问题." );
 
 		new
 			digits[ 64 ];
@@ -102,11 +102,11 @@ thread OnFetchCategoryResponse( playerid, category )
 		}
 
 		SetPVarString( playerid, "help_ids", szBigString );
-		ShowPlayerDialog( playerid, DIALOG_HELP_CATEGORY, DIALOG_STYLE_LIST, "{FFFFFF}Help Topics", szLargeString, "Select", "Back" );
+		ShowPlayerDialog( playerid, DIALOG_HELP_CATEGORY, DIALOG_STYLE_LIST, "{FFFFFF}帮助主题", szLargeString, "选择", "返回" );
 	}
 	else
     {
-        ShowPlayerDialog( playerid, DIALOG_HELP_BACK, DIALOG_STYLE_LIST, "{FFFFFF}Help Topics", "{FF0000}There are no threads available.", "Close", "Back" );
+        ShowPlayerDialog( playerid, DIALOG_HELP_BACK, DIALOG_STYLE_LIST, "{FFFFFF}帮助主题", "{FF0000}暂无帮助文章.", "关闭", "返回" );
     }
 	return 1;
 }
@@ -150,9 +150,9 @@ thread OnFetchCategoryResponse( playerid, category )
 public OnHelpHTTPResponse( index, response_code, data[ ] )
 {
     if ( response_code == 200 ) {
-		ShowPlayerDialog( index, DIALOG_HELP_THREAD, DIALOG_STYLE_MSGBOX, "{FFFFFF}Help Topics", data, "Close", "Back" );
+		ShowPlayerDialog( index, DIALOG_HELP_THREAD, DIALOG_STYLE_MSGBOX, "{FFFFFF}帮助主题", data, "关闭", "返回" );
     } else {
-		ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_LIST, "{FFFFFF}Help Topics", "{FFFFFF}An error has occurred. Try again later.", "Okay", "" );
+		ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_LIST, "{FFFFFF}帮助主题", "{FFFFFF}发生错误, 请稍后重试.", "确定", "" );
     }
 	return 1;
 }

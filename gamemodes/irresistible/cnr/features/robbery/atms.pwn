@@ -127,7 +127,7 @@ hook OnPlayerShootDynObject( playerid, weaponid, objectid, Float: x, Float: y, F
 						format( szNormalString, 24, "[ATM]\n"COL_GREY"%0.0f%%", g_atmData[ i ] [ E_HEALTH ] );
 						UpdateDynamic3DTextLabelText( g_atmData[ i ] [ E_LABEL ], COLOR_GOLD, szNormalString );
 					} else {
-						UpdateDynamic3DTextLabelText( g_atmData[ i ] [ E_LABEL ], COLOR_GOLD, "[ATM]\n"COL_RED"Disabled" );
+						UpdateDynamic3DTextLabelText( g_atmData[ i ] [ E_LABEL ], COLOR_GOLD, "[ATM]\n"COL_RED"残疾人" );
 						Streamer_SetIntData( STREAMER_TYPE_OBJECT, g_atmData[ i ] [ E_OBJECT ], E_STREAMER_MODEL_ID, 2943 );
 
 						g_atmData[ i ] [ E_TIMESTAMP ] = g_iTime + 240;
@@ -141,8 +141,8 @@ hook OnPlayerShootDynObject( playerid, weaponid, objectid, Float: x, Float: y, F
 							GetZoneFromCoordinates	( szLocation, X, Y, Z );
 
 							CreateCrimeReport( playerid );
-							SendClientMessageToCops( -1, ""COL_BLUE"[ROBBERY]"COL_WHITE" %s has failed robbing an ATM near %s, suspect is armed and dangerous.", ReturnPlayerName( playerid ), szLocation );
-							SendServerMessage( playerid, "There seems to be no money in the ATM that you have breached." );
+							SendClientMessageToCops( -1, ""COL_BLUE"[抢劫]"COL_WHITE" %s 抢劫 %s 附近的 ATM 失败,嫌疑人携带武器且危险.", ReturnPlayerName( playerid ), GetLocationDisplayName(szLocation) );
+							SendServerMessage( playerid, "你破坏的ATM机里似乎没有钱." );
 						} else {
 							GetDynamicObjectRot( objectid, rZ, rZ, rZ );
 							g_atmData[ i ] [ E_PICKUP ] = CreateDynamicPickup( 1550, 1, X + 1.0 * -floatsin( -rZ, degrees ), Y + 1.0 * -floatcos( -rZ, degrees ), Z + 0.33, .worldid = g_atmData[ i ] [ E_WORLD ] );
@@ -153,7 +153,7 @@ hook OnPlayerShootDynObject( playerid, weaponid, objectid, Float: x, Float: y, F
 								g_atmData[ i ] [ E_LOOT ] = extra_loot;
 							}
 
-							SendServerMessage( playerid, "You've breached an ATM! Rob the money that has been dispensed for quick pocket change!" );
+							SendServerMessage( playerid, "你已经突破了自动取款机!抢走已经发放的钱,以便快速改变口袋里的零钱!" );
 						}
 					}
 					break;
@@ -170,7 +170,7 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 	{
 		foreach ( new i : atms ) if ( checkpointid == g_atmData[ i ] [ E_CHECKPOINT ] ) {
 	    	if ( g_atmData[ i ] [ E_DISABLED ] ) {
-	    		return SendError( playerid, "This ATM has recently been robbed and cannot be accessed for now." );
+                return SendError( playerid, "该 ATM 最近被抢劫,暂时无法访问." );
 	    	} else {
 	    		return ShowPlayerBankMenuDialog( playerid );
 	    	}
@@ -209,8 +209,8 @@ hook OnPlayerPickUpDynPickup( playerid, pickupid )
 			    Get2DCity				( szCity, X, Y, Z );
 			    GetZoneFromCoordinates	( szLocation, X, Y, Z );
 
-				SendClientMessageToCops( -1, ""COL_BLUE"[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from an ATM near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( iLoot ), szLocation, szCity );
-				return SendServerMessage( playerid, "You have successfully taken "COL_GOLD"%s"COL_WHITE" dispensed from the ATM.", cash_format( iLoot ) );
+				SendClientMessageToCops( -1, ""COL_BLUE"[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE"的 ATM 现金, 地点: %s 附近 (%s)!", ReturnPlayerName( playerid ), playerid, cash_format( iLoot ), GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
+				return SendServerMessage( playerid, "你已经成功采取 "COL_GOLD"%s"COL_WHITE" 从 ATM 机上发放.", cash_format( iLoot ) );
 			}
 		}
 	}

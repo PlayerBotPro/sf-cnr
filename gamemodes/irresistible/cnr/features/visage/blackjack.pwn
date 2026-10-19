@@ -172,7 +172,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
                 player_index = GetBlackjackPlayerIndex( blackjack_table, playerid );
 
             if ( player_index == -1 )
-                return SendError( playerid, "You don't seem to be playing any blackjack table." );
+                return SendError( playerid, "你似乎没有玩任何二十一点牌桌." );
 
 		    if ( PRESSED( KEY_SPRINT ) ) {
 
@@ -181,7 +181,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 
 	            if ( g_blackjackPlayerState[ blackjack_table ] [ player_index ] == BLACKJACK_STATE_TURN ) {
 	                g_blackjackPlayerState[ blackjack_table ] [ player_index ] = BLACKJACK_STATE_STAND;
-	                SendClientMessageToBlackjack( blackjack_table, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has decided to stand.", ReturnPlayerName( playerid ), playerid );
+	                SendClientMessageToBlackjack( blackjack_table, COLOR_GREY, "[21 点]"COL_WHITE" %s(%d) 选择了停牌.", ReturnPlayerName( playerid ), playerid );
 	                return 1;
 	            }
 		        return 1;
@@ -190,7 +190,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 		    if ( PRESSED( KEY_CTRL_BACK ) )
 		    {
 	            if ( g_blackjackPlayerState[ blackjack_table ] [ player_index ] != BLACKJACK_STATE_TURN )
-	                return SendError( playerid, "It's not your turn to hit. Please wait!" );
+	                return SendError( playerid, "还没轮到你要牌, 请稍候!" );
 
 	            DrawPlayerBlackjackCard( blackjack_table, player_index );
 	            CheckForBlackjack( blackjack_table );
@@ -201,7 +201,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 		if ( PRESSED( KEY_SECONDARY_ATTACK ) )
 		{
 			if ( p_blackjackTable[ playerid ] != -1 ) {
-                if ( g_blackjackData[ blackjack_table ] [ E_CARDS_DRAWN ] ) return SendError( playerid, "You cannot exit while you are playing your blackjack hand." );
+                if ( g_blackjackData[ blackjack_table ] [ E_CARDS_DRAWN ] ) return SendError( playerid, "当你玩二十一点手牌时,你无法退出." );
 				return RemovePlayerFromBlackjack( playerid, .reset_cam = 1 );
             }
 
@@ -217,10 +217,10 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 	                        break;
 
 	                if ( player_index >= MAX_BLACKJACK_PLAYERS || g_blackjackSlotData[ id ] [ player_index ] != -1 )
-	                    return SendError( playerid, "There are no more vacant slots for this table." );
+	                    return SendError( playerid, "此牌桌已无空位." );
 
 	                if ( GetPlayerCash( playerid ) < g_blackjackData[ id ] [ E_PAYOUT ] )
-	                    return SendError( playerid, "You don't have any money to wager." );
+	                    return SendError( playerid, "你没有任何钱可以下注." );
 
 	                new
 	                    Float: lookatX, Float: lookatY, Float: lookatZ,
@@ -273,10 +273,10 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 	                    }
 	                }
 
-					szBigString = "~y~~k~~PED_SPRINT~~w~ - Begin game/Stand~n~~y~~k~~GROUP_CONTROL_BWD~~w~ - Hit~n~~y~~k~~VEHICLE_ENTER_EXIT~~w~ - Exit";
+					szBigString = "~y~~k~~PED_SPRINT~~w~ - 开始游戏/Stand~n~~y~~k~~GROUP_CONTROL_BWD~~w~ - 命中~n~~y~~k~~VEHICLE_ENTER_EXIT~~w~ - 退出";
 					ShowPlayerHelpDialog( playerid, 0, szBigString );
 
-	                SendServerMessage( playerid, "You have entered the %s hand blackjack table.", cash_format( g_blackjackData[ id ] [ E_PAYOUT ] ) );
+	                SendServerMessage( playerid, "你已进入 %s 手二十一点牌桌.", cash_format( g_blackjackData[ id ] [ E_PAYOUT ] ) );
 	                ApplyAnimation( playerid, "DEALER", "DEALER_IDLE", 4.1, 1, 1, 1, 1, 0, 1 );
 	                return 1;
 	            }
@@ -306,11 +306,11 @@ stock CreateBlackjackTable( payout, Float: X, Float: Y, Float: Z, Float: Angle, 
         g_blackjackData[ id ] [ E_PAYOUT ] = payout;
         g_blackjackData[ id ] [ E_OBJECT ] = CreateDynamicObject( 2188, X, Y, Z, 0.00000, 0.00000, Angle, .worldid = world, .priority = 9999 );
         g_blackjackData[ id ] [ E_ACTOR ] = CreateDynamicActor( 171, X - 0.4 * floatcos( Angle - 90.0, degrees ), Y - 0.4 * floatsin( Angle - 90.0, degrees ), Z, Angle + 180.0, .worldid = world );
-        g_blackjackData[ id ] [ E_DEALER_LABEL ] = CreateDynamic3DTextLabel( sprintf( "Press ENTER To Play Blackjack\n"COL_WHITE"%s Minimum", cash_format( payout ) ), COLOR_GREY, X, Y, Z + 0.25, 15.0, .testlos = 0, .worldid = world );
+        g_blackjackData[ id ] [ E_DEALER_LABEL ] = CreateDynamic3DTextLabel( sprintf( "按 ENTER 玩 21 点\n"COL_WHITE"最低下注 %s", cash_format( payout ) ), COLOR_GREY, X, Y, Z + 0.25, 15.0, .testlos = 0, .worldid = world );
 
-        g_blackjackData[ id ] [ E_PLAYER_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "Player 0", 0, X + 0.7 * floatcos( Angle - 90.0, degrees ), Y + 0.7 * floatsin( Angle - 90.0, degrees ), Z + 0.05, 15.0, .testlos = 0, .worldid = world );
-        g_blackjackData[ id ] [ E_PLAYER_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "Player 1", 0, X + 0.7 * floatcos( Angle - 90.0 - 22.5, degrees ), Y + 0.7 * floatsin( Angle - 90.0 - 22.5, degrees ), Z + 0.05, 15.0, .testlos = 0, .worldid = world );
-        g_blackjackData[ id ] [ E_PLAYER_LABEL ] [ 2 ] = CreateDynamic3DTextLabel( "Player 2", 0, X + 0.7 * floatcos( Angle - 90.0 + 22.5, degrees ), Y + 0.7 * floatsin( Angle - 90.0 + 22.5, degrees ), Z + 0.05, 15.0, .testlos = 0, .worldid = world );
+        g_blackjackData[ id ] [ E_PLAYER_LABEL ] [ 0 ] = CreateDynamic3DTextLabel( "玩家 0", 0, X + 0.7 * floatcos( Angle - 90.0, degrees ), Y + 0.7 * floatsin( Angle - 90.0, degrees ), Z + 0.05, 15.0, .testlos = 0, .worldid = world );
+        g_blackjackData[ id ] [ E_PLAYER_LABEL ] [ 1 ] = CreateDynamic3DTextLabel( "玩家1", 0, X + 0.7 * floatcos( Angle - 90.0 - 22.5, degrees ), Y + 0.7 * floatsin( Angle - 90.0 - 22.5, degrees ), Z + 0.05, 15.0, .testlos = 0, .worldid = world );
+        g_blackjackData[ id ] [ E_PLAYER_LABEL ] [ 2 ] = CreateDynamic3DTextLabel( "玩家2", 0, X + 0.7 * floatcos( Angle - 90.0 + 22.5, degrees ), Y + 0.7 * floatsin( Angle - 90.0 + 22.5, degrees ), Z + 0.05, 15.0, .testlos = 0, .worldid = world );
 
 		SetDynamicActorInvulnerable( g_blackjackData[ id ] [ E_ACTOR ], true );
 		SetDynamicActorVirtualWorld( g_blackjackData[ id ] [ E_ACTOR ], world );
@@ -395,7 +395,7 @@ function BeginBlackJackTurn( tableid )
                 gamerid = g_blackjackSlotData[ tableid ] [ player_index ];
 
             if ( GetPlayerCash( gamerid ) < g_blackjackData[ tableid ] [ E_PAYOUT ] ) {
-                SendError( gamerid, "You don't have any money to wager." );
+                SendError( gamerid, "你没有任何钱可以下注." );
                 RemovePlayerFromBlackjack( gamerid, .reset_cam = 1 );
                 if ( blackjack_players - 1 <= 0 ) return; // no point having an empty table
                 continue;
@@ -433,7 +433,7 @@ function BeginBlackJackTurn( tableid )
         g_blackjackData[ tableid ] [ E_GAME_TIMER ] = SetTimerEx( "BeginBlackJackTurn", BLACKJACK_DEALER_WAIT, false, "d", tableid );
 
     if ( dealer_score >= 17 ) {
-        SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" Table will reset in 5 seconds as all hands have been dealt." );
+        SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" 当所有牌都已发完后,牌桌将在 5 秒后重置." );
         g_blackjackData[ tableid ] [ E_RESET_TIMER ] =  SetTimerEx( "ResetBlackjackTable", 5000, false, "d", tableid );
     }
 }
@@ -458,7 +458,7 @@ function BlackjackPlayerTurn( tableid, playerid, seconds_left )
     if ( IsPlayerConnected( playerid ) && player_index != -1 && seconds_left >= 0 && g_blackjackPlayerState[ tableid ] [ player_index ] == BLACKJACK_STATE_TURN )
     {
         foreach (new gamerid : Player) if ( p_blackjackTable[ gamerid ] == tableid ) {
-            TextDrawSetString( g_blackjackTurnTD[ tableid ], sprintf( "%s has %d seconds left", ReturnPlayerName( playerid ), seconds_left ) );
+            TextDrawSetString( g_blackjackTurnTD[ tableid ], sprintf( "%s 还剩 %d 秒", ReturnPlayerName( playerid ), seconds_left ) );
             TextDrawShowForPlayer( gamerid, g_blackjackTurnTD[ tableid ] );
         }
         g_blackjackData[ tableid ] [ E_GAME_TIMER ] = SetTimerEx( "BlackjackPlayerTurn", 960, false, "ddd", tableid, playerid, seconds_left - 1 );
@@ -570,8 +570,8 @@ stock CheckForBlackjack( tableid )
        		if ( dealer_score == player_score && dealer_score >= 17 ) {
        			payout = g_blackjackData[ tableid ] [ E_PAYOUT ];
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_WIN;
-                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has been returned %s due to a push.", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
-		 		GameTextForPlayer( playerid, sprintf( "~n~~n~~y~%s returned!", cash_format( payout ) ), 4000, 3 );
+                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" 由于推送,%s(%d) 已返回 %s.", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
+                GameTextForPlayer( playerid, sprintf( "~n~~n~~y~%s 回来了!", cash_format( payout ) ), 4000, 3 );
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 GivePlayerCash( playerid, payout );
                 StockMarket_UpdateEarnings( E_STOCK_CASINO, -payout, 0.05 );
@@ -580,11 +580,11 @@ stock CheckForBlackjack( tableid )
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_WIN;
                 if ( IsPlayerHandBlackjack( tableid, player_index, player_score ) ) {
 	                payout = floatround( float( g_blackjackData[ tableid ] [ E_PAYOUT ] ) * 2.5 );
-	                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" Blackjack! %s(%d) has won %s!", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
+	                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" 二十一点! %s(%d) 赢得了 %s!", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
                 } else {
-	                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has won %s due to a card count of 21!", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
+	                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" %s(%d) 获胜%s由于卡数为21!", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
                 }
-		 		GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s won!", cash_format( payout ) ), 4000, 3 );
+                GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s 赢了!", cash_format( payout ) ), 4000, 3 );
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 GivePlayerCash( playerid, payout );
                 StockMarket_UpdateEarnings( E_STOCK_CASINO, -payout, 0.05 );
@@ -592,19 +592,19 @@ stock CheckForBlackjack( tableid )
             else if ( dealer_score == 21 ) {
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_BUST;
-                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has lost %s due to a dealer %s.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ), IsDealerHandBlackjack( tableid, dealer_score ) ? ( "blackjack" ) : ( "21" ) );
-		 		GameTextForPlayer( playerid, "~n~~n~~r~No win!", 4000, 3 );
+                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" %s(%d) 已丢失%s由于经销商%s.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ), IsDealerHandBlackjack( tableid, dealer_score ) ? ( "二十一点" ) : ( "21" ) );
+                GameTextForPlayer( playerid, "~n~~n~~r~没有赢!", 4000, 3 );
             }
             else if ( player_score > 21 ) {
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_BUST;
-                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has lost %s due to a bust.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) );
-		 		GameTextForPlayer( playerid, "~n~~n~~r~No win!", 4000, 3 );
+                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" %s(%d) 因爆牌而输掉了 %s.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) );
+                GameTextForPlayer( playerid, "~n~~n~~r~没有赢!", 4000, 3 );
             }
             else if ( dealer_score > 21 ) {
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_WIN;
-                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has won %s due to a dealer bust.", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
-		 		GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s won!", cash_format( payout ) ), 4000, 3 );
+                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" 由于荷官破产,%s(%d) 赢得了 %s.", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
+                GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s 赢了!", cash_format( payout ) ), 4000, 3 );
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 GivePlayerCash( playerid, payout );
                 StockMarket_UpdateEarnings( E_STOCK_CASINO, -payout, 0.05 );
@@ -612,13 +612,13 @@ stock CheckForBlackjack( tableid )
             else if ( player_score < dealer_score && dealer_score >= 17 ) {
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_BUST;
-                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has lost %s due to a bust.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) );
-		 		GameTextForPlayer( playerid, "~n~~n~~r~No win!", 4000, 3 );
+                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" %s(%d) 因爆牌而输掉了 %s.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) );
+                GameTextForPlayer( playerid, "~n~~n~~r~没有赢!", 4000, 3 );
             }
             else if ( player_score > dealer_score && dealer_score >= 17 ) {
                 g_blackjackPlayerState[ tableid ] [ player_index ] = BLACKJACK_STATE_WIN;
-                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[BLACKJACK]"COL_WHITE" %s(%d) has won %s due to a dealer bust.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) );
-		 		GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s won!", cash_format( payout ) ), 4000, 3 );
+                SendClientMessageToBlackjack( tableid, COLOR_GREY, "[21 点]"COL_WHITE" 由于荷官破产,%s(%d) 赢得了 %s.", ReturnPlayerName( playerid ), playerid, cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) );
+                GameTextForPlayer( playerid, sprintf( "~n~~n~~g~%s 赢了!", cash_format( payout ) ), 4000, 3 );
                 if ( payout != 0 ) GivePlayerCasinoRewardsPoints( playerid, g_blackjackData[ tableid ] [ E_PAYOUT ], .house_edge = 1.5 );
                 GivePlayerCash( playerid, payout );
                 StockMarket_UpdateEarnings( E_STOCK_CASINO, -payout, 0.05 );
@@ -628,7 +628,7 @@ stock CheckForBlackjack( tableid )
 			if ( g_blackjackPlayerState[ tableid ] [ player_index ] == BLACKJACK_STATE_WIN && payout > g_blackjackData[ tableid ] [ E_PAYOUT ] && payout >= 10000 ) {
 				UpdateServerVariable( "blackjack_wins", 0, GetGVarFloat( "blackjack_wins" ) + ( float( payout ) / 1000000.0 ), "", GLOBAL_VARTYPE_FLOAT );
                 foreach ( new i : Player ) if ( ! IsPlayerSettingToggled( i, SETTING_HIDE_GAMB_MSG ) ) {
-                    SendClientMessageFormatted( i, -1, ""COL_GREY"[CASINO]{FFFFFF} %s(%d) has won "COL_GOLD"%s"COL_WHITE" from blackjack!", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
+                    SendClientMessageFormatted( i, -1, ""COL_GREY"[赌场]{FFFFFF} %s(%d) 赢了 "COL_GOLD"%s"COL_WHITE" 来自二十一点!", ReturnPlayerName( playerid ), playerid, cash_format( payout ) );
                 }
             }
         }
@@ -708,7 +708,7 @@ stock SendClientMessageToBlackjack( tableid, colour, format[ ], va_args<> )
 
 stock InitializeBlackjackTextdraws( id )
 {
-    g_blackjackTurnTD[ id ] = TextDrawCreate(330.000000, 204.000000, "" SERVER_OPERATOR " has 5 seconds");
+    g_blackjackTurnTD[ id ] = TextDrawCreate(330.000000, 204.000000, "" SERVER_OPERATOR " 有 5 秒");
     TextDrawAlignment(g_blackjackTurnTD[ id ], 2);
     TextDrawBackgroundColor(g_blackjackTurnTD[ id ], 255);
     TextDrawFont(g_blackjackTurnTD[ id ], 1);
@@ -811,17 +811,17 @@ stock GetBlackjackPlayers( tableid ) {
 stock SetBlackjackPlayerLabelValue( tableid, player_index, score ) {
     if ( score != -1 ) {
         new playerid = g_blackjackSlotData[ tableid ] [ player_index ];
-        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_PLAYER_LABEL ] [ player_index ], COLOR_GOLD, sprintf( "%s\n"COL_GREY"Score:"COL_WHITE" %d", ReturnPlayerName( playerid ), score ) );
+        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_PLAYER_LABEL ] [ player_index ], COLOR_GOLD, sprintf( "%s\n"COL_GREY"分数:"COL_WHITE" %d", ReturnPlayerName( playerid ), score ) );
     } else {
-        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_PLAYER_LABEL ] [ player_index ], 0, sprintf( "Player %d", player_index ) );
+        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_PLAYER_LABEL ] [ player_index ], 0, sprintf( "玩家%d", player_index ) );
     }
 }
 
 stock SetBlackjackDealerLabelValue( tableid, score ) {
     if ( score != -1 ) {
-        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_DEALER_LABEL ], COLOR_GREY, sprintf( "Dealer\nScore:"COL_WHITE" %d", score ) );
+        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_DEALER_LABEL ], COLOR_GREY, sprintf( "经销商\n分数:"COL_WHITE" %d", score ) );
     } else {
-        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_DEALER_LABEL ], COLOR_WHITE, sprintf( "Press ENTER To Play Blackjack\n"COL_WHITE"%s Minimum", cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) ) );
+        UpdateDynamic3DTextLabelText( g_blackjackData[ tableid ] [ E_DEALER_LABEL ], COLOR_WHITE, sprintf( "按 ENTER 玩 21 点\n"COL_WHITE"最低下注 %s", cash_format( g_blackjackData[ tableid ] [ E_PAYOUT ] ) ) );
     }
 }
 

@@ -27,36 +27,36 @@ enum E_METH_PROCEEDURE
 static const
 	sz_mu_MethProduction[  ] [ 56 ] =
 	{
-		{ "This batch looks like it needs some muriatic. Add some." },
-		{ "Continue the cooking process by adding some acid." },
-		{ "Soda. Actually, acid. Yeah, that's it." },
-		{ "It's cooking fine. However, it needs more acid." },
-		{ "If you have any muriatic, pour it in." },
-		{ "Chloride, or... Acid. Muriatic. Add that."},
-		{ "Stone Cleaner, add that in." }
+		{ "这批看起来需要一些氯化物.添加一些." },
+		{ "通过添加一些酸继续烹饪过程." },
+		{ "苏打水.其实就是酸.是的,就是这样." },
+		{ "制作过程正常, 但还需要更多酸." },
+		{ "如果你有盐酸, 就倒进去." },
+		{ "氯化物, 或者... 酸. 盐酸. 把它加进去."},
+		{ "加入石材清洁剂." }
 	},
 
 	sz_cs_MethProduction[  ] [ 54 ] =
 	{
-		{ "It's getting blue, add some soda in though." },
-		{ "Got any soda? Drop it in." },
-		{ "This batch needs some club soda." },
-		{ "Add hydrogen chloride. Actually, add soda!" },
-		{ "Continue the process with some caustic soda." },
-		{ "Cooking up real fine. Needs some caustic soda though." },
-		{ "Get the temperature up by adding caustic soda." },
-		{ "Caustic soda... Or muriatic. Actually, add soda." }
+		{ "天色变蓝了,不过加点苏打水吧." },
+		{ "有苏打水吗?把它扔进去." },
+		{ "这批需要一些苏打水." },
+		{ "添加氯化氢.其实加苏打水就可以了!" },
+		{ "用一些烧碱继续这个过程." },
+		{ "做饭真好.不过需要一些烧碱." },
+		{ "添加烧碱来升高温度." },
+		{ "烧碱...或氯化钠.其实加苏打水就可以了." }
 	},
 
 	sz_hcl_MethProduction[  ] [ 46 ] =
 	{
-		{ "Add some of that chloride." },
-		{ "It needs some bubbles, hydrogen should be it." },
-		{ "This batch needs hydrogen." },
-		{ "Continue the process by adding a gas tank." },
-		{ "Add soda. Actually, add hydrogen." },
-		{ "A gas, what could it be? Hydrogen?" },
-		{ "Cooking right away, needs more gas though." }
+		{ "添加一些氯化物." },
+		{ "它需要一些气泡,应该是氢气." },
+		{ "这批产品需要氢气." },
+		{ "通过添加储气罐继续该过程." },
+		{ "添加苏打水.实际上,添加氢气." },
+		{ "气体,它可能是什么?氢?" },
+		{ "立即做饭,但需要更多燃气." }
 	}
 ;
 
@@ -117,7 +117,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				if ( GetDynamicObjectPos( objectid, X, Y, Z ) )
 				{
 					if ( IsPlayerAimingAt( playerid, X, Y, Z, fAimDistance ) )
-						ApplyAnimation( playerid, "CARRY", "liftup105", 4.0, 1, 0, 0, 1, 0 ), ShowProgressBar( playerid, "Taking Meth", PROGRESS_GRAB_METH, 3000, 0x87CEEBFF );
+						ApplyAnimation( playerid, "CARRY", "liftup105", 4.0, 1, 0, 0, 1, 0 ), ShowProgressBar( playerid, "服用冰毒", PROGRESS_GRAB_METH, 3000, 0x87CEEBFF );
 				}
 			}
 			else
@@ -127,29 +127,29 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					if ( IsPlayerAimingAt( playerid, 2083.489990, 1234.743041, 414.821014, fAimDistance ) )
 					{
 						if ( !p_CausticSoda{ playerid } )
-							return SendError( playerid, "You don't have any caustic soda." );
+							return SendError( playerid, "你没有烧碱." );
 
 						SetPVarInt( playerid, "pouring_chemical", CHEMICAL_CS );
 						ApplyAnimation( playerid, "CARRY", "putdwn105", 4.0, 1, 0, 0, 1, 0 );
-						ShowProgressBar( playerid, "Pouring Caustic Soda", PROGRESS_CHEMICAL, 2500, 0x3E7EFFFF );
+						ShowProgressBar( playerid, "浇烧碱", PROGRESS_CHEMICAL, 2500, 0x3E7EFFFF );
 					}
 					else if ( IsPlayerAimingAt( playerid, 2083.282958, 1234.025024, 415.028009, fAimDistance ) )
 					{
 						if ( !p_HydrogenChloride{ playerid } )
-							return SendError( playerid, "You don't have any hydrogen chloride." );
+							return SendError( playerid, "你没有氯化氢." );
 
 						SetPVarInt( playerid, "pouring_chemical", CHEMICAL_HLC );
 						ApplyAnimation( playerid, "CARRY", "putdwn105", 4.0, 1, 0, 0, 1, 0 );
-						ShowProgressBar( playerid, "Pouring Hydrogen Chloride", PROGRESS_CHEMICAL, 2500, 0xEE9911FF );
+						ShowProgressBar( playerid, "倒入氯化氢", PROGRESS_CHEMICAL, 2500, 0xEE9911FF );
 					}
 					else if ( IsPlayerAimingAt( playerid, 2083.638916, 1233.254028, 415.020996, fAimDistance ) )
 					{
 						if ( !p_MuriaticAcid{ playerid } )
-							return SendError( playerid, "You don't have any muriatic acid." );
+							return SendError( playerid, "你没有任何盐酸." );
 
 						SetPVarInt( playerid, "pouring_chemical", CHEMICAL_MU );
 						ApplyAnimation( playerid, "CARRY", "putdwn105", 4.0, 1, 0, 0, 1, 0 );
-						ShowProgressBar( playerid, "Pouring Muriatic Acid", PROGRESS_CHEMICAL, 2500, 0xFF0000FF );
+						ShowProgressBar( playerid, "倒入盐酸", PROGRESS_CHEMICAL, 2500, 0xFF0000FF );
 					}
 				}
 			}
@@ -238,7 +238,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 				DeleteGVar( "meth_acid", vehicleid );
 				DeleteGVar( "meth_chloride", vehicleid );
 				DeleteGVar( "meth_chef", vehicleid );
-				SendServerMessage( playerid, "You have put the whole chemical. The methlab has exploded." );
+				SendServerMessage( playerid, "你已经把整个化学品都放了.冰毒实验室爆炸了." );
 				GetPlayerPos( playerid, X, Y, Z );
 				CreateExplosionForPlayer( playerid, X, Y, Z - 0.75, 0, 10.0 );
 				SetPlayerHealth( playerid, -1 );
@@ -250,7 +250,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 				SetGVarInt( "meth_smoke", CreateDynamicObject( 18726, 0.0, 0.0, -1000.0, 0.000000, 0.000000, 0.000000 ), vehicleid );
 				AttachDynamicObjectToVehicle( GetGVarInt( "meth_smoke", vehicleid ), vehicleid, -0.524999, -0.974999, -0.375000, 0.000000, 0.000000, 0.000000 );
 
-				ShowPlayerHelpDialog( playerid, 5000, "Okay, okay, everything seems to be cooking fine. Wait till for the next chemical to be added." );
+				ShowPlayerHelpDialog( playerid, 5000, "好吧,好吧,一切看起来都很顺利.等到添加下一种化学物质." );
    				if ( !IsPlayerUsingRadio( playerid ) ) PlayAudioStreamForPlayer( playerid, "http://files.sfcnr.com/game_sounds/meth_cooking.mp3", 1476.0394, 1464.3358, 1012.1190, 5.0, 1 );
 				SetGVarInt( "meth_cooktimer", SetTimerEx( "OnMethamphetamineCooking", 10000, false, "ddd", playerid, vehicleid, chemical ), vehicleid );
 			}
@@ -266,10 +266,10 @@ hook OnProgressCompleted( playerid, progressid, params )
 			;
 
 			if ( !( IsValidDynamicObject( objectid ) && Streamer_GetIntData( STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MODEL_ID ) == 1579 ) )
-				return SendError( playerid, "Someone just took the last batch of the meth!" );
+				return SendError( playerid, "有人刚刚拿走了最后一批冰毒!" );
 
 			if ( p_Methamphetamine{ playerid } >= 128 )
-				return SendError( playerid, "You can only export a maximum of 128 pounds of meth." );
+				return SendError( playerid, "你最多只能出口 128 磅冰毒." );
 
 			p_Methamphetamine{ playerid } ++;
 
@@ -283,7 +283,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 			DeleteGVar( "meth_chloride", vehicleid );
 			DeleteGVar( "meth_chef", vehicleid );
 
-			SendServerMessage( playerid, "You've yielded a pound of meth. Take your bags over to "COL_GREY"Cluckin' Bell"COL_WHITE" for exportation." );
+			SendServerMessage( playerid, "你收获了一磅冰毒.把你的行李带到 "COL_GREY"Cluckin' Bell"COL_WHITE" 出口." );
 		}
 	}
 	return 1;
@@ -301,8 +301,8 @@ public OnMethamphetamineCooking( playerid, vehicleid, last_chemical )
 
 		if ( ! GetGVarInt( "meth_acid", vehicleid ) && ! GetGVarInt( "meth_soda", vehicleid ) && ! GetGVarInt( "meth_chloride", vehicleid ) )
 		{
-			ShowPlayerHelpDialog( playerid, 5000, "The process is done. Bag it up and do another round if you wish." );
-			SendServerMessage( playerid, "Process is done. Bag it up, and do another round if you wish. Export it for money." );
+			ShowPlayerHelpDialog( playerid, 5000, "该过程已完成.如果你愿意,可以将其打包并再进行一轮." );
+			SendServerMessage( playerid, "流程完成.把它包起来,如果你愿意的话,可以再做一轮.出口换钱." );
 			GivePlayerWantedLevel( playerid, 12 );
 			GivePlayerExperience( playerid, E_ROLEPLAY );
 			GivePlayerScore( playerid, 3 );
@@ -332,7 +332,7 @@ public OnMethamphetamineCooking( playerid, vehicleid, last_chemical )
 
 			SetGVarInt( "meth_ingredient", iMethIngredient, vehicleid );
 
-			SendServerMessage( playerid, "Okay, let's cook. New chemical to be added." );
+			SendServerMessage( playerid, "好吧,我们做饭吧.需要添加新的化学物质." );
 			PlayerPlaySound( playerid, 1056, 0.0, 0.0, 0.0 );
 		}
 	}
@@ -355,7 +355,7 @@ CMD:meth( playerid, params[ ] )
 	if ( strmatch( params, "cook" ) )
 	{
 		if ( !IsPlayerInMethlab( playerid ) )
-			return SendError( playerid, "You need to be in a methlab to use this command." );
+			return SendError( playerid, "必须在制毒实验室内才能使用此命令." );
 
 		new
 			vehicleid = GetPlayerMethLabVehicle( playerid ),
@@ -364,27 +364,27 @@ CMD:meth( playerid, params[ ] )
 		if ( IsValidVehicle( vehicleid ) && GetVehicleModel( vehicleid ) == 508 )
 		{
 			if ( !IsPlayerInRangeOfPoint( playerid, 2.0, 2084.2842, 1234.0254, 414.7454 ) )
-				return SendError( playerid, "You're not near the lab." );
+				return SendError( playerid, "你不在实验室附近." );
 
 			if ( GetGVarInt( "meth_soda", vehicleid ) != 0 || GetGVarInt( "meth_acid", vehicleid ) != 0 || GetGVarInt( "meth_chloride", vehicleid ) != 0 )
-				return SendError( playerid, "This methlab is already in operation." );
+				return SendError( playerid, "该方法实验室已经投入运行." );
 
 			if ( GetGVarType( "meth_cooktimer", vehicleid ) != GLOBAL_VARTYPE_NONE  )
-				return SendError( playerid, "This methlab is already in operation." );
+				return SendError( playerid, "该方法实验室已经投入运行." );
 
 			if ( IsValidDynamicObject( objectid ) && Streamer_GetIntData( STREAMER_TYPE_OBJECT, objectid, E_STREAMER_MODEL_ID ) == 1579 )
-				return SendError( playerid, "You must grab the meth before you continue." );
+				return SendError( playerid, "在继续之前,你必须抓住 冰毒." );
 
 			if ( !p_CausticSoda{ playerid } && !p_HydrogenChloride{ playerid } && !p_MuriaticAcid{ playerid } )
-				return SendError( playerid, "You're light on Caustic Soda, Hydrogen Chloride and Muriatic Acid." );
+				return SendError( playerid, "你缺少烧碱,氯化氢和盐酸." );
 
 			if ( p_Class[ playerid ] != CLASS_CIVILIAN )
-				return SendError( playerid, "This is restricted to civilians only." );
+				return SendError( playerid, "此功能仅限平民使用." );
 
 			new
 				iMethIngredient = random( 3 );
 
-			SendServerMessage( playerid, "You're now beginning the methamphetamine production. Follow the dialog to yield a pound of meth." );
+			SendServerMessage( playerid, "你们现在开始生产冰毒.按照对话框操作可得到一磅 冰毒." );
 
 			SetGVarInt( "meth_ingredient", iMethIngredient, vehicleid );
 			SetGVarInt( "meth_soda", 1, vehicleid );
@@ -399,18 +399,18 @@ CMD:meth( playerid, params[ ] )
 				case CHEMICAL_CS:	ShowPlayerHelpDialog( playerid, 12500, "%s", sz_cs_MethProduction[ random( sizeof( sz_cs_MethProduction ) ) ] );
 			}
 		}
-		else SendError( playerid, "An unexpected error has occurred, please re-enter your methlab." );
+		else SendError( playerid, "发生错误, 请重新进入制毒实验室." );
 	}
 	else if ( strmatch( params, "export" ) )
 	{
 		if ( GetPlayerInterior( playerid ) != 9 )
-			return SendError( playerid, "You must be inside Cluckin' Bell to use this command." );
+			return SendError( playerid, "你必须在 Cluckin' Bell 内才能使用此命令." );
 
 		if ( ! p_Methamphetamine{ playerid } )
-			return SendError( playerid, "You don't have any meth to export." );
+			return SendError( playerid, "你没有任何 冰毒 要导出." );
 
 		if ( p_Class[ playerid ] != CLASS_CIVILIAN )
-			return SendError( playerid, "This is restricted to civilians only." );
+			return SendError( playerid, "此功能仅限平民使用." );
 
 		new
 			cashEarned = p_Methamphetamine{ playerid } * ( 5000 + random( 1000 ) );
@@ -418,7 +418,7 @@ CMD:meth( playerid, params[ ] )
 		GivePlayerCash( playerid, cashEarned );
 		GivePlayerExperience( playerid, E_ROLEPLAY, float( p_Methamphetamine{ playerid } ) * 0.2 );
 		StockMarket_UpdateEarnings( E_STOCK_CLUCKIN_BELL, cashEarned, .factor = 0.3 );
-		SendServerMessage( playerid, "You have exported %d bags of meth, earning you "COL_GOLD"%s"COL_WHITE".", p_Methamphetamine{ playerid }, cash_format( cashEarned ) );
+		SendServerMessage( playerid, "你已出口 %d 袋 冰毒,为你赚取收入 "COL_GOLD"%s"COL_WHITE".", p_Methamphetamine{ playerid }, cash_format( cashEarned ) );
 		p_Methamphetamine{ playerid } = 0;
 	}
 	else SendUsage( playerid, "/meth [COOK/EXPORT]" );
@@ -450,7 +450,7 @@ stock ResetVehicleMethlabData( vehicleid, bool: death = false )
 				GetPlayerPos( playerid, X, Y, Z );
 				CreateExplosionForPlayer( playerid, X, Y, Z - 0.75, 0, 10.0 );
 				SetPlayerHealth( playerid, -1 );
-				GameTextForPlayer( playerid, "~r~The vehicle and the methlab have exploded.", 4000, 0 );
+				GameTextForPlayer( playerid, "~r~车辆和冰毒实验室爆炸了.", 4000, 0 );
 			}
 		}
 	}
@@ -477,7 +477,7 @@ stock haltMethamphetamine( playerid, vehicleid, canceled=1 )
 	if ( GetGVarInt( "meth_chef", vehicleid ) == playerid )
 	{
 		if ( canceled )
-			GameTextForPlayer( playerid, "~r~Cooking Operation Canceled!", 4000, 0 );
+			GameTextForPlayer( playerid, "~r~烹饪操作取消!", 4000, 0 );
 
 		new timer = GetGVarInt( "meth_cooktimer", vehicleid );
 		if ( timer ) KillTimer( timer ); // Could be invalid lol
@@ -547,7 +547,7 @@ stock RemovePlayersFromJourney( vehicleID )
 			SetPlayerInterior( playerid, 0 );
 			SetPlayerVirtualWorld( playerid, 0 );
 
-			SendServerMessage( playerid, "You have been removed from a player-owned Journey as the player who owned it has left the server." );
+			SendServerMessage( playerid, "由于拥有该旅程的玩家已离开服务器,你已被从该玩家拥有的旅程中删除." );
 		}
 	}
 

@@ -19,7 +19,7 @@ static stock
 /* ** Hooks ** */
 hook OnScriptInit( )
 {
-   	g_WorldDayTD = TextDrawCreate(501.000000, 6.000000, "Monday");
+    g_WorldDayTD = TextDrawCreate(501.000000, 6.000000, "周一");
 	TextDrawBackgroundColor(g_WorldDayTD, 255);
 	TextDrawFont(g_WorldDayTD, 3);
 	TextDrawLetterSize(g_WorldDayTD, 0.519998, 1.499999);
@@ -74,14 +74,14 @@ stock GetDayToString( day )
 
 	switch( day )
 	{
-		case 0: string = "Monday";
-		case 1: string = "Tuesday";
-		case 2: string = "Wednesday";
-		case 3: string = "Thursday";
-		case 4: string = "Friday";
-		case 5: string = "Saturday";
-		case 6: string = "Sunday";
-		default: string = "Bugged";
+		case 0: string = "周一";
+		case 1: string = "周二";
+		case 2: string = "周三";
+		case 3: string = "周四";
+		case 4: string = "星期五";
+		case 5: string = "周六";
+		case 6: string = "星期日";
+		default: string = "窃听";
 	}
 	return string;
 }

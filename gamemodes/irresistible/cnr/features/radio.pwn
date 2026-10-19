@@ -23,19 +23,19 @@ enum E_RADIO_DATA
 static stock
 	g_RadioData[ ] [ E_RADIO_DATA ] =
 	{
-	    { "Country",		"http://sc3c-sjc.1.fm:7806" },
-		{ "Electronic", 	"http://useless.streams.enation.fm:8000" },
-		{ "Metal", 			"http://ice.somafm.com/metal" },
-		{ "Hip Hop",       	"http://www.stationzilla.com/stationzilla.m3u" },
-		{ "Pop", 			"http://listen.radionomy.com/airradiofreestyleslow" },
-		{ "Reggae", 		"http://whatisland.macchiatomedia.org:8118" },
-		{ "Rock", 			"http://sorradio.org:5005/live" },
-		{ "Jamz 1.FM",		"http://sc1c-sjc.1.fm:8052" },
-		{ "XLTRAX FM", 		"http://xltrax.com:8000" },
-		{ "Groove Salad", 	"http://ice.somafm.com/groovesalad" },
-		{ ".977 Hits",      "http://7609.live.streamtheworld.com:80/977_HITS_SC" }
+	    { "国家",		"http://sc3c-sjc.1.fm:7806" },
+		{ "电子的", 	"http://useless.streams.enation.fm:8000" },
+		{ "金属", 			"http://ice.somafm.com/metal" },
+		{ "嘻哈音乐",       	"http://www.stationzilla.com/stationzilla.m3u" },
+		{ "流行音乐", 			"http://listen.radionomy.com/airradiofreestyleslow" },
+		{ "雷鬼音乐", 		"http://whatisland.macchiatomedia.org:8118" },
+		{ "岩石", 			"http://sorradio.org:5005/live" },
+		{ "果酱 1.FM",		"http://sc1c-sjc.1.fm:8052" },
+		{ "XLTRAX 调频", 		"http://xltrax.com:8000" },
+		{ "凹槽沙拉", 	"http://ice.somafm.com/groovesalad" },
+		{ ".977 点击数",      "http://7609.live.streamtheworld.com:80/977_HITS_SC" }
 	},
-	g_RadioStations					[ 190 ] = ""COL_GREY"Custom URL "COL_GOLD"[V.I.P]"COL_WHITE"\n",
+	g_RadioStations					[ 190 ] = ""COL_GREY"自定义网址 "COL_GOLD"[V.I.P]"COL_WHITE"\n",
 	bool: p_UsingRadio				[ MAX_PLAYERS char ]
 ;
 
@@ -56,15 +56,15 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		if ( listitem == 0 )
 		{
 			if ( GetPlayerVIPLevel( playerid ) < VIP_REGULAR )
-				return SendError( playerid, "You must be a V.I.P to use this, to become one visit "COL_GREY"donate.irresistiblegaming.com" ), 1;
+				return SendError( playerid, "你必须是 VIP 才能使用此功能,才能成为一次访问 "COL_GREY"donate.irresistiblegaming.com" ), 1;
 
-		 	ShowPlayerDialog(playerid, DIALOG_RADIO_CUSTOM, DIALOG_STYLE_INPUT, "{FFFFFF}Custom Radio", ""COL_WHITE"Enter the URL below, and streaming will begin.\n\n"COL_ORANGE"Please note, if there isn't a response. It's likely to be an invalid URL.", "Stream", "Back");
+            ShowPlayerDialog(playerid, DIALOG_RADIO_CUSTOM, DIALOG_STYLE_INPUT, "{FFFFFF}定制收音机", ""COL_WHITE"输入下面的 URL,直播将开始.\n\n"COL_ORANGE"如果没有回复,请注意.这可能是一个无效的 URL.", "溪流", "返回");
 			return 1;
 		}
 	   	p_UsingRadio{ playerid } = true;
 	   	StopAudioStreamForPlayer( playerid );
 	   	PlayAudioStreamForPlayer( playerid, g_RadioData[ listitem - 1 ] [ E_URL ] );
-	    SendServerMessage( playerid, "If the radio doesn't respond then it must be offline. Use "COL_GREY"/stopradio"COL_WHITE" to stop the radio." );
+	    SendServerMessage( playerid, "如果无线电没有响应,则它一定处于离线状态.使用 "COL_GREY"/stopradio"COL_WHITE" 停止广播." );
 	}
 	else if ( dialogid == DIALOG_RADIO_CUSTOM )
 	{
@@ -72,7 +72,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 	   	p_UsingRadio{ playerid } = true;
 	   	StopAudioStreamForPlayer( playerid );
 	   	PlayAudioStreamForPlayer( playerid, inputtext );
-	    SendServerMessage( playerid, "If the radio doesn't respond then it must be offline. Use "COL_GREY"/stopradio"COL_WHITE" to stop the radio." );
+	    SendServerMessage( playerid, "如果无线电没有响应,则它一定处于离线状态.使用 "COL_GREY"/stopradio"COL_WHITE" 停止广播." );
 	}
 	return 1;
 }
@@ -85,7 +85,7 @@ hook OnPlayerDisconnect( playerid, reason ) {
 /* ** Commands ** */
 CMD:radio( playerid, params[ ] )
 {
-    ShowPlayerDialog(playerid, DIALOG_RADIO, DIALOG_STYLE_LIST, "{FFFFFF}Radio Stations - List", g_RadioStations, "Select", "Close");
+    ShowPlayerDialog(playerid, DIALOG_RADIO, DIALOG_STYLE_LIST, "{FFFFFF}广播电台 - 列表", g_RadioStations, "选择", "关闭");
 	return 1;
 }
 

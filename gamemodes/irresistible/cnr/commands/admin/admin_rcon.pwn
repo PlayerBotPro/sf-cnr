@@ -338,7 +338,7 @@ CMD:givewanted( playerid, params[ ] )
 	{
         AddAdminLogLineFormatted( "%s(%d) has gave %s(%d) %d wanted level", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, wantedlvl );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have modified %s(%d)'s wanted level by %d.", ReturnPlayerName( pID ), pID, wantedlvl );
-        SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" Your wanted level has been modified by %s(%d).", ReturnPlayerName( playerid ), playerid );
+        SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你的 通缉等级 已被 %s(%d) 修改.", ReturnPlayerName( playerid ), playerid );
 		GivePlayerWantedLevel( pID, wantedlvl );
 	}
 	return 1;
@@ -356,7 +356,7 @@ CMD:givescore( playerid, params[ ] )
 	{
         AddAdminLogLineFormatted( "%s(%d) has given %s(%d)'s %d score", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, score );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have given %s(%d) %d score!", ReturnPlayerName( pID ), pID, score );
-        SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have been given %d score from %s(%d)!", score, ReturnPlayerName( playerid ), playerid );
+        SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]"COL_WHITE" 你已被赋予%d 分数来自%s(%d)!", score, ReturnPlayerName( playerid ), playerid );
 		SetPlayerScore( pID, GetPlayerScore( pID ) + score );
 	}
 	return 1;
@@ -394,7 +394,7 @@ CMD:givexp( playerid, params [ ] )
 			return SendError( playerid, "You have specified an invalid level." );
 		}
         AddAdminLogLineFormatted( "%s(%d) has given %s(%d) %d XP", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, xp );
-	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]{FFFFFF} %s(%d) has given you %d XP.", ReturnPlayerName( playerid ), playerid, xp );
+	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]{FFFFFF} %s(%d) 已给你 %d 经验.", ReturnPlayerName( playerid ), playerid, xp );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]{FFFFFF} You've given %s(%d) %d XP.", ReturnPlayerName( pID ), pID, xp );
 	}
 	return 1;
@@ -432,7 +432,7 @@ CMD:givecoins( playerid, params [ ] )
 	{
 		GivePlayerIrresistibleCoins( sendtoid, coins );
         AddAdminLogLineFormatted( "%s(%d) has given %s(%d) %0.2f IC", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( sendtoid ), sendtoid, coins );
-	    SendClientMessageFormatted( sendtoid, -1, ""COL_PINK"[ADMIN]{FFFFFF} %s(%d) has given you %0.2f IC.", ReturnPlayerName( playerid ), playerid, coins );
+	    SendClientMessageFormatted( sendtoid, -1, ""COL_PINK"[管理]{FFFFFF} %s(%d) 已给你 %0.2f IC.", ReturnPlayerName( playerid ), playerid, coins );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]{FFFFFF} You've given %s(%d) %0.2f IC.", ReturnPlayerName( sendtoid ), sendtoid, coins );
 	}
 	return 1;
@@ -451,7 +451,7 @@ CMD:givecash( playerid, params [ ] )
 	{
 	    GivePlayerCash( pID, cash );
 		AddAdminLogLineFormatted( "%s(%d) has given %s(%d) %d dollars", ReturnPlayerName( playerid ), playerid, ReturnPlayerName( pID ), pID, cash );
-	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]{FFFFFF} %s(%d) has given you "COL_GOLD"%s", ReturnPlayerName( playerid ), playerid, cash_format( cash ) );
+	    SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]{FFFFFF} %s(%d) 给了你 "COL_GOLD"%s", ReturnPlayerName( playerid ), playerid, cash_format( cash ) );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]{FFFFFF} You've given %s(%d) "COL_GOLD"%s", ReturnPlayerName( pID ), pID, cash_format( cash ) );
 	}
 	return 1;
@@ -473,7 +473,7 @@ CMD:setviplevel( playerid, params[ ] )
     {
 	    SetPlayerVipLevel( pID, level );
         SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[VIP LEVEL]"COL_WHITE" You have set %s(%d)'s VIP package to %s.", ReturnPlayerName( pID ), pID, VIPToString( level ) );
-		SendClientMessageFormatted( pID, -1, ""COL_GOLD"[VIP LEVEL]"COL_WHITE" Your VIP package has been set to %s by %s(%d)", VIPToString( level ), ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_GOLD"[VIP 等级]"COL_WHITE" 你的 VIP 套餐已设为 %s, 操作者: %s(%d)", VIPToString( level ), ReturnPlayerName( playerid ), playerid );
     }
 	return 1;
 }
@@ -495,13 +495,13 @@ CMD:extendvip( playerid, params[ ] )
 	    p_VIPExpiretime[ pID ] += ( days ) * 86400;
 	    if ( days >= 0 )
 	    {
-			SendClientMessageFormatted( pID, -1, ""COL_GOLD"[VIP EXTENSION]"COL_WHITE" You have had your V.I.P extended for "COL_GREEN"%d days"COL_WHITE" by %s(%d).", days, ReturnPlayerName( playerid ), playerid );
+			SendClientMessageFormatted( pID, -1, ""COL_GOLD"[VIP 时长]"COL_WHITE" 你的 VIP 已经延长了 "COL_GREEN"%d 天"COL_WHITE" 由%s(%d).", days, ReturnPlayerName( playerid ), playerid );
 			SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[VIP EXTENSION]"COL_WHITE" You have extended %s(%d)'s V.I.P for "COL_GREEN"%d days"COL_WHITE".", ReturnPlayerName( pID ), pID, days );
 		}
 		else
 		{
             days = days * -1; // conversion to whole number
-			SendClientMessageFormatted( pID, -1, ""COL_GOLD"[VIP EXTENSION]"COL_WHITE" You have had your V.I.P decremented for "COL_RED"%d days"COL_WHITE" by %s(%d).", days, ReturnPlayerName( playerid ), playerid );
+			SendClientMessageFormatted( pID, -1, ""COL_GOLD"[VIP 时长]"COL_WHITE" 你的 VIP 已经减少了 "COL_RED"%d 天"COL_WHITE" 由%s(%d).", days, ReturnPlayerName( playerid ), playerid );
 			SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[VIP EXTENSION]"COL_WHITE" You have decremented %s(%d)'s V.I.P for "COL_RED"%d days"COL_WHITE".", ReturnPlayerName( pID ), pID, days );
 		}
     }
@@ -512,7 +512,7 @@ CMD:kickall( playerid, params[ ] )
 {
 	if ( !IsPlayerAdmin( playerid ) ) return 0;
 	SetServerRule( "password", "updating" );
-	SendClientMessageToAll( -1, ""COL_PINK"[ADMIN]"COL_WHITE" Everyone has been kicked from the server due to a server update." );
+	SendClientMessageToAll( -1, ""COL_PINK"[管理]"COL_WHITE" 由于服务器更新,每个人都已被从服务器中踢出." );
 	for ( new i = 0; i < MAX_PLAYERS; i++ ) if ( IsPlayerConnected( i ) && ! IsPlayerNPC( i ) && ! IsPlayerServerMaintainer( i ) ) {
 		Kick( i );
 	}

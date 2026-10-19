@@ -194,7 +194,7 @@ CMD:setgangleader( playerid, params[ ] )
 
 		SaveToAdminLogFormatted( playerid, gid, "setgangleader to %s (acc id %d)", ReturnPlayerName( pID ), p_AccountID[ pID ] );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[GANG]"COL_WHITE" %s(%d) is now the leader of %s.", ReturnPlayerName( pID ), pID, g_gangData[ gid ] [ E_NAME ] );
-		SendClientMessageToGang( gid, g_gangData[ gid ] [ E_COLOR ], "[GANG]{FFFFFF} %s(%d) is the new gang leader, forcefully by %s.", ReturnPlayerName( pID ), pID, ReturnPlayerName( playerid ) );
+		SendClientMessageToGang( gid, g_gangData[ gid ] [ E_COLOR ], "[帮派]{FFFFFF} %s(%d) 是新的帮派头目,由 %s 强制执行.", ReturnPlayerName( pID ), pID, ReturnPlayerName( playerid ) );
         SaveGangData( gid );
 	}
 	return 1;
@@ -315,7 +315,7 @@ CMD:setlevel( playerid, params[ ] )
 		// Set level
 		p_AdminLevel[ pID ] = iLevel;
 		AddAdminLogLineFormatted( "%s(%d) has set %s(%d)'s admin level to %d", ReturnPlayerName( playerid ), playerid,  ReturnPlayerName( pID ), pID, iLevel );
-		SendClientMessageFormatted( pID, -1, ""COL_PINK"[ADMIN]{FFFFFF} %s(%d) has set your admin level to %d!", ReturnPlayerName( playerid ), playerid, iLevel );
+		SendClientMessageFormatted( pID, -1, ""COL_PINK"[管理]{FFFFFF} %s(%d) 已将你的管理级别设置为 %d!", ReturnPlayerName( playerid ), playerid, iLevel );
 	    SendClientMessageFormatted( playerid, -1, ""COL_PINK"[ADMIN]{FFFFFF} You've set %s(%d)'s admin level to %d!", ReturnPlayerName( pID ), pID, iLevel );
 	}
 	return 1;

@@ -29,7 +29,7 @@
 #if !defined DISABLE_HAPPY_HOUR
 	hook OnScriptInit( )
 	{
-		g_NotManyPlayersTD = TextDrawCreate(322.000000, 12.000000, "Coin generation increased by 5x as there aren't many players online!");
+		g_NotManyPlayersTD = TextDrawCreate(322.000000, 12.000000, "在线人数较少, 代币产出提高至 5 倍!");
 		TextDrawAlignment(g_NotManyPlayersTD, 2);
 		TextDrawBackgroundColor(g_NotManyPlayersTD, 0);
 		TextDrawFont(g_NotManyPlayersTD, 1);
@@ -53,7 +53,7 @@
 			// Only update colors if neccessary
 			if ( fLastRate != g_HappyHourRate )
 			{
-				TextDrawSetString( g_NotManyPlayersTD, sprintf( "Coin generation increased by %0.1f%% as there aren't many players online!", g_HappyHourRate * 100.0 ) );
+				TextDrawSetString( g_NotManyPlayersTD, sprintf( "在线人数较少, 代币产出提高了 %0.1f%%!", g_HappyHourRate * 100.0 ) );
 				TextDrawColor( g_NotManyPlayersTD, setAlpha( COLOR_RED, floatround( 200.0 - 10.0 * float( playersOnline ) ) ) );
 				TextDrawShowForAllSpawned( g_NotManyPlayersTD );
 			}

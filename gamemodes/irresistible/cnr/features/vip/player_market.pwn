@@ -57,12 +57,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		}
 		else if ( sscanf( inputtext, "f", purchase_amount ) )
 		{
-			return SendError( playerid, "Please specify a valid amount." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
+			return SendError( playerid, "请指定有效金额." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
 		}
 
 		if ( ! ( 0.5 <= purchase_amount <= 10000.0 ) )
 		{
-			return SendError( playerid, "Please specify an amount between 0.5 and 10,000 IC." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
+			return SendError( playerid, "请指定介于 0.5 和 10,000 IC 之间的金额." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
 		}
 		else
 		{
@@ -77,7 +77,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 hook cmd_ic( playerid, params[ ] )
 {
 	if ( ! IsPlayerSecurityVerified( playerid ) ) {
-		return SendError( playerid, "You must be verified in order to use this feature. "COL_YELLOW"(use /verify)" ), Y_HOOKS_BREAK_RETURN_1;
+		return SendError( playerid, "使用此功能需要先验证账号. "COL_YELLOW"(输入 /verify)" ), Y_HOOKS_BREAK_RETURN_1;
 	}
 
 	if ( !strcmp( params, "sell", true, 4 ) )
@@ -85,18 +85,18 @@ hook cmd_ic( playerid, params[ ] )
 		new
 			Float: quantity, price;
 
-		if ( GetPlayerVIPLevel( playerid ) < VIP_BRONZE ) SendError( playerid, "You are not a Bronze V.I.P, to become one visit "COL_GREY"donate.sfcnr.com" );
+		if ( GetPlayerVIPLevel( playerid ) < VIP_BRONZE ) SendError( playerid, "你还不是青铜 VIP, 请前往以下地址开通: "COL_GREY"donate.sfcnr.com" );
 		else if ( sscanf( params[ 5 ], "fd", quantity, price ) ) SendUsage( playerid, "/ic sell [COINS] [PRICE_PER_COIN]" );
-		else if ( quantity < 1.0 ) SendError( playerid, "The minimum amount you can sell is 1.0 Irresistible Coins." );
-		else if ( quantity > GetPlayerIrresistibleCoins( playerid ) ) SendError( playerid, "You do not have this many Irresistible Coins." );
-		else if ( ! ( 1000 <= price <= 125000 )) SendError( playerid, "Selling price must be between $1,000 and $125,000 per coin." );
+		else if ( quantity < 1.0 ) SendError( playerid, "你可以出售的最低数量是 1.0 IC 代币." );
+		else if ( quantity > GetPlayerIrresistibleCoins( playerid ) ) SendError( playerid, "你没有这么多IC 代币." );
+		else if ( ! ( 1000 <= price <= 125000 )) SendError( playerid, "每枚硬币的售价必须介于 $1,000 和 $125,000 之间." );
 		else
 		{
 			new
 				Float: sell_volume = float( price ) * quantity;
 
 			if ( ! ( 1000.0 <= sell_volume <= 2000000000.0 ) ) {
-				return SendError( playerid, "The maximum amount of volume per order is $2,000,000,000." ); // prevent bugs
+				return SendError( playerid, "每个订单的最大交易量为 $2,000,000,000." ); // prevent bugs
 			}
 
 			// insert into database
@@ -104,7 +104,7 @@ hook cmd_ic( playerid, params[ ] )
 			mysql_single_query( szBigString );
 
 			// deduct the coins
-			SendServerMessage( playerid, "Sell order for %s Irresistible Coins (at %s/IC) has been placed. Cancel via "COL_GREY"/ic cancel"COL_WHITE".", number_format( quantity, .decimals = 3 ), cash_format( price ) );
+			SendServerMessage( playerid, "已下达 %s IC 代币(在 %s/IC)的卖单.取消通过 "COL_GREY"/ic cancel"COL_WHITE".", number_format( quantity, .decimals = 3 ), cash_format( price ) );
 			GivePlayerIrresistibleCoins( playerid, -quantity );
 		}
 		return Y_HOOKS_BREAK_RETURN_1;
@@ -134,7 +134,7 @@ thread PlayerMarket_OnShowSellOrders( playerid )
 			seller[ 24 ];
 
 		// set headers
-		szHugeString = ""COL_GREY"Player\t"COL_GREY"Quantity Available (IC)\t"COL_GREY"Price Per Coin ($)\n";
+		szHugeString = ""COL_GREY"玩家\t"COL_GREY"可用数量 (IC)\t"COL_GREY"每枚硬币的价格 ($)\n";
 
 		for ( new row = 0; row < sizeof ( p_PlayerMarket_SellOrders[ ] ); row ++ )
 		{
@@ -155,11 +155,11 @@ thread PlayerMarket_OnShowSellOrders( playerid )
 				p_PlayerMarket_SellOrders[ playerid ] [ row ] = -1;
 			}
 		}
-		return ShowPlayerDialog( playerid, DIALOG_IC_SELLORDERS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Irresistible Coin - "COL_WHITE"Buy Coins", szHugeString, "Buy", "Close" );
+		return ShowPlayerDialog( playerid, DIALOG_IC_SELLORDERS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"IC 代币 - "COL_WHITE"购买金币", szHugeString, "买", "关闭" );
 	}
 	else
 	{
-		return SendError( playerid, "There are no available coin sell orders at current." );
+		return SendError( playerid, "目前没有可用的硬币销售订单." );
 	}
 }
 
@@ -169,7 +169,7 @@ thread PlayerMarket_OnShowSellOrder( playerid, sellorderid )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "This sell order no longer exists. Please try again." );
+		return SendError( playerid, "该卖单不再存在.请再试一次." );
 	}
 
 	new Float: quantity = cache_get_field_content_float( 0, "AVAILABLE_IC" );
@@ -179,8 +179,8 @@ thread PlayerMarket_OnShowSellOrder( playerid, sellorderid )
 	SetPVarInt( playerid, "playermarket_askprice", ask_price );
 	SetPVarFloat( playerid, "playermarket_available", quantity );
 
-	format( szBigString, sizeof( szBigString ), ""COL_WHITE"This player has %s Irresistible Coins to sell at %s per coin.\n\nHow many Irresistible Coins would you like to buy?", number_format( quantity, .decimals = 3 ), cash_format( ask_price ) );
-	return ShowPlayerDialog( playerid, DIALOG_IC_BUY, DIALOG_STYLE_INPUT, ""COL_GOLD"Irresistible Coin - "COL_WHITE"Buy Coins", szBigString, "Buy", "Back" ), 1;
+	format( szBigString, sizeof( szBigString ), ""COL_WHITE"该玩家有 %s IC 代币 可以以每枚硬币 %s 的价格出售.\n\n你想购买多少 IC 代币?", number_format( quantity, .decimals = 3 ), cash_format( ask_price ) );
+	return ShowPlayerDialog( playerid, DIALOG_IC_BUY, DIALOG_STYLE_INPUT, ""COL_GOLD"IC 代币 - "COL_WHITE"购买金币", szBigString, "买", "返回" ), 1;
 }
 
 thread PlayerMarket_OnCancelOrders( playerid )
@@ -189,7 +189,7 @@ thread PlayerMarket_OnCancelOrders( playerid )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "You do not have any sell orders at the moment." );
+		return SendError( playerid, "你目前没有任何卖单." );
 	}
 
 	new
@@ -204,7 +204,7 @@ thread PlayerMarket_OnCancelOrders( playerid )
 
 	// credit back user
 	GivePlayerIrresistibleCoins( playerid, coins_accum );
-	SendServerMessage( playerid, "You have canceled %d sell orders. You have been returned %s IC.", rows, number_format( coins_accum, .decimals = 3 ) );
+	SendServerMessage( playerid, "你已取消 %d 卖单.你已返回 %s IC.", rows, number_format( coins_accum, .decimals = 3 ) );
 	return 1;
 }
 
@@ -214,7 +214,7 @@ thread PlayerMarket_OnPurchaseOrder( playerid, sellorderid, Float: purchase_amou
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "This sell order no longer exists. Please try again." );
+		return SendError( playerid, "该卖单不再存在.请再试一次." );
 	}
 
 	// check if the player has the money for the purchase
@@ -222,21 +222,21 @@ thread PlayerMarket_OnPurchaseOrder( playerid, sellorderid, Float: purchase_amou
 	new purchase_cost = floatround( float( ask_price ) * purchase_amount );
 
 	if ( GetPlayerCash( playerid ) < purchase_cost ) {
-		return SendError( playerid, "You need at least %s to purchase this many coins.", cash_format( purchase_cost ) ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
+		return SendError( playerid, "你至少需要 %s 才能购买这么多硬币.", cash_format( purchase_cost ) ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
 	}
 
 	// check if quantity is valid
 	new Float: available_quantity = cache_get_field_content_float( 0, "AVAILABLE_IC" );
 
 	if ( purchase_amount > available_quantity ) {
-		return SendError( playerid, "This player does not have that many coins for sale." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
+		return SendError( playerid, "该玩家没有那么多硬币可供出售." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
 	}
 
 	// check if seller is the buyer
 	new seller_account_id = cache_get_field_content_int( 0, "USER_ID" );
 
 	if ( GetPlayerAccountID( playerid ) == seller_account_id ) {
-		return SendError( playerid, "You cannot buy your own coins." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
+		return SendError( playerid, "你不能购买自己的硬币." ), PlayerMarket_ShowSellOrder( playerid, sellorderid ), 1;
 	}
 
 	// delete the sell order if theres little remaining else reduce
@@ -258,7 +258,7 @@ thread PlayerMarket_OnPurchaseOrder( playerid, sellorderid, Float: purchase_amou
 
 	if ( 0 <= sellerid < MAX_PLAYERS && Iter_Contains( Player, sellerid ) && IsPlayerLoggedIn( sellerid )  ) {
 		GivePlayerBankMoney( sellerid, after_fee_amount ), Beep( sellerid );
-		SendServerMessage( sellerid, "You have successfully sold %s IC to %s(%d) for "COL_GOLD"%s"COL_WHITE" (-0.5%s fee)!", number_format( purchase_amount, .decimals = 3 ), ReturnPlayerName( playerid ), playerid, cash_format( after_fee_amount ), "%%" );
+		SendServerMessage( sellerid, "售出 %s IC 给 %s(%d), 收入"COL_GOLD"%s"COL_WHITE" (手续费 0.5%s)!", number_format( purchase_amount, .decimals = 3 ), ReturnPlayerName( playerid ), playerid, cash_format( after_fee_amount ), "%%" );
 	} else {
 		mysql_single_query( sprintf( "UPDATE `USERS` SET `BANKMONEY` = `BANKMONEY` + %d WHERE `ID` = %d", after_fee_amount, seller_account_id ) );
 	}
@@ -270,7 +270,7 @@ thread PlayerMarket_OnPurchaseOrder( playerid, sellorderid, Float: purchase_amou
 	// credit the buyer
 	GivePlayerCash( playerid, -purchase_cost );
 	GivePlayerIrresistibleCoins( playerid, purchase_amount );
-	SendServerMessage( playerid, "You have successfully purchased %s IC (@ %s/IC) for %s.", number_format( purchase_amount, .decimals = 3 ), cash_format( ask_price ), cash_format( purchase_cost ) );
+	SendServerMessage( playerid, "你已成功购买 %s IC (@ %s/IC),价格为 %s.", number_format( purchase_amount, .decimals = 3 ), cash_format( ask_price ), cash_format( purchase_cost ) );
 	return 1;
 }
 

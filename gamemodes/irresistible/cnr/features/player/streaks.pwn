@@ -25,7 +25,7 @@ enum E_STREAK_DATA
 };
 
 static stock
-	g_streaksTypes 					[ MAX_STREAKS ] [ 8 ] = { "robbery", "arrest", "kill" },
+	g_streaksTypes 					[ MAX_STREAKS ] [ 8 ] = { "抢劫", "逮捕", "击杀" },
 	p_streakData 					[ MAX_PLAYERS ] [ MAX_STREAKS ] [ E_STREAK_DATA ]
 ;
 
@@ -92,7 +92,7 @@ thread OnStreaksLoad( playerid )
 /* ** Functions ** */
 stock Streak_ShowPlayer( playerid, dialogid = DIALOG_NULL, szSecondButton[ ] = "", forid = INVALID_PLAYER_ID ) {
 
-	szLargeString = ""COL_WHITE"Streak\t"COL_WHITE"Best Streak\t"COL_WHITE"Current Streak\n";
+	szLargeString = ""COL_WHITE"纪录类型\t"COL_WHITE"最高连续纪录\t"COL_WHITE"当前连续纪录\n";
 
 	for( new streakid = 0, szStreak[ 8 ]; streakid < MAX_STREAKS; streakid++ ) {
 		szStreak = g_streaksTypes[ streakid ];
@@ -104,7 +104,7 @@ stock Streak_ShowPlayer( playerid, dialogid = DIALOG_NULL, szSecondButton[ ] = "
 	if ( !IsPlayerConnected( forid ) )
 		forid = playerid;
 
-	return ShowPlayerDialog( forid, dialogid, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Best Streaks", szLargeString, "Okay", szSecondButton );
+	return ShowPlayerDialog( forid, dialogid, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}最高连续纪录", szLargeString, "确定", szSecondButton );
 }
 
 stock Streak_IncrementPlayerStreak( playerid, streakid ) {
@@ -116,7 +116,7 @@ stock Streak_IncrementPlayerStreak( playerid, streakid ) {
 		mysql_single_query( szBigString );
 
 		// Notify oneself
-		SendServerMessage( playerid, "You are currently on your best "COL_GOLD"%s streak"COL_WHITE" of %d!", g_streaksTypes[ streakid ], p_streakData[ playerid ] [ streakid ] [ E_BEST_STREAK ] );
+		SendServerMessage( playerid, "你正在刷新个人最高纪录: "COL_GOLD"连续%s纪录"COL_WHITE" %d的!", g_streaksTypes[ streakid ], p_streakData[ playerid ] [ streakid ] [ E_BEST_STREAK ] );
 
 		// Beep
 		Beep( playerid );
@@ -134,9 +134,9 @@ stock Streak_IncrementPlayerStreak( playerid, streakid ) {
 
 	if ( p_streakData[ playerid ] [ streakid ] [ E_STREAK ] % iModulus == 0 ) {
 		if ( p_streakData[ playerid ] [ streakid ] [ E_STREAK ] == p_streakData[ playerid ] [ streakid ] [ E_BEST_STREAK ] ) {
-			SendGlobalMessage( -1, ""COL_GOLD"[STREAK]{FFFFFF} %s(%d) is currently on their best "COL_GOLD"%s streak"COL_WHITE" of %d!", ReturnPlayerName( playerid ), playerid, g_streaksTypes[ streakid ], p_streakData[ playerid ] [ streakid ] [ E_BEST_STREAK ] );
+			SendGlobalMessage( -1, ""COL_GOLD"[连续纪录]{FFFFFF} %s(%d) 正在刷新个人最高纪录: "COL_GOLD"连续%s纪录"COL_WHITE" %d的!", ReturnPlayerName( playerid ), playerid, g_streaksTypes[ streakid ], p_streakData[ playerid ] [ streakid ] [ E_BEST_STREAK ] );
 		} else {
-			SendGlobalMessage( -1, ""COL_GOLD"[STREAK]{FFFFFF} %s(%d) is currently on a "COL_GOLD"%s streak"COL_WHITE" of %d!", ReturnPlayerName( playerid ), playerid, g_streaksTypes[ streakid ], p_streakData[ playerid ] [ streakid ] [ E_STREAK ] );
+			SendGlobalMessage( -1, ""COL_GOLD"[连续纪录]{FFFFFF} %s(%d) 当前纪录: "COL_GOLD"连续%s纪录"COL_WHITE" %d的!", ReturnPlayerName( playerid ), playerid, g_streaksTypes[ streakid ], p_streakData[ playerid ] [ streakid ] [ E_STREAK ] );
 		}
 	}
 }

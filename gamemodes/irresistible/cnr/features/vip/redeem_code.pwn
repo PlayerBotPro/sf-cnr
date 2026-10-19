@@ -40,11 +40,11 @@ hook OnScriptInit( )
 	AddServerVariable( "donation_goal_amount", "250.0", GLOBAL_VARTYPE_FLOAT );
 
 	// Wall of Donors
-	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -1574.3559, 885.1296, 28.4690, 0.0000, 0.0000, -0.0156 ), 0, "Thx Monthly Donors", 130, "Times New Roman", 64, 1, -65536, 0, 1 );
-	SetDynamicObjectMaterialText( ( g_TopDonorWall = CreateDynamicObject( 3074, -1574.3559, 885.1296, 14.0153, 0.0000, 0.0000, -0.0156 ) ), 0, "Nobody donated :(", 130, "Arial", 48, 0, -65536, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 3074, -1574.3559, 885.1296, 28.4690, 0.0000, 0.0000, -0.0156 ), 0, "谢谢每月捐助者", 130, "Times New Roman", 64, 1, -65536, 0, 1 );
+	SetDynamicObjectMaterialText( ( g_TopDonorWall = CreateDynamicObject( 3074, -1574.3559, 885.1296, 14.0153, 0.0000, 0.0000, -0.0156 ) ), 0, "没有人捐款:(", 130, "Arial", 48, 0, -65536, 0, 1 );
 
     // Latest Donor TD
-	g_TopDonorTD = TextDrawCreate(320.000000, 2.000000, "Top Donor " SERVER_OPERATOR " - $0.00, ~w~~h~~h~Latest Donor " SERVER_OPERATOR " - $0.00");
+	g_TopDonorTD = TextDrawCreate(320.000000, 2.000000, "顶级捐助者 " SERVER_OPERATOR " -$0.00, ~w~~h~~h~最新捐赠者 " SERVER_OPERATOR " - $0.00");
 	TextDrawAlignment(g_TopDonorTD, 2);
 	TextDrawBackgroundColor(g_TopDonorTD, 0);
 	TextDrawFont(g_TopDonorTD, 1);
@@ -68,36 +68,36 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		if ( strlen( inputtext ) != 16 )
 		{
 			cmd_donated( playerid, "" );
-			return SendError( playerid, "The transaction ID you entered is invalid." );
+			return SendError( playerid, "你输入的交易 ID 无效." );
 		}
 
 		if ( g_redeemVipWait > g_iTime )
 		{
 			cmd_donated( playerid, "" );
-			return SendServerMessage( playerid, "Our anti-exploit system requires you to wait another %d seconds before redeeming.", g_redeemVipWait - g_iTime );
+			return SendServerMessage( playerid, "我们的反漏洞利用系统要求你在兑换前再等待 %d 秒.", g_redeemVipWait - g_iTime );
 		}
 
 		HTTP( playerid, HTTP_GET, sprintf( "donate.sfcnr.com/validate_code/%s", inputtext ), "", "OnDonationRedemptionResponse" );
-		SendServerMessage( playerid, "We're now looking up this transaction. Please wait." );
+		SendServerMessage( playerid, "我们现在正在查找这笔交易.请稍候." );
         return 1;
 	}
 	else if ( dialogid == DIALOG_DONATED )
 	{
 		szLargeString[ 0 ] = '\0';
-		strcat( szLargeString,	""COL_WHITE"Thank you a lot for donating! :D In return for your dignity, you have received Irresistible Coins.\n\n"\
-								""COL_GREY" * What do I do with Irresistible Coins?"COL_WHITE" You can claim the V.I.P of your choice via "COL_GREY"/irresistiblecoins market"COL_WHITE".\n" );
-		strcat( szLargeString,	""COL_GREY" * How many do I have?"COL_WHITE" You can see how many Irresistible Coins you have via "COL_GREY"/irresistiblecoins"COL_WHITE".\n" \
-								""COL_GREY" * I'm unsure, help?"COL_WHITE" If you have any questions, please /ask otherwise enquire " SERVER_OPERATOR " via the forums!\n\nThank you once again for your contribution to our community! :P"  );
-		return ShowPlayerDialog( playerid, DIALOG_FINISHED_DONATING, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", szLargeString, "Got it!", "" );
+		strcat( szLargeString,	""COL_WHITE"非常感谢你的捐赠! :D 作为对你尊严的回报,你已收到 IC 代币.\n\n"\
+								""COL_GREY" * 我该怎么处理 IC 代币?"COL_WHITE" 你可以通过以下方式认领你选择的 VIP "COL_GREY"/irresistiblecoins market"COL_WHITE".\n" );
+		strcat( szLargeString,	""COL_GREY" * 我有多少?"COL_WHITE" 你可以通过以下方式查看你有多少 IC 代币 "COL_GREY"/irresistiblecoins"COL_WHITE".\n" \
+								""COL_GREY" * 我不确定,有帮助吗?"COL_WHITE" 如有疑问, 请输入 /ask 联系管理员, 或咨询" SERVER_OPERATOR " 通过论坛!\n\n再次感谢你对我们社区的贡献! :P"  );
+		return ShowPlayerDialog( playerid, DIALOG_FINISHED_DONATING, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", szLargeString, "明白了!", "" );
 	}
 	else if ( dialogid == DIALOG_FINISHED_DONATING )
     {
-		return ShowPlayerDialog( playerid, DIALOG_LATEST_DONOR, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", ""COL_WHITE"Would you like to be shown as the latest donor?", "Yes", "No" );
+		return ShowPlayerDialog( playerid, DIALOG_LATEST_DONOR, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", ""COL_WHITE"你想被显示为最新的捐赠者吗?", "是", "否" );
 	}
 	else if ( dialogid == DIALOG_LATEST_DONOR )
     {
 		if ( GetPVarType( playerid, "just_donated" ) != PLAYER_VARTYPE_FLOAT )
-			return SendError( playerid, "Seems to be an issue where we couldn't find how much you donated. Report to " SERVER_OPERATOR "." );
+			return SendError( playerid, "似乎是一个问题,我们无法找到你捐赠了多少.报告至 " SERVER_OPERATOR "." );
 
 		new
 			Float: fAmount = GetPVarFloat( playerid, "just_donated" );
@@ -113,7 +113,7 @@ public OnDonationRedemptionResponse( index, response_code, data[ ] )
 {
     if ( response_code == 200 )
     {
-		if ( strmatch( data, "{FFFFFF}Unable to identify transaction." ) ) ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", data, "Okay", "" );
+		if ( strmatch( data, "{FFFFFF}Unable to identify transaction." ) ) ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", data, "确定", "" );
 		else
 		{
 			static aDonation[ E_DONATION_DATA ];
@@ -121,7 +121,7 @@ public OnDonationRedemptionResponse( index, response_code, data[ ] )
 
 			// printf("donation {id:%s, name:%s, amount:%s, purpose:%s, date:%d}", aDonation[ E_TRANSACTION_ID ],aDonation[ E_NAME ],aDonation[ E_AMOUNT ],aDonation[ E_PURPOSE ],aDonation[ E_DATE ]);
 			if ( strfind( aDonation[ E_PURPOSE ], "San Fierro: Cops And Robbers" ) == -1 ) {
-				ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", ""COL_WHITE"This donation is not specifically for this server thus you are unable to retrieve anything.", "Okay", "" );
+				ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", ""COL_WHITE"此捐赠并非专门用于该服务器,因此你无法检索任何内容.", "确定", "" );
 				return 0;
 			}
 
@@ -132,7 +132,7 @@ public OnDonationRedemptionResponse( index, response_code, data[ ] )
 	}
  	else
     {
-        return ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", ""COL_WHITE"Unable to connect to the donation database. Please try again later.", "Okay", "" );
+        return ShowPlayerDialog( index, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", ""COL_WHITE"无法连接到捐赠数据库.请稍后重试.", "确定", "" );
     }
     return 1;
 }
@@ -152,7 +152,7 @@ thread OnCheckForRedeemedVIP( playerid, data[ ] )
 			szName[ MAX_PLAYER_NAME ];
 
 		cache_get_field_content( 0, "REDEEMER", szName );
-		ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", sprintf( ""COL_WHITE"Sorry this transaction ID has already been redeemed by %s.", szName ), "Okay", "" );
+		ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", sprintf( ""COL_WHITE"抱歉,该交易 ID 已被 %s 兑换.", szName ), "确定", "" );
 	}
 	else
 	{
@@ -173,23 +173,23 @@ thread OnCheckForRedeemedVIP( playerid, data[ ] )
 		if ( p_Uptime[ playerid ] > 604800 )
 		{
 			if ( fAmount < 1.99999 )
-				return SendError( playerid, "Thanks for donating! As this donation was under $2.00 USD, no coin has been issued." );
+				return SendError( playerid, "感谢你的捐赠!由于这笔捐款低于 $2.00 美元,因此没有发行任何硬币." );
 		}
 		else
 		{
 			if ( fAmount < 4.99999 )
-				return SendError( playerid, "Thanks for donating! As this donation was under $5.00 USD, no coins have been issued." );
+				return SendError( playerid, "感谢你的捐赠!由于这笔捐款低于 $5.00 美元,因此尚未发行任何硬币." );
 		}
 
 		GivePlayerIrresistibleCoins( playerid, iCoins );
 		SetPVarFloat( playerid, "just_donated", fAmount );
 
-		SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[VIP PACKAGE]"COL_WHITE" You have received %0.0f Irresistible Coins! Thanks for donating %s!!! :D", iCoins, ReturnPlayerName( playerid ) );
+		SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[VIP 套餐]"COL_WHITE" 你已经收到%0.0f IC 代币!感谢你捐赠 %s!!! :D", iCoins, ReturnPlayerName( playerid ) );
 
-		format( szBigString, 256, ""COL_GREY"Transaction ID:\t"COL_WHITE"%s\n"COL_GREY"Donor Name:\t"COL_WHITE"%s\n"COL_GREY"Amount:\t"COL_WHITE"$%0.2f\n"COL_GREY"Total Coins:\t"COL_WHITE"%0.0f\n"COL_GREY"Time Ago:\t"COL_WHITE"%s",
+		format( szBigString, 256, ""COL_GREY"交易 ID:\t"COL_WHITE"%s\n"COL_GREY"捐助者姓名:\t"COL_WHITE"%s\n"COL_GREY"金额:\t"COL_WHITE"$%0.2f\n"COL_GREY"总金币:\t"COL_WHITE"%0.0f\n"COL_GREY"前时间:\t"COL_WHITE"%s",
 				aDonation[ E_TRANSACTION_ID ], aDonation[ E_NAME ], floatstr( aDonation[ E_AMOUNT ] ), iCoins, secondstotime( g_iTime - aDonation[ E_DATE ] ) );
 
-		ShowPlayerDialog( playerid, DIALOG_DONATED, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR Donation", szBigString, "Continue", "" );
+		ShowPlayerDialog( playerid, DIALOG_DONATED, DIALOG_STYLE_MSGBOX, ""COL_GOLD"SF-CNR 捐赠", szBigString, "继续", "" );
 	}
 	return 1;
 }
@@ -217,17 +217,17 @@ thread OnGrabLatestDonor( hidden )
 
 			// Prevents total revenue for the month being disclosed mathematically
 			if ( funding_goal_percent >= 100.0 ) {
-				TextDrawSetString( g_TopDonorTD, sprintf( "Latest Donor %s - $%0.2f, ~g~Month Is Fully %0.2f%% Funded!", szName, last_donation, 100.0 ) );
+				TextDrawSetString( g_TopDonorTD, sprintf( "最新捐助者 %s - $%0.2f,~g~ 月已全额资助 %0.2f%%!", szName, last_donation, 100.0 ) );
 			} else {
-				TextDrawSetString( g_TopDonorTD, sprintf( "Latest Donor %s - $%0.2f, ~r~Month Is Only %0.2f%% Funded!", szName, last_donation, funding_goal_percent ) );
+				TextDrawSetString( g_TopDonorTD, sprintf( "最新捐助者 %s - $%0.2f,~r~ 月仅 %0.2f%% 提供资金!", szName, last_donation, funding_goal_percent ) );
 			}
 		} else {
-			TextDrawSetString( g_TopDonorTD, sprintf( "Latest Donor %s - $%0.2f", szName, last_donation ) );
+			TextDrawSetString( g_TopDonorTD, sprintf( "最新捐赠者 %s - $%0.2f", szName, last_donation ) );
 		}
 
 		// Play song!
 		if ( ! hidden ) {
-			GameTextForAll( sprintf( "~y~~h~~h~New Donor!~n~~w~%s", szName ), 6000, 3 );
+			GameTextForAll( sprintf( "~y~~h~~h~新捐赠者!~n~~w~%s", szName ), 6000, 3 );
 
 			// Play sound
 			foreach(new p : Player) if ( !IsPlayerUsingRadio( p ) ) {
@@ -237,7 +237,7 @@ thread OnGrabLatestDonor( hidden )
 	}
 	else
 	{
-		TextDrawSetString( g_TopDonorTD, "Nobody Donated :(" );
+		TextDrawSetString( g_TopDonorTD, "没有人捐款:(" );
 	}
 	return 1;
 }
@@ -286,7 +286,7 @@ thread OnUpdateWallOfDonors( )
 	}
 	else
 	{
-		SetDynamicObjectMaterialText( g_TopDonorWall, 0, "Nobody Donated :(", 130, "Arial", 48, 0, -65536, 0, 1 );
+		SetDynamicObjectMaterialText( g_TopDonorWall, 0, "没有人捐款:(", 130, "Arial", 48, 0, -65536, 0, 1 );
 	}
 	return 1;
 }
@@ -295,7 +295,7 @@ thread OnUpdateWallOfDonors( )
 CMD:redeemvip( playerid, params[ ] ) return cmd_donated( playerid, params );
 CMD:donated( playerid, params[ ] )
 {
-	ShowPlayerDialog( playerid, DIALOG_VIP, DIALOG_STYLE_INPUT, ""COL_GOLD"SF-CNR Donation", ""COL_WHITE"Enter the transaction ID of your donation below.\n\n"COL_GREY"See http://forum.sfcnr.com/showthread.php?10125 for details.", "Redeem", "Close" );
+	ShowPlayerDialog( playerid, DIALOG_VIP, DIALOG_STYLE_INPUT, ""COL_GOLD"SF-CNR 捐赠", ""COL_WHITE"在下面输入你捐赠的交易 ID.\n\n"COL_GREY"有关详细信息,请参阅 http://forum.sfcnr.com/showthread.php?10125.", "兑换", "关闭" );
 	return 1;
 }
 
@@ -307,14 +307,14 @@ CMD:updatedonategoal( playerid, params[ ] )
 
 	if ( ! IsPlayerAdmin( playerid ) && ! IsPlayerLeadMaintainer( playerid ) ) return 0;
 	else if ( sscanf( params, "f", donation_goal ) ) return SendUsage( playerid, "/updatedonationreq [DONATION_GOAL_AMOUNT]" );
-	else if ( ! ( 0.0 <= donation_goal < 10000.0 ) ) return SendError( playerid, "Donation goal amount must be between $0 and $10,000." );
+	else if ( ! ( 0.0 <= donation_goal < 10000.0 ) ) return SendError( playerid, "捐赠目标金额必须介于 $0 和 $10,000. 之间" );
 	else
 	{
 		new
 			Float: previous_goal = GetServerVariableFloat( "donation_goal_amount" );
 
 		UpdateGlobalDonated( .hidden = 1 );
-		SendServerMessage( playerid, "Updating donation goal from $%s to $%s!", number_format( previous_goal, .decimals = 2 ), number_format( donation_goal, .decimals = 2 ) );
+		SendServerMessage( playerid, "将捐赠目标从 $%s 更新为 $%s!", number_format( previous_goal, .decimals = 2 ), number_format( donation_goal, .decimals = 2 ) );
 		UpdateServerVariableFloat( "donation_goal_amount", donation_goal );
 	}
 	return 1;
@@ -331,12 +331,12 @@ CMD:updatedonortd( playerid, params[ ] )
 	{
 		// Reset the top donor
 		if ( reset ) {
-			TextDrawSetString( g_TopDonorTD, "Nobody Donated :(" );
+			TextDrawSetString( g_TopDonorTD, "没有人捐款:(" );
 		}
 
 		// Update it incase
 		UpdateGlobalDonated( targetid, amount );
-		SendServerMessage( playerid, "Updating latest donor now (player id %d, amount %f)", targetid, amount );
+		SendServerMessage( playerid, "立即更新最新捐赠者(玩家 ID %d,金额 %f)", targetid, amount );
 	}
 	return 1;
 }

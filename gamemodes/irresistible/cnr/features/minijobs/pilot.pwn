@@ -38,41 +38,41 @@ static stock
 	g_DropOffLocations[ ] [ E_PILOT_DATA ] =
 	{
 		// SF
-		{ "SF City Hall", 					-2706.2783, 376.4467, 4.9684 },
-		{ "Whetstone Farm", 				-1442.2671, -1492.7599, 101.7578 },
-		{ "Militia Ship", 					-2396.2244, 1543.2428, 31.8594 },
+		{ "旧金山市政厅", 					-2706.2783, 376.4467, 4.9684 },
+		{ "油石农场", 				-1442.2671, -1492.7599, 101.7578 },
+		{ "民兵船", 					-2396.2244, 1543.2428, 31.8594 },
 
 		// LV
-		{ "Greenglass College",			 	1087.6841, 1073.0309, 10.8382 },
-		{ "LV Baseball Ground", 			1355.2606, 2156.7888, 11.0156 },
-		{ "The Visage", 					1965.2771, 1915.5419, 130.9375},
-		{ "Spinybed", 						2400.8699, 2777.5608, 17.3643 },
+		{ "格林格拉斯学院",			 	1087.6841, 1073.0309, 10.8382 },
+		{ "LV 棒球场", 			1355.2606, 2156.7888, 11.0156 },
+		{ "Visage", 					1965.2771, 1915.5419, 130.9375},
+		{ "刺床", 						2400.8699, 2777.5608, 17.3643 },
 
 		// LS
-		{ "Santa Maria Beach",				369.9119, -2022.7925, 7.6719 },
-		{ "Pershing Square",				1480.7731, -1638.8020, 14.1484 },
-		{ "Glen Park",						1970.1884, -1201.0854, 25.6119 },
+		{ "圣玛丽亚海滩",				369.9119, -2022.7925, 7.6719 },
+		{ "潘兴广场",				1480.7731, -1638.8020, 14.1484 },
+		{ "格伦公园",						1970.1884, -1201.0854, 25.6119 },
 
 		// Assorted
-		{ "Red County",						1929.0541, 170.9540, 37.2813 },
-		{ "Blueberry Acres",				-76.9925, 1.9632, 3.1172 },
-		{ "Bayside",						-2465.4614, 2234.1575, 4.8042 }
+		{ "红县",						1929.0541, 170.9540, 37.2813 },
+		{ "蓝莓英亩",				-76.9925, 1.9632, 3.1172 },
+		{ "贝赛德",						-2465.4614, 2234.1575, 4.8042 }
 	},
 	g_AirportLocations[ ] [ E_AIRPORT_DATA ] =
 	{
-		{ "San Fierro Airport",				-1233.8186, -128.0793, 14.1484 },
-		{ "San Fierro Airport",				-1340.1185, 152.5395, 14.1484 },
+		{ "圣菲耶罗 机场",				-1233.8186, -128.0793, 14.1484 },
+		{ "圣菲耶罗 机场",				-1340.1185, 152.5395, 14.1484 },
 
-		{ "Las Venturas Airport", 			1477.1909, 1532.9949, 10.8125 },
-		{ "Las Venturas Airport", 			1620.1753, 1531.3868, 10.8011 },
+		{ "拉斯文图拉斯 机场", 			1477.1909, 1532.9949, 10.8125 },
+		{ "拉斯文图拉斯 机场", 			1620.1753, 1531.3868, 10.8011 },
 
-		{ "Los Santos Airport", 			1797.7118, -2493.8835, 13.5547 },
-		{ "Los Santos Airport", 			1921.8281, -2252.9990, 13.5469 },
+		{ "洛圣都 机场", 			1797.7118, -2493.8835, 13.5547 },
+		{ "洛圣都 机场", 			1921.8281, -2252.9990, 13.5469 },
 
-		{ "Abandoned Airstrip",				175.2288, 2504.6611, 16.4844 },
-		{ "Abandoned Airstrip",				266.3593, 2535.8496, 16.8125 }
+		{ "废弃的简易机场",				175.2288, 2504.6611, 16.4844 },
+		{ "废弃的简易机场",				266.3593, 2535.8496, 16.8125 }
 	},
-	g_CargoName[  ][ 8 ] = 					{ "Wheat", "Weed", "Meth", "Coke", "Weapons", "Clothes", "Drinks" },
+	g_CargoName[  ][ 8 ] = 					{ "小麦", "大麻", "冰毒", "可卡因", "武器", "衣服", "饮料" },
 
 	bool: p_hasPilotJob 					[ MAX_PLAYERS char ],
 	p_PilotMapIcon 							[ MAX_PLAYERS ] = { 0xFFFF, ... },
@@ -132,7 +132,7 @@ hook OnPlayerStateChange( playerid, newstate, oldstate )
 
     else if ( newstate == PLAYER_STATE_DRIVER && IsPlayerInAnyVehicle( playerid ) && !p_hasPilotJob{ playerid }) {
     	if ( Pilot_IsExportableVehicle( GetPlayerVehicleID( playerid ) ) ) {
-    		ShowPlayerHelpDialog( playerid, 3000, "You can begin a pilot job in this vehicle by typing ~g~~h~/pilot" );
+            ShowPlayerHelpDialog( playerid, 3000, "你可以通过输入 ~g~~h~/pilot 开始这辆车的飞行员工作" );
     	}
     }
     return 1;
@@ -162,7 +162,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 	  		if ( p_PilotDifficulty[ playerid ] == RISK_FACTOR_HARD)
 	  			GivePlayerWantedLevel( playerid, 6 );
 
-	  		ShowPlayerHelpDialog( playerid, 5000, "Please wait while your cargo is getting loaded into your vehicle!" );
+            ShowPlayerHelpDialog( playerid, 5000, "你的货物正在装载到你的车辆中,请稍候!" );
 
 	  		p_PilotMapIcon		[ playerid ] = CreateDynamicMapIconEx( g_DropOffLocations[ p_PilotRoute[ playerid ] { 1 } ] [ E_X ], g_DropOffLocations[ p_PilotRoute[ playerid ] { 1 } ] [ E_Y ], g_DropOffLocations[ p_PilotRoute[ playerid ] { 1 } ] [ E_Z ], 51, 0, MAPICON_GLOBAL, 6000.0, { -1 }, { -1 }, aPlayer );
 			p_PilotCheckPoint	[ playerid ] = CreateDynamicRaceCP( 4, g_DropOffLocations[ p_PilotRoute[ playerid ] { 1 } ] [ E_X ], g_DropOffLocations[ p_PilotRoute[ playerid ] { 1 } ] [ E_Y ], g_DropOffLocations[ p_PilotRoute[ playerid ] { 1 } ] [ E_Z ] + 50.0, 15.0, 0.0, 0.0, 10.0, -1, -1, playerid );
@@ -187,7 +187,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 			GivePlayerCash( playerid, cash_earned );
 			GivePlayerExperience( playerid, E_ROLEPLAY, 1.0 + p_PilotDistance[ playerid ] / 1000.0 );
 
-			ShowPlayerHelpDialog( playerid, 5000, "You have earned ~y~%s ~w~for exporting %s!", cash_format( cash_earned ), g_CargoName[ p_PilotCargo[ playerid ] ] );
+			ShowPlayerHelpDialog( playerid, 5000, "你已经赚了~y~%s ~w~用于出口%s!", cash_format( cash_earned ), g_CargoName[ p_PilotCargo[ playerid ] ] );
 			StopPlayerPilotWork( playerid );
 			return 1;
 		}
@@ -277,11 +277,11 @@ function OnPilotPositionUpdate( playerid, routeid )
 
 	if ( routeid == p_PilotRoute[ playerid ] { 0 }) {
 		fDistance = GetPlayerDistanceFromPoint( playerid, g_AirportLocations[ routeid ] [ E_X ], g_AirportLocations[ routeid ] [ E_Y ], g_AirportLocations[ routeid ] [ E_Z ] );
-		PlayerTextDrawSetString( playerid, p_TruckingTD[ playerid ], sprintf( "~b~Location:~w~ %s~n~~b~Distance:~w~ %0.2fm", g_AirportLocations[ routeid ] [ E_NAME ], fDistance ) );
+		PlayerTextDrawSetString( playerid, p_TruckingTD[ playerid ], sprintf( "~b~位置:~w~ %s~n~~b~距离:~w~ %0.2f米", g_AirportLocations[ routeid ] [ E_NAME ], fDistance ) );
 	}
 	else if ( routeid == p_PilotRoute[ playerid ] { 1 }) {
 		fDistance = GetPlayerDistanceFromPoint( playerid, g_DropOffLocations[ routeid ] [ E_X ], g_DropOffLocations[ routeid ] [ E_Y ], g_DropOffLocations[ routeid ] [ E_Z ] );
-		PlayerTextDrawSetString( playerid, p_TruckingTD[ playerid ], sprintf( "~b~Location:~w~ %s~n~~b~Distance:~w~ %0.2fm", g_DropOffLocations[ routeid ] [ E_NAME ], fDistance ) );
+		PlayerTextDrawSetString( playerid, p_TruckingTD[ playerid ], sprintf( "~b~位置:~w~ %s~n~~b~距离:~w~ %0.2f米", g_DropOffLocations[ routeid ] [ E_NAME ], fDistance ) );
 	}
 
 	return ( p_PilotPositionTimer[ playerid ] = SetTimerEx( "OnPilotPositionUpdate", 750, false, "dd", playerid, routeid ) );
@@ -295,11 +295,11 @@ function cancelPlayerPilotWork( playerid, vehicleid, ticks )
 	if ( ticks < 1 || !IsPlayerConnected( playerid ) || !IsPlayerSpawned( playerid ) || ! p_hasPilotJob{ playerid } )
 	{
 		StopPlayerPilotWork( playerid );
-		return SendServerMessage( playerid, "Your pilot mission has been stopped." );
+		return SendServerMessage( playerid, "你的飞行任务已停止." );
 	}
 	else
 	{
-		ShowPlayerHelpDialog( playerid, 1000, "You have %d seconds to get back inside the plane you were using.", ticks - 1 );
+		ShowPlayerHelpDialog( playerid, 1000, "你有 %d 秒的时间返回你所使用的飞机内.", ticks - 1 );
 		p_PilotCancelTimer[ playerid ] = SetTimerEx( "cancelPlayerPilotWork", 980, false, "ddd", playerid, vehicleid, ticks - 1 );
 	}
 	return 1;
@@ -315,7 +315,7 @@ function OnPilotLoadCargo( playerid )
 
 	TogglePlayerControllable(playerid, true);
 
-	ShowPlayerHelpDialog( playerid, 7500, "Great! The cargo full of %s has been loaded, deliver it to the drop off location on your radar!", g_CargoName[ p_PilotCargo[ playerid ] ]);
+	ShowPlayerHelpDialog( playerid, 7500, "太棒了!满%s的货物已装车,将其运送到雷达上的下车地点!", g_CargoName[ p_PilotCargo[ playerid ] ]);
 
 	return KillTimer( p_PilotLoadTimer[ playerid ] ), p_PilotLoadTimer[ playerid ] = 0xFFFF, 1;
 }
@@ -327,14 +327,14 @@ CMD:pilot( playerid, params[ ] )
 		szDifficulty[ 7 ],
 		iVehicle = GetPlayerVehicleID( playerid );
 
-	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "You must be an ordinary civilian to use this command." );
-	else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You must be a driver of a vehicle to work." );
-	else if ( !iVehicle ) return SendError( playerid, "You are not in any vehicle." );
+	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "你必须是普通平民才能使用此命令." );
+	else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你必须是车辆司机才能工作." );
+	else if ( !iVehicle ) return SendError( playerid, "你不在任何车辆中." );
 	else if ( sscanf( params, "s[7]", szDifficulty ) ) return SendUsage( playerid, "/pilot [NORMAL/HARD/STOP]" );
 	else if ( strmatch( szDifficulty, "stop" ))
 	{
 		StopPlayerPilotWork( playerid );
-		return SendServerMessage( playerid, "Your pilot mission has been stopped." );
+		return SendServerMessage( playerid, "你的飞行任务已停止." );
 	}
 	else if ( strmatch( szDifficulty, "normal" ) || strmatch( szDifficulty, "hard" ))
 	{
@@ -343,7 +343,7 @@ CMD:pilot( playerid, params[ ] )
 			if ( ! p_hasPilotJob{ playerid } )
 			{
 				if ( p_WorkCooldown[ playerid ] > g_iTime )
-					return SendError( playerid, "You must wait %d seconds before working again.", p_WorkCooldown[ playerid ] - g_iTime );
+					return SendError( playerid, "你必须等待 %d 秒才能再次工作.", p_WorkCooldown[ playerid ] - g_iTime );
 
 				static aPlayer[ 1 ]; aPlayer[ 0 ] = playerid;
 				DestroyDynamicMapIcon( p_PilotMapIcon[ playerid ] );
@@ -369,11 +369,11 @@ CMD:pilot( playerid, params[ ] )
 				p_PilotPositionTimer[ playerid ] = SetTimerEx( "OnPilotPositionUpdate", 750, false, "dd", playerid, p_PilotRoute[ playerid ] { 0 } );
 	  			PlayerTextDrawShow( playerid, p_TruckingTD[ playerid ] );
 
-				ShowPlayerHelpDialog( playerid, 7500, "A ~g~~h~truck blip~w~~h~ has been shown on your radar. Go to where the truck blip is to pickup your cargo full of %s.", g_CargoName[ p_PilotCargo[ playerid ] ] );
+				ShowPlayerHelpDialog( playerid, 7500, "你的雷达上已显示 ~g~~h~ 卡车光点~w~~h~.前往卡车发出信号的地方去取装满 %s 的货物.", g_CargoName[ p_PilotCargo[ playerid ] ] );
 			}
-			else SendError( playerid, "You already have a pilot job started! Cancel it with "COL_GREY"/pilot stop"COL_WHITE"." );
+			else SendError( playerid, "你已经开始了试点工作!取消它 "COL_GREY"/pilot stop"COL_WHITE"." );
 		}
-		else SendError( playerid, "There are currently no jobs for this particular vehicle." );
+		else SendError( playerid, "目前没有针对该特定车辆的工作." );
 	}
 	return 1;
 }

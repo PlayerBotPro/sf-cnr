@@ -38,16 +38,16 @@ enum E_PAINTBALL_SPAWNS
 new
 	g_paintballArenaData			[ ] [ E_PAINTBALL_ARENAS ] =
 	{
-		{ 1412.639892, -1.787510, 1000.924377, 1 , 	"Warehouse 1" },
-		{ 1302.519897, -1.787510, 1001.028259, 18, 	"Warehouse 2" },
-		{ 1063.650400, 2134.9487, 10.82030000, 0 , 	"Warehouse 3" },
-		{ -2659.28170, 1410.3884, 910.1703000, 3 , 	"Jizzy's" },
-		{ 296.8772000, 174.79120, 1007.171900, 3 ,	"LV-PD" },
+		{ 1412.639892, -1.787510, 1000.924377, 1 , 	"仓库1" },
+		{ 1302.519897, -1.787510, 1001.028259, 18, 	"仓库2" },
+		{ 1063.650400, 2134.9487, 10.82030000, 0 , 	"仓库3" },
+		{ -2659.28170, 1410.3884, 910.1703000, 3 , 	"吉兹的" },
+		{ 296.8772000, 174.79120, 1007.171900, 3 ,	"左室PD" },
 		//{ 1265.012900, -775.0262, 1091.906300, 5 ,	"Mad Doggs" },
-		{ -1401.68950, 107.43800, 1032.273400, 1 , 	"Stadium 1" },
-		{ 2193.399700, -1142.272, 1029.796900, 15, 	"Jefferson Motel" },
-		{ -949.294600, 1887.0156, 5.000000000, 17, 	"Sherman Dam" },
-		{ 1721.863800, -1655.338, 20.96800000, 18,  "Atrium" }
+		{ -1401.68950, 107.43800, 1032.273400, 1 , 	"体育场1" },
+		{ 2193.399700, -1142.272, 1029.796900, 15, 	"杰斐逊汽车旅馆" },
+		{ -949.294600, 1887.0156, 5.000000000, 17, 	"谢尔曼大坝" },
+		{ 1721.863800, -1655.338, 20.96800000, 18,  "中庭" }
 	},
 
 	Float: g_paintballSpawns 				[ sizeof( g_paintballArenaData ) ] [ MAX_RANDOM_SPAWNS ] [ 3 ] =
@@ -155,7 +155,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				{
 					if ( !g_paintballData[ id ] [ E_ACTIVE ] )
 					{
-						SendError( playerid, "This paintball lobby is currently not active and being edited." );
+						SendError( playerid, "此 彩弹竞技 房间 当前未激活且正在编辑." );
 						listPaintBallLobbies( playerid );
 						return 1;
 					}
@@ -166,8 +166,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					 		SendClientMessageToRCON( COLOR_YELLOW, "PAINTBALL: host %s, passworded %d, password %s", ReturnPlayerName( g_paintballData[ id ] [ E_HOST ] ), g_paintballData[ id ] [ E_PASSWORDED ], g_paintballData[ id ] [ E_PASSWORD ] );
 					 	}
 						p_PaintBallArena{ playerid } = id;
-		      			SendServerMessage( playerid, "You are trying to join the paintball lobby: "COL_GREY"%s", g_paintballData[ id ] [ E_NAME ] );
-		      			ShowPlayerDialog( playerid, DIALOG_PAINTBALL_PW, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Join", "{FFFFFF}This lobby requires a password.", "Join", "Back" );
+                        SendServerMessage( playerid, "你正在尝试加入 彩弹竞技 房间: "COL_GREY"%s", g_paintballData[ id ] [ E_NAME ] );
+                        ShowPlayerDialog( playerid, DIALOG_PAINTBALL_PW, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 加入", "{FFFFFF}此 房间 需要密码.", "加入", "返回" );
 		      			return 1;
 		      		}
 		      		JoinPlayerPaintball( playerid, id );
@@ -175,13 +175,13 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				else
 				{
 			    	if ( hasPaintBallArena( playerid ) )
-			    		return SendError( playerid, "You already have an paintball arena set. You've been spawned." ), SpawnPlayer( playerid );
+                        return SendError( playerid, "你已经拥有一套 彩弹竞技 竞技场.你已经被催生了" ), SpawnPlayer( playerid );
 
 				  	if ( GetPlayerCash( playerid ) < 5000 )
-			    		return listPaintBallLobbies( playerid ), SendError( playerid, "You're insufficient of funds. ($5,000)" ), 1;
+                        return listPaintBallLobbies( playerid ), SendError( playerid, "你的资金不足. ($5,000)" ), 1;
 
-			    	if ( !CreatePaintballLobby( id, playerid, "Paintball", 8, 0 ) )
-			    		return SendError( playerid, "Unable to create lobby due to an error. Maybe someone's occupied the slot?" );
+                    if ( !CreatePaintballLobby( id, playerid, "彩弹竞技", 8, 0 ) )
+                        return SendError( playerid, "由于错误,无法创建 房间.也许有人占据了这个位置?" );
 
 			    	GivePlayerCash( playerid, -5000 );
 			    	showPaintBallLobbyData( playerid, id );
@@ -200,13 +200,13 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				szPassword[ 5 ];
 
 			strreplacechar( inputtext, '\\', '/' );
-			if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "This is no longer available as you're in jail." );
-	    	if ( !Iter_Contains( paintball, p_PaintBallArena{ playerid } ) ) return SendError( playerid, "This lobby no longer exists." );
-	    	if ( sscanf( inputtext, "s[5]", szPassword ) ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_PW, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Join", "{FFFFFF}This lobby requires a password.\n\n"COL_RED"Incorrect password, please try again.", "Join", "Back" );
+			if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "由于你入狱,此功能不再可用." );
+            if ( !Iter_Contains( paintball, p_PaintBallArena{ playerid } ) ) return SendError( playerid, "这个 房间 不再存在." );
+            if ( sscanf( inputtext, "s[5]", szPassword ) ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_PW, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 加入", "{FFFFFF}此 房间 需要密码.\n\n"COL_RED"密码不正确,请重试.", "加入", "返回" );
 			if ( g_paintballData[ p_PaintBallArena{ playerid } ] [ E_PASSWORDED ] ) {
-				if ( !strmatch( szPassword, g_paintballData[ p_PaintBallArena{ playerid } ] [ E_PASSWORD ] ) ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_PW, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Join", "{FFFFFF}This lobby requires a password.\n\n"COL_RED"Incorrect password, please try again.", "Join", "Back" );
+				if ( !strmatch( szPassword, g_paintballData[ p_PaintBallArena{ playerid } ] [ E_PASSWORD ] ) ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_PW, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 加入", "{FFFFFF}此 房间 需要密码.\n\n"COL_RED"密码不正确,请重试.", "加入", "返回" );
 			}
-			else SendServerMessage( playerid, "Seems like the lobby you were trying to join is not passworded anymore." );
+			else SendServerMessage( playerid, "看来你尝试加入的 房间 不再有密码." );
 			JoinPlayerPaintball( playerid, p_PaintBallArena{ playerid } );
 		}
 		else listPaintBallLobbies( playerid );
@@ -222,31 +222,31 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 
 			switch( listitem )
 			{
-				case 0 .. 4: 	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?", "Commit", "Back" );
+				case 0 .. 4: 	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将此值设置为多少?", "应用", "返回" );
 				case 5:
 				{
 					g_paintballData[ iLobby ] [ E_REFILLER ] = !g_paintballData[ iLobby ] [ E_REFILLER ];
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" Upon death, armour and/or health will%s be restored.", g_paintballData[ iLobby ] [ E_REFILLER ] == false ? ( " not" ) : ( "" ) );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 死亡后将%s恢复护甲和生命值.", g_paintballData[ iLobby ] [ E_REFILLER ] == false ? ( "不" ) : ( "" ) );
 					showPaintBallLobbyData( playerid, iLobby );
 				}
 				case 6: 		ShowPlayerPaintballArenas( playerid );
-				case 7 .. 9: 	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_WEP, DIALOG_STYLE_LIST, "{FFFFFF}Paintball - Edit", ""COL_RED"Remove Weapon On This Slot\n9mm Pistol\nSilenced Pistol\nDesert Eagle\nShotgun\nSawn-off Shotgun\nSpas 12\nMac 10\nMP5\nAK-47\nM4\nTec 9\nRifle\nSniper", "Select", "Cancel");
+				case 7 .. 9: 	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_WEP, DIALOG_STYLE_LIST, "{FFFFFF}彩弹竞技 - 编辑", ""COL_RED"移除此槽上的武器\n9毫米手枪\n消音手枪\n沙漠之鹰\n霰弹枪\n锯短霰弹枪\nSpas 12\nMac 10\nMP5\nAK-47\nM4\nTec 9\n步枪\n狙击手", "选择", "取消");
 				case 10:
 				{
 					g_paintballData[ iLobby ] [ E_HEADSHOT ] = !g_paintballData[ iLobby ] [ E_HEADSHOT ];
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" Headshot mode has been %s.", g_paintballData[ iLobby ] [ E_HEADSHOT ] == false ? ( "un-toggled" ) : ( "toggled" ) );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 爆头模式已 %s.", g_paintballData[ iLobby ] [ E_HEADSHOT ] == false ? ( "未切换" ) : ( "切换的" ) );
 					showPaintBallLobbyData( playerid, iLobby );
 				}
 				case 11:
 				{
 					g_paintballData[ iLobby ] [ E_CHAT ] = !g_paintballData[ iLobby ] [ E_CHAT ];
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" Upon death, armour and/or health will%s be restored.", g_paintballData[ iLobby ] [ E_CHAT ] == false ? ( " not" ) : ( "" ) );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 死亡后将%s恢复护甲和生命值.", g_paintballData[ iLobby ] [ E_CHAT ] == false ? ( "不" ) : ( "" ) );
 					showPaintBallLobbyData( playerid, iLobby );
 				}
 				case 12:
 				{
 					g_paintballData[ iLobby ] [ E_RANDOM ] = !g_paintballData[ iLobby ] [ E_RANDOM ];
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" Random spawn has been %s.", g_paintballData[ iLobby ] [ E_RANDOM ] == false ? ( "un-toggled" ) : ( "toggled" ) );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 随机生成已 %s.", g_paintballData[ iLobby ] [ E_RANDOM ] == false ? ( "未切换" ) : ( "切换的" ) );
 					showPaintBallLobbyData( playerid, iLobby );
 				}
 			}
@@ -260,7 +260,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			{
 				g_paintballData[ i ] [ E_ACTIVE ] = true;
 			  	JoinPlayerPaintball( playerid, i );
-			  	SendServerMessage( playerid, "You can edit your lobby with "COL_GREY"/paintball edit"COL_WHITE"." );
+                SendServerMessage( playerid, "你可以编辑你的 房间 "COL_GREY"/paintball edit"COL_WHITE"." );
 			}
 		}
 	}
@@ -279,30 +279,30 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 						szName[ 16 ];
 
 					if ( sscanf( inputtext, "s[16]", szName ) )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Invalid Lobby Name.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"房间 名称无效.", "应用", "返回" );
 
 					if ( strlen( inputtext ) < 3 || strlen( inputtext ) >= 16 )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"The lobby name must be ranged between 3 and 16 characters.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"房间 名称必须介于 3 和 16 个字符之间.", "应用", "返回" );
 
 					format( g_paintballData[ iLobby ] [ E_NAME ], 16, "%s", szName );
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby name has been updated by %s(%d)", ReturnPlayerName( playerid ), playerid );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 姓名已由 %s(%d) 更新", ReturnPlayerName( playerid ), playerid );
 				}
 				case 1: // pw
 				{
 					new
 						szPassword[ 5 ];
 
-					if ( sscanf( inputtext, "s[5]", szPassword ) ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"The password can only be a maximum of 4 characters. Set to NULL to disable.", "Commit", "Back" );
-					if ( !strlen( szPassword ) || strlen( szPassword ) >= 5 ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"The password can only be a maximum of 4 characters. Set to NULL to disable.", "Commit", "Back" );
+					if ( sscanf( inputtext, "s[5]", szPassword ) ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"密码最多只能有 4 个字符.设置为 NULL 以禁用.", "应用", "返回" );
+					if ( !strlen( szPassword ) || strlen( szPassword ) >= 5 ) return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"密码最多只能有 4 个字符.设置为 NULL 以禁用.", "应用", "返回" );
 
 					if ( strmatch( szPassword, "NULL" ) )
 					{
-						SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby password has been%sdisabled.", " " );
+						SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 密码已被 %s 禁用.", " " );
 						g_paintballData[ iLobby ] [ E_PASSWORDED ] = false;
 					}
 					else
 					{
-						SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby password has been changed to: "COL_GREY"%s"COL_WHITE".", szPassword );
+						SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 密码已更改为: "COL_GREY"%s"COL_WHITE".", szPassword );
 						g_paintballData[ iLobby ] [ E_PASSWORDED ] = true;
 					}
 					format( g_paintballData[ iLobby ] [ E_PASSWORD ], 5, "%s", szPassword );
@@ -312,29 +312,29 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					new iLimit;
 
 					if ( sscanf( inputtext, "d", iLimit ) )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Ensure the player capacity is an integer.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"确保玩家容量是整数.", "应用", "返回" );
 
 					if ( iLimit < 2 || iLimit > 32 )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Please specify between 2 and 32 players.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"请在 2 和 32 玩家之间指定.", "应用", "返回" );
 
 					if ( iLimit < g_paintballData[ iLobby ] [ E_PLAYERS ] )
-						return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Your limit can not be less than the number of players joined already.", "Commit", "Back" );
+						return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"你的限制不能少于已经加入的玩家数量.", "应用", "返回" );
 
 				 	g_paintballData[ iLobby ] [ E_LIMIT ] = iLimit;
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby player limit has been set to %d.", g_paintballData[ iLobby ] [ E_LIMIT ] );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 玩家限制已设置为 %d.", g_paintballData[ iLobby ] [ E_LIMIT ] );
 				}
 				case 3: // health
 				{
 					new Float: fHealth;
 
 					if ( sscanf( inputtext, "f", fHealth ) )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Ensure the player capacity is a numerical number.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"确保玩家容量是数字.", "应用", "返回" );
 
 					if ( fHealth < 1 || fHealth > 150 )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Please specify between 1 and 150 health.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"请指定 1 和 150 之间的健康状况.", "应用", "返回" );
 
 				 	g_paintballData[ iLobby ] [ E_HEALTH ] = fHealth;
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby spawn health has been set to %0.2f.", g_paintballData[ iLobby ] [ E_HEALTH ] );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 生成健康状况已设置为 %0.2f.", g_paintballData[ iLobby ] [ E_HEALTH ] );
 
 					respawnAllInPaintballLobby( iLobby );
 				}
@@ -343,13 +343,13 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					new Float: fArmour;
 
 					if ( sscanf( inputtext, "f", fArmour ) )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Ensure the player capacity is a numerical number.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"确保玩家容量是数字.", "应用", "返回" );
 
 					if ( fArmour < 0 || fArmour > 150 )
-				 		return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}Paintball - Edit", "{FFFFFF}What would you like to set the value of this to?\n\n"COL_RED"Please specify between 0 and 150 armour.", "Commit", "Back" );
+                        return ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT_VAL, DIALOG_STYLE_INPUT, "{FFFFFF}彩弹竞技 - 编辑", "{FFFFFF}你想将其值设置为多少?\n\n"COL_RED"请在 0 和 150 装甲之间指定.", "应用", "返回" );
 
 				 	g_paintballData[ iLobby ] [ E_ARMOUR ] = fArmour;
-					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby spawn armour has been set to %0.2f.", g_paintballData[ iLobby ] [ E_ARMOUR ] );
+					SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 生成装甲已设置为 %0.2f.", g_paintballData[ iLobby ] [ E_ARMOUR ] );
 
 					respawnAllInPaintballLobby( iLobby );
 				}
@@ -366,7 +366,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		if ( response )
 		{
 			g_paintballData[ iLobby ] [ E_ARENA ] = listitem;
-			SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby arena has been set to %s.", g_paintballArenaData[ listitem ] [ E_NAME ] );
+			SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 竞技场已设置为 %s.", g_paintballArenaData[ listitem ] [ E_NAME ] );
 			respawnAllInPaintballLobby( iLobby );
 			showPaintBallLobbyData( playerid, iLobby );
 		}
@@ -384,7 +384,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			else
 				g_paintballData[ iLobby ] [ E_WEAPONS ] [ GetPVarInt( playerid, "paintball_edititem" ) - 7 ] = 21 + listitem;
 
-			SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" The lobby weapon set has been%supdated.", " " );
+			SendClientMessageToPaintball( iLobby, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 房间 武器组已%s 更新.", " " );
 			respawnAllInPaintballLobby( iLobby );
 			showPaintBallLobbyData( playerid, iLobby );
 		}
@@ -398,21 +398,21 @@ CMD:pb( playerid, params[ ] ) return cmd_paintball( playerid, params );
 CMD:paintball( playerid, params[ ] )
 {
 	if ( !IsPlayerInPaintBall( playerid ) )
-		return SendError( playerid, "You're not in any paintball lobby." );
+		return SendError( playerid, "你不属于任何彩弹竞技 房间." );
 
 	if ( strmatch( params, "leave" ) )
 	{
 		if ( !IsPlayerInPaintBall( playerid ) )
-		    return SendError( playerid, "You're not inside the paintball." );
+		    return SendError( playerid, "你不在 彩弹竞技 内." );
 
 		LeavePlayerPaintball( playerid );
 	    SetPlayerHealth( playerid, -1 );
-	    SendServerMessage( playerid, "You have left the paintball arena." );
+	    SendServerMessage( playerid, "你已经离开彩弹竞技竞技场." );
 	    return 1;
 	}
 
 	if ( !hasPaintBallArena( playerid ) )
-		return SendError( playerid, "This command requires you to be the host of a lobby." );
+		return SendError( playerid, "此命令要求你成为 房间 的主机." );
 
 	new
 		id = p_PaintBallArena{ playerid },
@@ -421,18 +421,18 @@ CMD:paintball( playerid, params[ ] )
 
 	if ( strmatch( params, "edit" ) )
 	{
-		showPaintBallLobbyData( playerid, id, "Close" );
+		showPaintBallLobbyData( playerid, id, "关闭" );
 	}
 	else if ( !strcmp( params, "kick", false, 4 ) )
 	{
 		if ( sscanf( params[ 5 ], "u", pID ) ) return SendUsage( playerid, "/paintball kick [PLAYER_ID]" );
-		else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "This player is not connected." );
-		else if ( !IsPlayerInPaintBall( pID ) ) return SendError( playerid, "This player is not in paintball." );
-		else if ( p_PaintBallArena{ pID } != id ) return SendError( playerid, "This player is not in your paintball lobby." );
-		else if ( pID == playerid ) return SendError( playerid, "You cannot kick yourself." );
+		else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "此玩家不在线." );
+		else if ( !IsPlayerInPaintBall( pID ) ) return SendError( playerid, "该玩家不在 彩弹竞技." );
+		else if ( p_PaintBallArena{ pID } != id ) return SendError( playerid, "该玩家不在你的 彩弹竞技 房间 中." );
+		else if ( pID == playerid ) return SendError( playerid, "你不能踢自己." );
 		else
 		{
-			SendClientMessageToPaintball( id, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" %s(%d) has left the lobby (KICKED)", ReturnPlayerName( pID ), pID );
+			SendClientMessageToPaintball( id, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" %s(%d) 已离开 房间(被踢)", ReturnPlayerName( pID ), pID );
 			LeavePlayerPaintball( pID );
 			SetPlayerHealth( pID, -1 );
 		}
@@ -440,14 +440,14 @@ CMD:paintball( playerid, params[ ] )
 	else if ( !strcmp( params, "leader", false, 6 ) )
 	{
 		if ( sscanf( params[ 7 ], "u", pID ) ) return SendUsage( playerid, "/paintball paintball [PLAYER_ID]" );
-		else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "This player is not connected." );
-		else if ( !IsPlayerInPaintBall( pID ) ) return SendError( playerid, "This player is not in paintball." );
-		else if ( p_PaintBallArena{ pID } != id ) return SendError( playerid, "This player is not in your paintball lobby." );
-		else if ( pID == playerid ) return SendError( playerid, "You cannot apply this action to yourself." );
+		else if ( !IsPlayerConnected( pID ) ) return SendError( playerid, "此玩家不在线." );
+		else if ( !IsPlayerInPaintBall( pID ) ) return SendError( playerid, "该玩家不在 彩弹竞技." );
+		else if ( p_PaintBallArena{ pID } != id ) return SendError( playerid, "该玩家不在你的 彩弹竞技 房间 中." );
+		else if ( pID == playerid ) return SendError( playerid, "你不能将此操作应用于你自己." );
 		else
 		{
 			g_paintballData[ id ] [ E_HOST ] = pID;
-			SendClientMessageToPaintball( id, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" %s(%d) is the new paintball leader.", ReturnPlayerName( pID ), pID );
+			SendClientMessageToPaintball( id, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" %s(%d) 是新的 彩弹竞技 领导者.", ReturnPlayerName( pID ), pID );
 		}
 	}
 	else if ( !strcmp( params, "countdown", false, 6 ) )
@@ -456,10 +456,10 @@ CMD:paintball( playerid, params[ ] )
 			iSeconds;
 
 		if ( sscanf( params[ 10 ], "D(10)", iSeconds ) ) return SendUsage( playerid, "/paintball countdown [SECONDS]" );
-		else if ( iSeconds < 1 || iSeconds > 30 ) return SendError( playerid, "Please specify countdown seconds between 1 and 30." );
+		else if ( iSeconds < 1 || iSeconds > 30 ) return SendError( playerid, "请指定 1 和 30. 之间的倒计时秒数" );
 		else
 		{
-			SendServerMessage( playerid, "You have started a countdown from %d in your paintball game.", iSeconds );
+			SendServerMessage( playerid, "你已开始倒计时%d在你的彩弹竞技游戏.", iSeconds );
 
 		 	KillTimer( g_paintballData[ id ] [ E_CD_TIMER ] );
 			g_paintballData[ id ] [ E_CD_TIMER ] = SetTimerEx( "paintballCountDown", 960, false, "dd", id, iSeconds - 1 );
@@ -475,7 +475,7 @@ CMD:paintball( playerid, params[ ] )
 CMD:p( playerid, params[ ] )
 {
 	if ( !IsPlayerInPaintBall( playerid ) )
-		return SendError( playerid, "You're not in any paintball lobby." );
+		return SendError( playerid, "你不属于任何彩弹竞技 房间." );
 
 	new
 	    id = p_PaintBallArena{ playerid },
@@ -483,14 +483,14 @@ CMD:p( playerid, params[ ] )
 	;
 
 	if ( sscanf( params, "s[90]", msg ) ) return SendUsage( playerid, "/p [MESSAGE]" );
-	else if ( textContainsIP( msg ) ) return SendServerMessage( playerid, "Please do not advertise." );
-    else if ( !g_paintballData[ id ] [ E_CHAT ] ) return SendError( playerid, "Paintball chat is disabled in this lobby." );
+	else if ( textContainsIP( msg ) ) return SendServerMessage( playerid, "请不要做广告." );
+    else if ( !g_paintballData[ id ] [ E_CHAT ] ) return SendError( playerid, "彩弹竞技 聊天在此 房间 中被禁用." );
     else
 	{
-		SendClientMessageToPaintball( id, -1, ""COL_GREY"<Paintball Chat> %s(%d):"COL_WHITE" %s", ReturnPlayerName( playerid ), playerid, msg );
+		SendClientMessageToPaintball( id, -1, ""COL_GREY"<彩弹竞技 聊天> %s(%d):"COL_WHITE" %s", ReturnPlayerName( playerid ), playerid, msg );
 
 		foreach ( new i : Player ) if ( ( p_AdminLevel[ i ] >= 5 || IsPlayerUnderCover( i ) ) && p_TogglePBChat{ i } == true )  {
-			SendClientMessageFormatted( i, -1, ""COL_GREY"<Paintball Chat Lobby %d > %s(%d):"COL_WHITE" %s", id, ReturnPlayerName( playerid ), playerid, msg );
+			SendClientMessageFormatted( i, -1, ""COL_GREY"<彩弹竞技 聊天 房间 %d > %s(%d):"COL_WHITE" %s", id, ReturnPlayerName( playerid ), playerid, msg );
 		}
 	}
 	return 1;
@@ -510,7 +510,7 @@ function paintballCountDown( paintballid, time )
 	    {
 	    	if ( IsPlayerInPaintBall( playerid ) && p_PaintBallArena{ playerid } == paintballid )
 	    	{
-	    		GameTextForPlayer( playerid, "~g~GO!", 2000, 3 );
+                GameTextForPlayer( playerid, "~g~去!", 2000, 3 );
 				PlayerPlaySound( playerid, 1057, 0.0, 0.0, 0.0 );
 			}
 		}
@@ -570,8 +570,8 @@ stock DestroyPaintballArena( p )
 
 stock listPaintBallLobbies( playerid )
 {
-	if ( p_WantedLevel[ playerid ] ) return SendError( playerid, "You mustn't be wanted to join a paintball arena." );
-	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "You must be a civilian to join a paintball arena." );
+	if ( p_WantedLevel[ playerid ] ) return SendError( playerid, "你一定不会被邀请加入 彩弹竞技 竞技场." );
+	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "你必须是平民才能加入 彩弹竞技 竞技场." );
 
 	new
 		szLobbies[ 64 * MAX_PAINTBALL_ARENAS + 64 ];
@@ -579,35 +579,35 @@ stock listPaintBallLobbies( playerid )
 	for( new p = 0; p < MAX_PAINTBALL_ARENAS; p++ )
 	{
 		if ( !g_paintballData[ p ] [ E_ACTIVE ] && !Iter_Contains(paintball, p) ) {
-			format( szLobbies, sizeof( szLobbies ), "%s{334D5C}Vacant Paintball Slot ($5,000)\n", szLobbies );
+			format( szLobbies, sizeof( szLobbies ), "%s{334D5C}空 彩弹竞技 插槽 ($5,000)\n", szLobbies );
 		}
 		else if ( Iter_Contains(paintball, p) ) {
-			format( szLobbies, sizeof( szLobbies ), "%s%s%s[%02d/%02d] %s hosted by %s\n",
+			format( szLobbies, sizeof( szLobbies ), "%s%s%s[%02d/%02d] %s 由 %s\n 主办",
 				szLobbies, g_paintballData[ p ] [ E_PASSWORDED ] ? ( "{DF4949}" ) : ( "{53B240}" ), g_paintballData[ p ] [ E_ACTIVE ] ? ( "" ) : ( "{EFC94C}" ), g_paintballData[ p ] [ E_PLAYERS ], g_paintballData[ p ] [ E_LIMIT ], g_paintballData[ p ] [ E_NAME ], ReturnPlayerName( g_paintballData[ p ] [ E_HOST ] )
 			);
 		}
 	}
-    return ShowPlayerDialog( playerid, DIALOG_PAINTBALL, DIALOG_STYLE_LIST, "{FFFFFF}Paintball - Selection", szLobbies, "Select", "Cancel" );
+    return ShowPlayerDialog( playerid, DIALOG_PAINTBALL, DIALOG_STYLE_LIST, "{FFFFFF}彩弹竞技 - 选择", szLobbies, "选择", "取消" );
 }
 
-stock showPaintBallLobbyData( playerid, id, second_button[ ] = "Join Game" )
+stock showPaintBallLobbyData( playerid, id, second_button[ ] = "加入游戏" )
 {
-	format( szLargeString, sizeof( szLargeString ), "Lobby Name\t"COL_GREY"%s"COL_WHITE"\nLobby Password\t%s"COL_WHITE"\nPlayer Capacity\t"COL_GREY"%d"COL_WHITE"\nHealth\t"COL_GREY"%0.2f%%"COL_WHITE"\nArmour\t"COL_GREY"%0.2f%%"COL_WHITE"\nRefill Health/Armour\t%s"COL_WHITE"\nArena\t"COL_GREY"%s"COL_WHITE"\nPrimary Weapon\t"COL_GREY"%s"COL_WHITE"\nSecondary Weapon\t"COL_GREY"%s"COL_WHITE"\nTertiary Weapon\t"COL_GREY"%s"COL_WHITE"\nHeadshot Mode\t"COL_GREY"%s"COL_WHITE"\nChat\t"COL_GREY"%s\nRandom Spawns\t"COL_GREY"%s",
+	format( szLargeString, sizeof( szLargeString ), "房间名称\t"COL_GREY"%s"COL_WHITE"\n房间密码\t%s"COL_WHITE"\n玩家容量\t"COL_GREY"%d"COL_WHITE"\n健康\t"COL_GREY"%0.2f%%"COL_WHITE"\n盔甲\t"COL_GREY"%0.2f%%"COL_WHITE"\n恢复生命值及护甲\t%s"COL_WHITE"\n竞技场\t"COL_GREY"%s"COL_WHITE"\n主要武器\t"COL_GREY"%s"COL_WHITE"\n辅助武器\t"COL_GREY"%s"COL_WHITE"\n第三武器\t"COL_GREY"%s"COL_WHITE"\n爆头模式\t"COL_GREY"%s"COL_WHITE"\n聊天\t"COL_GREY"%s\n随机生成\t"COL_GREY"%s",
 		g_paintballData[ id ] [ E_NAME ],
-		g_paintballData[ id ] [ E_PASSWORDED ] == true ? ( ""COL_GREEN"ENABLED" ) : ( ""COL_RED"DISABLED" ),
+		g_paintballData[ id ] [ E_PASSWORDED ] == true ? ( ""COL_GREEN"已启用" ) : ( ""COL_RED"禁用" ),
 		g_paintballData[ id ] [ E_LIMIT ],
 		g_paintballData[ id ] [ E_HEALTH ],
 		g_paintballData[ id ] [ E_ARMOUR ],
-		g_paintballData[ id ] [ E_REFILLER ] == true ? ( ""COL_GREEN"ENABLED" ) : ( ""COL_RED"DISABLED" ),
+		g_paintballData[ id ] [ E_REFILLER ] == true ? ( ""COL_GREEN"已启用" ) : ( ""COL_RED"禁用" ),
 		g_paintballArenaData[ g_paintballData[ id ] [ E_ARENA ] ] [ E_NAME ],
 		ReturnWeaponName( g_paintballData[ id ] [ E_WEAPONS ] [ 0 ] ),
 		ReturnWeaponName( g_paintballData[ id ] [ E_WEAPONS ] [ 1 ] ),
 		ReturnWeaponName( g_paintballData[ id ] [ E_WEAPONS ] [ 2 ] ),
-		g_paintballData[ id ] [ E_HEADSHOT ] == true ? ( ""COL_GREEN"ENABLED" ) : ( ""COL_RED"DISABLED" ),
-		g_paintballData[ id ] [ E_CHAT ] == true ? ( ""COL_GREEN"ENABLED" ) : ( ""COL_RED"DISABLED" ),
-		g_paintballData[ id ] [ E_RANDOM ] == true ? ( ""COL_GREEN"ENABLED" ) : ( ""COL_RED"DISABLED" )
+		g_paintballData[ id ] [ E_HEADSHOT ] == true ? ( ""COL_GREEN"已启用" ) : ( ""COL_RED"禁用" ),
+		g_paintballData[ id ] [ E_CHAT ] == true ? ( ""COL_GREEN"已启用" ) : ( ""COL_RED"禁用" ),
+		g_paintballData[ id ] [ E_RANDOM ] == true ? ( ""COL_GREEN"已启用" ) : ( ""COL_RED"禁用" )
 	);
-	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT, DIALOG_STYLE_TABLIST, "{FFFFFF}Paintball - Lobby Settings", szLargeString, "Change", second_button );
+	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_EDIT, DIALOG_STYLE_TABLIST, "{FFFFFF}彩弹竞技 - 房间 设置", szLargeString, "改变", second_button );
 }
 
 stock ShowPlayerPaintballArenas( playerid )
@@ -624,7 +624,7 @@ stock ShowPlayerPaintballArenas( playerid )
 		}
 	}
 
-	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_ARENAS, DIALOG_STYLE_LIST, "{FFFFFF}Paintball - Edit", szArenas, "Select", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_PAINTBALL_ARENAS, DIALOG_STYLE_LIST, "{FFFFFF}彩弹竞技 - 编辑", szArenas, "选择", "返回" );
 }
 
 stock JoinPlayerPaintball( playerid, p )
@@ -636,14 +636,14 @@ stock JoinPlayerPaintball( playerid, p )
 		return -1;
 
 	if ( g_paintballData[ p ] [ E_PLAYERS ] >= g_paintballData[ p ] [ E_LIMIT ] )
-		return SendError( playerid, "This lobby is currently full, you're unable to join it." );
+		return SendError( playerid, "此 房间 目前已满,你无法加入." );
 
 	p_PaintBallArena	{ playerid } = p;
 	p_inPaintBall		{ playerid } = true;
 	g_paintballData 	[ p ] [ E_PLAYERS ] ++;
 
 	SpawnToPaintball( playerid, p );
-	SendClientMessageFormatted( playerid, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" You've joined the paintball area: "COL_GREY"%s"COL_WHITE".", g_paintballData[ p ] [ E_NAME ] );
+	SendClientMessageFormatted( playerid, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 你已加入 彩弹竞技 区域: "COL_GREY"%s"COL_WHITE".", g_paintballData[ p ] [ E_NAME ] );
 	return 1;
 }
 
@@ -713,14 +713,14 @@ stock LeavePlayerPaintball( playerid )
 			if ( IsPlayerInPaintBall( i ) && p_PaintBallArena{ i } == p && playerid != i )
 			{
 				g_paintballData[ p ] [ E_HOST ] = i;
-				SendClientMessageFormatted( i, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" %s(%d) is now the leader of the lobby.", ReturnPlayerName( i ), i );
+				SendClientMessageFormatted( i, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" %s(%d) 现在是 房间 的领导者.", ReturnPlayerName( i ), i );
 				break;
 			}
 		}
 
 		if ( oldHost == g_paintballData[ p ] [ E_HOST ] )
 		{
-			SendClientMessage( playerid, -1, ""COL_GREY"[PAINTBALL]"COL_WHITE" There is no one playing in your lobby therefore the game has been destroyed." );
+			SendClientMessage( playerid, -1, ""COL_GREY"[彩弹竞技]"COL_WHITE" 没有人在你的 房间 中玩游戏,因此游戏已被破坏." );
 			DestroyPaintballArena( p );
 		}
 	}
@@ -731,7 +731,7 @@ stock respawnAllInPaintballLobby( lobby )
 	foreach(new i : Player)
 	{
 		if ( IsPlayerInPaintBall( i ) && p_PaintBallArena{ i } == lobby && GetPlayerState( i ) != PLAYER_STATE_WASTED && IsPlayerSpawned( i ) )
-			SpawnPlayer( i ), SendServerMessage( i, "As the lobby host changed some settings, you've been spawned." );
+			SpawnPlayer( i ), SendServerMessage( i, "当 房间 主机更改了一些设置时,你就被生成了." );
 	}
 }
 

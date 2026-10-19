@@ -41,7 +41,7 @@ hook OnServerUpdate( )
 {
 	foreach ( new bribeid : BribeCount ) if ( GetServerTime( ) > g_bribeData[ bribeid ] [ E_TIMESTAMP ] && g_bribeData[ bribeid ] [ E_DISABLED ] ) // Replenish Bribes
 	{
-		UpdateDynamic3DTextLabelText( g_bribeData[ bribeid ] [ E_LABEL ], COLOR_GOLD, sprintf( "Bribe(%d)", bribeid ) );
+		UpdateDynamic3DTextLabelText( g_bribeData[ bribeid ] [ E_LABEL ], COLOR_GOLD, sprintf( "»ßÂ¸(%d)", bribeid ) );
 		g_bribeData[ bribeid ] [ E_DISABLED ] = false;
 	}
 	return 1;
@@ -65,7 +65,7 @@ hook OnPlayerPickUpDynPickup( playerid, pickupid )
 		    	// Expire the bribe
 		        g_bribeData[ bribeid ] [ E_TIMESTAMP ] = GetServerTime( ) + MAX_BRIBE_WAIT;
 		        g_bribeData[ bribeid ] [ E_DISABLED ] = true;
-				UpdateDynamic3DTextLabelText( g_bribeData[ bribeid ] [ E_LABEL ], COLOR_GOLD, sprintf( "Bribe(%d)\n"COL_RED"Currently Expired!", bribeid ) );
+				UpdateDynamic3DTextLabelText( g_bribeData[ bribeid ] [ E_LABEL ], COLOR_GOLD, sprintf( "»ßÂ¸(%d)\n"COL_RED"ÒÑ¹ýÆÚ!", bribeid ) );
 
 				// Remove a custom wanted level
 				if ( p_WantedLevel[ playerid ] > 1800 ) iWanted = 128;
@@ -125,7 +125,7 @@ stock CreateBribe( Float: fX, Float: fY, Float: fZ, iExistingID = ITER_NONE )
 	    g_bribeData[ bID ] [ E_Z ] = fZ;
 	    g_bribeData[ bID ] [ E_PICKUP ] [ 0 ] = CreateDynamicPickup( 1247,  15, fX, fY, fZ );
 	    g_bribeData[ bID ] [ E_PICKUP ] [ 1 ] = CreateDynamicPickup( 19300, 14, fX, fY, fZ );
-	    g_bribeData[ bID ] [ E_LABEL ] 		  = CreateDynamic3DTextLabel( sprintf( "Bribe(%d)", bID ), COLOR_GOLD, fX, fY, fZ, 15.0 );
+	    g_bribeData[ bID ] [ E_LABEL ] 		  = CreateDynamic3DTextLabel( sprintf( "»ßÂ¸(%d)", bID ), COLOR_GOLD, fX, fY, fZ, 15.0 );
 
 	    if ( iExistingID == ITER_NONE ) {
 			mysql_single_query( sprintf( "INSERT INTO `BRIBES` VALUES (%d,%f,%f,%f)", bID, fX, fY, fZ ) );

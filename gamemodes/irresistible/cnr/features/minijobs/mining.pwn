@@ -177,7 +177,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 		)
 		{
 			SetPlayerMineOre( playerid, m );
-			return SendError( playerid, "You did not find any ore. Mining again." );
+			return SendError( playerid, "你没有找到任何矿石.再次挖矿." );
 		}
 
 		if ( GetPVarInt( playerid, "give_ore_score" ) < g_iTime ) GivePlayerScore( playerid, 1 ), SetPVarInt( playerid, "give_ore_score", g_iTime + 15 );
@@ -187,9 +187,9 @@ hook OnProgressCompleted( playerid, progressid, params )
 		UpdateDynamic3DTextLabelText( g_miningData[ m ] [ E_LABEL ], g_miningData[ m ] [ E_COLOR ], szNormalString );
 
 		if ( IsPlayerJailed( playerid ) ) {
-			SendServerMessage( playerid, "Great you've mined an ore, now take it to the "COL_GREY"Rock Crusher"COL_WHITE"." );
+			SendServerMessage( playerid, "太好了,你已经开采了矿石,现在把它带到 "COL_GREY"岩石破碎机"COL_WHITE"." );
 		} else {
-			SendServerMessage( playerid, "Great you've mined an ore, now store it in a "COL_GREY"Dune"COL_WHITE"." );
+			SendServerMessage( playerid, "太好了,你已经开采了矿石,现在将其存储在 "COL_GREY"Dune"COL_WHITE"." );
 		}
 
 		GivePlayerExperience( playerid, E_ROLEPLAY, g_oreMiningXp[ g_miningData[ m ] [ E_ORE ] ] );
@@ -209,14 +209,14 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 			new ore = GetPVarInt( playerid, "carrying_ore" );
 
 			if ( ! ( 0 <= ore < sizeof( g_miningData ) ) )
-				return SendError( playerid, "An error has occured, try again." ), RemoveEquippedOre( playerid );
+				return SendError( playerid, "发生错误,请重试." ), RemoveEquippedOre( playerid );
 
 			new earned_money = floatround( float( g_orePrices[ g_miningData[ ore ] [ E_ORE ] ] ) * 0.5 );
 
 			GivePlayerExperience( playerid, E_ROLEPLAY, 0.2 );
 			GivePlayerCash( playerid, earned_money );
 			StockMarket_UpdateEarnings( E_STOCK_MINING_COMPANY, earned_money, 0.5 );
-			SendServerMessage( playerid, "You have crushed a "COL_GREY"%s"COL_WHITE" Ore and earned "COL_GOLD"%s"COL_WHITE".", getOreName( g_miningData[ ore ] [ E_ORE ] ), cash_format( earned_money ) );
+			SendServerMessage( playerid, "你已经粉碎了 "COL_GREY"%s"COL_WHITE" 矿石及赚取 "COL_GOLD"%s"COL_WHITE".", getOreName( g_miningData[ ore ] [ E_ORE ] ), cash_format( earned_money ) );
 			RemoveEquippedOre( playerid );
 		}
 		return Y_HOOKS_BREAK_RETURN_1;
@@ -238,17 +238,17 @@ hook OnPlayerEnterDynArea( playerid, areaid )
 			{
 				static szID[ 15 ], szOres[ 15 ];
 
-				format( szOres, sizeof( szOres ), "mine_%d_ores", attached_vehicle );
+				format( szOres, sizeof( szOres ), "我的_%d_矿石", attached_vehicle );
 
 				if ( GetGVarInt( szOres ) >= MAX_ORE_STORAGE )
-					return SendError( playerid, "You can only carry %d ores in this vehicle.", MAX_ORE_STORAGE );
+					return SendError( playerid, "此车辆只能携带 %d 矿石.", MAX_ORE_STORAGE );
 
 				new ore = GetPVarInt( playerid, "carrying_ore" );
 
 				SetGVarInt( szOres, GetGVarInt( szOres ) + 1 );
-				format( szID, sizeof( szID ), "mine_%d_cash", attached_vehicle ), SetGVarInt( szID, GetGVarInt( szID ) + g_orePrices[ g_miningData[ ore ] [ E_ORE ] ] );
+				format( szID, sizeof( szID ), "我的_%d_现金", attached_vehicle ), SetGVarInt( szID, GetGVarInt( szID ) + g_orePrices[ g_miningData[ ore ] [ E_ORE ] ] );
 
-				SendServerMessage( playerid, "You have stored a "COL_GREY"%s"COL_WHITE" ore in this Dune. "COL_ORANGE"[%d/%d]", getOreName( g_miningData[ ore ] [ E_ORE ] ), GetGVarInt( szOres ), MAX_ORE_STORAGE );
+				SendServerMessage( playerid, "你已存储了 "COL_GREY"%s"COL_WHITE" 这个沙丘里的矿石. "COL_ORANGE"[%d/%d]", getOreName( g_miningData[ ore ] [ E_ORE ] ), GetGVarInt( szOres ), MAX_ORE_STORAGE );
 				RemoveEquippedOre( playerid );
 			}
 		}
@@ -262,7 +262,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 	{
 		// drop the ore if they click
 		if ( GetPVarType( playerid, "carrying_ore" ) != PLAYER_VARTYPE_NONE && IsPlayerAttachedObjectSlotUsed( playerid, 4 ) ) {
-			return RemoveEquippedOre( playerid ), SendServerMessage( playerid, "You have disposed of your mined ore." ), 1;
+			return RemoveEquippedOre( playerid ), SendServerMessage( playerid, "你已处置了开采的矿石." ), 1;
 		}
 
 		// mine the ore
@@ -279,15 +279,15 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					if ( Mining_IsPlayerNearOre( playerid, m, 2.5 ) )
 					{
 						if ( IsPlayerConnected( g_miningData[ m ] [ E_MINING ] ) )
-							return SendError( playerid, "Somebody is currently mining this rock." );
+							return SendError( playerid, "目前有人正在开采这块岩石." );
 
 						if ( g_miningData[ m ] [ E_ORES ] <= 0 )
-							return SendError( playerid, "There are no ores left in this rock." );
+							return SendError( playerid, "这块岩石里没有留下任何矿石." );
 
 						GetDynamicObjectPos( g_miningData[ m ] [ E_OBJECT ], X, Y, Z );
 						SetPlayerFacePoint( playerid, X, Y, offset );
 						SetPlayerMineOre( playerid, m );
-						SendServerMessage( playerid, "You're now mining a rock." );
+						SendServerMessage( playerid, "你现在正在开采一块岩石." );
 						return 1;
 					}
 				}
@@ -338,8 +338,8 @@ hook OnPlayerDriveVehicle( playerid, vehicleid )
 			new cash_value = GetGVarInt( sprintf( "mine_%d_cash", vehicleid ) );
 
 			Beep( playerid );
-			GameTextForPlayer( playerid, "Go to the truck blip on your radar for money!", 3000, 1 );
-			SendServerMessage( playerid, "You have %d ores that you can export for "COL_GOLD"%s"COL_WHITE"!", num_ores, cash_format( cash_value ) );
+			GameTextForPlayer( playerid, "去雷达上的卡车光点找钱!", 3000, 1 );
+			SendServerMessage( playerid, "你有 %d 矿石可以出口 "COL_GOLD"%s"COL_WHITE"!", num_ores, cash_format( cash_value ) );
 
 			static aPlayer[ 1 ]; aPlayer[ 0 ] = playerid;
 			DestroyDynamicMapIcon( p_MiningExportMapIcon[ playerid ] );
@@ -377,10 +377,10 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 				szContent[ 15 ],
 				cashEarned, oresExported
 			;
-			format( szContent, sizeof( szContent ), "mine_%d_ores", vehicleid );
+			format( szContent, sizeof( szContent ), "我的_%d_矿石", vehicleid );
 			oresExported = GetGVarInt( szContent ), DeleteGVar( szContent );
 
-			format( szContent, sizeof( szContent ), "mine_%d_cash", vehicleid );
+			format( szContent, sizeof( szContent ), "我的_%d_现金", vehicleid );
 			cashEarned = GetGVarInt( szContent ), DeleteGVar( szContent );
 
 			DestroyDynamicMapIcon( p_MiningExportMapIcon[ playerid ] );
@@ -391,7 +391,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 			StockMarket_UpdateEarnings( E_STOCK_MINING_COMPANY, cashEarned, 0.5 );
 			GivePlayerScore( playerid, floatround( oresExported / 2 ) ); // 16 score is a bit too much for ore... so half that = 8
 			GivePlayerExperience( playerid, E_ROLEPLAY, float( oresExported ) * 0.2 );
-			SendServerMessage( playerid, "You have exported %d rock ore(s) to an industry, earning you "COL_GOLD"%s"COL_WHITE".", oresExported, cash_format( cashEarned ) );
+			SendServerMessage( playerid, "你已将 %d 块矿石出口到某个行业,为你赚取收入 "COL_GOLD"%s"COL_WHITE".", oresExported, cash_format( cashEarned ) );
 		}
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
@@ -484,16 +484,16 @@ stock getOreName( id )
 
 	switch( id )
 	{
-		case ORE_GOLD: szOre = "Gold";
-		case ORE_IRON: szOre = "Iron";
-		case ORE_COAL: szOre = "Coal";
-		case ORE_BAUXITE: szOre = "Bauxite";
-		case ORE_AMETHYST: szOre = "Amethyst";
-		case ORE_EMERALD: szOre = "Emerald";
-		case ORE_SAPHHIRE: szOre = "Saphhire";
-		case ORE_PLATINUM: szOre = "Platinum";
-		case ORE_DIAMOND: szOre = "Diamond";
-		case ORE_RUBY: szOre = "Ruby";
+		case ORE_GOLD: szOre = "金子";
+		case ORE_IRON: szOre = "铁";
+		case ORE_COAL: szOre = "煤炭";
+		case ORE_BAUXITE: szOre = "铝土矿";
+		case ORE_AMETHYST: szOre = "紫晶";
+		case ORE_EMERALD: szOre = "翠";
+		case ORE_SAPHHIRE: szOre = "蓝宝石";
+		case ORE_PLATINUM: szOre = "铂";
+		case ORE_DIAMOND: szOre = "钻石";
+		case ORE_RUBY: szOre = "红宝石";
 		default: szOre = "n/a";
 	}
 	return szOre;
@@ -515,7 +515,7 @@ stock SetPlayerMineOre( playerid, m )
 	p_isMining{ playerid } = true;
 	g_miningData[ m ] [ E_MINING ] = playerid;
 	p_MiningOre{ playerid } = m;
-	ShowProgressBar( playerid, "Mining Rock", PROGRESS_MINING, g_oreMiningTime[ g_miningData[ m ] [ E_ORE ] ], g_miningData[ m ] [ E_COLOR ] );
+	ShowProgressBar( playerid, "采矿岩石", PROGRESS_MINING, g_oreMiningTime[ g_miningData[ m ] [ E_ORE ] ], g_miningData[ m ] [ E_COLOR ] );
 }
 
 stock Mining_IsPlayerNearOre( playerid, oreid, Float: distance )

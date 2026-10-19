@@ -115,7 +115,7 @@ stock ShowPlayerDialogEx(playerid, dialogid, style, caption[], button1[], button
 
 
 #define SendPokerMessage(%0,%1) \
-	SendClientMessageFormatted(%0, -1, "{4B8774}[POKER] {E5861A}"%1)
+	SendClientMessageFormatted(%0, -1, "{4B8774}[扑克] {E5861A}"%1)
 
 #define IsPlayerPlayingPoker(%0) (GetPVarInt(%0,"t_is_in_table"))
 
@@ -160,6 +160,12 @@ new const HAND_RANKS[][] =
 	{"Straight Flush"},
 	{"Royal Flush"}
 };
+
+new const HAND_RANKS_ZH[][] =
+{
+	"未知", "高牌", "一对", "两对", "三条", "顺子",
+	"同花", "葫芦", "四条", "同花顺", "皇家同花顺"
+};
 enum E_CARD_SUITS
 {
 	SUIT_SPADES,
@@ -180,64 +186,64 @@ enum E_CARD_DATA
 new const CardData[ 52 ] [E_CARD_DATA] = {
 
 	//Spades
-    {"LD_CARD:cd2s", 		"Two of Spades", 		SUIT_SPADES,		0},
-    {"LD_CARD:cd3s", 		"Three of Spades", 		SUIT_SPADES,		1},
-    {"LD_CARD:cd4s", 		"Four of Spades", 		SUIT_SPADES,		2},
-    {"LD_CARD:cd5s", 		"Five of Spades", 		SUIT_SPADES,		3},
-    {"LD_CARD:cd6s", 		"Six of Spades", 		SUIT_SPADES,		4},
-    {"LD_CARD:cd7s", 		"Seven of Spades", 		SUIT_SPADES,		5},
-    {"LD_CARD:cd8s", 		"Eight of Spades", 		SUIT_SPADES,		6},
-    {"LD_CARD:cd9s", 		"Nine of Spades", 		SUIT_SPADES,		7},
-    {"LD_CARD:cd10s",		"Ten of Spades",		SUIT_SPADES,		8},
-    {"LD_CARD:cd11s",		"Jack of Spades", 		SUIT_SPADES,		9},
-    {"LD_CARD:cd12s",		"Queen of Spades", 		SUIT_SPADES,		10},
-    {"LD_CARD:cd13s", 		"King of Spades", 		SUIT_SPADES,		11},
-    {"LD_CARD:cd1s", 		"Ace of Spades", 		SUIT_SPADES,		12},
+    {"LD_CARD:cd2s", 		"黑桃二", 		SUIT_SPADES,		0},
+    {"LD_CARD:cd3s", 		"黑桃三", 		SUIT_SPADES,		1},
+    {"LD_CARD:cd4s", 		"黑桃四", 		SUIT_SPADES,		2},
+    {"LD_CARD:cd5s", 		"黑桃 5", 		SUIT_SPADES,		3},
+    {"LD_CARD:cd6s", 		"黑桃 6", 		SUIT_SPADES,		4},
+    {"LD_CARD:cd7s", 		"黑桃七", 		SUIT_SPADES,		5},
+    {"LD_CARD:cd8s", 		"黑桃 8", 		SUIT_SPADES,		6},
+    {"LD_CARD:cd9s", 		"黑桃九", 		SUIT_SPADES,		7},
+    {"LD_CARD:cd10s",		"黑桃十",		SUIT_SPADES,		8},
+    {"LD_CARD:cd11s",		"黑桃杰克", 		SUIT_SPADES,		9},
+    {"LD_CARD:cd12s",		"黑桃皇后", 		SUIT_SPADES,		10},
+    {"LD_CARD:cd13s", 		"黑桃K", 		SUIT_SPADES,		11},
+    {"LD_CARD:cd1s", 		"黑桃 A", 		SUIT_SPADES,		12},
 
 	//Hearts
-    {"LD_CARD:cd2h", 		"Two of Hearts", 		SUIT_HEARTS,		0},
-    {"LD_CARD:cd3h", 		"Three of Hearts", 		SUIT_HEARTS,		1},
-    {"LD_CARD:cd4h", 		"Four of Hearts", 		SUIT_HEARTS,		2},
-    {"LD_CARD:cd5h", 		"Five of Hearts", 		SUIT_HEARTS,		3},
-    {"LD_CARD:cd6h", 		"Six of Hearts", 		SUIT_HEARTS,		4},
-    {"LD_CARD:cd7h", 		"Seven of Hearts", 		SUIT_HEARTS,		5},
-    {"LD_CARD:cd8h", 		"Eight of Hearts", 		SUIT_HEARTS,		6},
-    {"LD_CARD:cd9h", 		"Nine of Hearts", 		SUIT_HEARTS,		7},
-    {"LD_CARD:cd10h",		"Ten of Hearts",		SUIT_HEARTS,		8},
-    {"LD_CARD:cd11h",		"Jack of Hearts", 		SUIT_HEARTS,		9},
-    {"LD_CARD:cd12h",		"Queen of Hearts", 		SUIT_HEARTS,		10},
-    {"LD_CARD:cd13h",		"King of Hearts", 		SUIT_HEARTS,		11},
-    {"LD_CARD:cd1h", 		"Ace of Hearts", 		SUIT_HEARTS,		12},
+    {"LD_CARD:cd2h", 		"两颗心", 		SUIT_HEARTS,		0},
+    {"LD_CARD:cd3h", 		"红心三", 		SUIT_HEARTS,		1},
+    {"LD_CARD:cd4h", 		"红心四", 		SUIT_HEARTS,		2},
+    {"LD_CARD:cd5h", 		"红心五", 		SUIT_HEARTS,		3},
+    {"LD_CARD:cd6h", 		"红心六号", 		SUIT_HEARTS,		4},
+    {"LD_CARD:cd7h", 		"红心七", 		SUIT_HEARTS,		5},
+    {"LD_CARD:cd8h", 		"红心八号", 		SUIT_HEARTS,		6},
+    {"LD_CARD:cd9h", 		"红心九号", 		SUIT_HEARTS,		7},
+    {"LD_CARD:cd10h",		"红心十号",		SUIT_HEARTS,		8},
+    {"LD_CARD:cd11h",		"红心杰克", 		SUIT_HEARTS,		9},
+    {"LD_CARD:cd12h",		"红心皇后", 		SUIT_HEARTS,		10},
+    {"LD_CARD:cd13h",		"红心国王", 		SUIT_HEARTS,		11},
+    {"LD_CARD:cd1h", 		"红心王牌", 		SUIT_HEARTS,		12},
 
 	//Clubs
-    {"LD_CARD:cd2c", 		"Two of Clubs", 		SUIT_CLUBS, 		0},
-    {"LD_CARD:cd3c", 		"Three of Clubs", 		SUIT_CLUBS, 		1},
-    {"LD_CARD:cd4c", 		"Four of Clubs", 		SUIT_CLUBS, 		2},
-    {"LD_CARD:cd5c", 		"Five of Clubs", 		SUIT_CLUBS, 		3},
-    {"LD_CARD:cd6c", 		"Six of Clubs", 		SUIT_CLUBS, 		4},
-    {"LD_CARD:cd7c", 		"Seven of Clubs", 		SUIT_CLUBS, 		5},
-    {"LD_CARD:cd8c", 		"Eight of Clubs", 		SUIT_CLUBS, 		6},
-    {"LD_CARD:cd9c", 		"Nine of Clubs", 		SUIT_CLUBS, 		7},
-    {"LD_CARD:cd10c",		"Ten of Clubs",			SUIT_CLUBS, 		8},
-    {"LD_CARD:cd11c",		"Jack of Clubs", 		SUIT_CLUBS, 		9},
-    {"LD_CARD:cd12c",		"Queen of Clubs", 		SUIT_CLUBS, 		10},
-    {"LD_CARD:cd13c",		"King of Clubs", 		SUIT_CLUBS, 		11},
-    {"LD_CARD:cd1c", 		"Ace of Clubs", 		SUIT_CLUBS, 		12},
+    {"LD_CARD:cd2c", 		"梅花二", 		SUIT_CLUBS, 		0},
+    {"LD_CARD:cd3c", 		"梅花三", 		SUIT_CLUBS, 		1},
+    {"LD_CARD:cd4c", 		"梅花四", 		SUIT_CLUBS, 		2},
+    {"LD_CARD:cd5c", 		"梅花五", 		SUIT_CLUBS, 		3},
+    {"LD_CARD:cd6c", 		"梅花六", 		SUIT_CLUBS, 		4},
+    {"LD_CARD:cd7c", 		"梅花七", 		SUIT_CLUBS, 		5},
+    {"LD_CARD:cd8c", 		"梅花八", 		SUIT_CLUBS, 		6},
+    {"LD_CARD:cd9c", 		"梅花九", 		SUIT_CLUBS, 		7},
+    {"LD_CARD:cd10c",		"十梅花",			SUIT_CLUBS, 		8},
+    {"LD_CARD:cd11c",		"梅花杰克", 		SUIT_CLUBS, 		9},
+    {"LD_CARD:cd12c",		"梅花皇后", 		SUIT_CLUBS, 		10},
+    {"LD_CARD:cd13c",		"俱乐部之王", 		SUIT_CLUBS, 		11},
+    {"LD_CARD:cd1c", 		"梅花 A", 		SUIT_CLUBS, 		12},
 
     //Diamonds
-    {"LD_CARD:cd2d", 		"Two of Diamonds", 		SUIT_DIAMONDS, 		0},
-    {"LD_CARD:cd3d", 		"Three of Diamonds", 	SUIT_DIAMONDS, 		1},
-    {"LD_CARD:cd4d", 		"Four of Diamonds", 	SUIT_DIAMONDS, 		2},
-    {"LD_CARD:cd5d", 		"Five of Diamonds", 	SUIT_DIAMONDS, 		3},
-    {"LD_CARD:cd6d", 		"Six of Diamonds", 		SUIT_DIAMONDS, 		4},
-    {"LD_CARD:cd7d", 		"Seven of Diamonds", 	SUIT_DIAMONDS, 		5},
-    {"LD_CARD:cd8d", 		"Eight of Diamonds", 	SUIT_DIAMONDS, 		6},
-    {"LD_CARD:cd9d", 		"Nine of Diamonds", 	SUIT_DIAMONDS, 		7},
-    {"LD_CARD:cd10d",		"Ten of Diamonds", 		SUIT_DIAMONDS, 		8},
-    {"LD_CARD:cd11d",		"Jack of Diamonds", 	SUIT_DIAMONDS, 		9},
-    {"LD_CARD:cd12d",		"Queen of Diamonds", 	SUIT_DIAMONDS, 		10},
-    {"LD_CARD:cd13d",		"King of Diamonds", 	SUIT_DIAMONDS, 		11},
-    {"LD_CARD:cd1d", 		"Ace of Diamonds", 		SUIT_DIAMONDS, 		12}
+    {"LD_CARD:cd2d", 		"两颗钻石", 		SUIT_DIAMONDS, 		0},
+    {"LD_CARD:cd3d", 		"钻石三", 	SUIT_DIAMONDS, 		1},
+    {"LD_CARD:cd4d", 		"钻石四", 	SUIT_DIAMONDS, 		2},
+    {"LD_CARD:cd5d", 		"钻石五", 	SUIT_DIAMONDS, 		3},
+    {"LD_CARD:cd6d", 		"钻石六", 		SUIT_DIAMONDS, 		4},
+    {"LD_CARD:cd7d", 		"钻石七", 	SUIT_DIAMONDS, 		5},
+    {"LD_CARD:cd8d", 		"钻石八", 	SUIT_DIAMONDS, 		6},
+    {"LD_CARD:cd9d", 		"钻石九", 	SUIT_DIAMONDS, 		7},
+    {"LD_CARD:cd10d",		"钻石十", 		SUIT_DIAMONDS, 		8},
+    {"LD_CARD:cd11d",		"钻石杰克", 	SUIT_DIAMONDS, 		9},
+    {"LD_CARD:cd12d",		"钻石皇后", 	SUIT_DIAMONDS, 		10},
+    {"LD_CARD:cd13d",		"钻石之王", 	SUIT_DIAMONDS, 		11},
+    {"LD_CARD:cd1d", 		"钻石王牌", 		SUIT_DIAMONDS, 		12}
 };
 
 
@@ -414,7 +420,7 @@ stock ResetLabel(handle)
 	new const buy_in = TableData[handle][E_TABLE_BUY_IN];
 	new const small_blind = TableData[handle][E_TABLE_SMALL_BLIND];
 	UpdateDynamic3DTextLabelTextEx(TableData[handle][E_TABLE_POT_LABEL], COLOR_GREY,
-		"Press ENTER To Play Poker\n{FFFFFF}%s Minimum\n%s / %s Blinds", cash_format(buy_in), cash_format(small_blind), cash_format(small_blind * 2));
+		"按 ENTER 玩扑克\n{FFFFFF}%s 最低\n%s / %s 盲注", cash_format(buy_in), cash_format(small_blind), cash_format(small_blind * 2));
 	return 1;
 }
 
@@ -891,7 +897,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawSetProportional(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][0], 1);
 	PlayerTextDrawSetShadow(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][0], 0);
 
-	PlayerData[playerid][E_PLAYER_CHOICES_TXT][1] = CreatePlayerTextDraw(playerid, 612.000122, 110.770355, "Options");
+	PlayerData[playerid][E_PLAYER_CHOICES_TXT][1] = CreatePlayerTextDraw(playerid, 612.000122, 110.770355, "选项");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][1], 0.182333, 1.039999);
 	PlayerTextDrawTextSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][1], 0.000000, 53.000000);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][1], 2);
@@ -905,7 +911,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawSetProportional(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][1], 1);
 	PlayerTextDrawSetShadow(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][1], 0);
 
-	PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL] = CreatePlayerTextDraw(playerid, 615.999755, 131.511154, "Call");
+	PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL] = CreatePlayerTextDraw(playerid, 615.999755, 131.511154, "跟注");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], 0.182333, 1.039999);
 	PlayerTextDrawTextSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], 10.000000, 49.000000);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], 2);
@@ -920,7 +926,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawSetShadow(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], 0);
 	//PlayerTextDrawSetSelectable(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], true);
 
-	PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE] = CreatePlayerTextDraw(playerid, 615.999755, 148.518554, "Raise");
+	PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE] = CreatePlayerTextDraw(playerid, 615.999755, 148.518554, "加注");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], 0.182333, 1.039999);
 	PlayerTextDrawTextSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], 10.000000, 49.000000);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], 2);
@@ -935,7 +941,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawSetShadow(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], 0);
 	PlayerTextDrawSetSelectable(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], true);
 
-	PlayerData[playerid][E_PLAYER_CHOICES_TXT][FOLD] = CreatePlayerTextDraw(playerid, 615.999755, 165.525954, "Fold");
+	PlayerData[playerid][E_PLAYER_CHOICES_TXT][FOLD] = CreatePlayerTextDraw(playerid, 615.999755, 165.525954, "弃牌");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][FOLD], 0.182333, 1.039999);
 	PlayerTextDrawTextSize(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][FOLD], 10.000000, 49.000000);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][FOLD], 2);
@@ -962,7 +968,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawFont(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][0], 1);
 	PlayerTextDrawSetProportional(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][0], 1);
 
-	PlayerData[playerid][E_PLAYER_INFO_TXT][1] = CreatePlayerTextDraw(playerid, 597.999694, 253.466537, "INFORMATION");
+	PlayerData[playerid][E_PLAYER_INFO_TXT][1] = CreatePlayerTextDraw(playerid, 597.999694, 253.466537, "信息");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][1], 0.265333, 1.093926);
 	PlayerTextDrawTextSize(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][1], 0.000000, 84.000000);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][1], 2);
@@ -990,7 +996,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawFont(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][3], 1);
 	PlayerTextDrawSetProportional(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][3], 1);
 
-	PlayerData[playerid][E_PLAYER_INFO_TXT][4] = CreatePlayerTextDraw(playerid, 559.666687, 290.385407, "Last_bet:_$4213");
+	PlayerData[playerid][E_PLAYER_INFO_TXT][4] = CreatePlayerTextDraw(playerid, 559.666687, 290.385407, "最后的赌注:_$4213");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][4], 0.166999, 1.023407);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][4], 1);
 	PlayerTextDrawColor(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][4], -1);
@@ -998,7 +1004,7 @@ stock Player_CreateTextdraws(playerid)
 	PlayerTextDrawFont(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][4], 1);
 	PlayerTextDrawSetProportional(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][4], 1);
 
-	PlayerData[playerid][E_PLAYER_INFO_TXT][5] = CreatePlayerTextDraw(playerid, 559.666687, 301.170686, "Your_bet:_$124");
+	PlayerData[playerid][E_PLAYER_INFO_TXT][5] = CreatePlayerTextDraw(playerid, 559.666687, 301.170686, "你的赌注:_$124");
 	PlayerTextDrawLetterSize(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][5], 0.166999, 1.023407);
 	PlayerTextDrawAlignment(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][5], 1);
 	PlayerTextDrawColor(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][5], -1);
@@ -1026,16 +1032,16 @@ stock AddPlayerToTable(playerid, handle)
 	new slot = Internal_GetFreeChairSlot(handle);
 	if(slot == ITER_NONE)
 	{
-		SendPokerMessage(playerid, "There aren't currently any unnocupied seats in this table at the moment. You cannot enter it.");
+		SendPokerMessage(playerid, "目前此表中没有任何空闲席位.你不能输入它.");
 		return 0;
 	}
 
-	if(GetPlayerCash(playerid) < TableData[handle][E_TABLE_BUY_IN]) return SendPokerMessage(playerid, "You don't have enough money to access this table. Buy In: %s", cash_format(TableData[handle][E_TABLE_BUY_IN]));
+	if(GetPlayerCash(playerid) < TableData[handle][E_TABLE_BUY_IN]) return SendPokerMessage(playerid, "你没有足够的钱来访问此表.买入:%s", cash_format(TableData[handle][E_TABLE_BUY_IN]));
 
 	new index = Player_GetUnusedAttachIndex(playerid);
 	if(index == cellmin)
 	{
-		SendPokerMessage(playerid, "You cannot access this table in this moment.");
+		SendPokerMessage(playerid, "你此时无法访问该表.");
 		return 0;
 	}
 	//Reset player data
@@ -1059,7 +1065,7 @@ stock AddPlayerToTable(playerid, handle)
 	SetPlayerCameraLookAt(playerid, TableData[handle][E_TABLE_POS_X], TableData[handle][E_TABLE_POS_Y], TableData[handle][E_TABLE_POS_Z]);
 	ApplyAnimation(playerid, "INT_OFFICE", "OFF_Sit_Bored_Loop", 4.1, 1, 1, 1, 0, 0, 1);
 	new tstr[64];
-	format(tstr, sizeof(tstr), "%s\n* waiting next game *", ReturnPlayerName(playerid));
+	format(tstr, sizeof(tstr), "%s\n* 等待下一场比赛 *", ReturnPlayerName(playerid));
 	PlayerData[playerid][E_PLAYER_3D_LABEL] = CreateDynamic3DTextLabel(tstr, 0x808080FF, Pos[0], Pos[1], Pos[2], 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), -1,  5.0);
 
 	//Information that will be used later
@@ -1074,7 +1080,7 @@ stock AddPlayerToTable(playerid, handle)
 	TableData[handle][E_TABLE_CHAIR_PLAYER_ID][slot] = playerid;
 	GivePlayerCash(playerid, -TableData[handle][E_TABLE_BUY_IN]);
 	PlayerData[playerid][E_PLAYER_TOTAL_CHIPS] = TableData[handle][E_TABLE_BUY_IN];
-	SendPokerMessage(playerid, "You've been charged %s as a result of joining in the table.", cash_format(TableData[handle][E_TABLE_BUY_IN]));
+	SendPokerMessage(playerid, "由于加入该表,你已被收取 %s 费用.", cash_format(TableData[handle][E_TABLE_BUY_IN]));
 	//Allow players to join a table where a game has already started but there are empty seats remaining (these players will be able to play once the current match finishes)
 	if(TableData[handle][E_TABLE_CURRENT_STATE] != STATE_BEGIN)
 	{
@@ -1082,9 +1088,9 @@ stock AddPlayerToTable(playerid, handle)
 		{
 			if(!TableData[handle][E_TABLE_STING_NEW_GAME])
 			{
-				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"There are currently two players in the table.");
-				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Any players interested in being part of this game have "#T_START_DELAY" seconds to join the table.");
-				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"The game will begin in "#T_START_DELAY" seconds...");
+				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"目前桌上有两名玩家.");
+				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"任何有兴趣参与此游戏的玩家都可以 "#T_START_DELAY" 秒加入表.");
+				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"比赛将于 "#T_START_DELAY" 秒...");
 				Iter_Clear(IT_PlayersInGame<handle>);
 				TableData[handle][E_TABLE_LOADING_GAME] = true;
 				SetTimerEx("Poker_StartGame", T_START_DELAY * 1000, false, "ii", handle, INVALID_PLAYER_ID);
@@ -1093,9 +1099,9 @@ stock AddPlayerToTable(playerid, handle)
 	}
 	else
 	{
-		SendPokerMessage(playerid, "You have entered this poker table but the game has already begun.");
-		SendPokerMessage(playerid, "You must wait until this match is finished to play!");
-		SendTableMessage(handle, "{25728B}- - Player %s has joined the table... - -", ReturnPlayerName(playerid));
+		SendPokerMessage(playerid, "你已进入此扑克桌,但游戏已经开始.");
+		SendPokerMessage(playerid, "你必须等到这场比赛结束才能玩!");
+		SendTableMessage(handle, "{25728B}- - 玩家 %s 已加入桌子... - -", ReturnPlayerName(playerid));
 	}
 
 	foreach(new i: Player)
@@ -1136,13 +1142,13 @@ stock UpdateInfoTextdrawsForPlayer(playerid)
 {
 	new handle = PlayerData[playerid][E_PLAYER_CURRENT_HANDLE];
 	new tstring[64];
-	format(tstring, sizeof(tstring), "~g~Chips:_~w~%s", cash_format(PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]));
+	format(tstring, sizeof(tstring), "~g~芯片:_~w~%s", cash_format(PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]));
 	PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][2], tstring);
-	format(tstring, sizeof(tstring), "~y~Pot:_~w~%s", cash_format(TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]));
+	format(tstring, sizeof(tstring), "~y~锅:_~w~%s", cash_format(TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]));
 	PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][3], tstring);
-	format(tstring, sizeof(tstring), "~r~Last_bet:_~w~%s", cash_format(TableData[handle][E_TABLE_LAST_BET]));
+	format(tstring, sizeof(tstring), "~r~最后的赌注:_~w~%s", cash_format(TableData[handle][E_TABLE_LAST_BET]));
 	PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][4], tstring);
-	format(tstring, sizeof(tstring), "~r~Your_bet:_~w~%s", cash_format(PlayerData[playerid][E_PLAYER_CURRENT_BET]));
+	format(tstring, sizeof(tstring), "~r~你的赌注:_~w~%s", cash_format(PlayerData[playerid][E_PLAYER_CURRENT_BET]));
 	PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_INFO_TXT][5], tstring);
 	return 1;
 }
@@ -1160,9 +1166,9 @@ public Poker_StartGame(handle, dealer)
 		if(!Iter_Contains(IT_PlayersTable<handle>, i)) continue;
 		if(!PlayerData[i][E_PLAYER_TOTAL_CHIPS])
 		{
-			SendPokerMessage(i, "You don't have any chips left.");
-			SendPokerMessage(i, "You may join the table again and pay the buy-in fee to play once again!");
-			SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been kicked out of the table. [Reason: Ran out of chips]", ReturnPlayerName(i));
+			SendPokerMessage(i, "你没有剩下任何筹码了.");
+			SendPokerMessage(i, "你可以再次加入牌桌并支付买入费再玩一次!");
+			SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被踢出牌桌. [原因:筹码用完了]", ReturnPlayerName(i));
 			KickPlayerFromTable(i);
 			ShowPlayerDialog(i, -1, DIALOG_STYLE_INPUT, " ", " ", " ", " ");
 		}
@@ -1170,7 +1176,7 @@ public Poker_StartGame(handle, dealer)
 
 	if(Iter_Count(IT_PlayersTable<handle>) < 2)
 	{
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"There aren't enough players to start a game");
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"没有足够的玩家来开始游戏");
 		TableData[handle][E_TABLE_LOADING_GAME] = false;
 		return 0;
 	}
@@ -1228,13 +1234,13 @@ public Poker_StartGame(handle, dealer)
 		TableData[handle][E_TABLE_PLAYER_DEALER_ID] = dealer;
 		TableData[handle][E_TABLE_DEALER_SEAT] = PlayerData[dealer][E_PLAYER_CURRENT_CHAIR_SLOT];
 		TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID] = dealer;
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been chosen to be the dealer and big blind in this first stage of the game!", ReturnPlayerName(dealer));
-		UpdateDynamic3DTextLabelTextEx(PlayerData[dealer][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}Big Blind + Dealer", ReturnPlayerName(dealer));
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被选为游戏第一阶段的庄家和大盲注!", ReturnPlayerName(dealer));
+		UpdateDynamic3DTextLabelTextEx(PlayerData[dealer][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}大盲 + 庄家", ReturnPlayerName(dealer));
 
 		//small blind..
 		new next_turn = GetTurnAfterPlayer(handle, dealer);
-		UpdateDynamic3DTextLabelTextEx(PlayerData[next_turn][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}Small Blind", ReturnPlayerName(next_turn));
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been chosen to be the small blind in this first stage of the game!", ReturnPlayerName(next_turn));
+		UpdateDynamic3DTextLabelTextEx(PlayerData[next_turn][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}小盲", ReturnPlayerName(next_turn));
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被选为游戏第一阶段的小盲注!", ReturnPlayerName(next_turn));
 		TableData[handle][E_TABLE_PLAYER_SMALL_BLIND_ID] = next_turn;
 
 
@@ -1243,21 +1249,21 @@ public Poker_StartGame(handle, dealer)
 	{
 
 		//Dealer
-		UpdateDynamic3DTextLabelTextEx(PlayerData[dealer][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}Dealer", ReturnPlayerName(dealer));
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been chosen to be the dealer in this first stage of the game!", ReturnPlayerName(dealer));
+		UpdateDynamic3DTextLabelTextEx(PlayerData[dealer][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}经销商", ReturnPlayerName(dealer));
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被选为游戏第一阶段的庄家!", ReturnPlayerName(dealer));
 		TableData[handle][E_TABLE_PLAYER_DEALER_ID] = dealer;
 		TableData[handle][E_TABLE_DEALER_SEAT] = PlayerData[dealer][E_PLAYER_CURRENT_CHAIR_SLOT];
 
 		//Big blind
 		new next_player = GetTurnAfterPlayer(handle, dealer);
-		UpdateDynamic3DTextLabelTextEx(PlayerData[next_player][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}Small Blind", ReturnPlayerName(next_player));
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been chosen to be the Small Blind in this first stage of the game!", ReturnPlayerName(next_player));
+		UpdateDynamic3DTextLabelTextEx(PlayerData[next_player][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}小盲", ReturnPlayerName(next_player));
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被选为游戏第一阶段的小盲注!", ReturnPlayerName(next_player));
 		TableData[handle][E_TABLE_PLAYER_SMALL_BLIND_ID] = next_player;
 
 		//Small blind
 		next_player = GetTurnAfterPlayer(handle, next_player);
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been chosen to be the Big Blind in this first stage of the game!", ReturnPlayerName(next_player));
-		UpdateDynamic3DTextLabelTextEx(PlayerData[next_player][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}Big Blind", ReturnPlayerName(next_player));
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被选为游戏第一阶段的大盲注!", ReturnPlayerName(next_player));
+		UpdateDynamic3DTextLabelTextEx(PlayerData[next_player][E_PLAYER_3D_LABEL], -1, "{7AC72E}%s\n{FD4102}大盲注", ReturnPlayerName(next_player));
 		TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID] = next_player;
 	}
 
@@ -1276,7 +1282,7 @@ public Poker_StartGame(handle, dealer)
 		Streamer_Update(playerid);
 	}
 
-	SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Dealer is shuffling the pack of cards. Cards will be handed out in two seconds...!");
+	SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"庄家正在洗牌.两秒后就会发夹......!");
 	//If everything executes without stop, it wouldn't look that nice for me, so a timer comes handy..
 	SetTimerEx("Poker_DealCards", 2000, false, "i", handle);
 	return 1;
@@ -1293,14 +1299,14 @@ public Poker_KickPlayers(handle)
 		{
 			if(GetPlayerCash(i) < TableData[handle][E_TABLE_BUY_IN])
 			{
-				SendPokerMessage(i, "You don't have any chips left.");
-				SendPokerMessage(i, "You may join the table again and pay the buy-in fee to play once again!");
-				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been kicked out of the table. [Reason: Ran out of chips]", ReturnPlayerName(i));
+				SendPokerMessage(i, "你没有剩下任何筹码了.");
+				SendPokerMessage(i, "你可以再次加入牌桌并支付买入费再玩一次!");
+				SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被踢出牌桌. [原因:筹码用完了]", ReturnPlayerName(i));
 				KickPlayerFromTable(i);
 			}
 			else
 			{
-				ShowPlayerDialog(i, DIALOG_BUY_IN, DIALOG_STYLE_MSGBOX, "Buy-In", ""COL_WHITE"You've ran out of chips. Do you want to pay the buy-in fee again to continue playing?", "Yes", "No");
+				ShowPlayerDialog(i, DIALOG_BUY_IN, DIALOG_STYLE_MSGBOX, "买入", ""COL_WHITE"你的筹码已经用完了.你想再次支付买入费继续玩吗?", "是", "否");
 			}
 		}
 	}
@@ -1348,12 +1354,12 @@ stock StartNewPokerGame(handle, time)
 
 	if(Iter_Count(IT_PlayersTable<handle>) >= 2)
 	{
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Starting a new game in %d seconds...", time);
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"%d 秒后开始新游戏......", time);
 		SetTimerEx("Poker_StartGame", 1000 * time, false, "ii", handle, INVALID_PLAYER_ID);
 	}
 	else
 	{
-		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"There are not enough players to start a new game!");
+		SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"没有足够的玩家来开始新游戏!");
 	}
 	return 1;
 }
@@ -1567,8 +1573,8 @@ public Poker_DealCards(handle)
 	{
 		PlayerData[big_blind][E_PLAYER_CURRENT_BET] = TableData[handle][E_TABLE_BIG_BLIND];
 		PlayerData[small_blind][E_PLAYER_CURRENT_BET] = TableData[handle][E_TABLE_SMALL_BLIND];
-		SendTableMessage(handle, "{2DD9A9} * * %s posts a small blind of %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_SMALL_BLIND_ID]), cash_format(TableData[handle][E_TABLE_SMALL_BLIND]));
-		SendTableMessage(handle, "{2DD9A9}  * * %s posts a big blind of %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID]), cash_format(TableData[handle][E_TABLE_BIG_BLIND]));
+		SendTableMessage(handle, "{2DD9A9} * * %s 下小盲注 %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_SMALL_BLIND_ID]), cash_format(TableData[handle][E_TABLE_SMALL_BLIND]));
+		SendTableMessage(handle, "{2DD9A9} * * %s 下大盲注 %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID]), cash_format(TableData[handle][E_TABLE_BIG_BLIND]));
 		new next_turn = GetTurnAfterPlayer(handle, TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID]);
 		TableData[handle][E_TABLE_LAST_BET] = TableData[handle][E_TABLE_BIG_BLIND];
 		SetLastToRaise(handle, next_turn);
@@ -1591,7 +1597,7 @@ public Poker_DealCards(handle)
 		}
 		else
 		{
-			SendTableMessage(handle, "{2DD9A9} * * %s posts a small blind of %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_SMALL_BLIND_ID]), cash_format(TableData[handle][E_TABLE_SMALL_BLIND]));
+			SendTableMessage(handle, "{2DD9A9} * * %s 下小盲注 %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_SMALL_BLIND_ID]), cash_format(TableData[handle][E_TABLE_SMALL_BLIND]));
 			RemoveChipsFromPlayer( small_blind, TableData[handle][E_TABLE_SMALL_BLIND]);
 			PlayerData[small_blind][E_PLAYER_CURRENT_BET] = TableData[handle][E_TABLE_SMALL_BLIND];
 		}
@@ -1610,7 +1616,7 @@ public Poker_DealCards(handle)
 		else
 		{
 
-			SendTableMessage(handle, "{2DD9A9}  * * %s posts a big blind of %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID]), cash_format(TableData[handle][E_TABLE_BIG_BLIND]));
+			SendTableMessage(handle, "{2DD9A9} * * %s 下大盲注 %s.. * *", ReturnPlayerName(TableData[handle][E_TABLE_PLAYER_BIG_BLIND_ID]), cash_format(TableData[handle][E_TABLE_BIG_BLIND]));
 			RemoveChipsFromPlayer( big_blind, TableData[handle][E_TABLE_BIG_BLIND]);
 			PlayerData[big_blind][E_PLAYER_CURRENT_BET] = TableData[handle][E_TABLE_BIG_BLIND];
 			TableData[handle][E_TABLE_LAST_BET] = TableData[handle][E_TABLE_BIG_BLIND];
@@ -1640,18 +1646,18 @@ static stock UpdateTable(handle)
 		UpdateInfoTextdrawsForPlayer(playerid);
 		new const seat = PlayerData[playerid][E_PLAYER_CURRENT_CHAIR_SLOT];
 		new str[128	];
-		format(str, sizeof(str), "{34c5db}Chips: {db8d34}%s\n{db3a34}Last bet: {db8d34}%s", cash_format(PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]), cash_format(PlayerData[playerid][E_PLAYER_CURRENT_BET]));
+		format(str, sizeof(str), "{34c5db}筹码:{db8d34}%s\n{db3a34}最后投注:{db8d34}%s", cash_format(PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]), cash_format(PlayerData[playerid][E_PLAYER_CURRENT_BET]));
 		UpdateDynamic3DTextLabelText(TableData[handle][E_TABLE_BET_LABELS][seat], T_BET_LABEL_COLOR, str);
 		SetChipsValue(handle, PlayerData[playerid][E_PLAYER_CURRENT_CHAIR_SLOT], PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
 
 	}
 	new str[256];
 	new tmp[10];
-	format(str, sizeof(str), "{59cdff}Main Pot: {ff9059}%s\n", cash_format(TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]));
+	format(str, sizeof(str), "{59cdff}主锅:{ff9059}%s\n", cash_format(TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]));
 	SetPotChipsValue(handle, TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]);
 	if(Iter_Count(IT_Sidepots[handle] > 1))
 	{
-		strcat(str, "{008000}Side Pot:\n{008080}");
+		strcat(str, "{008000}小锅:\n{008080}");
 		foreach(new i: IT_Sidepots[handle])
 		{
 			if(i == MAIN_POT) continue;
@@ -1670,27 +1676,27 @@ static stock ShowChoicesToPlayer(playerid)
 	//Call or check
 	if(TableData[handle][E_TABLE_LAST_BET] == PlayerData[playerid][E_PLAYER_CURRENT_BET]) //check
 	{
-		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], "Check");
+		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], "过牌");
 	}
 	else //call
 	{
-		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], "Call");
+		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][CALL], "跟注");
 	}
 
 	//Bet, raise or all in
 	if(TableData[handle][E_TABLE_LAST_BET] == 0)
 	{
-		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], "Bet");
+		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], "下注");
 		PlayerData[playerid][E_PLAYER_RCHOICE] = E_RAISE_BET;
 	}
 	else if(PlayerData[playerid][E_PLAYER_TOTAL_CHIPS] > TableData[handle][E_TABLE_LAST_BET] + PlayerData[playerid][E_PLAYER_CURRENT_BET])
 	{
-		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], "Raise");
+		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], "加注");
 		PlayerData[playerid][E_PLAYER_RCHOICE] = E_RAISE_RAISE;
 	}
 	else //player doesn't have enough money, only option is to go all in
 	{
-		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], "All In");
+		PlayerTextDrawSetString(playerid, PlayerData[playerid][E_PLAYER_CHOICES_TXT][RAISE], "全下");
 		PlayerData[playerid][E_PLAYER_RCHOICE] = E_RAISE_ALL_IN;
 	}
 
@@ -1728,8 +1734,8 @@ static stock HidePlayerChoices(playerid)
 static stock SendTurnMessage(handle, playerid)
 {
 	SetPlayerClickedTxt(playerid, false);
-	SendTableMessage(handle, "{008080}It's %s{008080}'s turn...", ReturnPlayerName(playerid));
-	SendPokerMessage(playerid, "It's your turn. You have "#T_MAX_WAIT_TIME" seconds to make a decision.");
+	SendTableMessage(handle, "{008080}轮到%s{008080}了......", ReturnPlayerName(playerid));
+	SendPokerMessage(playerid, "轮到你了.你有 "#T_MAX_WAIT_TIME" 秒做出决定.");
 	TableData[handle][E_TABLE_CURRENT_TURN] = playerid;
 	PlayerData[playerid][E_PLAYER_TIMER_STARTED] = true;
 	PlayerData[playerid][E_PLAYER_TIMER_ID] = SetTimerEx("Timer_FoldPlayer", T_MAX_WAIT_TIME * 1000, false, "ii", handle, playerid);
@@ -1806,7 +1812,7 @@ public CheckRounds(handle, bool: start_showdown)
 			}
 
 			SendTableMessage(handle, "{D07035}======================================================================================");
-			SendTableMessage(handle, "{D07035}									  The Flop 											");
+			SendTableMessage(handle, "{D07035}									  翻牌 											");
 			SendTableMessage(handle, "{D07035}======================================================================================");
 			TableData[handle][E_TABLE_LAST_BET] = 0;
 
@@ -1845,7 +1851,7 @@ public CheckRounds(handle, bool: start_showdown)
 			TableData[handle][E_TABLE_LAST_BET] = 0;
 
 			SendTableMessage(handle, "{D07035}======================================================================================");
-			SendTableMessage(handle, "{D07035}									  The Turn 											");
+			SendTableMessage(handle, "{D07035}									  转牌 											");
 			SendTableMessage(handle, "{D07035}======================================================================================");
 
 
@@ -1881,7 +1887,7 @@ public CheckRounds(handle, bool: start_showdown)
 			TableData[handle][E_TABLE_LAST_BET] = 0;
 
 			SendTableMessage(handle, "{D07035}======================================================================================");
-			SendTableMessage(handle, "{D07035}									  The River 										");
+			SendTableMessage(handle, "{D07035}									  河牌 										");
 			SendTableMessage(handle, "{D07035}======================================================================================");
 			//SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"%s, %s, %s", CardData[TableData[handle][T_COM_CARDS_VALUES][0]][E_CARD_NAME], CardData[TableData[handle][T_COM_CARDS_VALUES][1]][E_CARD_NAME], CardData[TableData[handle][T_COM_CARDS_VALUES][2]][E_CARD_NAME]);
 			if(start_showdown)
@@ -1912,7 +1918,7 @@ public CheckRounds(handle, bool: start_showdown)
 stock CheckShowdown(handle)
 {
 	SendTableMessage(handle, "{F25B13}======================================================================================");
-	SendTableMessage(handle, "{F25B13}									  Showdown 											");
+	SendTableMessage(handle, "{F25B13}									  摊牌 											");
 	SendTableMessage(handle, "{F25B13}======================================================================================");
 
 	foreach(new p: IT_PlayersTable<handle>) //loop through the players already in the table
@@ -1983,8 +1989,8 @@ stock CheckShowdown(handle)
           	StockMarket_UpdateEarnings( E_STOCK_CASINO, fee_earned, 0.25 );
 			GivePlayerCasinoRewardsPoints(high_id, fee_earned, .house_edge = 100.0);
 			SendTableMessage(handle, "{9FCF30}****************************************************************************************");
-			SendTableMessage(handle, "{9FCF30}Player {FF8000}%s {9FCF30}has won with a {377CC8}%s", ReturnPlayerName(high_id), HAND_RANKS[highest_rank >> 12]);
-			SendTableMessage(handle, "{9FCF30}Prize: {377CC8}%s | -%0.0f%s percent fee.", cash_format(w_chips), T_POT_FEE_RATE * 100.0, "%%");
+			SendTableMessage(handle, "{9FCF30}玩家{FF8000}%s {9FCF30}以{377CC8}%s获胜", ReturnPlayerName(high_id), HAND_RANKS_ZH[highest_rank >> 12]);
+			SendTableMessage(handle, "{9FCF30}奖品:{377CC8}%s | -%0.0f%s% 的费用.", cash_format(w_chips), T_POT_FEE_RATE * 100.0, "%%");
 			SendTableMessage(handle, "{9FCF30}****************************************************************************************");
 			if (strmatch(HAND_RANKS[highest_rank >> 12], "Royal Flush")) printf("****\nRoyal Flush Player %s\n****\n", ReturnPlayerName(high_id));
 			PlayerData[high_id][E_PLAYER_TOTAL_CHIPS] += w_chips;
@@ -1992,7 +1998,7 @@ stock CheckShowdown(handle)
 		else
 		{
 			SendTableMessage(handle, "{9FCF30}****************************************************************************************");
-			SendTableMessage(handle, "{9FCF30}Draw! These players have won with a {377CC8}%s:", HAND_RANKS[highest_rank >> 12]);
+			SendTableMessage(handle, "{9FCF30}画画!这些玩家以 {377CC8}%s 获胜:", HAND_RANKS_ZH[highest_rank >> 12]);
 			new w_chips = floatround(float(TableData[handle][E_TABLE_POT_CHIPS][pot_id]) * (1.0 - T_POT_FEE_RATE));
 			new fee_earned = floatround((float(TableData[handle][E_TABLE_POT_CHIPS][pot_id]) / 1000.0) * T_POT_FEE_RATE);
 			UpdateServerVariable( "poker_fees", 0, GetGVarFloat( "poker_fees" ) + fee_earned, "", GLOBAL_VARTYPE_FLOAT );
@@ -2013,7 +2019,7 @@ stock CheckShowdown(handle)
 					ApplyAnimation(p, "INT_OFFICE", "OFF_Sit_Crash", 4.1, 0, 1, 1, 1, 0, 1);
 				}
 			}
-			SendTableMessage(handle, "{9FCF30}Each receives 1/%d of the total pot available. | -%0.0f%s percent fee", count, T_POT_FEE_RATE * 100.0, "%%");
+			SendTableMessage(handle, "{9FCF30}每个人收到可用总底池的 1/%d. | -%0.0f%s% 费用", count, T_POT_FEE_RATE * 100.0, "%%");
 			SendTableMessage(handle, "{9FCF30}****************************************************************************************");
 		}
 		UpdateTable(handle);
@@ -2182,8 +2188,8 @@ stock bool: FoldPlayer(handle, playerid)
 	ApplyAnimation(playerid, "INT_OFFICE", "OFF_Sit_Crash", 4.1, 0, 1, 1, 1, 0, 1);
 	PlayerData[playerid][E_PLAYER_FOLDED] = true;
 	KillPlayerTurnTimer(playerid);
-	SendTableMessage(handle, "{2DD9A9}  * * %s folds.. * *", ReturnPlayerName(playerid));
-	SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{D6230A}** FOLDS ** ");
+	SendTableMessage(handle, "{2DD9A9} * * %s 折叠.. * *", ReturnPlayerName(playerid));
+	SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{D6230A}** 折叠 ** ");
 
 	PlayerData[playerid][E_PLAYER_IS_PLAYING] = false;
 	TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT] += PlayerData[playerid][E_PLAYER_CURRENT_BET];
@@ -2196,12 +2202,12 @@ stock bool: FoldPlayer(handle, playerid)
 		new winner = Iter_First(IT_PlayersInGame<handle>);
 		HidePlayerChoices(winner);
 		SendTableMessage(handle, "{9FCF30}****************************************************************************************");
-		SendTableMessage(handle, "{9FCF30}Player {FF8000}%s {9FCF30}has won the game!", ReturnPlayerName(winner));
+		SendTableMessage(handle, "{9FCF30}玩家{FF8000}%s {9FCF30}赢得了比赛!", ReturnPlayerName(winner));
 		new w_chips = floatround(float(TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]) * (1.0 - T_POT_FEE_RATE));
 		new fee_earned = floatround((float(TableData[handle][E_TABLE_POT_CHIPS][MAIN_POT]) / 1000.0) * T_POT_FEE_RATE);
 		UpdateServerVariable( "poker_fees", 0, GetGVarFloat( "poker_fees" ) + fee_earned, "", GLOBAL_VARTYPE_FLOAT );
 		GivePlayerCasinoRewardsPoints(winner, fee_earned, .house_edge = 100.0);
-		SendTableMessage(handle, "{9FCF30}Prize: {377CC8}%s | -%0.0f%s percent fee", cash_format(w_chips), T_POT_FEE_RATE * 100.0, "%%");
+		SendTableMessage(handle, "{9FCF30}奖品:{377CC8}%s | -%0.0f%s% 费用", cash_format(w_chips), T_POT_FEE_RATE * 100.0, "%%");
 		SendTableMessage(handle, "{9FCF30}****************************************************************************************");
 		PlayerData[winner][E_PLAYER_TOTAL_CHIPS]  += w_chips;
 		PlayerData[winner][E_PLAYER_TOTAL_CHIPS]  += PlayerData[winner][E_PLAYER_CURRENT_BET];
@@ -2253,8 +2259,8 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 			{
 				SetPlayerClickedTxt(playerid, true);
 				KillPlayerTurnTimer(playerid);
-				SendTableMessage(handle, "{2DD9A9}  * * %s checks .. * *", ReturnPlayerName(playerid));
-				SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{22B1BD}** CHECKS ** ");
+				SendTableMessage(handle, "{2DD9A9} * * %s 检查.. * *", ReturnPlayerName(playerid));
+				SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{22B1BD}** 检查 ** ");
 			}
 			else //call
 			{
@@ -2262,15 +2268,15 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 				if(PlayerData[playerid][E_PLAYER_TOTAL_CHIPS] >= dif)
 				{
 					KillPlayerTurnTimer(playerid);
-					SendTableMessage(handle, "{2DD9A9}  * * %s calls %s .. * *", ReturnPlayerName(playerid), cash_format(dif));
-					SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{22B1BD}** CALLS %s ** ", cash_format(dif));
+					SendTableMessage(handle, "{2DD9A9} * * %s 调用 %s .. * *", ReturnPlayerName(playerid), cash_format(dif));
+					SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{22B1BD}** 呼叫 %s ** ", cash_format(dif));
 					RemoveChipsFromPlayer( playerid, dif);
 					PlayerData[playerid][E_PLAYER_CURRENT_BET] = TableData[handle][E_TABLE_LAST_BET];
 					SetPlayerClickedTxt(playerid, true);
 				}
 				else
 				{
-					SendPokerMessage(playerid, "ERROR: You can't call as you don't have enough chips. You have two possible options: going all in or folding.");
+					SendPokerMessage(playerid, "错误:你无法呼叫,因为你没有足够的筹码.你有两种可能的选择:全下或折叠.");
 					return 1;
 				}
 
@@ -2283,13 +2289,13 @@ hook OnPlayerClickPlayerTD(playerid, PlayerText:playertextid)
 			{
 				case E_RAISE_BET:
 				{
-					SendPokerMessage(playerid, "Please enter an amount to bet, the total amount of chips you current have is: %d", PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
+					SendPokerMessage(playerid, "请输入投注金额,你当前拥有的筹码总数为:%d", PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
 					ShowPlayerRaiseDialog(playerid);
 					HidePlayerChoices(playerid);
 				}
 				case E_RAISE_RAISE:
 				{
-					SendPokerMessage(playerid, "Please enter an amount to raise, the total amount of chips you current have is: %d", PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
+					SendPokerMessage(playerid, "请输入筹码金额,你当前拥有的筹码总数为:%d", PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
 					HidePlayerChoices(playerid);
 					ShowPlayerRaiseDialog(playerid);
 				}
@@ -2312,8 +2318,8 @@ stock ForcePlayerAllIn(playerid, handle, bool:checkpot = true)
 	Iter_Add(IT_PlayersAllIn<handle>, playerid);
 	new raise = PlayerData[playerid][E_PLAYER_TOTAL_CHIPS] + PlayerData[playerid][E_PLAYER_CURRENT_BET];
 	PlayerData[playerid][E_PLAYER_CURRENT_BET] = raise;
-	SendTableMessage(handle, "{2DD9A9}  * * %s goes all in with %s .. * *", ReturnPlayerName(playerid), cash_format(raise));
-	SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{9512CD}** ALL IN with %s ** ", cash_format(raise));
+	SendTableMessage(handle, "{2DD9A9} * * %s 与 %s 一起使用 .. * *", ReturnPlayerName(playerid), cash_format(raise));
+	SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{9512CD}** 全力以赴 %s ** ", cash_format(raise));
 	PlayerData[playerid][E_PLAYER_TOTAL_CHIPS] = 0;
 	if(checkpot)
 		CheckPotAndNextTurn(playerid, handle);
@@ -2322,7 +2328,7 @@ stock ForcePlayerAllIn(playerid, handle, bool:checkpot = true)
 
 stock ShowPlayerRaiseDialog(playerid)
 {
-	return ShowPlayerDialogEx(playerid, DIALOG_INPUT_RAISE, DIALOG_STYLE_INPUT, "{FF8000}Input", "Submit", "Cancel", "{FFFFFF}Please input the desired amount of chips: \n{FFFFFF}You may type {FF8000}%d {FFFFFF} if you want to go All In\n",  PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
+	return ShowPlayerDialogEx(playerid, DIALOG_INPUT_RAISE, DIALOG_STYLE_INPUT, "{FF8000}输入", "提交", "取消", "{FFFFFF}请输入下注筹码数:\n{FFFFFF}输入 {FF8000}%d {FFFFFF} 即可全下\n",  PlayerData[playerid][E_PLAYER_TOTAL_CHIPS]);
 }
 hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 {
@@ -2335,11 +2341,11 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 		{
 			GivePlayerCash(playerid, -TableData[handle][E_TABLE_BUY_IN]);
 			PlayerData[playerid][E_PLAYER_TOTAL_CHIPS] = TableData[handle][E_TABLE_BUY_IN];
-			SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has paid the buy-in fee of %s chips to keep playing.", ReturnPlayerName(playerid), cash_format(TableData[handle][E_TABLE_BUY_IN]));
+			SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家%s已支付%s筹码的买入费以继续玩游戏.", ReturnPlayerName(playerid), cash_format(TableData[handle][E_TABLE_BUY_IN]));
 		}
 		else
 		{
-			SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"Player %s has been kicked out of the table. [Reason: Failure to pay the buy-in fee]", ReturnPlayerName(playerid));
+			SendTableMessage(handle, ""COL_GREY"-- "COL_WHITE"玩家 %s 已被踢出牌桌. [原因:未缴纳买入费]", ReturnPlayerName(playerid));
 			KickPlayerFromTable(playerid);
 		}
 	}
@@ -2352,7 +2358,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			if(!Iter_Contains(IT_PlayersTable<handle>, playerid)) return 1;
 			if(TableData[handle][E_TABLE_CURRENT_STATE] != STATE_BEGIN)
 			{
-				SendPokerMessage(playerid, "There isn't any active game at the moment.");
+				SendPokerMessage(playerid, "目前没有任何正在进行的游戏.");
 				return 0;
 			}
 			if(!Iter_Contains(IT_PlayersInGame<handle>, playerid))
@@ -2362,25 +2368,25 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 			new raise = 0;
 			if(sscanf(inputtext, "d", raise))
 			{
-				SendPokerMessage(playerid, "Input must be numeric.");
+				SendPokerMessage(playerid, "输入必须是数字.");
 				ShowPlayerRaiseDialog(playerid);
 				return 1;
 			}
 			if(raise < 0)
 			{
-				SendPokerMessage(playerid, "Input must be greater than 0.");
+				SendPokerMessage(playerid, "输入必须大于 0.");
 				ShowPlayerRaiseDialog(playerid);
 				return 1;
 			}
 			else if(raise > PlayerData[playerid][E_PLAYER_TOTAL_CHIPS])
 			{
-				SendPokerMessage(playerid, "You don't have that many chips available.");
+				SendPokerMessage(playerid, "你没有那么多可用筹码.");
 				ShowPlayerRaiseDialog(playerid);
 				return 1;
 			}
 			else if(raise <= TableData[handle][E_TABLE_LAST_BET])
 			{
-				SendPokerMessage(playerid, "Value must be greater than the last bet: %s", cash_format(TableData[handle][E_TABLE_LAST_BET]));
+				SendPokerMessage(playerid, "价值必须大于最后的赌注:%s", cash_format(TableData[handle][E_TABLE_LAST_BET]));
 				ShowPlayerRaiseDialog(playerid);
 				return 1;
 			}
@@ -2389,8 +2395,8 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				ApplyAnimation(playerid, "INT_OFFICE", "OFF_Sit_Idle_Loop", 4.1, 1, 1, 1, 0, 0, 1);
 				KillPlayerTurnTimer(playerid);
 				//all in - not mandatory
-				SendTableMessage(handle, "{2DD9A9}  * * %s goes all in with %s .. * *", ReturnPlayerName(playerid), cash_format(raise));
-				SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{9512CD}** ALL IN with %s ** ", cash_format(raise));
+				SendTableMessage(handle, "{2DD9A9} * * %s 与 %s 一起使用 .. * *", ReturnPlayerName(playerid), cash_format(raise));
+				SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{9512CD}** 全力以赴 %s ** ", cash_format(raise));
 				Iter_Add(IT_PlayersAllIn<handle>, playerid);
 				RemoveChipsFromPlayer( playerid, raise);
 				SetLastToRaise(handle, playerid);
@@ -2409,13 +2415,13 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				RemoveChipsFromPlayer( playerid, dif);
 				if(PlayerData[playerid][E_PLAYER_RCHOICE] == E_RAISE_BET)
 				{
-					SendTableMessage(handle, "{2DD9A9}  * * %s bets %s .. * *", ReturnPlayerName(playerid), cash_format(raise));
-					SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{31CA15}** BETS %s ** ", cash_format(raise));
+					SendTableMessage(handle, "{2DD9A9} * * %s 赌注 %s .. * *", ReturnPlayerName(playerid), cash_format(raise));
+					SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{31CA15}** 赌注 %s ** ", cash_format(raise));
 				}
 				else
 				{
-					SendTableMessage(handle, "{2DD9A9}  * * %s raises to %s .. * *", ReturnPlayerName(playerid), cash_format(raise));
-					SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{31CA15}** RAISES to %s ** ", cash_format(raise));
+					SendTableMessage(handle, "{2DD9A9} * * %s 提升到 %s .. * *", ReturnPlayerName(playerid), cash_format(raise));
+					SetPlayerChatBubbleEx(playerid, -1, 30.0, 2000, "{31CA15}** 加薪至 %s ** ", cash_format(raise));
 				}
 				CheckPotAndNextTurn(playerid, handle);
 			}
@@ -2460,7 +2466,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 					if((Iter_Contains(IT_PlayersInGame<handle>, playerid) && TableData[handle][E_TABLE_CURRENT_STATE] == STATE_BEGIN)
 					|| TableData[T_MAX_POKER_TABLES][E_TABLE_LOADING_GAME])
 					{
-						SendPokerMessage(playerid, "You cannot exit this table as there's currently an active match under process.");
+						SendPokerMessage(playerid, "你无法退出此表格,因为当前正在进行一场活动比赛.");
 						return 0;
 					}
 					KickPlayerFromTable(playerid);
@@ -2478,13 +2484,13 @@ hook OnPlayerDeathEx( playerid, killerid, reason, Float: damage, bodypart )
 hook OnPlayerDeath(playerid, killerid, reason)
 #endif
 {
-	Player_CheckPokerGame(playerid, "Died");
+	Player_CheckPokerGame(playerid, "死了");
 	return 1;
 }
 
 hook OnPlayerDisconnect(playerid, reason)
 {
-	Player_CheckPokerGame(playerid, "Disconnected");
+	Player_CheckPokerGame(playerid, "已断开连接");
 	return 1;
 }
 
@@ -2499,7 +2505,7 @@ stock Player_CheckPokerGame(playerid, const reason[])
             }
         }
 
-        SendTableMessage(handle, "Player %s has been kicked out from the table [REASON: %s].", ReturnPlayerName(playerid), reason);
+        SendTableMessage(handle, "玩家 %s 已被踢出牌桌 [原因:%s].", ReturnPlayerName(playerid), reason);
         KickPlayerFromTable(playerid);
     }
     return 1;
@@ -2607,7 +2613,7 @@ CMD:ctable(playerid, params[])
 	new Float:Pos[3];
 	GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
 	new table = CreatePokerTable(buy_in, small_blind, Pos[0], Pos[1], Pos[2]-0.6, seats, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid));
-	SendPokerMessage(playerid, "You have created table ID: %d | Small blind: %s | Big blind: %s | Buy In: %s | Seats: %d", table, cash_format(small_blind), cash_format(small_blind*2), cash_format(buy_in), seats);
+	SendPokerMessage(playerid, "你已创建表 ID:%d |小盲注:%s |大盲注:%s |买入:%s |座位:%d", table, cash_format(small_blind), cash_format(small_blind*2), cash_format(buy_in), seats);
 	return 1;
 }
 
@@ -2622,10 +2628,10 @@ CMD:dtable(playerid, params[])
 	}
 	if(!IsValidTable(ptable))
 	{
-		SendClientMessageFormatted(playerid, 0x3E969FFF, "Invalid pokertable ID");
+		SendClientMessageFormatted(playerid, 0x3E969FFF, "无效的扑克桌 ID");
 		return 1;
 	}
-	SendPokerMessage(playerid,  "You have deleted poker table ID: %d", ptable);
+	SendPokerMessage(playerid,  "你已删除扑克桌 ID:%d", ptable);
 	DestroyPokertable(ptable);
 	return 1;
 }
@@ -2637,21 +2643,21 @@ CMD:agame(playerid, params[])
 	if(sscanf(params, "d", ptable))
 	{
 		SendPokerMessage(playerid, "/agame [table ID]");
-		SendPokerMessage(playerid, "Will abort a game if started, ejecting all the players out of the table.");
+		SendPokerMessage(playerid, "如果游戏开始,将中止游戏,将所有玩家逐出牌桌.");
 		return 1;
 	}
 	if(!IsValidTable(ptable))
 	{
-		SendClientMessageFormatted(playerid, 0x3E969FFF, "Invalid pokertable ID");
+		SendClientMessageFormatted(playerid, 0x3E969FFF, "无效的扑克桌 ID");
 		return 1;
 	}
 	if(AbortGame(ptable))
 	{
-		SendPokerMessage(playerid, "You have successfully aborted the game on table ID: %d", ptable);
+		SendPokerMessage(playerid, "你已成功中止游戏桌 ID:%d", ptable);
 	}
 	else
 	{
-		SendPokerMessage(playerid, "No game has started in this table yet.");
+		SendPokerMessage(playerid, "此表中尚未开始任何游戏.");
 	}
 	return 1;
 }

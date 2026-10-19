@@ -37,21 +37,21 @@ enum E_SHOP_DATA
 new
 	g_shopItemData 					[ ] [ E_SHOP_DATA ] =
 	{
- 		{ SHOP_ITEM_DRAIN_CLEANER,	true , "Drain Cleaner", 	"Caustic Soda",				 	16,		190 },
- 		{ SHOP_ITEM_STONE_CLEANER,	true , "Stone Cleaner",		"Muriatic Acid", 			 	16,		275 },
- 		{ SHOP_ITEM_GAS_TANK,	 	true , "Gas Tank",			"Hydrogen Chloride", 		 	16,		330 },
- 		{ SHOP_ITEM_CHASITY_BELT,	false, "Chastity Belt", 	"Protection from aids", 	 	1,		550 },
- 		{ SHOP_ITEM_SECURE_WALLET,	false, "Secure Wallet", 	"Protection from robberies",  	1,		660 },
- 		{ SHOP_ITEM_WEED_SEED,	 	false, "Weed Seed",			"Grow weed", 		 			8,		750 },
- 		{ SHOP_ITEM_SCISSOR,	 	true , "Scissors", 			"Automatically cut ties", 		8,		1100 },
- 		{ SHOP_ITEM_ROPES,	 		true , "Rope", 				"/tie", 					 	8,		1500 },
- 		{ SHOP_ITEM_BOBBY_PIN,	 	true , "Bobby Pin", 		"Automatically break cuffs", 	16,		1950 }, // [1000] -makecopgreatagain
- 		{ SHOP_ITEM_FOIL,	 		true , "Aluminium Foil", 	"Automatically deflect EMP",	8,		3400 },
- 		{ SHOP_ITEM_MONEY_CASE,		false, "Money Case", 		"Increases robbing amount", 	1,		4500 }, // [1250]
- 		{ SHOP_ITEM_DRILL,	 		true , "Thermal Drill", 	"Halves safe cracking time",  	1,		5000 },
- 		{ SHOP_ITEM_METAL_MELTER,	true , "Metal Melter", 		"/breakout", 				 	4,		7500 },
- 		{ SHOP_ITEM_FIREWORKS,		true , "Firework", 			"/fireworks", 				 	0,		50000 },
-		{ SHOP_ITEM_BOOMBOX,		false, "Boombox",			"/boombox",						1,		15000 }
+        { SHOP_ITEM_DRAIN_CLEANER,	true , "排水沟清洁剂", 	"烧碱",				 	16,		190 },
+        { SHOP_ITEM_STONE_CLEANER,	true , "石材清洁剂",		"盐酸", 			 	16,		275 },
+        { SHOP_ITEM_GAS_TANK,	 	true , "储气罐",			"氯化氢", 		 	16,		330 },
+        { SHOP_ITEM_CHASITY_BELT,	false, "贞操带", 	"预防艾滋病", 	 	1,		550 },
+        { SHOP_ITEM_SECURE_WALLET,	false, "防盗钱包", 	"防止抢劫",  	1,		660 },
+        { SHOP_ITEM_WEED_SEED,	 	false, "大麻 种子",			"成长大麻", 		 			8,		750 },
+        { SHOP_ITEM_SCISSOR,	 	true , "剪刀", 			"自动切断领带", 		8,		1100 },
+        { SHOP_ITEM_ROPES,	 		true , "绳索", 				"/tie", 					 	8,		1500 },
+        { SHOP_ITEM_BOBBY_PIN,	 	true , "发夹", 		"自动挣脱手铐", 	16,		1950 }, // [1000] -makecopgreatagain
+        { SHOP_ITEM_FOIL,	 		true , "铝箔", 	"自动偏转电磁脉冲",	8,		3400 },
+        { SHOP_ITEM_MONEY_CASE,		false, "钱箱", 		"增加抢劫金额", 	1,		4500 }, // [1250]
+        { SHOP_ITEM_DRILL,	 		true , "热力钻机", 	"安全破解时间减半",  	1,		5000 },
+        { SHOP_ITEM_METAL_MELTER,	true , "熔锁剂", 		"/breakout", 				 	4,		7500 },
+        { SHOP_ITEM_FIREWORKS,		true , "焰火", 			"/fireworks", 				 	0,		50000 },
+		{ SHOP_ITEM_BOOMBOX,		false, "便携音响",			"/boombox",						1,		15000 }
 	},
 	g_playerShopItems 				[ MAX_PLAYERS ] [ E_SHOP_ITEMS ] // gradually move to this
 ;
@@ -69,35 +69,35 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 {
 	if ( dialogid == DIALOG_SHOP_MENU && response )
     {
-	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
+	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
 
         if ( g_shopItemData[ listitem ] [ E_LIMIT ] <= 1 )
         {
         	ShowPlayerShopMenu( playerid );
 
-        	if ( GetPlayerCash( playerid ) < g_shopItemData[ listitem ] [ E_PRICE ] ) return SendError( playerid, "You don't have enough money for this item." );
+            if ( GetPlayerCash( playerid ) < g_shopItemData[ listitem ] [ E_PRICE ] ) return SendError( playerid, "你没有足够的钱购买该物品." );
 
         	switch( g_shopItemData[ listitem ] [ E_ID ] )
         	{
         		case SHOP_ITEM_CHASITY_BELT:
         		{
-        			if ( p_AidsVaccine{ playerid } == true ) return SendError( playerid, "You have already purchased this item." );
+                    if ( p_AidsVaccine{ playerid } == true ) return SendError( playerid, "你已经购买了该物品." );
         			p_AidsVaccine{ playerid } = true;
         		}
         		case SHOP_ITEM_SECURE_WALLET:
         		{
-        			if ( p_SecureWallet{ playerid } == true ) return SendError( playerid, "You have already purchased this item." );
+                    if ( p_SecureWallet{ playerid } == true ) return SendError( playerid, "你已经购买了该物品." );
         			p_SecureWallet{ playerid } = true;
         		}
         		case SHOP_ITEM_MONEY_CASE:
         		{
-        			if ( p_MoneyBag{ playerid } == true ) return SendError( playerid, "You have already purchased this item." );
+                    if ( p_MoneyBag{ playerid } == true ) return SendError( playerid, "你已经购买了该物品." );
 					if ( p_Class[ playerid ] != CLASS_POLICE ) SetPlayerAttachedObject( playerid, 1, 1210, 7, 0.302650, -0.002469, -0.193321, 296.124053, 270.396881, 8.941717, 1.000000, 1.000000, 1.000000 );
         			p_MoneyBag{ playerid } = true;
         		}
         		case SHOP_ITEM_DRILL:
         		{
-        			if ( p_drillStrength[ playerid ] == MAX_DRILL_STRENGTH ) return SendError( playerid, "You have already purchased this item." );
+                    if ( p_drillStrength[ playerid ] == MAX_DRILL_STRENGTH ) return SendError( playerid, "你已经购买了该物品." );
         			p_drillStrength[ playerid ] = MAX_DRILL_STRENGTH;
         		}
         		case SHOP_ITEM_FIREWORKS:
@@ -106,24 +106,24 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
         		}
 				case SHOP_ITEM_BOOMBOX:
 				{
-					if ( GetPlayerBoombox( playerid ) ) return SendError( playerid, "You have already purchased this item." );
+					if ( GetPlayerBoombox( playerid ) ) return SendError( playerid, "你已经购买了该物品." );
 					SetPlayerBoombox( playerid, true );
 				}
         	}
 			GivePlayerCash( playerid, -( g_shopItemData[ listitem ] [ E_PRICE ] ) );
-			SendServerMessage( playerid, "You have bought a "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE".", g_shopItemData[ listitem ] [ E_NAME ], cash_format( g_shopItemData[ listitem ] [ E_PRICE ] ) );
+			SendServerMessage( playerid, "你已购买了 "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE".", g_shopItemData[ listitem ] [ E_NAME ], cash_format( g_shopItemData[ listitem ] [ E_PRICE ] ) );
         }
         else
        	{
        		SetPVarInt( playerid, "shop_item", listitem );
-       		ShowPlayerDialog( playerid, DIALOG_SHOP_AMOUNT, DIALOG_STYLE_LIST, "{FFFFFF}Shop Items - Buy Quantity", "Buy 1\nBuy 5\nBuy Max", "Select", "Back" );
+            ShowPlayerDialog( playerid, DIALOG_SHOP_AMOUNT, DIALOG_STYLE_LIST, "{FFFFFF}购买物品 - 购买数量", "购买 1\n购买 5\n购买最大", "选择", "返回" );
        	}
     }
     else if ( dialogid == DIALOG_SHOP_AMOUNT )
     {
     	if ( response )
     	{
-	    	if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
+            if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
 
     		new
     			iAmount = 1,
@@ -145,20 +145,20 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
     		{
     			// Specified more than he can carry!
     			if ( ( iAmount = iLimit - iCurrentQuantity ) != 0 )
-    				SendServerMessage( playerid, "You've breached the quantity limit therefore we have set it to %d.", iAmount );
+                    SendServerMessage( playerid, "你超出了数量限制,因此我们将其设置为 %d.", iAmount );
     		}
 
-    		if ( GetPlayerCash( playerid ) < ( g_shopItemData[ i ] [ E_PRICE ] * iAmount ) ) SendError( playerid, "You cannot afford the price of the item(s)." );
-    		else if ( iAmount <= 0 ) SendError( playerid, "You cannot buy anymore of this item." );
+            if ( GetPlayerCash( playerid ) < ( g_shopItemData[ i ] [ E_PRICE ] * iAmount ) ) SendError( playerid, "你无法承担该物品的价格." );
+            else if ( iAmount <= 0 ) SendError( playerid, "你不能再购买该物品了." );
     		else {
     			new total_cost = g_shopItemData[ i ] [ E_PRICE ] * iAmount;
     			SetPlayerShopItemAmount( playerid, i, iCurrentQuantity + iAmount );
     			GivePlayerCash( playerid, -total_cost );
 				StockMarket_UpdateEarnings( E_STOCK_SUPA_SAVE, total_cost, 0.25 );
-				SendServerMessage( playerid, "You have bought %dx "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE".", iAmount, g_shopItemData[ i ] [ E_NAME ], cash_format( total_cost ) );
+				SendServerMessage( playerid, "你已经买了 %dx "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE".", iAmount, g_shopItemData[ i ] [ E_NAME ], cash_format( total_cost ) );
     		}
 
-    		ShowPlayerDialog( playerid, DIALOG_SHOP_AMOUNT, DIALOG_STYLE_LIST, "{FFFFFF}Shop Items - Buy Quantity", "Buy 1\nBuy 5\nBuy Max", "Select", "Back" );
+            ShowPlayerDialog( playerid, DIALOG_SHOP_AMOUNT, DIALOG_STYLE_LIST, "{FFFFFF}购买物品 - 购买数量", "购买 1\n购买 5\n购买最大", "选择", "返回" );
     	}
     	else ShowPlayerShopMenu( playerid );
     }
@@ -172,12 +172,12 @@ stock ShowPlayerShopMenu( playerid )
 
 	if ( szString[ 0 ] == '\0' )
 	{
-		strcat( szString, " \t"COL_GREY"Grey options do not save!\t \n" );
+		strcat( szString, " \t"COL_GREY"灰色选项不保存!\t \n" );
 		for( new i; i < sizeof( g_shopItemData ); i++ ) {
 	 		format( szString, sizeof( szString ), "%s%s%s\t"COL_ORANGE"%s\t"COL_GOLD"%s\n", szString, g_shopItemData[ i ] [ E_SAVABLE ] ? ( COL_WHITE ) : ( COL_GREY ), g_shopItemData[ i ] [ E_NAME ], g_shopItemData[ i ] [ E_USAGE ], cash_format( g_shopItemData[ i ] [ E_PRICE ] ) );
 		}
 	}
-	return ShowPlayerDialog( playerid, DIALOG_SHOP_MENU, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}Shop Items", szString, "Select", "Cancel" );
+	return ShowPlayerDialog( playerid, DIALOG_SHOP_MENU, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}购买物品", szString, "选择", "取消" );
 }
 
 stock GetShopItemAmount( playerid, id )

@@ -89,17 +89,17 @@ hook OnScriptInit( )
 	AddServerVariable( "stock_trading_fees", "0.0", GLOBAL_VARTYPE_FLOAT );
 
 	// 					ID 							NAME 						SYMBOL 	MAX SHARES 	IPO_PRICE 	MAX_PRICE 	POOL_FACTOR 	PRICE_FACTOR 	DESCRIPTION
-	CreateStockMarket( E_STOCK_MINING_COMPANY,		"The Mining Company", 		"MC", 	100000.0, 	25.0, 		500.0, 		100000.0,		10.0,			"Exporting mined ores" );
-	CreateStockMarket( E_STOCK_AMMUNATION, 			"Ammu-Nation", 				"A", 	100000.0, 	25.0, 		500.0, 		100000.0,		10.0,			"Purchases at Ammu-Nation/Weapon Dealers/Facilities" );
-	CreateStockMarket( E_STOCK_VEHICLE_DEALERSHIP, 	"Vehicle Dealership", 		"VD", 	100000.0, 	25.0,		1000.0,		100000.0,		20.0,			"Car jacker exports, vehicle and component sales" );
-	CreateStockMarket( E_STOCK_SUPA_SAVE, 			"Supa-Save", 				"SS", 	100000.0, 	25.0, 		500.0, 		100000.0,		10.0,			"Purchases at Supa-Save and 24/7" );
-	CreateStockMarket( E_STOCK_TRUCKING_COMPANY, 	"The Trucking Company", 	"TC", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"Completed trucking missions" );
-	CreateStockMarket( E_STOCK_CLUCKIN_BELL,		"Cluckin' Bell", 			"CB", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"Exporting meth bags" );
-	CreateStockMarket( E_STOCK_PAWN_STORE, 			"Pawn Store", 				"PS", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"Exported stolen furniture and toy sales" );
-	CreateStockMarket( E_STOCK_CASINO, 				"Casino", 					"CAS", 	100000.0, 	990.0, 		7500.0,		100000.0,		150.0,			"Money lost by players gambling" );
-	CreateStockMarket( E_STOCK_GOVERNMENT, 			"Government", 				"GOV", 	100000.0, 	750.0, 		7500.0,		100000.0,		150.0,			"Fireman and LEO activities" );
-	CreateStockMarket( E_STOCK_AVIATION, 			"Elitas Travel",			"ET", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"Completed pilot missions and intercity travel" );
-	CreateStockMarket( E_STOCK_BATTLE_ROYAL_CENTER, "Battle Royale Stadium",	"BRS", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"Battle Royale minigame fees" );
+	CreateStockMarket( E_STOCK_MINING_COMPANY,		"矿业公司", 		"MC", 	100000.0, 	25.0, 		500.0, 		100000.0,		10.0,			"出口开采的矿石" );
+	CreateStockMarket( E_STOCK_AMMUNATION, 			"Ammu-Nation", 				"A", 	100000.0, 	25.0, 		500.0, 		100000.0,		10.0,			"武器店, 武器商和设施中的消费" );
+	CreateStockMarket( E_STOCK_VEHICLE_DEALERSHIP, 	"汽车经销商", 		"VD", 	100000.0, 	25.0,		1000.0,		100000.0,		20.0,			"汽车劫持者出口,车辆和零部件销售" );
+	CreateStockMarket( E_STOCK_SUPA_SAVE, 			"Supa-Save", 				"SS", 	100000.0, 	25.0, 		500.0, 		100000.0,		10.0,			"在 Supa-Save 和24/7 购买" );
+	CreateStockMarket( E_STOCK_TRUCKING_COMPANY, 	"货运公司", 	"TC", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"完成货运任务" );
+	CreateStockMarket( E_STOCK_CLUCKIN_BELL,		"Cluckin' Bell", 			"CB", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"出口 冰毒 袋" );
+	CreateStockMarket( E_STOCK_PAWN_STORE, 			"当铺", 				"PS", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"出口偷来的家具和玩具销售" );
+	CreateStockMarket( E_STOCK_CASINO, 				"赌场", 					"CAS", 	100000.0, 	990.0, 		7500.0,		100000.0,		150.0,			"玩家赌博输掉的钱" );
+	CreateStockMarket( E_STOCK_GOVERNMENT, 			"政府", 				"GOV", 	100000.0, 	750.0, 		7500.0,		100000.0,		150.0,			"消防员及执法人员的活动" );
+	CreateStockMarket( E_STOCK_AVIATION, 			"埃利塔斯旅游",			"ET", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"完成飞行任务和城际旅行" );
+	CreateStockMarket( E_STOCK_BATTLE_ROYAL_CENTER, "大逃杀竞技场",	"BRS", 	100000.0, 	50.0, 		500.0, 		100000.0,		20.0,			"大逃杀 小游戏费用" );
 
 	// force inactive share holders to sell their shares on startup
 	mysql_tquery( dbHandle, sprintf( "SELECT so.* FROM `STOCK_OWNERS` so JOIN `USERS` u ON so.`USER_ID`=u.`ID` WHERE UNIX_TIMESTAMP()-u.`LASTLOGGED` > 604800 AND so.`USER_ID` != %d", STOCK_MM_USER_ID ), "StockMarket_ForceShareSale", "" );
@@ -169,7 +169,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			stockid = GetPVarInt( playerid, "stockmarket_selection" );
 
 		if ( ! Iter_Contains( stockmarkets, stockid ) ) {
-			return SendError( playerid, "There was an error with the stock you were seeing, please try again." );
+			return SendError( playerid, "你看到的库存有错误,请重试." );
 		}
 		return ShowPlayerStockMarketOptions( playerid, stockid );
 	}
@@ -183,7 +183,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			stockid = GetPVarInt( playerid, "stockmarket_selection" );
 
 		if ( ! Iter_Contains( stockmarkets, stockid ) ) {
-			return SendError( playerid, "There was an error with the stock you were seeing, please try again." );
+			return SendError( playerid, "你看到的库存有错误,请重试." );
 		}
 
 		switch ( listitem )
@@ -198,7 +198,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				format(
 					szLargeString, sizeof ( szLargeString ),
-					""COL_GREY"Stock Name\t%s\n"COL_GREY"Stock Symbol\t%s\n"COL_GREY"Current Price\t%s\n"COL_GREY"Max Shares\t%s\n"COL_GREY"Market Capitalization\t%sM\n"COL_GREY"Earnings (24H)\t%s\n"COL_GREY"Donations (24H)\t%s\n"COL_GREY"Affected By\t%s",
+					""COL_GREY"股票名称\t%s\n"COL_GREY"股票代码\t%s\n"COL_GREY"当前价格\t%s\n"COL_GREY"最大股数\t%s\n"COL_GREY"市值\t%sM\n"COL_GREY"收入 (24H)\t%s\n"COL_GREY"捐款 (24H)\t%s\n"COL_GREY"受\t%s影响",
 					g_stockMarketData[ stockid ] [ E_NAME ], g_stockMarketData[ stockid ] [ E_SYMBOL ],
 					cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ),
 					number_format( g_stockMarketData[ stockid ] [ E_MAX_SHARES ], .decimals = 0 ),
@@ -207,7 +207,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					cash_format( g_stockMarketReportData[ stockid ] [ 0 ] [ E_DONATIONS ], .decimals = 0 ),
 					g_stockMarketData[ stockid ] [ E_DESCRIPTION ]
 				);
-				ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_INFO, DIALOG_STYLE_TABLIST, ""COL_WHITE"Stock Market", szLargeString, "Close", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_INFO, DIALOG_STYLE_TABLIST, ""COL_WHITE"股市", szLargeString, "关闭", "返回" );
 			}
 		}
 		return 1;
@@ -218,7 +218,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			stockid = GetPVarInt( playerid, "stockmarket_selection" );
 
 		if ( ! Iter_Contains( stockmarkets, stockid ) ) {
-			return SendError( playerid, "There was an error with the stock you were seeing, please try again." );
+			return SendError( playerid, "你看到的库存有错误,请重试." );
 		}
 
 		if ( ! response ) {
@@ -228,9 +228,9 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new
 			donation_amount;
 
-		if ( sscanf( inputtext, "d", donation_amount ) ) SendError( playerid, "You have not specified a valid donation amount." );
-		else if ( ! ( 100 <= donation_amount <= 10000000 ) ) SendError( playerid, "Please specify an amount between $100 and $10,000,000 to donate." );
-		else if ( donation_amount > GetPlayerCash( playerid ) ) SendError( playerid, "You do not have this much money on you." );
+		if ( sscanf( inputtext, "d", donation_amount ) ) SendError( playerid, "你尚未指定有效的捐赠金额." );
+		else if ( ! ( 100 <= donation_amount <= 10000000 ) ) SendError( playerid, "请指定捐赠金额在 $100 和 $10,000,000 之间." );
+		else if ( donation_amount > GetPlayerCash( playerid ) ) SendError( playerid, "你身上没有这么多钱." );
 		else
 		{
 			new
@@ -241,7 +241,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 			// reduce player balance and alert
 			GivePlayerCash( playerid, -donation_amount );
-			SendServerMessage( playerid, "The shareholders of "COL_GREY"%s"COL_WHITE" appreciate your donation of "COL_GOLD"%s"COL_WHITE"!", g_stockMarketData[ stockid ] [ E_NAME ], cash_format( donation_amount ) );
+			SendServerMessage( playerid, "股东 "COL_GREY"%s"COL_WHITE" 感谢你的捐赠 "COL_GOLD"%s"COL_WHITE"!", g_stockMarketData[ stockid ] [ E_NAME ], cash_format( donation_amount ) );
 			return 1;
 		}
 		return StockMarket_ShowDonationSlip( playerid, stockid );
@@ -273,7 +273,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			stockid = GetPVarInt( playerid, "stockmarket_selling_stock" );
 
 		if ( ! Iter_Contains( stockmarkets, stockid ) ) {
-			return SendError( playerid, "There was an error processing your sell order, please try again." );
+			return SendError( playerid, "处理你的卖单时出错,请重试." );
 		}
 
 		switch ( listitem )
@@ -289,7 +289,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			stockid = GetPVarInt( playerid, "stockmarket_selling_stock" );
 
 		if ( ! Iter_Contains( stockmarkets, stockid ) ) {
-			return SendError( playerid, "There was an error processing your sell order, please try again." );
+			return SendError( playerid, "处理你的卖单时出错,请重试." );
 		}
 
 		if ( ! response ) {
@@ -299,9 +299,9 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new
 			input_shares;
 
-		if ( sscanf( inputtext, "d", input_shares ) ) SendError( playerid, "You must use a valid value." );
-		else if ( input_shares > floatround( p_PlayerShares[ playerid ] [ stockid ], floatround_floor ) ) SendError( playerid, "You do not have this many shares available to sell." );
-		else if ( input_shares < 1 ) SendError( playerid, "The minimum number of shares you can sell is 1." );
+		if ( sscanf( inputtext, "d", input_shares ) ) SendError( playerid, "你必须使用有效值." );
+		else if ( input_shares > floatround( p_PlayerShares[ playerid ] [ stockid ], floatround_floor ) ) SendError( playerid, "你没有这么多可供出售的股票." );
+		else if ( input_shares < 1 ) SendError( playerid, "你可以出售的最小股票数量是 1." );
 		else
 		{
 			new
@@ -313,7 +313,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				StockMarket_GiveShares( stockid, GetPlayerAccountID( playerid ), -shares );
 			}
 			StockMarket_UpdateSellOrder( stockid, GetPlayerAccountID( playerid ), shares );
-			SendServerMessage( playerid, "You have placed a sell order for %s shares at %s each. "COL_ORANGE"Use /shares to cancel sell orders", number_format( shares, .decimals = 2 ), cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ) );
+			SendServerMessage( playerid, "你已下达卖单%s股份位于%s各. "COL_ORANGE"使用 /shares 取消卖单", number_format( shares, .decimals = 2 ), cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ) );
 			return 1;
 		}
 		return StockMarket_ShowSellSlip( playerid, stockid );
@@ -328,8 +328,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			new
 				shares;
 
-			if ( sscanf( inputtext, "d", shares ) ) SendError( playerid, "You must use a valid value." );
-			else if ( shares < 1 ) SendError( playerid, "The minimum number of shares you can buy is 1." );
+			if ( sscanf( inputtext, "d", shares ) ) SendError( playerid, "你必须使用有效值." );
+			else if ( shares < 1 ) SendError( playerid, "你可以购买的最小股票数量是 1." );
 			else
 			{
 				mysql_tquery( dbHandle, sprintf( "SELECT * FROM `STOCK_SELL_ORDERS` WHERE `STOCK_ID`=%d ORDER BY `LIST_DATE` ASC", stockid ), "StockMarket_OnPurchaseOrder", "ddf", playerid, stockid, float( shares ) );
@@ -509,7 +509,7 @@ thread StockMarket_PanicSell( stockid )
 		StockMarket_UpdateSellOrder( stockid, STOCK_MM_USER_ID, floatround( global_shares_forfeited ) );
 
 		// inform everyone of the sale
-		SendClientMessageToAllFormatted( -1, ""COL_GREY"[STOCKS]"COL_WHITE" %s has penalized its shareholders and has %d shares available for sale.", g_stockMarketData[ stockid ] [ E_NAME ], floatround( global_shares_forfeited ) );
+		SendClientMessageToAllFormatted( -1, ""COL_GREY"[股票]"COL_WHITE" %s 对其股东进行了处罚,并有 %d 股可供出售.", g_stockMarketData[ stockid ] [ E_NAME ], floatround( global_shares_forfeited ) );
 		printf( "[STOCK MAJOR BANKRUPTCY] %s(%d) has went partly bankrupt.", g_stockMarketData[ stockid ] [ E_NAME ], stockid );
 	}
 	return 1;
@@ -521,7 +521,7 @@ thread StockMarket_OnPurchaseOrder( playerid, stockid, Float: shares )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "This stock has no available shares for sale." );
+		return SendError( playerid, "该股票没有可供出售的股份." );
 	}
 
 	// check if quantity is valid
@@ -533,7 +533,7 @@ thread StockMarket_OnPurchaseOrder( playerid, stockid, Float: shares )
 	}
 
 	if ( shares > available_quantity ) {
-		return SendError( playerid, "There are not that many shares available for sale." ), StockMarket_ShowBuySlip( playerid, stockid ), 1;
+		return SendError( playerid, "可供出售的股票并不多." ), StockMarket_ShowBuySlip( playerid, stockid ), 1;
 	}
 
 	// check if the player has the money for the purchase
@@ -547,7 +547,7 @@ thread StockMarket_OnPurchaseOrder( playerid, stockid, Float: shares )
 	new purchase_cost_plus_fee = purchase_cost + floatround( purchase_fee );
 
 	if ( GetPlayerCash( playerid ) < purchase_cost_plus_fee ) {
-		return SendError( playerid, "You need at least %s to purchase this many shares.", cash_format( purchase_cost_plus_fee ) ), StockMarket_ShowBuySlip( playerid, stockid ), 1;
+		return SendError( playerid, "你至少需要 %s 才能购买这么多股票.", cash_format( purchase_cost_plus_fee ) ), StockMarket_ShowBuySlip( playerid, stockid ), 1;
 	}
 
 	new
@@ -578,7 +578,7 @@ thread StockMarket_OnPurchaseOrder( playerid, stockid, Float: shares )
 
 		if ( 0 <= sellerid < MAX_PLAYERS && Iter_Contains( Player, sellerid ) && IsPlayerLoggedIn( sellerid ) ) {
 			GivePlayerBankMoney( sellerid, sold_amount_minus_fee ), Beep( sellerid );
-			SendServerMessage( sellerid, "You have sold %s %s shares to %s(%d) for "COL_GOLD"%s"COL_WHITE" (plus %0.1f%s fee)!", number_format( sold_shares, .decimals = 0 ), g_stockMarketData[ stockid ] [ E_NAME ], ReturnPlayerName( playerid ), playerid, cash_format( sold_amount_minus_fee ), STOCK_MARKET_TRADING_FEE * 100.0, "%%" );
+			SendServerMessage( sellerid, "售出 %s 股 %s 给 %s(%d), 收入"COL_GOLD"%s"COL_WHITE" (手续费 %0.1f%s)!", number_format( sold_shares, .decimals = 0 ), g_stockMarketData[ stockid ] [ E_NAME ], ReturnPlayerName( playerid ), playerid, cash_format( sold_amount_minus_fee ), STOCK_MARKET_TRADING_FEE * 100.0, "%%" );
 		} else {
 			mysql_single_query( sprintf( "UPDATE `USERS` SET `BANKMONEY` = `BANKMONEY` + %d WHERE `ID` = %d", sold_amount_minus_fee, sell_order_user_id ) );
 		}
@@ -610,7 +610,7 @@ thread StockMarket_OnPurchaseOrder( playerid, stockid, Float: shares )
 
 	// reduce player balance and alert
 	GivePlayerCash( playerid, -purchase_cost_plus_fee );
-	SendServerMessage( playerid, "You have purchased %s shares of %s (@ %s/ea) for %s. (inc. %0.1f%s fee)", number_format( shares, .decimals = 0 ), g_stockMarketData[ stockid ] [ E_NAME ], cash_format( ask_price, .decimals = 2 ), cash_format( purchase_cost_plus_fee ), STOCK_MARKET_TRADING_FEE * 100.0, "%%" );
+	SendServerMessage( playerid, "购入 %s 股 %s, 单价 %s, 实付 %s (含 %0.1f%s 手续费).", number_format( shares, .decimals = 0 ), g_stockMarketData[ stockid ] [ E_NAME ], cash_format( ask_price, .decimals = 2 ), cash_format( purchase_cost_plus_fee ), STOCK_MARKET_TRADING_FEE * 100.0, "%%" );
 	return 1;
 }
 
@@ -620,7 +620,7 @@ thread StockMarket_OnShowBuySlip( playerid, stockid )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "This stock does not currently have any shares available to buy." );
+		return SendError( playerid, "该股票当前没有任何可供购买的股票." );
 	}
 
 	new
@@ -628,12 +628,12 @@ thread StockMarket_OnShowBuySlip( playerid, stockid )
 
 	format(
 		szBigString, sizeof ( szBigString ),
-		""COL_WHITE"You can buy shares of %s for "COL_GREEN"%s"COL_WHITE" each.\n\nThere are %s available shares to buy.",
+		""COL_WHITE"你可以购买 %s 的股票,价格为 "COL_GREEN"%s"COL_WHITE" 每个.\n\n有 %s 股可供购买.",
 		g_stockMarketData[ stockid ] [ E_NAME ],
 		cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ),
 		number_format( available_quantity, .decimals = 0 )
 	);
-	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_BUY, DIALOG_STYLE_INPUT, ""COL_WHITE"Stock Market", szBigString, "Buy", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_BUY, DIALOG_STYLE_INPUT, ""COL_WHITE"股市", szBigString, "买", "返回" );
 	return 1;
 }
 
@@ -643,10 +643,10 @@ thread StockMarket_OnShowShares( playerid )
 		rows = cache_get_row_count( );
 
 	if ( ! rows ) {
-		return SendError( playerid, "You are not holding any shares of any company." );
+		return SendError( playerid, "你没有持有任何公司的任何股份." );
 	}
 
-	szLargeString = ""COL_WHITE"Stock\t"COL_WHITE"Active Shares\t"COL_WHITE"Shares Being Sold\t"COL_GREEN"Value ($)\n";
+	szLargeString = ""COL_WHITE"股票\t"COL_WHITE"活跃股\t"COL_WHITE"股票正在出售\t"COL_GREEN"价值($)\n";
 
 	for ( new row = 0; row < rows; row ++ )
 	{
@@ -680,7 +680,7 @@ thread StockMarket_OnShowShares( playerid )
 			p_PlayerHasShare[ playerid ] { stockid } = false;
 		}
 	}
-	return ShowPlayerDialog( playerid, DIALOG_PLAYER_STOCKS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Stock Market", szLargeString, "Select", "Close" ), 1;
+	return ShowPlayerDialog( playerid, DIALOG_PLAYER_STOCKS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"股市", szLargeString, "选择", "关闭" ), 1;
 }
 
 thread Stock_OnDividendPayout( stockid, bool: is_ipo )
@@ -711,7 +711,7 @@ thread Stock_OnDividendPayout( stockid, bool: is_ipo )
 
 			if ( 0 <= shareholder < MAX_PLAYERS && Iter_Contains( Player, shareholder ) ) {
 				GivePlayerBankMoney( shareholder, dividend_payout ), Beep( shareholder );
-				SendServerMessage( shareholder, "You have been paid a "COL_GOLD"%s"COL_WHITE" dividend (%0.2f%s) for owning %s!", cash_format( dividend_payout ), dividend_rate * 100.0, "%%", g_stockMarketData[ stockid ] [ E_NAME ] );
+				SendServerMessage( shareholder, "你已获得报酬 "COL_GOLD"%s"COL_WHITE" 股息 (%0.2f%s) 拥有%s!", cash_format( dividend_payout ), dividend_rate * 100.0, "%%", g_stockMarketData[ stockid ] [ E_NAME ] );
 			} else {
 				mysql_single_query( sprintf( "UPDATE `USERS` SET `BANKMONEY` = `BANKMONEY` + %d WHERE `ID` = %d", dividend_payout, account_id ) );
 			}
@@ -768,13 +768,13 @@ thread StockMarket_OnCancelOrder( playerid )
 			mysql_single_query( sprintf( "DELETE FROM `STOCK_SELL_ORDERS` WHERE `STOCK_ID`=%d AND `USER_ID`=%d", stockid, player_account ) );
 			StockMarket_GiveShares( stockid, player_account, shares );
 
-			SendServerMessage( playerid, "You have cancelled your order of to sell %s shares of %s.", number_format( shares, .decimals = 0 ), g_stockMarketData[ stockid ] [ E_NAME ] );
+			SendServerMessage( playerid, "你已取消出售 %s 股 %s 股的订单.", number_format( shares, .decimals = 0 ), g_stockMarketData[ stockid ] [ E_NAME ] );
 		}
 		return 1;
 	}
 	else
 	{
-		return ShowPlayerShares( playerid ), SendError( playerid, "You don't have any sell orders for this stock to cancel." ), 1;
+		return ShowPlayerShares( playerid ), SendError( playerid, "你没有任何可以取消的该股票的卖单." ), 1;
 	}
 }
 
@@ -783,7 +783,7 @@ thread StockMarket_ShowShareholders( playerid, stockid )
 	new rows = cache_get_row_count( );
 
 	// format dialog title
-	szHugeString = ""COL_WHITE"User\t"COL_WHITE"Shares\t"COL_WHITE"Percentage (%)\n";
+	szHugeString = ""COL_WHITE"用户\t"COL_WHITE"股份\t"COL_WHITE"百分比 (%)\n";
 
 	// track the shares that are held by players
 	new Float: out_standing_shares = g_stockMarketData[ stockid ] [ E_MAX_SHARES ];
@@ -808,11 +808,11 @@ thread StockMarket_ShowShareholders( playerid, stockid )
 
 	// tell players the shares tied up in sell orders
 	if ( out_standing_shares > 0.0 ) {
-		format( szHugeString, sizeof ( szHugeString ), "%s{666666}Held In Sell Orders\t{666666}%s\t{666666}%s%%\n", szHugeString, number_format( out_standing_shares, .decimals = 0 ), number_format( out_standing_shares / g_stockMarketData[ stockid ] [ E_MAX_SHARES ] * 100.0, .decimals = 3 ) );
+		format( szHugeString, sizeof ( szHugeString ), "%s{666666}持有卖出订单\t{666666}%s\t{666666}%s%%\n", szHugeString, number_format( out_standing_shares, .decimals = 0 ), number_format( out_standing_shares / g_stockMarketData[ stockid ] [ E_MAX_SHARES ] * 100.0, .decimals = 3 ) );
 	}
 
 	// format dialog
-	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_HOLDERS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Stock Market - Shareholders", szHugeString, "Close", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_HOLDERS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"股票市场 - 股东", szHugeString, "关闭", "返回" );
 	return 1;
 }
 
@@ -841,14 +841,14 @@ thread StockMarket_ForceShareSale( )
 CMD:stocks( playerid, params[ ] ) return cmd_stockmarkets( playerid, params );
 CMD:stockmarkets( playerid, params[ ] )
 {
-	SendServerMessage( playerid, "The stock market will payout dividends in %s.", secondstotime( GetServerVariableInt( "stock_report_time" ) - GetServerTime( ) ) );
+	SendServerMessage( playerid, "股票市场将在 %s 支付股息.", secondstotime( GetServerVariableInt( "stock_report_time" ) - GetServerTime( ) ) );
 	return ShowPlayerStockMarket( playerid );
 }
 
 CMD:shares( playerid, params[ ] )
 {
 	if ( p_accountSecurityData[ playerid ] [ E_ID ] && ! p_accountSecurityData[ playerid ] [ E_VERIFIED ] && p_accountSecurityData[ playerid ] [ E_MODE ] != SECURITY_MODE_DISABLED )
-		return SendError( playerid, "You must be verified in order to use this feature. "COL_YELLOW"(use /verify)" );
+		return SendError( playerid, "使用此功能需要先验证账号. "COL_YELLOW"(输入 /verify)" );
 		else
 	{
 	return ShowPlayerShares( playerid );
@@ -865,14 +865,14 @@ CMD:astock( playerid, params[ ] )
 		foreach ( new s : stockmarkets ) {
 			UpdateStockMaxShares( s );
 		}
-		return SendServerMessage( playerid, "Max shares has been updated for all stocks." );
+		return SendServerMessage( playerid, "所有股票的最大股数已更新." );
 	}
 	else if ( strmatch( params, "new report" ) ) {
 		foreach ( new s : stockmarkets ) {
 			StockMarket_ReleaseDividends( s );
 		}
 		UpdateServerVariableInt( "stock_report_time", GetServerTime( ) + STOCK_REPORTING_PERIOD );
-		return SendServerMessage( playerid, "All stocks have now had their dividends distributed." );
+		return SendServerMessage( playerid, "目前所有股票均已派发股息." );
 	}
 	return SendUsage( playerid, "/astock [UPDATE MAXSHARES/NEW REPORT]" );
 }
@@ -979,12 +979,12 @@ static stock StockMarket_ShowSellSlip( playerid, stockid )
 {
 	format(
 		szLargeString, sizeof ( szLargeString ),
-		""COL_WHITE"You can sell shares of %s for "COL_GREEN"%s"COL_WHITE" each.\n\nThough, you will have to wait until a person buys them.\n\nYou have %s available shares to sell.",
+		""COL_WHITE"你可以以以下价格出售 %s 的股票 "COL_GREEN"%s"COL_WHITE" 每个.\n\n不过,你必须等到有人购买它们.\n\n你有 %s 股可供出售.",
 		g_stockMarketData[ stockid ] [ E_NAME ],
 		cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ),
 		number_format( p_PlayerShares[ playerid ] [ stockid ], .decimals = 0 )
 	);
-	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_SELL, DIALOG_STYLE_INPUT, ""COL_WHITE"Stock Market", szLargeString, "Sell", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_SELL, DIALOG_STYLE_INPUT, ""COL_WHITE"股市", szLargeString, "出售", "返回" );
 	return 1;
 }
 
@@ -992,16 +992,16 @@ static stock StockMarket_ShowDonationSlip( playerid, stockid )
 {
 	format(
 		szLargeString, sizeof ( szLargeString ),
-		""COL_WHITE"Donations can be used to prop up %s's stock price.\n\n50%% of the money donated is distributed as dividends.\n\n"COL_ORANGE"You do not get any shares for donating to a company!",
+		""COL_WHITE"捐款可用于支撑 %s 的股价.\n\n50%% 的捐款将作为股息分配.\n\n"COL_ORANGE"你不会因为捐赠给公司而获得任何股份!",
 		g_stockMarketData[ stockid ] [ E_NAME ]
 	);
-	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_DONATE, DIALOG_STYLE_INPUT, ""COL_WHITE"Stock Market", szLargeString, "Donate", "Back" );
+	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_DONATE, DIALOG_STYLE_INPUT, ""COL_WHITE"股市", szLargeString, "捐", "返回" );
 	return 1;
 }
 
 static stock ShowPlayerStockMarket( playerid )
 {
-	szLargeString = ""COL_WHITE"Stock\t"COL_WHITE"Available Shares\t"COL_WHITE"Dividend Per Share ($)\t"COL_WHITE"Price ($)\n";
+	szLargeString = ""COL_WHITE"股票\t"COL_WHITE"可用股份\t"COL_WHITE"每股股息 ($)\t"COL_WHITE"价格($)\n";
 
 	foreach ( new s : stockmarkets )
 	{
@@ -1021,20 +1021,20 @@ static stock ShowPlayerStockMarket( playerid )
 			number_format( price_change, .decimals = 2, .prefix = ( price_change >= 0.0 ? '+' : '\0' ) )
 		);
 	}
-	return ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"Stock Market", szLargeString, "Select", "Close" );
+	return ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET, DIALOG_STYLE_TABLIST_HEADERS, ""COL_WHITE"股市", szLargeString, "选择", "关闭" );
 }
 
 static stock ShowPlayerStockMarketOptions( playerid, stockid )
 {
-	format( szBigString, sizeof( szBigString ), "Buy shares\t"COL_GREEN"%s\nDonate to company\t>>>\nView shareholders\t"COL_GREY">>>\nView stock information\t"COL_GREY">>>", cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ) );
-	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_OPTIONS, DIALOG_STYLE_TABLIST, sprintf( ""COL_WHITE"Stock Market - %s", g_stockMarketData[ stockid ] [ E_NAME ] ), szBigString, "Select", "Back" );
+	format( szBigString, sizeof( szBigString ), "购买股票\t"COL_GREEN"%s\n向公司捐赠\t>>>\n查看股东\t"COL_GREY">>>\n查看股票信息\t"COL_GREY">>>", cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ) );
+	ShowPlayerDialog( playerid, DIALOG_STOCK_MARKET_OPTIONS, DIALOG_STYLE_TABLIST, sprintf( ""COL_WHITE"股票市场 - %s", g_stockMarketData[ stockid ] [ E_NAME ] ), szBigString, "选择", "返回" );
 	return 1;
 }
 
 static stock ShowPlayerShareOptions( playerid, stockid )
 {
-	format( szBigString, sizeof( szBigString ), "Sell shares\t"COL_GREEN"%s\n"COL_RED"Cancel Sell Orders\t"COL_RED">>>", cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ) );
-	ShowPlayerDialog( playerid, DIALOG_STOCK_POPTIONS, DIALOG_STYLE_TABLIST, sprintf( ""COL_WHITE"Stock Market - %s", g_stockMarketData[ stockid ] [ E_NAME ] ), szBigString, "Select", "Back" );
+	format( szBigString, sizeof( szBigString ), "出售股票\t"COL_GREEN"%s\n"COL_RED"取消卖单\t"COL_RED">>>", cash_format( g_stockMarketReportData[ stockid ] [ 1 ] [ E_PRICE ], .decimals = 2 ) );
+	ShowPlayerDialog( playerid, DIALOG_STOCK_POPTIONS, DIALOG_STYLE_TABLIST, sprintf( ""COL_WHITE"股票市场 - %s", g_stockMarketData[ stockid ] [ E_NAME ] ), szBigString, "选择", "返回" );
 	return 1;
 }
 

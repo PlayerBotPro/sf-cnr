@@ -67,7 +67,7 @@ hook OnServerGameDayEnd( )
 
 				hits_placed_amount += contract_amount;
 				p_ContractedAmount[ playerid ] += contract_amount;
-				ShowPlayerHelpDialog( playerid, 4000, "Somebody has placed a hit on you!~n~~n~~r~Your bounty is now %s!", cash_format( p_ContractedAmount[ playerid ] ) );
+				ShowPlayerHelpDialog( playerid, 4000, "有人攻击了你!~n~~n~~r~你的赏金现在是%s!", cash_format( p_ContractedAmount[ playerid ] ) );
 			}
 		}
 

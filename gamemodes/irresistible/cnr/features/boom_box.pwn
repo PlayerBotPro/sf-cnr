@@ -59,7 +59,7 @@ hook OnPlayerEnterDynArea( playerid, areaid )
 			{
 				// start the music
 				PlayAudioStreamForPlayer( playerid, g_boomboxData[ i ] [ E_URL ], g_boomboxData[ i ] [ E_X ], g_boomboxData[ i ] [ E_Y ], g_boomboxData[ i ] [ E_Z ], DEFAULT_BOOMBOX_RANGE, 1 );
-				SendServerMessage( playerid, "You are now listening to a nearby boombox!" );
+				SendServerMessage( playerid, "你开始收听附近的音响!" );
 				return 1;
 			}
 		}
@@ -77,7 +77,7 @@ hook OnPlayerLeaveDynArea( playerid, areaid )
 			{
 				// stop the music
 				StopAudioStreamForPlayer( playerid );
-				SendServerMessage( playerid, "You stopped listening to a nearby boombox!" );
+				SendServerMessage( playerid, "你停止收听附近的音响!" );
 				return 1;
 			}
 		}
@@ -89,10 +89,10 @@ hook OnPlayerLeaveDynArea( playerid, areaid )
 CMD:boombox( playerid, params[ ] )
 {
 	if ( ! GetPlayerBoombox( playerid ) )
-		return SendError( playerid, "You can buy Boombox at Supa Save or a 24/7 store." );
+		return SendError( playerid, "可在 Supa Save 或 24/7 商店购买便携音响." );
 
 	if ( IsPlayerInAnyVehicle(playerid) )
-		return SendError( playerid, "You cannot use Boombox inside of a vehicle.");
+		return SendError( playerid, "在载具内无法使用便携音响.");
 
 	if ( ! strcmp( params, "play", false, 3 ) )
 	{
@@ -113,12 +113,12 @@ CMD:boombox( playerid, params[ ] )
 					current_boombox = GetCurrentBoombox( playerid );
 
 				if ( current_boombox != -1 && current_boombox != playerid ) {
-					return SendError( playerid, "You cannot be near another Boombox if you wish to create your own." );
+					return SendError( playerid, "附近已有其他音响, 请换个位置放置." );
 				}
 
 				if ( IsPlayerUsingBoombox( playerid ) ) {
 					if ( GetPlayerDistanceFromPoint( playerid, g_boomboxData[ playerid ] [ E_X ], g_boomboxData[ playerid ] [ E_Y ], g_boomboxData[ playerid ] [ E_Z ] ) > DEFAULT_BOOMBOX_RANGE ) {
-						return SendError( playerid, "You are too far from your boombox. Use "COL_GREY"/boombox stop"COL_WHITE" to stop it." );
+						return SendError( playerid, "你离音响太远了. 输入"COL_GREY"/boombox stop"COL_WHITE"将其停止." );
 					}
 					format( g_boomboxData[ playerid ] [ E_URL ], BOOMBOX_URL_LEN, "%s", szURL );
 					foreach ( new i : Player ) {
@@ -127,9 +127,9 @@ CMD:boombox( playerid, params[ ] )
 							PlayAudioStreamForPlayer( i, g_boomboxData[ playerid ] [ E_URL ], g_boomboxData[ playerid ] [ E_X ], g_boomboxData[ playerid ] [ E_Y ], g_boomboxData[ playerid ] [ E_Z ], DEFAULT_BOOMBOX_RANGE, 1 );
 						}
 					}
-					SendServerMessage( playerid, "You have updated your boombox stream to: "COL_GREY"%s", szURL );
+					SendServerMessage( playerid, "音响播放地址已更新为: "COL_GREY"%s", szURL );
 				} else {
-					SendServerMessage( playerid, "If the stream doesn't respond then it must be offline. Use "COL_GREY"/boombox stop"COL_WHITE" to stop the stream." );
+					SendServerMessage( playerid, "若无法播放, 音源可能已离线. 输入"COL_GREY"/boombox stop"COL_WHITE"停止播放." );
 					Boombox_Create( playerid, szURL, X, Y, Z, Angle );
 					p_UsingBoombox{ playerid } = true;
 				}
@@ -138,11 +138,11 @@ CMD:boombox( playerid, params[ ] )
 	}
 	else if ( ! strcmp( params, "stop", false, 3 ) )
 	{
-		if ( ! IsPlayerUsingBoombox( playerid ) ) return SendError( playerid, "You are not using Boombox." );
+		if ( ! IsPlayerUsingBoombox( playerid ) ) return SendError( playerid, "你没有正在使用的音响." );
 
 		StopAudioStreamForPlayer( playerid );
 		Boombox_Destroy( playerid );
-		SendServerMessage( playerid, "You have removed your Boombox.");
+		SendServerMessage( playerid, "你收回了便携音响.");
 		p_UsingBoombox{ playerid } = false;
 	}
 	else SendUsage( playerid, "/boombox [PLAY/STOP]" );
@@ -185,7 +185,7 @@ stock Boombox_Create( playerid, szURL[ BOOMBOX_URL_LEN ], Float: X, Float: Y, Fl
 	g_boomboxData[ playerid ] [ E_Z ] = Z;
 
 	g_boomboxData[ playerid ] [ E_OBJECT ] = CreateDynamicObject( 2103, X, Y, Z - 0.92, 0, 0, 0, GetPlayerVirtualWorld( playerid ), GetPlayerInterior( playerid ), -1, Angle );
-	g_boomboxData[ playerid ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s(%d)'s Boombox", ReturnPlayerName( playerid ), playerid ), COLOR_GOLD, X, Y, Z, 20, .worldid = GetPlayerVirtualWorld( playerid ), .interiorid = GetPlayerInterior( playerid ) );
+	g_boomboxData[ playerid ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s(%d) 的音响", ReturnPlayerName( playerid ), playerid ), COLOR_GOLD, X, Y, Z, 20, .worldid = GetPlayerVirtualWorld( playerid ), .interiorid = GetPlayerInterior( playerid ) );
 	g_boomboxData[ playerid ] [ E_MUSIC_AREA ] = CreateDynamicSphere( X, Y, Z, fDistance, .worldid = GetPlayerVirtualWorld( playerid ), .interiorid = GetPlayerInterior( playerid ) );
 	return 1;
 }

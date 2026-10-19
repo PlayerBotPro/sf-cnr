@@ -25,7 +25,7 @@ static const
 	Float: default_Angle 			= 0.0
 ;
 
-static const CLASS_NAMES 			[ ] [ ] = { "Civilian", "Police", "FBI", "Army", "CIA" };
+static const CLASS_NAMES 			[ ] [ ] = { "平民", "警察", "FBI", "军人", "CIA" };
 static const CLASS_COLORS 			[ ] = { 0xC0C0C0FF, 0x3E7EFFFF, 0x0035FFFF, 0x954BFFFF, 0x191970FF };
 
 /* ** Variables ** */
@@ -175,42 +175,42 @@ hook OnScriptInit( )
 		switch ( i )
 		{
 			case 0: {
-				strcat( szLargeString,	"- Select different types of jobs~n~" \
-										"- Able to rob stores and players~n~" \
-										"- Can gang up with players~n~" \
-										"~g~~h~- Accessible to everybody" );
+				strcat( szLargeString,	"- 可选择多种职业~n~" \
+										"- 可抢劫商店和玩家~n~" \
+										"- 可与玩家组建帮派~n~" \
+										"~g~~h~- 所有玩家均可选择" );
 			}
 			case 1:	{
-				strcat( szLargeString,	"- Protect the city from criminals~n~" \
-										"- Access to police gun lockers~n~" \
-										"- Can arrest/jail people~n~" \
-										"~g~~h~- Accessible to everybody" );
+				strcat( szLargeString,	"- 保护城市, 打击犯罪~n~" \
+										"- 可使用警用武器柜~n~" \
+										"- 可逮捕和监禁罪犯~n~" \
+										"~g~~h~- 所有玩家均可选择" );
 			}
 			case 2:	{
-				strcat( szLargeString,	"- Protect the city from criminals~n~" \
-										"- Access to police gun lockers~n~" \
-										"- Can arrest/jail people~n~" \
-										"- Can set roadblocks on roads~n~" \
-										"- Can set spike traps on roads~n~" \
-										"~r~~h~- Requires 10,000 XP or more" );
+				strcat( szLargeString,	"- 保护城市, 打击犯罪~n~" \
+										"- 可使用警用武器柜~n~" \
+										"- 可逮捕和监禁罪犯~n~" \
+										"- 可在道路上设置路障~n~" \
+										"- 可在道路上铺设钉刺带~n~" \
+										"~r~~h~- 需要至少 10,000 经验" );
 			}
 			case 3: {
-				strcat( szLargeString,	"- Protect the city from criminals~n~" \
-										"- Access to police gun lockers~n~" \
-										"- Can arrest/jail people~n~" \
-										"- Can set roadblocks on roads~n~" \
-										"- Can set spike traps on roads~n~" \
-										"- Can use combat vehicles~n~" \
-										"~r~~h~- Requires 20,000 XP or more" );
+				strcat( szLargeString,	"- 保护城市, 打击犯罪~n~" \
+										"- 可使用警用武器柜~n~" \
+										"- 可逮捕和监禁罪犯~n~" \
+										"- 可在道路上设置路障~n~" \
+										"- 可在道路上铺设钉刺带~n~" \
+										"- 可使用战斗载具~n~" \
+										"~r~~h~- 需要至少 20,000 经验" );
 			}
 			case 4: {
-				strcat( szLargeString,	"- Protect the city from criminals~n~" \
-										"- Access to police gun lockers~n~" \
-										"- Can arrest/jail people~n~" \
-										"- Can set roadblocks on roads~n~" \
-										"- Can set spike traps on roads~n~" \
-										"- Hidden from radar~n~" \
-										"~r~~h~- Requires 15,000 XP or more" );
+				strcat( szLargeString,	"- 保护城市, 打击犯罪~n~" \
+										"- 可使用警用武器柜~n~" \
+										"- 可逮捕和监禁罪犯~n~" \
+										"- 可在道路上设置路障~n~" \
+										"- 可在道路上铺设钉刺带~n~" \
+										"- 不会显示在雷达上~n~" \
+										"~r~~h~- 需要至少 15,000 经验" );
 			}
 		}
 
@@ -357,22 +357,22 @@ stock IsPlayerClassApproved( playerid ) {
 
 	// is logged in
 	if ( ! IsPlayerLoggedIn( playerid ) )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You must be authenticated to play the game." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 你必须先登录才能游戏." ), 0;
 
 	// is verified
 	if ( ! IsPlayerSecurityFullyVerified( playerid ) )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You must be verified to play the game." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 你必须通过验证才能游戏." ), 0;
 
 	// is cop/army banned
 	if ( p_CopBanned{ playerid } == MAX_CLASS_BAN_WARNS && ( IsPlayerPolice( playerid ) || IsPlayerFBI( playerid ) || IsPlayerCIA( playerid ) ) )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You are banned from using the police class(es). Use "COL_GREY"/unbanme"COL_WHITE" to pay for an unban." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 你已被禁止使用警察阵营. 输入"COL_GREY"/unbanme"COL_WHITE"支付费用解除限制." ), 0;
 
 	if ( p_ArmyBanned{ playerid } == MAX_CLASS_BAN_WARNS && IsPlayerArmy( playerid ) )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You are banned from using the army class. Use "COL_GREY"/unbanme"COL_WHITE" to pay for an unban." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 你已被禁止使用军人阵营. 输入"COL_GREY"/unbanme"COL_WHITE"支付费用解除限制." ), 0;
 
 	// wanted level an issue?
 	if ( GetPlayerWantedLevel( playerid ) && ( IsPlayerPolice( playerid ) || IsPlayerFBI( playerid ) || IsPlayerCIA( playerid ) || GetPlayerSkin( playerid ) == 287 ) )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You must not have a wanted level to use this class." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 有通缉等级时不能选择此阵营." ), 0;
 
 	// get player total experience
 	new
@@ -382,17 +382,17 @@ stock IsPlayerClassApproved( playerid ) {
 
 	// bought xp
 	if ( IsPlayerFBI( playerid ) && total_experience < 10000.0 )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You need 10,000 Total XP to use this class." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 选择此阵营需要 10,000 总经验." ), 0;
 
 	if ( IsPlayerArmy( playerid ) && total_experience < 20000.0 )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You need 20,000 Total XP to use this class." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 选择此阵营需要 20,000 总经验." ), 0;
 
 	if ( IsPlayerCIA( playerid ) && total_experience < 15000.0 )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You need 15,000 Total XP to use this class." ), 0;
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 选择此阵营需要 15,000 总经验." ), 0;
 
 	// job not set
 	if ( ! p_JobSet{ playerid } ) // || !p_CitySet{ playerid } )
-		return SendClientMessage( playerid, -1, ""COL_RED"[ERROR]"COL_WHITE" You must ensure your job have been properly set." ), 0; // and city
+		return SendClientMessage( playerid, -1, ""COL_RED"[错误]"COL_WHITE" 请先正确设置职业." ), 0; // and city
 
 	// hide textdraws
 	for ( new i = 0; i < sizeof( CLASS_COLORS ); i ++ ) {

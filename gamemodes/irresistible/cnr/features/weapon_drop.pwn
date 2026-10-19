@@ -116,7 +116,7 @@ hook OnPlayerDeath( playerid, killerid, reason )
 		}
 
 		// message the player
-		ShowPlayerHelpDialog( playerid, 5000, "~w~You have dropped ~r~%s", cash_format( player_money ) );
+		ShowPlayerHelpDialog( playerid, 5000, "~w~你已经放弃了~r~%s", cash_format( player_money ) );
 
 		// reduce player money
 		GivePlayerCash( playerid, -player_money );
@@ -189,13 +189,13 @@ hook OnPlayerPickUpDynPickup( playerid, pickupid )
 						szLocation[ MAX_ZONE_NAME ], szCity[ MAX_ZONE_NAME ];
 
 					if ( GetPlayerLocation( playerid, szCity, szLocation ) ) {
-						SendClientMessageToAllFormatted( -1, ""COL_GREEN"[MONEY BAG]"COL_WHITE" %s(%d) has picked up a %s money bag near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( dropped_money ), szLocation, szCity );
+						SendClientMessageToAllFormatted( -1, ""COL_GREEN"[钱袋]"COL_WHITE" %s(%d) 拾取了 %s 的钱袋, 地点: %s 附近 (%s)!", ReturnPlayerName( playerid ), playerid, cash_format( dropped_money ), GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 					} else {
-						SendServerMessage( playerid, "You have found "COL_GOLD"%s"COL_WHITE" on the ground.", cash_format( dropped_money ) );
+						SendServerMessage( playerid, "你已经找到了 "COL_GOLD"%s"COL_WHITE" 在地面上.", cash_format( dropped_money ) );
 					}
 
 				} else {
-					SendServerMessage( playerid, "You have found "COL_GOLD"%s"COL_WHITE" on the ground.", cash_format( dropped_money ) );
+					SendServerMessage( playerid, "你已经找到了 "COL_GOLD"%s"COL_WHITE" 在地面上.", cash_format( dropped_money ) );
 				}
 			}
 			else
@@ -216,7 +216,7 @@ hook OnPlayerPickUpDynPickup( playerid, pickupid )
 
 					if ( setting_enabled || ( ! setting_enabled && existing_weapon != g_weaponDropData[ dropid ] [ E_WEAPON_ID ] && existing_ammo ) )
 					{
-						ShowPlayerHelpDialog( playerid, 2500, "Hold ~r~~k~~PED_ANSWER_PHONE~~w~ To Take %s", ReturnWeaponName( g_weaponDropData[ dropid ] [ E_WEAPON_ID ] ) );
+						ShowPlayerHelpDialog( playerid, 2500, "按住 ~r~~k~~PED_ANSWER_PHONE~~w~ 采取 %s", ReturnWeaponName( g_weaponDropData[ dropid ] [ E_WEAPON_ID ] ) );
 						return 1;
 					}
 				}
@@ -247,11 +247,11 @@ CMD:dropmoney( playerid, params[ ] )
 		money;
 
 	if ( sscanf( params, "d", money ) ) return SendUsage( playerid, "/dropmoney [AMOUNT]" );
-	else if ( money < 25000 ) return SendError( playerid, "The minimum amount you can drop is $25,000." );
-	else if ( money > GetPlayerCash( playerid ) ) return SendError( playerid, "You do not have this much money on you." );
+	else if ( money < 25000 ) return SendError( playerid, "你可以掉落的最低金额是 $25,000." );
+	else if ( money > GetPlayerCash( playerid ) ) return SendError( playerid, "你身上没有这么多钱." );
 	//else if ( GetPlayerVIPLevel( playerid ) < VIP_REGULAR ) return SendError( playerid, "You need to be V.I.P to use this, to become one visit "COL_GREY"donate.sfcnr.com" );
-	else if ( p_PlayerPickupDelay[ playerid ] > GetServerTime( ) ) return SendError( playerid, "You must wait %d seconds before using this command again.", p_PlayerPickupDelay[ playerid ] - GetServerTime( ) );
-	else if ( GetPlayerVirtualWorld( playerid ) != 0 && GetPlayerInterior( playerid ) != 0 ) return SendError( playerid, "You need to be outside to use this command." );
+	else if ( p_PlayerPickupDelay[ playerid ] > GetServerTime( ) ) return SendError( playerid, "再次使用此命令之前,你必须等待 %d 秒.", p_PlayerPickupDelay[ playerid ] - GetServerTime( ) );
+	else if ( GetPlayerVirtualWorld( playerid ) != 0 && GetPlayerInterior( playerid ) != 0 ) return SendError( playerid, "你需要在室外才能使用此命令." );
 	else
 	{
 		new
@@ -265,16 +265,16 @@ CMD:dropmoney( playerid, params[ ] )
 				szLocation[ MAX_ZONE_NAME ], szCity[ MAX_ZONE_NAME ];
 
 			if ( ! GetPlayerLocation( playerid, szCity, szLocation ) )
-				return SendError( playerid, "You cannot place a money bag in this location." );
+				return SendError( playerid, "你不能在此位置放置钱袋." );
 
-			SendClientMessageToAllFormatted( -1, ""COL_GREEN"[MONEY BAG]"COL_WHITE" %s(%d) has dropped a %s money bag near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( money ), szLocation, szCity );
+			SendClientMessageToAllFormatted( -1, ""COL_GREEN"[钱袋]"COL_WHITE" %s(%d) 已删除%s钱袋近%s在%s!", ReturnPlayerName( playerid ), playerid, cash_format( money ), GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 			p_PlayerPickupDelay[ playerid ] = GetServerTime( ) + 5;
 			GivePlayerCash( playerid, -money );
 			Streamer_Update( playerid );
 		}
 		else
 		{
-			SendError( playerid, "Failed to create a money bag. Try again in a little bit." );
+			SendError( playerid, "无法创建钱袋.稍后再试一次." );
 		}
 	}
 	return 1;
@@ -286,7 +286,7 @@ CMD:moneybags( playerid, params[ ] )
 	new szLocation[ MAX_ZONE_NAME ], szCity[ MAX_ZONE_NAME ];
 	new bool: has_results = false;
 
-	szLargeString = ""COL_WHITE"Amount\t"COL_WHITE"Location\n";
+	szLargeString = ""COL_WHITE"金额\t"COL_WHITE"地点\n";
 
 	foreach ( new dropid : weapondrop ) if ( ! g_weaponDropData[ dropid ] [ E_EXPIRE_TIMESTAMP ] && g_weaponDropData[ dropid ] [ E_WEAPON_ID ] == WEAPON_MONEY  ) {
 
@@ -297,15 +297,15 @@ CMD:moneybags( playerid, params[ ] )
 		Get2DCity( szCity, X, Y, Z );
 		GetZoneFromCoordinates( szLocation, X, Y, Z );
 
-		format( szLargeString, sizeof( szLargeString ), "%s"COL_GOLD"%s\t%s, %s\n", szLargeString, cash_format( g_weaponDropData[ dropid ] [ E_AMMO ] ), szLocation, szCity );
+		format( szLargeString, sizeof( szLargeString ), "%s"COL_GOLD"%s\t%s, %s\n", szLargeString, cash_format( g_weaponDropData[ dropid ] [ E_AMMO ] ), GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 
 		has_results = true;
 	}
 
 	if ( has_results ) {
-		return ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, "Money Bag Locations", szLargeString, "Close", "" ), 1;
+		return ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST_HEADERS, "钱袋地点", szLargeString, "关闭", "" ), 1;
 	} else {
-		return SendError( playerid, "There are no more money bags to show." );
+		return SendError( playerid, "没有更多的钱袋子可以显示." );
 	}
 }
 
@@ -313,7 +313,7 @@ CMD:disposeweapon( playerid, params[ ] ) return cmd_dropweapon( playerid, params
 CMD:dw( playerid, params[ ] ) return cmd_dropweapon( playerid, params );
 CMD:dropweapon( playerid, params[ ] ) {
 
-	if ( p_Spectating{ playerid } ) return SendError( playerid, "You cannot use such commands while you're spectating." );
+	if ( p_Spectating{ playerid } ) return SendError( playerid, "旁观时无法使用此类命令." );
 
 	new
 	    iCurrentWeapon = GetPlayerWeapon( playerid )
@@ -322,9 +322,9 @@ CMD:dropweapon( playerid, params[ ] ) {
 	if ( iCurrentWeapon != 0 )
 	{
 		RemoveSpecificPlayerWeapon( playerid, iCurrentWeapon, true );
-		return SendServerMessage( playerid, "You have dropped your weapon." );
+		return SendServerMessage( playerid, "你已经放下了你的武器." );
 	} else {
-		return SendError( playerid, "You are not holding any weapon." );
+		return SendError( playerid, "你没有持有任何武器." );
 	}
 }
 

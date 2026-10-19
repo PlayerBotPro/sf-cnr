@@ -39,6 +39,17 @@ static stock
 	}
 ;
 
+
+static const g_roadblockDisplayNames[][17] =
+{
+	"小路障",
+	"中型路障",
+	"大路障",
+	"绕行标志",
+	"将会标志",
+	"线路封闭标志"
+};
+
 /* ** Hooks ** */
 hook OnPlayerDisconnect( playerid, reason )
 {
@@ -68,7 +79,7 @@ hook OnPlayerUpdateEx( playerid )
 CMD:drball( playerid, params[ ] )
 {
 	if ( ! p_inFBI{ playerid } && ! p_AdminLevel[ playerid ] )
-		return SendError( playerid, "You are not in the FBI." );
+		return SendError( playerid, "你不在FBI." );
 
 	new
 		removed = 0;
@@ -87,9 +98,9 @@ CMD:drball( playerid, params[ ] )
 	}
 
 	if ( removed ) {
-		return SendServerMessage( playerid, "You have removed all your roadblocks." );
+		return SendServerMessage( playerid, "你已经清除了所有的障碍." );
 	} else {
-		return SendError( playerid, "There are no roadblocks to remove by you." );
+		return SendError( playerid, "没有任何障碍需要你清除." );
 	}
 }
 
@@ -99,16 +110,16 @@ CMD:drb( playerid, params[ ] )
 	    rbID
 	;
 
-	if ( !p_inFBI{ playerid } ) return SendError( playerid, "You are not in the FBI." );
-	else if ( GetPlayerScore( playerid ) < 250 ) return SendError( playerid, "You need at least 250 score to use this feature." );
+	if ( !p_inFBI{ playerid } ) return SendError( playerid, "你不在FBI." );
+	else if ( GetPlayerScore( playerid ) < 250 ) return SendError( playerid, "你至少需要 250 分数 才能使用此功能." );
 	else if ( sscanf( params, "d", rbID ) ) return SendUsage( playerid, "/drb [ROADBLOCK_ID]" );
-	else if ( rbID < 0 || rbID > MAX_ROADBLOCKS ) return SendError( playerid, "Invalid road block ID." );
-	else if ( Iter_Contains( roadblocks, rbID ) ) return SendError( playerid, "Invalid road block ID." );
-	else if ( g_roadblockData[ rbID ] [ E_CREATOR ] != playerid ) return SendError( playerid, "You have not created this spike strip." );
+	else if ( rbID < 0 || rbID > MAX_ROADBLOCKS ) return SendError( playerid, "路障 ID 无效." );
+	else if ( Iter_Contains( roadblocks, rbID ) ) return SendError( playerid, "路障 ID 无效." );
+	else if ( g_roadblockData[ rbID ] [ E_CREATOR ] != playerid ) return SendError( playerid, "你尚未创建此尖峰带." );
 	else
 	{
 	    destroyRoadBlockStrip( rbID, .remove_iter = true );
-	    SendServerMessage( playerid, "You have succesfully destroyed a road block." );
+	    SendServerMessage( playerid, "你已经成功摧毁了一个路障." );
 	}
 	return 1;
 }
@@ -118,13 +129,13 @@ CMD:crb( playerid, params[ ] )
 	new
 		iRoadBlock;
 
-	if ( GetPlayerInterior( playerid ) != 0 || GetPlayerVirtualWorld( playerid ) != 0 ) return SendError( playerid, "You cannot use this command inside buildings." );
-	else if ( IsPlayerKidnapped( playerid ) ) return SendError( playerid, "You are kidnapped, you cannot do this." );
-	else if ( IsPlayerTied( playerid ) ) return SendError( playerid, "You are tied, you cannot do this." );
-	else if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You are jailed, you cannot do this." );
-	else if ( !p_inFBI{ playerid } ) return SendError( playerid, "You are not in the FBI." );
-	else if ( IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You cannot use this command while in a vehicle." );
-	else if ( IsPlayerInWater( playerid ) ) return SendError( playerid, "You cannot use this command since you're in water." );
+	if ( GetPlayerInterior( playerid ) != 0 || GetPlayerVirtualWorld( playerid ) != 0 ) return SendError( playerid, "你不能在建筑物内使用此命令." );
+	else if ( IsPlayerKidnapped( playerid ) ) return SendError( playerid, "被绑架时无法进行此操作." );
+	else if ( IsPlayerTied( playerid ) ) return SendError( playerid, "被捆绑时无法进行此操作." );
+	else if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "你被监禁了,你不能这样做." );
+	else if ( !p_inFBI{ playerid } ) return SendError( playerid, "你不在FBI." );
+	else if ( IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你不能在车内使用此命令." );
+	else if ( IsPlayerInWater( playerid ) ) return SendError( playerid, "在水中无法使用此命令." );
 	else if ( isnull( params ) ) return SendUsage( playerid, "/crb [SMALL/MEDIUM/BIG/CONE/DETOUR/WILL BE SIGN/LINE CLOSED]" );
 	else
 	{
@@ -133,15 +144,15 @@ CMD:crb( playerid, params[ ] )
 				break;
 
 		if ( iRoadBlock >= sizeof( g_roadblockObjectData ) )
-			return SendError( playerid, "You have typed in an invalid roadblock." );
+			return SendError( playerid, "你输入了无效的路障." );
 
 		new
 			iTmp = createRoadBlockStrip( playerid, iRoadBlock );
 
 		if ( iTmp != -1 )
-			SendServerMessage( playerid, "You have succesfully placed a "COL_GREY"%s"COL_WHITE".", g_roadblockObjectData[ iRoadBlock ] [ E_NAME ] );
+			SendServerMessage( playerid, "你已经成功放置了一个 "COL_GREY"%s"COL_WHITE".", g_roadblockDisplayNames[ iRoadBlock ] );
 		else
-			SendError( playerid, "Failed to place a road block due to a unexpected error." );
+			SendError( playerid, "由于意外错误,未能放置路障." );
 	}
 	return 1;
 }
@@ -183,7 +194,7 @@ stock createRoadBlockStrip( playerid, type )
 		DestroyDynamic3DTextLabel( g_roadblockData[ ID ] [ E_LABEL ] );
 
 		g_roadblockData[ ID ] [ E_OBJECT_ID ] = CreateDynamicObject( g_roadblockObjectData[ type ] [ E_MODEL ], X, Y, Z - g_roadblockObjectData[ type ] [ E_OFFSET ], 0, 0, Degree + 180.0 );
-		g_roadblockData[ ID ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s(%d)\n"COL_GREY"Placed by %s!", g_roadblockObjectData[ type ] [ E_NAME ], ID, ReturnPlayerName( playerid ) ), COLOR_GOLD, X, Y, Z, 20.0 );
+		g_roadblockData[ ID ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s(%d)\n"COL_GREY"放置者:%s!", g_roadblockDisplayNames[ type ], ID, ReturnPlayerName( playerid ) ), COLOR_GOLD, X, Y, Z, 20.0 );
 
 		Streamer_Update( playerid );
 		Iter_Add( roadblocks, ID );

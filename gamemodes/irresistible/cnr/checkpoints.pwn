@@ -96,10 +96,10 @@ hook OnScriptInit( )
 	g_Checkpoints[ CP_ALCATRAZ_EXPORT ] = CreateDynamicCP( -1999.9487, 1781.2325, 43.7386, 1.0, -1, -1, -1, 30.0 );
 
 	// Out of SF
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD,  -211.6869, 979.3518, 19.3237, 50.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD,  614.2876, -588.6716, 17.2330, 50.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD,  -433.3666, 2255.6064, 42.4297, 50.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD,  -1400.0497, 2647.2358, 55.6875, 50.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD,  -211.6869, 979.3518, 19.3237, 50.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD,  614.2876, -588.6716, 17.2330, 50.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD,  -433.3666, 2255.6064, 42.4297, 50.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD,  -1400.0497, 2647.2358, 55.6875, 50.0);
 
 	#if ENABLE_CITY_LV == true
 	g_Checkpoints[ CP_DROP_OFF_COP_LV ] = CreateDynamicCP( 2225.6753, 2457.2388, -7.4531, 3.0, 0, -1, -1, 100.0 );
@@ -107,11 +107,11 @@ hook OnScriptInit( )
 	g_Checkpoints[ CP_DROP_OFF_FBI_LV ] = CreateDynamicCP( 948.6036, 1811.2720, 8.6484, 3.0, -1, -1, -1, 100.0 );
 	g_Checkpoints[ CP_FIGHTSTYLE_LV ] = CreateDynamicCP( 766.8416, -62.1872, 1000.6563, 2.0, -1, -1, -1, 25.0 );
 	g_Checkpoints[ CP_REFILL_AMMO_LV ] = CreateDynamicCP( 2251.9438, 2488.7981, 10.9908, 1.0, -1, -1, -1, 20.0 );
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD, 2225.6753, 2457.2388, -7.4531, 20.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD, 948.6036, 1811.2720, 8.6484, 20.0);
-	CreateDynamic3DTextLabel("[LEARN FIGHT STYLES]", COLOR_GOLD, 766.8416, -62.1872, 1000.6563, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 9);
-	CreateDynamic3DTextLabel("[HOSPITAL]", COLOR_GOLD, 1607.2659, 1815.2485, 10.8203, 20.0);
-	CreateDynamic3DTextLabel("[REFILL AMMO]", COLOR_GOLD, 2251.9438, 2488.7981, 10.9908, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD, 2225.6753, 2457.2388, -7.4531, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD, 948.6036, 1811.2720, 8.6484, 20.0);
+	CreateDynamic3DTextLabel("[学习格斗]", COLOR_GOLD, 766.8416, -62.1872, 1000.6563, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 9);
+	CreateDynamic3DTextLabel("[医院]", COLOR_GOLD, 1607.2659, 1815.2485, 10.8203, 20.0);
+	CreateDynamic3DTextLabel("[补充弹药]", COLOR_GOLD, 2251.9438, 2488.7981, 10.9908, 20.0);
 	#endif
 
 	#if ENABLE_CITY_LS
@@ -123,42 +123,42 @@ hook OnScriptInit( )
 	g_Checkpoints[ CP_FIGHTSTYLE_LS ] = CreateDynamicCP( 772.0868, 12.6397, 1000.6996, 1.0, -1, -1, -1, 25.0 );
 	g_Checkpoints[ CP_BANK_MENU_LS ] = CreateDynamicCP( 2136.4946, 1226.1787, 1017.1369, 1.0, -1, -1, -1, 25.0 );
 	g_Checkpoints[ CP_REFILL_AMMO_LS ] = CreateDynamicCP( 1579.5439, -1635.5166, 13.5609, 1.0, -1, -1, -1, 20.0 );
-	CreateDynamic3DTextLabel("[BANK MENU]", COLOR_GOLD, 2136.4946, 1226.1787, 1017.1369, 20.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD, 1569.0277, -1694.1566, 5.8906, 20.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD, 1516.6716, -1458.9398, 9.5000, 20.0);
-	CreateDynamic3DTextLabel("[LEARN FIGHT STYLES]", COLOR_GOLD, 772.0868, 12.6397, 1000.6996, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 10);
-	CreateDynamic3DTextLabel("[HOSPITAL]", COLOR_GOLD, 1172.0767, -1323.3257, 15.4029, 20.0);
-	CreateDynamic3DTextLabel("[HOSPITAL]", COLOR_GOLD, 2034.0677, -1401.6699, 17.2938, 20.0);
-	CreateDynamic3DTextLabel("[HOSPITAL]", COLOR_GOLD,  -320.2127, 1048.2339, 20.3403, 20.0);
-	CreateDynamic3DTextLabel("[REFILL AMMO]", COLOR_GOLD, 1579.5439, -1635.5166, 13.5609, 20.0);
+	CreateDynamic3DTextLabel("[银行菜单]", COLOR_GOLD, 2136.4946, 1226.1787, 1017.1369, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD, 1569.0277, -1694.1566, 5.8906, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD, 1516.6716, -1458.9398, 9.5000, 20.0);
+	CreateDynamic3DTextLabel("[学习格斗]", COLOR_GOLD, 772.0868, 12.6397, 1000.6996, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 10);
+	CreateDynamic3DTextLabel("[医院]", COLOR_GOLD, 1172.0767, -1323.3257, 15.4029, 20.0);
+	CreateDynamic3DTextLabel("[医院]", COLOR_GOLD, 2034.0677, -1401.6699, 17.2938, 20.0);
+	CreateDynamic3DTextLabel("[医院]", COLOR_GOLD,  -320.2127, 1048.2339, 20.3403, 20.0);
+	CreateDynamic3DTextLabel("[补充弹药]", COLOR_GOLD, 1579.5439, -1635.5166, 13.5609, 20.0);
 	#endif
 
-	CreateDynamic3DTextLabel("[ROCK CRUSHER]", COLOR_GOLD,  -1999.9487, 1781.2325, 43.7386, 50.0);
-	CreateDynamic3DTextLabel("[CASINO BAR]", COLOR_GOLD,  2655.8694, 1591.1545, 1506.1793, 50.0);
-	CreateDynamic3DTextLabel("[AIRPORT]", COLOR_GOLD,  1672.53640, 1447.86160, 10.7881, 50.0);
-	CreateDynamic3DTextLabel("[AIRPORT]", COLOR_GOLD,  1642.22740, -2335.4978, 13.5469, 50.0);
-	CreateDynamic3DTextLabel("[AIRPORT]", COLOR_GOLD,  -1422.4063, -286.50810, 14.1484, 50.0);
-	CreateDynamic3DTextLabel("[REFILL AMMO]", COLOR_GOLD, -1615.2600, 685.5120, 7.1875, 20.0);
-	CreateDynamic3DTextLabel("[PAWNSHOP]", COLOR_GOLD, 1333.0847, -1080.0726, 968.0430, 20.0);
-	CreateDynamic3DTextLabel("[SHOP]", COLOR_GOLD, -29.0409,-184.7446,1003.5469, 20.0);
-	CreateDynamic3DTextLabel("[BANK MENU]", COLOR_GOLD, -1405.0657, 831.0966, 984.7126, 20.0);
-	CreateDynamic3DTextLabel("[BANK MENU]", COLOR_GOLD, 2156.1299, 1640.2460, 1041.6124, 20.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD, -1577.0952, 683.9492, 7.2440, 20.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD, -2446.6785, 522.9684, 30.2548, 20.0);
-	CreateDynamic3DTextLabel("[DROP OFF]", COLOR_GOLD,  -1651.6956, 700.8394, 38.2422, 50.0);
-	CreateDynamic3DTextLabel("[GUN STORE]", COLOR_GOLD, 296.3782, -38.4512, 1001.5156, 20.0);
-	CreateDynamic3DTextLabel("[GUN STORE]", COLOR_GOLD, 295.4524, -80.7487, 1001.5156, 20.0);
-	CreateDynamic3DTextLabel("[GUN STORE]", COLOR_GOLD, 312.8432, -166.1419, 999.6010, 20.0);
-	CreateDynamic3DTextLabel("[MAIN DESK]", COLOR_GOLD, 361.8525, 173.6031, 1008.3828, 20.0);
-	CreateDynamic3DTextLabel("[HOSPITAL]", COLOR_GOLD, -2647.5007, 659.0084, 970.4332, 20.0);
-	CreateDynamic3DTextLabel("[PAINTBALL]", COLOR_GOLD, -2172.2017, 252.1113, 35.3388, 20.0);
-	CreateDynamic3DTextLabel("[GUN REDEEM]\n"COL_WHITE"/vipgun", COLOR_GOLD, -1945.9280, 830.0893, 1214.2678, 20.0);
-	CreateDynamic3DTextLabel("[GUN REDEEM]\n"COL_WHITE"/vipgun", COLOR_GOLD, -1966.1765, 851.0482, 1214.2678, 20.0);
-	CreateDynamic3DTextLabel("[LEARN FIGHT STYLES]", COLOR_GOLD, 768.2576, -22.8351, 1000.5859, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 8 );
-	CreateDynamic3DTextLabel("[BUSINESS TERMINAL]", COLOR_GOLD, 2563.5728, -1310.5925, 1143.7242, 20.0);
-	CreateDynamic3DTextLabel("[BUSINESS TERMINAL]", COLOR_GOLD, 2034.0669, 1001.6073, 1510.2416, 20.0);
-	CreateDynamic3DTextLabel("[BUSINESS TERMINAL]", COLOR_GOLD, -1742.9982, -1377.3049, 5874.1333, 20.0);
-	CreateDynamic3DTextLabel("[BUSINESS TERMINAL]", COLOR_GOLD, -6942.8770, -247.7294, 837.5850, 20.0);
+	CreateDynamic3DTextLabel("[碎石机]", COLOR_GOLD,  -1999.9487, 1781.2325, 43.7386, 50.0);
+	CreateDynamic3DTextLabel("[赌场酒吧]", COLOR_GOLD,  2655.8694, 1591.1545, 1506.1793, 50.0);
+	CreateDynamic3DTextLabel("[机场]", COLOR_GOLD,  1672.53640, 1447.86160, 10.7881, 50.0);
+	CreateDynamic3DTextLabel("[机场]", COLOR_GOLD,  1642.22740, -2335.4978, 13.5469, 50.0);
+	CreateDynamic3DTextLabel("[机场]", COLOR_GOLD,  -1422.4063, -286.50810, 14.1484, 50.0);
+	CreateDynamic3DTextLabel("[补充弹药]", COLOR_GOLD, -1615.2600, 685.5120, 7.1875, 20.0);
+	CreateDynamic3DTextLabel("[当铺]", COLOR_GOLD, 1333.0847, -1080.0726, 968.0430, 20.0);
+	CreateDynamic3DTextLabel("[商店]", COLOR_GOLD, -29.0409,-184.7446,1003.5469, 20.0);
+	CreateDynamic3DTextLabel("[银行菜单]", COLOR_GOLD, -1405.0657, 831.0966, 984.7126, 20.0);
+	CreateDynamic3DTextLabel("[银行菜单]", COLOR_GOLD, 2156.1299, 1640.2460, 1041.6124, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD, -1577.0952, 683.9492, 7.2440, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD, -2446.6785, 522.9684, 30.2548, 20.0);
+	CreateDynamic3DTextLabel("[交货点]", COLOR_GOLD,  -1651.6956, 700.8394, 38.2422, 50.0);
+	CreateDynamic3DTextLabel("[武器店]", COLOR_GOLD, 296.3782, -38.4512, 1001.5156, 20.0);
+	CreateDynamic3DTextLabel("[武器店]", COLOR_GOLD, 295.4524, -80.7487, 1001.5156, 20.0);
+	CreateDynamic3DTextLabel("[武器店]", COLOR_GOLD, 312.8432, -166.1419, 999.6010, 20.0);
+	CreateDynamic3DTextLabel("[服务台]", COLOR_GOLD, 361.8525, 173.6031, 1008.3828, 20.0);
+	CreateDynamic3DTextLabel("[医院]", COLOR_GOLD, -2647.5007, 659.0084, 970.4332, 20.0);
+	CreateDynamic3DTextLabel("[彩弹竞技]", COLOR_GOLD, -2172.2017, 252.1113, 35.3388, 20.0);
+	CreateDynamic3DTextLabel("[领取武器]\n"COL_WHITE"/vipgun", COLOR_GOLD, -1945.9280, 830.0893, 1214.2678, 20.0);
+	CreateDynamic3DTextLabel("[领取武器]\n"COL_WHITE"/vipgun", COLOR_GOLD, -1966.1765, 851.0482, 1214.2678, 20.0);
+	CreateDynamic3DTextLabel("[学习格斗]", COLOR_GOLD, 768.2576, -22.8351, 1000.5859, 15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, 8 );
+	CreateDynamic3DTextLabel("[企业终端]", COLOR_GOLD, 2563.5728, -1310.5925, 1143.7242, 20.0);
+	CreateDynamic3DTextLabel("[企业终端]", COLOR_GOLD, 2034.0669, 1001.6073, 1510.2416, 20.0);
+	CreateDynamic3DTextLabel("[企业终端]", COLOR_GOLD, -1742.9982, -1377.3049, 5874.1333, 20.0);
+	CreateDynamic3DTextLabel("[企业终端]", COLOR_GOLD, -6942.8770, -247.7294, 837.5850, 20.0);
 }
 
 hook OnPlayerEnterDynamicCP( playerid, checkpointid )
@@ -169,15 +169,15 @@ hook OnPlayerEnterDynamicCP( playerid, checkpointid )
 	}
 
 	if ( GetPlayerSpecialAction( playerid ) == SPECIAL_ACTION_CUFFED ) {
-		return SendError( playerid, "You can't do anything as you are cuffed." ), Y_HOOKS_BREAK_RETURN_1;
+		return SendError( playerid, "你已被铐住, 无法操作." ), Y_HOOKS_BREAK_RETURN_1;
 	}
 
 	if ( IsPlayerTied( playerid ) ) {
-		return SendError( playerid, "You can't do anything as you are tied." ), Y_HOOKS_BREAK_RETURN_1;
+		return SendError( playerid, "你已被捆绑, 无法操作." ), Y_HOOKS_BREAK_RETURN_1;
 	}
 
 	if ( IsPlayerInPaintBall( playerid ) || IsPlayerDueling( playerid ) || IsPlayerInEvent( playerid ) ) {
-		return SendError( playerid, "You can't do anything as you are in an event." ), Y_HOOKS_BREAK_RETURN_1;
+		return SendError( playerid, "你正在参加活动, 无法操作." ), Y_HOOKS_BREAK_RETURN_1;
 	}
 
 	return 1;

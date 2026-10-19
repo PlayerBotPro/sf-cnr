@@ -21,7 +21,7 @@ static stock
 /* ** Hooks ** */
 hook OnScriptInit( )
 {
-	g_AnimationTD = TextDrawCreate( 220.000000, 141.000000, "PRESS ~r~~h~~k~~PED_SPRINT~~W~ TO STOP THE ANIMATION" );
+	g_AnimationTD = TextDrawCreate( 220.000000, 141.000000, "按 ~r~~h~~k~~PED_SPRINT~~W~ 停止动作" );
 	TextDrawBackgroundColor( g_AnimationTD, 80 );
 	TextDrawFont( g_AnimationTD, 3 );
 	TextDrawLetterSize( g_AnimationTD, 0.310000, 1.200000 );
@@ -100,7 +100,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 		if ( p_InAnimation{ playerid } == true )
 		{
 			if ( IsPlayerTied( playerid ) || IsPlayerCuffed( playerid ) || IsPlayerTazed( playerid ) )
-				return SendError( playerid, "You cannot stop your animation at the moment." );
+				return SendError( playerid, "现在无法停止动作." );
 
 			TextDrawHideForPlayer( playerid, g_AnimationTD );
 		    p_InAnimation{ playerid } = false;
@@ -115,7 +115,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 CMD:anims( playerid, params[ ] ) return cmd_animlist( playerid, params );
 CMD:animlist( playerid, params[ ] )
 {
-	SendClientMessage( playerid, COLOR_GOLD, ".: Animation List :." );
+	SendClientMessage( playerid, COLOR_GOLD, ".: 动作列表 :." );
 	SendClientMessage( playerid, -1, "/dance, /piss, /wank, /sit, /groundsit, /lay, /deal, /laugh, /gangsign" );
 	SendClientMessage( playerid, -1, "/slapass, /sex, /crossarms, /wave, /lookout, /strip, /aimthreat, /kiss" );
 	SendClientMessage( playerid, -1, "/chat, /fuckoff, /shout, /chant, /handsup, /cower, /sleep, /lean, /fiddle" );
@@ -142,7 +142,7 @@ CMD:dance( playerid, params[ ] )
           	case 9: CreateLoopingAnimation(playerid, "DANCING", "dnce_M_c", 4.0, 1, 0, 0, 0, 0 );
           	case 10: CreateLoopingAnimation(playerid, "DANCING", "dnce_M_d", 4.0, 1, 0, 0, 0, 0 );
            	case 11: CreateLoopingAnimation(playerid, "DANCING", "dnce_M_e", 4.0, 1, 0, 0, 0, 0 );
-         	default: SendError( playerid, "Invalid Dance ID." );
+            default: SendError( playerid, "舞蹈 ID 无效." );
       	}
 	}
 	return 1;
@@ -235,7 +235,7 @@ CMD:strip( playerid, params[ ] )
            	case 5: CreateLoopingAnimation(playerid, "STRIP", "strip_E", 4.0, 1, 0, 0, 0, 0 );
            	case 6: CreateLoopingAnimation(playerid, "STRIP", "strip_F", 4.0, 1, 0, 0, 0, 0 );
            	case 7: CreateLoopingAnimation(playerid, "STRIP", "strip_G", 4.0, 1, 0, 0, 0, 0 );
-         	default: SendError( playerid, "Invalid Strip ID." );
+            default: SendError( playerid, "脱衣舞 ID 无效." );
       	}
 	}
 	return 1;
@@ -310,7 +310,7 @@ CMD:gangsign( playerid, params[ ] )
            	case 5: CreateLoopingAnimation(playerid, "GHANDS", "gsign3", 4.0, 1, 0, 0, 0, 0 );
            	case 6: CreateLoopingAnimation(playerid, "GHANDS", "gsign3LH", 4.0, 1, 0, 0, 0, 0 );
            	case 7: CreateLoopingAnimation(playerid, "GHANDS", "gsign4", 4.0, 1, 0, 0, 0, 0 );
-         	default: SendError( playerid, "Invalid Gang Sign ID." );
+            default: SendError( playerid, "帮派手势 ID 无效." );
       	}
 	}
 	return 1;
@@ -339,30 +339,30 @@ stock CreateLoopingAnimation( playerid, animlib[ ], animname[ ], Float:Speed, lo
 {
 	if ( !IsPlayerConnected( playerid ) ) return 0;
 //	else if ( p_InAnimation{ playerid } ) return SendError( playerid, "You cannot use this command since you're playing an animation." );
-	else if ( IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You cannot use this command inside a vehicle." );
-	else if ( !IsPlayerSpawned( playerid ) ) return SendError( playerid, "You cannot use this command since you're not spawned." );
+	else if ( IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "在载具内无法使用此命令." );
+	else if ( !IsPlayerSpawned( playerid ) ) return SendError( playerid, "尚未出生, 无法使用此命令." );
 //	else if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this command since you're jailed." );
-	else if ( IsPlayerTazed( playerid ) ) return SendError( playerid, "You cannot use this command since you're tazed." );
-	else if ( IsPlayerDetained( playerid ) ) return SendError( playerid, "You cannot use this command since you're detained." );
-	else if ( IsPlayerCuffed( playerid ) ) return SendError( playerid, "You cannot use this command since you're cuffed." );
-	else if ( IsPlayerTied( playerid ) ) return SendError( playerid, "You cannot use this command since you're tied." );
-	else if ( IsPlayerKidnapped( playerid ) ) return SendError( playerid, "You cannot use this command since you're kidnapped." );
-	else if ( IsPlayerGettingBlowed( playerid ) ) return SendError( playerid, "You cannot use this command since you're getting blowed." );
-	else if ( IsPlayerBlowingCock( playerid ) ) return SendError( playerid, "You cannot use this command since you're giving oral sex." );
-	else if ( IsPlayerPlayingPoker( playerid ) ) return SendError( playerid, "You cannot use this command since you're playing poker." );
-	else if ( IsPlayerPlayingPool( playerid ) ) return SendError( playerid, "You cannot use this command since you're playing pool." );
-	else if ( IsPlayerInWater( playerid ) ) return SendError( playerid, "You cannot use this command since you're in water." );
-	else if ( IsPlayerMining( playerid ) ) return SendError( playerid, "You cannot use this command since you're mining." );
-	else if ( IsPlayerBoxing( playerid ) ) return SendError( playerid, "You cannot use this command since you're boxing." );
-    else if ( GetPlayerAnimationIndex( playerid ) == 1660 ) return SendError( playerid, "You cannot use this command since you're using a vending machine." );
-	else if ( IsPlayerAttachedObjectSlotUsed( playerid, 0 ) ) return SendError( playerid, "You cannot use this command since you're robbing." );
-	else if ( IsPlayingAnimation( playerid, "ROB_BANK", "CAT_Safe_Rob" ) ) return SendError( playerid, "You cannot use this command since you're robbing." );
-	else if ( IsPlayingAnimation( playerid, "GANGS", "smkcig_prtl" ) ) return SendError( playerid, "You cannot use this command since you're smoking." );
-	else if ( IsPlayerAttachedObjectSlotUsed( playerid, 3 ) ) return SendError( playerid, "You cannot use this command since you're holding a stolen good." );
-	else if ( IsPlayerAttachedObjectSlotUsed( playerid, 4 ) ) return SendError( playerid, "You cannot use this command since you're holding an ore." );
-	else if ( GetPlayerState( playerid ) == PLAYER_STATE_ENTER_VEHICLE_DRIVER || GetPlayerState( playerid ) == PLAYER_STATE_ENTER_VEHICLE_PASSENGER ) return SendError( playerid, "You cannot use this command since you're entering a vehicle." );
-    else if ( GetPlayerState( playerid ) == PLAYER_STATE_EXIT_VEHICLE ) return SendError( playerid, "You cannot use this command since you're exiting a vehicle." );
-	else if ( GetPlayerWeapon( playerid ) == 46 ) return SendError( playerid, "You cannot use this command while wearing a parachute." );
+	else if ( IsPlayerTazed( playerid ) ) return SendError( playerid, "被电击时无法使用此命令." );
+	else if ( IsPlayerDetained( playerid ) ) return SendError( playerid, "被拘留时无法使用此命令." );
+	else if ( IsPlayerCuffed( playerid ) ) return SendError( playerid, "被铐住时无法使用此命令." );
+	else if ( IsPlayerTied( playerid ) ) return SendError( playerid, "被捆绑时无法使用此命令." );
+	else if ( IsPlayerKidnapped( playerid ) ) return SendError( playerid, "被绑架时无法使用此命令." );
+	else if ( IsPlayerGettingBlowed( playerid ) ) return SendError( playerid, "接受口交时无法使用此命令." );
+	else if ( IsPlayerBlowingCock( playerid ) ) return SendError( playerid, "进行口交时无法使用此命令." );
+	else if ( IsPlayerPlayingPoker( playerid ) ) return SendError( playerid, "打扑克时无法使用此命令." );
+	else if ( IsPlayerPlayingPool( playerid ) ) return SendError( playerid, "打台球时无法使用此命令." );
+	else if ( IsPlayerInWater( playerid ) ) return SendError( playerid, "在水中无法使用此命令." );
+	else if ( IsPlayerMining( playerid ) ) return SendError( playerid, "采矿时无法使用此命令." );
+	else if ( IsPlayerBoxing( playerid ) ) return SendError( playerid, "拳击时无法使用此命令." );
+    else if ( GetPlayerAnimationIndex( playerid ) == 1660 ) return SendError( playerid, "使用售货机时无法使用此命令." );
+	else if ( IsPlayerAttachedObjectSlotUsed( playerid, 0 ) ) return SendError( playerid, "抢劫时无法使用此命令." );
+	else if ( IsPlayingAnimation( playerid, "ROB_BANK", "CAT_Safe_Rob" ) ) return SendError( playerid, "抢劫时无法使用此命令." );
+	else if ( IsPlayingAnimation( playerid, "GANGS", "smkcig_prtl" ) ) return SendError( playerid, "抽烟时无法使用此命令." );
+	else if ( IsPlayerAttachedObjectSlotUsed( playerid, 3 ) ) return SendError( playerid, "携带赃物时无法使用此命令." );
+	else if ( IsPlayerAttachedObjectSlotUsed( playerid, 4 ) ) return SendError( playerid, "搬运矿石时无法使用此命令." );
+	else if ( GetPlayerState( playerid ) == PLAYER_STATE_ENTER_VEHICLE_DRIVER || GetPlayerState( playerid ) == PLAYER_STATE_ENTER_VEHICLE_PASSENGER ) return SendError( playerid, "进入载具时无法使用此命令." );
+    else if ( GetPlayerState( playerid ) == PLAYER_STATE_EXIT_VEHICLE ) return SendError( playerid, "离开载具时无法使用此命令." );
+	else if ( GetPlayerWeapon( playerid ) == 46 ) return SendError( playerid, "携带降落伞时无法使用此命令." );
 	else
 	{
 		// event check
@@ -372,7 +372,7 @@ stock CreateLoopingAnimation( playerid, animlib[ ], animname[ ], Float:Speed, lo
 		if ( IsPlayerInEvent( playerid ) )
 		#endif
 		{
-			return SendError( playerid, "You cannot use this command since you're in an event." );
+			return SendError( playerid, "参加活动时无法使用此命令." );
 		}
 
 		SetPlayerSpecialAction( playerid, 0 );

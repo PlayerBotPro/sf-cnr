@@ -23,12 +23,12 @@ CMD:fps( playerid, params[ ] )
 	{
 		TextDrawSetString( p_FPSCounterTD[ playerid ], "_" );
 		TextDrawShowForPlayer( playerid, p_FPSCounterTD[ playerid ] );
-	    SendClientMessage( playerid, 0x84aa63ff, "-> FPS counter enabled" );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> FPS 计数器已启用" );
 	}
 	else
 	{
 		TextDrawHideForPlayer( playerid, p_FPSCounterTD[ playerid ] );
-	    SendClientMessage( playerid, 0x84aa63ff, "-> FPS counter disabled" );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> FPS 计数器已禁用" );
 	}
 	return 1;
 }
@@ -38,15 +38,15 @@ CMD:drawdistance( playerid, params[ ] )
 {
 	if ( strmatch( params, "low" ) ) {
 		Streamer_SetVisibleItems( STREAMER_TYPE_OBJECT, 300, playerid );
-	    SendClientMessage( playerid, 0x84aa63ff, "-> Draw distance of objects now set to LOW." );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> 对象的绘制距离现在设置为\"低\"." );
 	} else if ( strmatch( params, "medium" ) ) {
 		Streamer_SetVisibleItems( STREAMER_TYPE_OBJECT, 625, playerid );
-	    SendClientMessage( playerid, 0x84aa63ff, "-> Draw distance of objects now set to MEDIUM." );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> 对象的绘制距离现在设置为\"中\"." );
 	} else if ( strmatch( params, "high" ) ) {
 		Streamer_SetVisibleItems( STREAMER_TYPE_OBJECT, 950, playerid );
-	    SendClientMessage( playerid, 0x84aa63ff, "-> Draw distance of objects now set to HIGH." );
+	    SendClientMessage( playerid, 0x84aa63ff, "-> 对象的绘制距离现在设置为\"高\"." );
 	} else if ( strmatch( params, "info" ) ) {
-	    SendClientMessage( playerid, 0x84aa63ff, sprintf( "-> You have currently %d objects streamed towards your client.", Streamer_GetVisibleItems( STREAMER_TYPE_OBJECT, playerid ) ) );
+	    SendClientMessage( playerid, 0x84aa63ff, sprintf( "-> 你当前有 %d 个对象流向你的客户端.", Streamer_GetVisibleItems( STREAMER_TYPE_OBJECT, playerid ) ) );
 	}
 	else {
 		SendClientMessage( playerid, 0xa9c4e4ff, "-> /drawdistance [LOW/MEDIUM/HIGH/INFO]" );

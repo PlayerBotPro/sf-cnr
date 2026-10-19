@@ -35,16 +35,16 @@ enum E_RACE_DEST_DATA
 static stock
 	g_raceFinalDestinations 		[ ] [ E_RACE_DEST_DATA ] =
 	{
-		{ "LS Airport", 		1487.0245, -2493.751, 13.2720 },
-		{ "LS Pier", 			369.61540, -2011.367, 7.39200 },
-		{ "LS Grove Street", 	2487.9739, -1666.938, 13.0633 },
-		{ "LV Airport", 		1477.6246, 1207.3376, 10.8203 },
-		{ "LV Old Strip", 		2350.5371, 2143.6689, 10.6815 },
-		{ "El Quebrados",		-885.4323, 1660.3818, 27.0871 },
-		{ "SF Airport", 		-1117.212, 375.26310, 14.1484 },
-		{ "Mount Chiliad", 		-2324.256, -1624.915, 483.883 },
-		{ "SF Gant Bridge", 	-2681.314, 1763.9274, 68.4844 },
-		{ "SF Dealership ",		-2422.670, -609.4055, 132.562 }
+		{ "LS机场", 		1487.0245, -2493.751, 13.2720 },
+		{ "LS码头", 			369.61540, -2011.367, 7.39200 },
+		{ "LS格罗夫街", 	2487.9739, -1666.938, 13.0633 },
+		{ "LV机场", 		1477.6246, 1207.3376, 10.8203 },
+		{ "LV旧条", 		2350.5371, 2143.6689, 10.6815 },
+		{ "埃尔克布拉多斯",		-885.4323, 1660.3818, 27.0871 },
+		{ "旧金山机场", 		-1117.212, 375.26310, 14.1484 },
+		{ "奇利亚德山", 		-2324.256, -1624.915, 483.883 },
+		{ "旧金山甘特桥", 	-2681.314, 1763.9274, 68.4844 },
+		{ "顺丰经销 ",		-2422.670, -609.4055, 132.562 }
 	},
 	g_raceData 						[ MAX_RACES ] [ E_RACE_DATA ],
 	Iterator: races 				< MAX_RACES >,
@@ -78,8 +78,8 @@ hook OnPlayerEnterDynArea( playerid, areaid )
 		// alert
 		foreach (new i : Player) if ( p_raceLobbyId[ i ] == raceid ) {
 			PlayerPlaySound( i, 1149, 0.0, 0.0, 0.0 );
-			GameTextForPlayer( i, sprintf( "~b~~h~%s leading", ReturnPlayerName( playerid ) ), 2000, 3 );
-			SendClientMessageFormatted( i, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has taken the lead for the race.", ReturnPlayerName( playerid ), playerid );
+			GameTextForPlayer( i, sprintf( "~b~~h~%s 领先", ReturnPlayerName( playerid ) ), 2000, 3 );
+			SendClientMessageFormatted( i, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 在比赛中取得领先.", ReturnPlayerName( playerid ), playerid );
 		}
 
 		// see if ahead
@@ -98,7 +98,7 @@ hook OnPlayerStateChange( playerid, newstate, oldstate )
 
 		if ( Iter_Contains( races, iRace ) )
 		{
-			SendClientMessageToRace( iRace, COLOR_GREY, "[RACE]"COL_WHITE" %s(%d) has exited their vehicle and left the race.", ReturnPlayerName( playerid ), playerid );
+			SendClientMessageToRace( iRace, COLOR_GREY, "[竞速]"COL_WHITE" %s(%d) 已下车并离开比赛.", ReturnPlayerName( playerid ), playerid );
 			RemovePlayerFromRace( playerid );
 		}
 	}
@@ -113,7 +113,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 	if ( raceid != -1 && g_raceData[ raceid ] [ E_FINISH_CHECKPOINT ] == checkpointid )
 	{
 		if ( ! g_raceData[ raceid ] [ E_STARTED ] )
-			return SendError( playerid, "The race has not started." );
+			return SendError( playerid, "比赛还没有开始." );
 
 		new
 			position = ++ g_raceData[ raceid ] [ E_FINISHED_COUNT ];
@@ -145,19 +145,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		switch ( listitem )
 		{
-			case 0: ShowPlayerDialog( playerid, DIALOG_RACE_MODE, DIALOG_STYLE_TABLIST, ""COL_GOLD"Race Configuration - Race Mode", ""COL_GREY"Street Race\t"COL_WHITE"Racers must meet the final destination\n"COL_GREY"Outrun"COL_WHITE"\tRacer must outrun everyone by 100 metres", "Select", "Close" );
-			case 1: ShowPlayerDialog( playerid, DIALOG_RACE_FEE, DIALOG_STYLE_INPUT, ""COL_GOLD"Race Configuration - Entry Fee", ""COL_WHITE"Specify the required entry fee for this race (minimum $1,000 - max $10,000,000)", "Specify", "Close" );
-			case 2: ShowPlayerDialog( playerid, DIALOG_RACE_POS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Race Configuration - Prize Distribution", ""COL_WHITE"1st Position\t"COL_WHITE"2nd Position\t"COL_WHITE"3rd Position\n100%\t0%\t0%\n90%\t5%\t5%\n80%\t10%\t10%\n70%\t15%\t15%\n60%\t20%\t20%\n", "Select", "Close" );
+			case 0: ShowPlayerDialog( playerid, DIALOG_RACE_MODE, DIALOG_STYLE_TABLIST, ""COL_GOLD"竞赛配置 - 竞赛模式", ""COL_GREY"街头竞赛\t"COL_WHITE"赛车手必须到达最终目的地\n"COL_GREY"超越"COL_WHITE"\t赛车手必须比所有人跑 100 米", "选择", "关闭" );
+			case 1: ShowPlayerDialog( playerid, DIALOG_RACE_FEE, DIALOG_STYLE_INPUT, ""COL_GOLD"比赛配置 - 报名费", ""COL_WHITE"指定本次比赛所需的报名费(最低 $1,000 - 最高 $10,000,000)", "指定", "关闭" );
+			case 2: ShowPlayerDialog( playerid, DIALOG_RACE_POS, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"比赛配置 - 奖品分配", ""COL_WHITE"1st 位置 \t"COL_WHITE"2nd 位置 \t"COL_WHITE"3rd位置\n100%\t0%\t0%\n90%\t5%\t5%\n80%\t10%\t10%\n70%\t15%\t15%\n60%\t20%\t20%\n", "选择", "关闭" );
 			case 3:
 			{
 				if ( g_raceData[ raceid ] [ E_MODE ] == RACE_OUTRUN )
-					return ShowPlayerDialog( playerid, DIALOG_RACE_DISTANCE, DIALOG_STYLE_INPUT, ""COL_GOLD"Race Configuration - Outrun Distance", ""COL_WHITE"Specify the required outrun distance (minimum 10.0m - max 250.0m)", "Specify", "Close" );
+					return ShowPlayerDialog( playerid, DIALOG_RACE_DISTANCE, DIALOG_STYLE_INPUT, ""COL_GOLD"比赛配置 - 外跑距离", ""COL_WHITE"指定所需的超出距离(最小 10.0m - 最大 250.0m)", "指定", "关闭" );
 
-				return ShowPlayerDialog( playerid, DIALOG_RACE_DEST, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Race Configuration - Destination", ""COL_WHITE""COL_WHITE"How do you want to set the final destination?\nPreset Destinations\nSelect Using Minimap\nUse Coordinates", "Select", "Back" );
+				return ShowPlayerDialog( playerid, DIALOG_RACE_DEST, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"比赛配置 - 目的地", ""COL_WHITE""COL_WHITE"你想如何设置最终目的地?\n预设目的地\n选择使用小地图\n使用坐标", "选择", "返回" );
 			}
 			case 4:
 			{
@@ -168,9 +168,9 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				}
 
 				if ( strlen( szLargeString ) ) {
-					return ShowPlayerDialog( playerid, DIALOG_RACE_KICK, DIALOG_STYLE_LIST, ""COL_GOLD"Race Configuration - Player Management", szLargeString, "Kick", "Back" );
+					return ShowPlayerDialog( playerid, DIALOG_RACE_KICK, DIALOG_STYLE_LIST, ""COL_GOLD"比赛配置 - 玩家管理", szLargeString, "踢出", "返回" );
 				} else {
-					SendError( playerid, "There are no racers to show." );
+					SendError( playerid, "没有赛车手可供展示." );
 					return ShowRaceConfiguration( playerid, raceid );
 				}
 			}
@@ -182,23 +182,23 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( ! response )
 			return ShowRaceConfiguration( playerid, raceid );
 
 		switch ( listitem )
 		{
-			case 0: ShowPlayerDialog( playerid, DIALOG_RACE_PRESELECT, DIALOG_STYLE_LIST, ""COL_GOLD"Race Configuration - Destination", "LS Airport\nLS Pier\nLS Grove Street\nLV Airport\nLV Old Strip\nEl Quebrados\nSF Airport\nMount Chilliad\nTierra Robada SF Bridge\nSF Dealership", "Select", "Back" );
+			case 0: ShowPlayerDialog( playerid, DIALOG_RACE_PRESELECT, DIALOG_STYLE_LIST, ""COL_GOLD"Race Configuration - Destination", "LS Airport\nLS Pier\nLS Grove Street\nLV Airport\nLV Old Strip\nEl Quebrados\nSF Airport\nMount Chilliad\nTierra Robada SF Bridge\nSF Dealership", "选择", "返回" );
 			case 1:
 			{
 				g_raceData[ raceid ] [ E_RACE_FINISH_SET ] = 2;
 				g_raceData[ raceid ] [ E_FINISH_POS ] [ 0 ] = 0.0;
 				g_raceData[ raceid ] [ E_FINISH_POS ] [ 1 ] = 0.0;
 				g_raceData[ raceid ] [ E_FINISH_POS ] [ 2 ] = 0.0;
-				return SendServerMessage( playerid, "You are now setting the race destination. Use the MINIMAP to pick the finish position." );
+				return SendServerMessage( playerid, "你现在正在设置比赛目的地.使用迷你地图选择终点位置." );
 			}
-			case 2: ShowPlayerDialog( playerid, DIALOG_RACE_CUSTOM_DEST, DIALOG_STYLE_INPUT, ""COL_GOLD"Race Configuration - Custom Destination", ""COL_WHITE"Please specify the final destination coordinates, seperated by white spaces. E.g 0.0 0.0 0.0", "Set", "Back" );
+			case 2: ShowPlayerDialog( playerid, DIALOG_RACE_CUSTOM_DEST, DIALOG_STYLE_INPUT, ""COL_GOLD"比赛配置 - 自定义目的地", ""COL_WHITE"请指定最终目标坐标,以空格分隔.例如 0.0 0.0 0.0", "放", "返回" );
 		}
 		return 1;
 	}
@@ -208,21 +208,21 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( ! response )
-			return ShowPlayerDialog( playerid, DIALOG_RACE_DEST, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Race Configuration - Destination", ""COL_WHITE""COL_WHITE"How do you want to set the final destination?\nPreset Destinations\nSelect Using Minimap\nUse Coordinates", "Select", "Back" );
+			return ShowPlayerDialog( playerid, DIALOG_RACE_DEST, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"比赛配置 - 目的地", ""COL_WHITE""COL_WHITE"你想如何设置最终目的地?\n预设目的地\n选择使用小地图\n使用坐标", "选择", "返回" );
 
 		new
 			Float: X, Float: Y, Float: Z;
 
 		if ( sscanf( inputtext, "fff", X, Y, Z ) ) {
-			SendError( playerid, "Make sure coordinates are seperated by white spaces and are numbers (e.g 0.0 0.0 0.0)" );
-			return ShowPlayerDialog( playerid, DIALOG_RACE_CUSTOM_DEST, DIALOG_STYLE_INPUT, ""COL_GOLD"Race Configuration - Custom Destination", ""COL_WHITE"Please specify the final destination coordinates, seperated by white spaces. E.g 0.0 0.0 0.0", "Set", "Back" );
+			SendError( playerid, "确保坐标由空格分隔并且是数字(例如 0.0 0.0 0.0)" );
+			return ShowPlayerDialog( playerid, DIALOG_RACE_CUSTOM_DEST, DIALOG_STYLE_INPUT, ""COL_GOLD"比赛配置 - 自定义目的地", ""COL_WHITE"请指定最终目标坐标,以空格分隔.例如 0.0 0.0 0.0", "放", "返回" );
 		}
 
 		SetRaceDestination( raceid, X, Y, Z );
-		SendClientMessageToRace( raceid, COLOR_GREY, "[RACE]"COL_WHITE" %s(%d) has set the race final destination to %0.4f %0.4f %0.4f.", ReturnPlayerName( playerid ), playerid, X, Y, Z );
+		SendClientMessageToRace( raceid, COLOR_GREY, "[竞速]"COL_WHITE" %s(%d) 已将比赛最终目的地设置为 %0.4f %0.4f %0.4f.", ReturnPlayerName( playerid ), playerid, X, Y, Z );
 		return 1;
 	}
 	else if ( dialogid == DIALOG_RACE_PRESELECT )
@@ -231,13 +231,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( ! response )
-			return ShowPlayerDialog( playerid, DIALOG_RACE_DEST, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Race Configuration - Destination", ""COL_WHITE""COL_WHITE"How do you want to set the final destination?\nPreset Destinations\nSelect Using Minimap\nUse Coordinates", "Select", "Back" );
+			return ShowPlayerDialog( playerid, DIALOG_RACE_DEST, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"比赛配置 - 目的地", ""COL_WHITE""COL_WHITE"你想如何设置最终目的地?\n预设目的地\n选择使用小地图\n使用坐标", "选择", "返回" );
 
 		SetRaceDestination( raceid, g_raceFinalDestinations[ listitem ] [ E_X ], g_raceFinalDestinations[ listitem ] [ E_Y ], g_raceFinalDestinations[ listitem ] [ E_Z ] );
-		SendClientMessageToRace( raceid, COLOR_GREY, "[RACE]"COL_WHITE" %s(%d) has set the race final destination to %s.", ReturnPlayerName( playerid ), playerid, g_raceFinalDestinations[ listitem ] [ E_NAME ] );
+		SendClientMessageToRace( raceid, COLOR_GREY, "[竞速]"COL_WHITE" %s(%d) 已将比赛最终目的地设置为 %s.", ReturnPlayerName( playerid ), playerid, g_raceFinalDestinations[ listitem ] [ E_NAME ] );
 		return 1;
 	}
 	else if ( dialogid == DIALOG_RACE_KICK )
@@ -246,7 +246,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		ShowRaceConfiguration( playerid, raceid );
 
@@ -260,13 +260,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		{
 	       	if ( x == listitem )
 	      	{
-		  		SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has been kicked from the race.", ReturnPlayerName( i ), i );
+                SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 已被踢出比赛.", ReturnPlayerName( i ), i );
 		  		RemovePlayerFromRace( i );
 	      		return 1;
 			}
 	      	x++;
 		}
-		return SendError( playerid, "There was an error trying to remove this player from the race." );
+		return SendError( playerid, "尝试将此玩家从比赛中删除时发生错误." );
 	}
 	else if ( dialogid == DIALOG_RACE_MODE )
 	{
@@ -274,12 +274,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( response )
 		{
 			g_raceData[ raceid ] [ E_MODE ] = listitem;
-			SendServerMessage( playerid, "You have set the race mode to "COL_GREY"%s"COL_WHITE".", g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE ? ( "Streetrace" ) : ( "Outrun" ) );
+			SendServerMessage( playerid, "你已将比赛模式设置为 "COL_GREY"%s"COL_WHITE".", g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE ? ( "街头赛跑" ) : ( "超越" ) );
 		}
 		return ShowRaceConfiguration( playerid, raceid );
 	}
@@ -289,7 +289,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( ! response )
 			return ShowRaceConfiguration( playerid, raceid );
@@ -298,12 +298,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			Float: distance;
 
 		if ( sscanf( inputtext, "f", distance ) || ! ( 10.0 <= distance <= 300.0 ) ) {
-			SendError( playerid, "Please specify a race distance between 10.0m and 300.0m." );
-			return ShowPlayerDialog( playerid, DIALOG_RACE_DISTANCE, DIALOG_STYLE_INPUT, ""COL_GOLD"Race Configuration - Outrun Distance", ""COL_WHITE"Specify the required outrun distance (minimum 10.0m - max 250.0m)", "Specify", "Close" );
+			SendError( playerid, "请指定 10.0m 到 300.0m 之间的比赛距离." );
+			return ShowPlayerDialog( playerid, DIALOG_RACE_DISTANCE, DIALOG_STYLE_INPUT, ""COL_GOLD"比赛配置 - 外跑距离", ""COL_WHITE"指定所需的超出距离(最小 10.0m - 最大 250.0m)", "指定", "关闭" );
 		}
 
 		g_raceData[ raceid ] [ E_OUTRUN_DISTANCE ] = distance;
-		SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" The outrun distance has been set to %0.1f metres.", distance );
+		SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" 超出距离已设置为 %0.1f 米.", distance );
 		return ShowRaceConfiguration( playerid, raceid );
 	}
 	else if ( dialogid == DIALOG_RACE_FEE )
@@ -312,7 +312,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( ! response )
 			return ShowRaceConfiguration( playerid, raceid );
@@ -321,12 +321,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			fee;
 
 		if ( sscanf( inputtext, "d", fee ) || ! ( 0 <= fee <= 10000000 ) ) {
-			SendError( playerid, "Please specify an entry fee between $0 and $10,000,000." );
-			return ShowPlayerDialog( playerid, DIALOG_RACE_FEE, DIALOG_STYLE_INPUT, ""COL_GOLD"Race Configuration - Entry Fee", ""COL_WHITE"Specify the required entry fee for this race (minimum $1,000 - max $10,000,000)", "Specify", "Close" );
+			SendError( playerid, "请指定介于 $0 和 $10,000,000. 之间的报名费" );
+			return ShowPlayerDialog( playerid, DIALOG_RACE_FEE, DIALOG_STYLE_INPUT, ""COL_GOLD"比赛配置 - 报名费", ""COL_WHITE"指定本次比赛所需的报名费(最低 $1,000 - 最高 $10,000,000)", "指定", "关闭" );
 		}
 
 		g_raceData[ raceid ] [ E_ENTRY_FEE ] = fee;
-		SendClientMessageToRace( raceid, COLOR_GREY, "[RACE]"COL_WHITE" The entry fee for the race has been set to %s.", cash_format( fee ) );
+		SendClientMessageToRace( raceid, COLOR_GREY, "[竞速]"COL_WHITE" 比赛的报名费已设置为 %s.", cash_format( fee ) );
 		return ShowRaceConfiguration( playerid, raceid );
 	}
 	else if ( dialogid == DIALOG_RACE_POS )
@@ -335,7 +335,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			raceid = GetPVarInt( playerid, "editing_race" );
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You are not the host of this lobby." );
+			return SendError( playerid, "你不是这个 房间 的主持人." );
 
 		if ( response )
 		{
@@ -356,7 +356,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 2 ] = g_prizePoolDistribution[ listitem ] [ 2 ];
 
 			// alert
-			SendServerMessage( playerid, "The prize pool distribution is now %0.0f%% for 1st, %0.0f%% for 2nd and %0.0f%% for 3rd place.", 100.0 * g_prizePoolDistribution[ listitem ] [ 0 ], 100.0 * g_prizePoolDistribution[ listitem ] [ 1 ], 100.0 * g_prizePoolDistribution[ listitem ] [ 2 ] );
+			SendServerMessage( playerid, "奖池分配现已%0.0f%%对于1st, %0.0f%%对于2nd和%0.0f%%对于3rd地点.", 100.0 * g_prizePoolDistribution[ listitem ] [ 0 ], 100.0 * g_prizePoolDistribution[ listitem ] [ 1 ], 100.0 * g_prizePoolDistribution[ listitem ] [ 2 ] );
 		}
 		return ShowRaceConfiguration( playerid, raceid );
 	}
@@ -384,7 +384,7 @@ hook OnPlayerClickMap( playerid, Float: fX, Float: fY, Float: fZ )
 
 			// alert
 			ShowRaceConfiguration( playerid, raceid );
-			SendServerMessage( playerid, "You have selected the final destination for the race, use "COL_GREY"/race start"COL_WHITE" to begin." );
+			SendServerMessage( playerid, "你已选择比赛的最终目的地,请使用 "COL_GREY"/race start"COL_WHITE" 开始吧." );
 		}
 	}
 	return 1;
@@ -394,7 +394,7 @@ hook OnPlayerClickMap( playerid, Float: fX, Float: fY, Float: fZ )
 CMD:race( playerid, params[ ] )
 {
 	if ( ! IsPlayerInAnyVehicle( playerid ) )
-		return SendError( playerid, "You must be in a vehicle to use this command" );
+		return SendError( playerid, "你必须在车内才能使用此命令" );
 
 	if ( !strcmp( params, "create", false, 6 ) )
 	{
@@ -405,13 +405,13 @@ CMD:race( playerid, params[ ] )
 			return SendUsage( playerid, "/race create [INITIAL PRIZE POOL]" );
 
 		if ( prizePool < 1000 )
-			return SendError( playerid, "The minimum initial prize pool must be $1,000." );
+			return SendError( playerid, "最低初始奖池必须为 $1,000." );
 
 		if ( prizePool > GetPlayerCash( playerid ) )
-			return SendError( playerid, "You don't have this amount of money." );
+			return SendError( playerid, "你没有这么多钱." );
 
 		if ( p_raceLobbyId[ playerid ] != -1 )
-			return SendError( playerid, "You are currently in a race lobby, use "COL_GREY"/race leave"COL_WHITE" to exit." );
+			return SendError( playerid, "你目前正在参加一场比赛 房间,请使用 "COL_GREY"/race leave"COL_WHITE" 退出." );
 
 		new
 			id = Iter_Free(races);
@@ -444,7 +444,7 @@ CMD:race( playerid, params[ ] )
 			// iter
 			Iter_Add( races, id );
 		}
-		else return SendError( playerid, "Unable to create a race as there are too many currently on-going." );
+		else return SendError( playerid, "无法创建比赛,因为当前正在进行的比赛太多." );
 	}
 	else if ( !strcmp( params, "invite", false, 6 ) )
 	{
@@ -452,7 +452,7 @@ CMD:race( playerid, params[ ] )
 			raceid = p_raceLobbyId[ playerid ];
 
 		if ( ! Iter_Contains( races, raceid ) )
-			return SendError( playerid, "You are not in any race." );
+			return SendError( playerid, "你没有参加任何比赛." );
 
 		new
 			inviteid;
@@ -461,20 +461,20 @@ CMD:race( playerid, params[ ] )
 			return SendUsage( playerid, "/race invite [PLAYER]" );
 
 		if ( ! IsPlayerConnected( inviteid ) || IsPlayerNPC( inviteid ) )
-			return SendServerMessage( playerid, "This player is not connected" );
+			return SendServerMessage( playerid, "该播放器未连接" );
 
 		if ( GetDistanceBetweenPlayers( inviteid, playerid ) > 50.0 )
-			return SendError( playerid, "This player must be within 50 meters to you." );
+			return SendError( playerid, "该玩家必须距离你 50 米以内." );
 
 		if ( p_raceLobbyId[ inviteid ] != -1 )
-			return SendError( playerid, "This player is currently already in a race lobby." );
+			return SendError( playerid, "该玩家目前已经参加比赛 房间." );
 
 		if( g_raceData[ raceid ] [ E_STARTED ] )
-			return SendError( playerid, "You cannot invite players once you start the race." );
+			return SendError( playerid, "一旦开始比赛,你就无法邀请玩家." );
 
 		p_raceInvited[ inviteid ] [ raceid ] = true;
-		SendClientMessageFormatted( inviteid, COLOR_GREY, "[RACE]{FFFFFF} %s(%d) has invited you to their race for %s, to join type \"/race join %d\"", ReturnPlayerName( playerid ), playerid,  g_raceData[ raceid ] [ E_ENTRY_FEE ] <= 0 ? ( "free" ) : ( cash_format( g_raceData[ raceid ] [ E_ENTRY_FEE ] ) ), raceid );
-	    SendClientMessageFormatted( playerid, COLOR_GREY, "[RACE]{FFFFFF} You have invited %s(%d) to join your race.", ReturnPlayerName( inviteid ), inviteid );
+		SendClientMessageFormatted( inviteid, COLOR_GREY, "[竞速]{FFFFFF} %s(%d) 邀请你参加他们的 %s 比赛,加入类型 \"/race join %d\"", ReturnPlayerName( playerid ), playerid,  g_raceData[ raceid ] [ E_ENTRY_FEE ] <= 0 ? ( "自由的" ) : ( cash_format( g_raceData[ raceid ] [ E_ENTRY_FEE ] ) ), raceid );
+	    SendClientMessageFormatted( playerid, COLOR_GREY, "[竞速]{FFFFFF} 你已邀请 %s(%d) 加入你的比赛.", ReturnPlayerName( inviteid ), inviteid );
 		return 1;
 	}
 	else if ( !strcmp( params, "join", false, 4 ) )
@@ -483,11 +483,11 @@ CMD:race( playerid, params[ ] )
 			raceid;
 
 		if ( sscanf( params[ 5 ], "d", raceid ) ) return SendUsage( playerid, "/race join [RACE_ID]" );
-		else if ( ! Iter_Contains( races, raceid ) ) return SendError( playerid, "This race lobby does not exist." );
-		else if ( ! p_raceInvited[ playerid ] [ raceid ] ) return SendError( playerid, "You have not been invited to this race lobby." );
-		else if( GetDistanceBetweenPlayers( playerid, g_raceData[ raceid ] [ E_LOBBY_HOST ] ) > 50.0 ) return SendError( playerid, "This player must be within 50 meters to you." );
-		else if ( g_raceData[ raceid ] [ E_STARTED ] ) return SendError( playerid, "The race has already started." );
-		else if ( g_raceData[ raceid ] [ E_ENTRY_FEE ] > GetPlayerCash( playerid ) ) return SendError( playerid, "You need at least %s to join the race.", cash_format( g_raceData[ raceid ] [ E_ENTRY_FEE ] - GetPlayerCash( playerid ) ) );
+		else if ( ! Iter_Contains( races, raceid ) ) return SendError( playerid, "这个种族 房间 不存在." );
+		else if ( ! p_raceInvited[ playerid ] [ raceid ] ) return SendError( playerid, "你尚未被邀请参加本次比赛房间." );
+		else if( GetDistanceBetweenPlayers( playerid, g_raceData[ raceid ] [ E_LOBBY_HOST ] ) > 50.0 ) return SendError( playerid, "该玩家必须距离你 50 米以内." );
+		else if ( g_raceData[ raceid ] [ E_STARTED ] ) return SendError( playerid, "比赛已经开始了." );
+		else if ( g_raceData[ raceid ] [ E_ENTRY_FEE ] > GetPlayerCash( playerid ) ) return SendError( playerid, "你至少需要 %s 才能参加比赛.", cash_format( g_raceData[ raceid ] [ E_ENTRY_FEE ] - GetPlayerCash( playerid ) ) );
 		else
 		{
 			// enter race lobby
@@ -495,7 +495,7 @@ CMD:race( playerid, params[ ] )
 			p_raceInvited[ playerid ] [ raceid ] = false;
 
 			// alert race players
-			SendClientMessageToRace( raceid, COLOR_GREY, "[RACE]{FFFFFF} %s(%d) has joined the race.", ReturnPlayerName( playerid ), playerid );
+			SendClientMessageToRace( raceid, COLOR_GREY, "[竞速]{FFFFFF} %s(%d) 已加入竞选.", ReturnPlayerName( playerid ), playerid );
 
 			// show checkpoint
 			if ( g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE && g_raceData[ raceid ] [ E_RACE_FINISH_SET ] == 1 )
@@ -516,7 +516,7 @@ CMD:race( playerid, params[ ] )
 			raceid = p_raceLobbyId[ playerid ];
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You must be a race lobby host in order to use this command." );
+			return SendError( playerid, "只有竞速房主可以使用此命令." );
 
 		return ShowRaceConfiguration( playerid, raceid );
 	}
@@ -530,31 +530,31 @@ CMD:race( playerid, params[ ] )
 		;
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You must be a race lobby host in order to use this command." );
+			return SendError( playerid, "只有竞速房主可以使用此命令." );
 
 		new
 			racers = GetRaceMemberCount( raceid );
 
 		if ( racers < 2 )
-			return SendError( playerid, "You need at least 2 racers to start the race." );
+			return SendError( playerid, "你至少需要 2 名赛车手才能开始比赛." );
 
 		if ( g_raceData[ raceid ] [ E_RACE_FINISH_SET ] != 1 && g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE )
-			return SendError( playerid, "You must set a finishing location for the race." );
+			return SendError( playerid, "你必须设置比赛的终点位置." );
 
 		if ( g_raceData[ raceid ] [ E_STARTED ] )
-			return SendError( playerid, "The race has already started." );
+			return SendError( playerid, "比赛已经开始了." );
 
 		if ( g_raceData[ raceid ] [ E_POOL ] < 1000 )
-			return SendError( playerid, "The race must have a prize pool of at least $1,000." );
+			return SendError( playerid, "比赛的奖池必须至少为 $1,000." );
 
 		if ( sscanf( params[ 6 ], "D(15)F(15)", countdown, cpsize ) )
 			return SendUsage( playerid, "/race start [COUNT_DOWN_TIME (15)] [CHECKPOINT_SIZE (15.0)]" );
 
 		if ( ! ( 3 <= countdown <= 60 ) )
-			return SendError( playerid, "Countdown must be between 3 and 60 seconds." );
+			return SendError( playerid, "倒计时必须介于 3 和 60 秒之间." );
 
 		if ( !( 3.0 <= cpsize <= 40.0 ) )
-			return SendError( playerid, "The checkpoint size must be between 3.0 and 40.0" );
+			return SendError( playerid, "检查点大小必须介于 3.0 和 40.0 之间" );
 
 		GetVehiclePos( vehicleid, X, Y, Z );
 		GetVehicleZAngle( vehicleid, A );
@@ -589,7 +589,7 @@ CMD:race( playerid, params[ ] )
 			g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 2 ] = 0.0;
 
 			// alert
-			SendClientMessageToRace( raceid, COLOR_GREY, "[RACE]"COL_WHITE" As this is a two player race, the prize ratio is now %0.1f-%0.1f.", g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 0 ] * 100.0, g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 1 ] * 100.0 );
+			SendClientMessageToRace( raceid, COLOR_GREY, "[竞速]"COL_WHITE" 由于这是两人比赛,奖金比例现在为 %0.1f-%0.1f.", g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 0 ] * 100.0, g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 1 ] * 100.0 );
 		}
 
 		// tax races
@@ -606,12 +606,12 @@ CMD:race( playerid, params[ ] )
 			raceid = p_raceLobbyId[ playerid ];
 
 		if ( ! IsRaceHost( playerid, raceid ) )
-			return SendError( playerid, "You must be a race lobby host in order to use this command." );
+			return SendError( playerid, "只有竞速房主可以使用此命令." );
 
 		if ( ! g_raceData[ raceid ] [ E_STARTED ] )
-			return SendError( playerid, "The race must be started." );
+			return SendError( playerid, "比赛必须开始." );
 
-		SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has ended the race.", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 已结束比赛.", ReturnPlayerName( playerid ), playerid );
 		return DestroyRace( raceid );
 	}
 	else if ( strmatch( params, "leave" ) )
@@ -620,9 +620,9 @@ CMD:race( playerid, params[ ] )
 			raceid = p_raceLobbyId[ playerid ];
 
 		if ( ! Iter_Contains( races, raceid ) )
-			return SendError( playerid, "You are not in any race." );
+			return SendError( playerid, "你没有参加任何比赛." );
 
-		SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has left the race.", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 已退出比赛.", ReturnPlayerName( playerid ), playerid );
 		return RemovePlayerFromRace( playerid );
 	}
 	else if ( ! strcmp( params, "kick", false, 4 ) )
@@ -630,13 +630,13 @@ CMD:race( playerid, params[ ] )
 		new
 			raceid = p_raceLobbyId[ playerid ], kickid;
 
-		if ( ! IsRaceHost( playerid, raceid ) ) return SendError( playerid, "You are not a lobby host for any race." );
+		if ( ! IsRaceHost( playerid, raceid ) ) return SendError( playerid, "你不是任何竞速房间的房主." );
 		else if ( sscanf( params[ 5 ], "u", kickid ) ) return SendUsage( playerid, "/race kick [PLAYER]" );
-		else if ( ! IsPlayerConnected( kickid ) || IsPlayerNPC( kickid ) ) return SendError( playerid, "This player is not connected." );
-		else if ( p_raceLobbyId[ kickid ] != raceid ) return SendError( playerid, "This player is not in your race." );
+		else if ( ! IsPlayerConnected( kickid ) || IsPlayerNPC( kickid ) ) return SendError( playerid, "此玩家不在线." );
+		else if ( p_raceLobbyId[ kickid ] != raceid ) return SendError( playerid, "该玩家不在你的比赛中." );
 		else
 		{
-	  		SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has been kicked from the race.", ReturnPlayerName( kickid ), kickid );
+            SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 已被踢出比赛.", ReturnPlayerName( kickid ), kickid );
 	  		RemovePlayerFromRace( kickid );
 		}
 		return 1;
@@ -647,14 +647,14 @@ CMD:race( playerid, params[ ] )
 			raceid = p_raceLobbyId[ playerid ], amount;
 
 		if ( sscanf( params[ 11 ], "d", amount ) ) return SendUsage( playerid, "/race donate [AMOUNT]" );
-		else if ( ! Iter_Contains( races, raceid ) ) return SendError( playerid, "You are not in any race." );
-		else if ( amount < 100 ) return SendError( playerid, "The minimum contribution amount is $100." );
-		else if ( amount > GetPlayerCash( playerid ) ) return SendError( playerid, "You don't have enough money to contribute that amount." );
+		else if ( ! Iter_Contains( races, raceid ) ) return SendError( playerid, "你没有参加任何比赛." );
+		else if ( amount < 100 ) return SendError( playerid, "最低捐款金额为 $100." );
+		else if ( amount > GetPlayerCash( playerid ) ) return SendError( playerid, "你没有足够的钱来贡献该金额." );
 		else
 		{
 			GivePlayerCash( playerid, -amount );
 			g_raceData[ raceid ] [ E_POOL ] += amount;
-			SendClientMessageToRace( raceid, COLOR_GREY, "[RACE]"COL_WHITE" %s(%d) has contributed %s to the prize pool (total %s).", ReturnPlayerName( playerid ), playerid, cash_format( amount ), cash_format( g_raceData[ raceid ] [ E_POOL ] ) );
+			SendClientMessageToRace( raceid, COLOR_GREY, "[竞速]"COL_WHITE" %s(%d) 已向奖池贡献了 %s(总计 %s).", ReturnPlayerName( playerid ), playerid, cash_format( amount ), cash_format( g_raceData[ raceid ] [ E_POOL ] ) );
 			return 1;
 		}
 	}
@@ -685,7 +685,7 @@ function OnRaceCountdown( raceid, time )
 
 	foreach (new playerid : Player) if ( p_raceLobbyId[ playerid ] == raceid ) {
 		if ( ! IsPlayerInDynamicRaceCP( playerid, g_raceData[ raceid ] [ E_START_CHECKPOINT ] ) ) {
-			SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" The race cannot be started as %s(%d) is not in the starting checkpoint.", ReturnPlayerName( playerid ), playerid );
+			SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" 比赛无法开始,因为 %s(%d) 不在起始检查点.", ReturnPlayerName( playerid ), playerid );
 			g_raceData[ raceid ] [ E_CD_TIMER ] = SetTimerEx( "OnRaceCountdown", 960, false, "dd", raceid, time );
 			return;
 		}
@@ -720,7 +720,7 @@ function OnRaceCountdown( raceid, time )
 	  			Streamer_Update( playerid );
 
 		    	// show gametext
-	    		GameTextForPlayer( playerid, "~g~GO!", 2000, 3 );
+                GameTextForPlayer( playerid, "~g~去!", 2000, 3 );
 				PlayerPlaySound( playerid, 1057, 0.0, 0.0, 0.0 );
 			}
 	    }
@@ -739,23 +739,23 @@ function OnRaceCountdown( raceid, time )
 stock ShowRaceConfiguration( playerid, raceid )
 {
 
-	format( szLargeString, sizeof( szLargeString ), ""COL_WHITE"The current prize pool is %s\t \n"COL_GREY"Race Mode\t%s\n"COL_GREY"Entry Fee\t%s\n"COL_GREY"Prize Distribution\t%0.0f-%0.0f-%0.0f\n",
+	format( szLargeString, sizeof( szLargeString ), ""COL_WHITE"当前奖池是 %s\t \n"COL_GREY"竞赛模式\t%s\n"COL_GREY"报名费\t%s\n"COL_GREY"奖金分配\t%0.0f-%0.0f-%0.0f\n",
 
-								cash_format( g_raceData[ raceid ] [ E_POOL ] ), g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE ? ( "Streetrace" ) : ( "Outrun" ), cash_format( g_raceData[ raceid ] [ E_ENTRY_FEE ] ),
+								cash_format( g_raceData[ raceid ] [ E_POOL ] ), g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE ? ( "街头赛跑" ) : ( "超越" ), cash_format( g_raceData[ raceid ] [ E_ENTRY_FEE ] ),
 
 								100.0 * g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 0 ], 100.0 * g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 1 ], 100.0 * g_raceData[ raceid ] [ E_POSITION_PRIZE ] [ 2 ]
 							);
 
 	if ( g_raceData[ raceid ] [ E_MODE ] == RACE_STREET_RACE ) {
-		format( szLargeString, sizeof( szLargeString ), "%s"COL_GREY"Finish Destination\t%s\n", szLargeString, g_raceData[ raceid ] [ E_RACE_FINISH_SET ] == 1 ? ( ""COL_GREEN"ACTIVE" ) : ( ""COL_ORANGE"NOT SET" ) );
+		format( szLargeString, sizeof( szLargeString ), "%s"COL_GREY"终点位置\t%s\n", szLargeString, g_raceData[ raceid ] [ E_RACE_FINISH_SET ] == 1 ? ( ""COL_GREEN"活跃" ) : ( ""COL_ORANGE"未设置" ) );
 	} else {
-		format( szLargeString, sizeof( szLargeString ), "%s"COL_GREY"Outrun Distance\t%0.1f meters\n", szLargeString, g_raceData[ raceid ] [ E_OUTRUN_DISTANCE ] );
+		format( szLargeString, sizeof( szLargeString ), "%s"COL_GREY"甩尾距离\t%0.1f 米\n", szLargeString, g_raceData[ raceid ] [ E_OUTRUN_DISTANCE ] );
 	}
 
-	strcat( szLargeString, ""COL_GREY"View Racers\t " );
+	strcat( szLargeString, ""COL_GREY"查看赛车手\t " );
 
 	SetPVarInt( playerid, "editing_race", raceid );
-	ShowPlayerDialog( playerid, DIALOG_RACE, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"Race Configuration", szLargeString, "Select", "Close" );
+	ShowPlayerDialog( playerid, DIALOG_RACE, DIALOG_STYLE_TABLIST_HEADERS, ""COL_GOLD"赛事配置", szLargeString, "选择", "关闭" );
 	return 1;
 }
 
@@ -807,7 +807,7 @@ function OnRaceOutrun( raceid )
 			}
 			else
 			{
-				SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" The race has ended as there can only be one winner." );
+				SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" 比赛已经结束,因为只能有一名获胜者." );
 			}
 
 			// destroy race
@@ -828,7 +828,7 @@ function OnRaceOutrun( raceid )
 
 				// new leader
 				g_raceData[ raceid ] [ E_OUTRUN_LEAD ] = closestRacer;
-				SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has taken the lead for the race.", ReturnPlayerName( closestRacer ), closestRacer );
+				SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 在比赛中取得领先.", ReturnPlayerName( closestRacer ), closestRacer );
 
 				// see if ahead
 				AttachDynamicObjectToVehicle( g_raceData[ raceid ] [ E_OUTRUN_OBJECT ], iVehicle, 0.0, OUTRUN_DIST, -15.0, 0.0, 0.0, 0.0 );
@@ -871,7 +871,7 @@ stock GivePlayerRaceWin( playerid, position, raceid )
 	foreach (new i : Player) if ( p_raceLobbyId[ i ] == raceid ) {
 		PlayerPlaySound( i, 1149, 0.0, 0.0, 0.0 );
 		GameTextForPlayer( i, sprintf( "~y~~h~%d%s~w~ %s", position, positionToString( position ), ReturnPlayerName( playerid ) ), 2000, 3 );
-		SendClientMessageFormatted( i, COLOR_GREY, "[RACE]"COL_WHITE" %s(%d) has finished the race in %d%s position (prize %s).", ReturnPlayerName( playerid ), playerid, position, positionToString( position ), cash_format( prizeMoney ) );
+		SendClientMessageFormatted( i, COLOR_GREY, "[竞速]"COL_WHITE" %s(%d) 以第 %d%s 名完成比赛 (奖金 %s).", ReturnPlayerName( playerid ), playerid, position, positionToString( position ), cash_format( prizeMoney ) );
 	}
 
 	// remove from race
@@ -954,7 +954,7 @@ stock RemovePlayerFromRace( playerid )
 
 			// new leader
 			g_raceData[ raceid ] [ E_OUTRUN_LEAD ] = closestRacer;
-			SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" %s(%d) has taken the lead for the race.", ReturnPlayerName( closestRacer ), closestRacer );
+			SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" %s(%d) 在比赛中取得领先.", ReturnPlayerName( closestRacer ), closestRacer );
 
 			// see if ahead
 			AttachDynamicObjectToVehicle( g_raceData[ raceid ] [ E_OUTRUN_OBJECT ], iVehicle, 0.0, OUTRUN_DIST, -15.0, 0.0, 0.0, 0.0 );
@@ -962,7 +962,7 @@ stock RemovePlayerFromRace( playerid )
 		}
 		else
 		{
-			SendClientMessageToRace( raceid, -1, ""COL_GREY"[RACE]"COL_WHITE" The race has ended as a new leader couldn't be set." );
+			SendClientMessageToRace( raceid, -1, ""COL_GREY"[竞速]"COL_WHITE" 由于无法确定新的领导者,比赛已经结束." );
 			DestroyRace( raceid );
 		}
 	}

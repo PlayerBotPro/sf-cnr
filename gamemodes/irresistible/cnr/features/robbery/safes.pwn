@@ -148,7 +148,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 		{
 			if ( IsValidDynamicObject( g_robberyData[ robberyid ] [ E_SAFE_MONEY ] ) )
 			{
-		        if ( g_robberyData[ robberyid ] [ E_STATE ] != STATE_ROBBED ) return SendError( playerid, "This safe can no longer be robbed." );
+		        if ( g_robberyData[ robberyid ] [ E_STATE ] != STATE_ROBBED ) return SendError( playerid, "这个保险箱不能再被抢劫." );
 		        else
 		        {
 				    static szLocation[ MAX_ZONE_NAME ], szCity[ MAX_ZONE_NAME ];
@@ -173,17 +173,17 @@ hook OnProgressCompleted( playerid, progressid, params )
 						    GetZoneFromCoordinates( szLocation, g_entranceData[ id ] [ E_EX ], g_entranceData[ id ] [ E_EY ], g_entranceData[ id ] [ E_EZ ] );
 						    if ( !strmatch( szCity, "San Fierro" ) && !strmatch( szCity, "Las Venturas" ) && !strmatch( szCity, "Los Santos" ) ) g_robberyData[ robberyid ] [ E_SAFE_LOOT ] /= 2; // Halve Profit outside SF, LV & LS
 							if ( strmatch( szCity, "Las Venturas" ) || strmatch( szCity, "Los Santos" ) ) g_robberyData[ robberyid ] [ E_SAFE_LOOT ] = floatround( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] * 0.8 ); // Remove 20%
-							SendGlobalMessage( COLOR_GOLD, "[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from %s near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] ), g_robberyData[ robberyid ] [ E_NAME ], szLocation, szCity );
+							SendGlobalMessage( COLOR_GOLD, "[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE", 目标: %s, 地点: %s (%s)!", ReturnPlayerName( playerid ), playerid, cash_format( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] ), g_robberyData[ robberyid ] [ E_NAME ], GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 					    }
 					    else if ( p_InBusiness[ playerid ] != -1 )
 					    {
 						    Get2DCity( szCity, g_businessData[ businessid ] [ E_X ], g_businessData[ businessid ] [ E_Y ], g_businessData[ businessid ] [ E_Z ] );
 						    GetZoneFromCoordinates( szLocation, g_businessData[ businessid ] [ E_X ], g_businessData[ businessid ] [ E_Y ], g_businessData[ businessid ] [ E_Z ] );
-							SendGlobalMessage( COLOR_GOLD, "[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from %s"COL_WHITE" near %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] ), g_robberyData[ robberyid ] [ E_NAME ], szLocation, szCity );
+							SendGlobalMessage( COLOR_GOLD, "[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE" 来自%s"COL_WHITE" 附近%s在%s!", ReturnPlayerName( playerid ), playerid, cash_format( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] ), g_robberyData[ robberyid ] [ E_NAME ], GetLocationDisplayName(szLocation), GetLocationDisplayName(szCity) );
 					    }
 					    else
 					    {
-					    	SendServerMessage( playerid, "You've been kicked due to suspected teleport hacking." );
+                            SendServerMessage( playerid, "你因涉嫌传送黑客而被踢出." );
 					    	KickPlayerTimed( playerid );
 					    	return 1;
 					    }
@@ -194,7 +194,7 @@ hook OnProgressCompleted( playerid, progressid, params )
 					    Get2DCity( szCity, X, Y, Z );
 					    if ( !strmatch( szCity, "San Fierro" ) && !strmatch( szCity, "Las Venturas" ) && !strmatch( szCity, "Los Santos" ) ) g_robberyData[ robberyid ] [ E_SAFE_LOOT ] /= 2; // Halve Profit outside SF, LV & LS
 						//if ( strmatch( szCity, "Las Venturas" ) || strmatch( szCity, "Los Santos" ) ) g_robberyData[ robberyid ] [ E_SAFE_LOOT ] = floatround( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] * 0.75 ); // Remove 25%
-						SendGlobalMessage( -1, ""COL_GOLD"[ROBBERY]"COL_WHITE" %s(%d) has robbed "COL_GOLD"%s"COL_WHITE" from %s in %s!", ReturnPlayerName( playerid ), playerid, cash_format( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] ), g_robberyData[ robberyid ] [ E_NAME ], szCity );
+						SendGlobalMessage( -1, ""COL_GOLD"[抢劫]"COL_WHITE" %s(%d) 抢走了"COL_GOLD"%s"COL_WHITE" 从 %s 到 %s!", ReturnPlayerName( playerid ), playerid, cash_format( g_robberyData[ robberyid ] [ E_SAFE_LOOT ] ), g_robberyData[ robberyid ] [ E_NAME ], GetLocationDisplayName(szCity) );
 					}
 
 					GivePlayerScore( playerid, 2 );
@@ -235,11 +235,11 @@ hook OnProgressCompleted( playerid, progressid, params )
 				static
 					Float: pZ, Float: sZ;
 
-		        if ( g_robberyData[ robberyid ] [ E_STATE ] != STATE_PICKED ) return SendError( playerid, "This safe can no longer be picked." );
+		        if ( g_robberyData[ robberyid ] [ E_STATE ] != STATE_PICKED ) return SendError( playerid, "这个保险箱无法再被撬开." );
 
 		        p_UsingRobberySafe[ playerid ] = -1;
 				RemovePlayerAttachedObject( playerid, 0 );
-		        SendServerMessage( playerid, "You've opened the safe door." );
+		        SendServerMessage( playerid, "你已经打开了保险箱门." );
 
 		        g_robberyData[ robberyid ] [ E_STATE ] 	  = STATE_NONE;
 		        g_robberyData[ robberyid ] [ E_ROBTIMER ] = SetTimerEx( "onSafeBust", 1000, false, "dddd", playerid, robberyid, ROBBERY_TYPE_LABOR, 0 );
@@ -292,7 +292,7 @@ stock CreateRobberyCheckpoint( szName[ 32 ], iRobValue, Float: fX, Float: fY, Fl
 		// SetDynamicObjectMaterial( g_robberyData[ rID ] [ E_SAFE ], 5, 1829, "kbmiscfrn2", "man_mny1", 0 );
 		// SetDynamicObjectMaterial( g_robberyData[ rID ] [ E_SAFE_DOOR ], 2, 0, "none", "none", -1 );
 
-		g_robberyData[ rID ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s\n"COL_WHITE"Left ALT To Crack Safe", szName ), COLOR_GREY, fX, fY, fZ, 15.0, .testlos = 0, .worldid = worldid );
+		g_robberyData[ rID ] [ E_LABEL ] = CreateDynamic3DTextLabel( sprintf( "%s\n"COL_WHITE"左 ALT 破解安全", szName ), COLOR_GREY, fX, fY, fZ, 15.0, .testlos = 0, .worldid = worldid );
 	    format( g_robberyData[ rID ] [ E_NAME ], 32, "%s", szName );
 
 	    g_robberyData[ rID ] [ E_WORLD ] 		= worldid;
@@ -452,9 +452,9 @@ stock AttachToRobberySafe( robberyid, playerid, type )
 				Float: speed_up = GetPlayerLevel( playerid, E_ROBBERY ) * 37.5;
 
 			if ( speed_up >= 37.5 ) {
-				SendServerMessage( playerid, "You have attached your thermal drill (%0.1f%s faster) on this "COL_ORANGE"safe"COL_WHITE".", ( speed_up / 7500.0 ) * 100.0, "%%" );
+				SendServerMessage( playerid, "你已在此附上你的 热力钻机(%0.1f%s 更快) "COL_ORANGE"保险箱"COL_WHITE".", ( speed_up / 7500.0 ) * 100.0, "%%" );
 			} else {
-				SendServerMessage( playerid, "You have attached your thermal drill on this "COL_ORANGE"safe"COL_WHITE"." );
+				SendServerMessage( playerid, "你已将你的 热力钻机 附加到此 "COL_ORANGE"保险箱"COL_WHITE"." );
 			}
 
 			g_robberyData[ robberyid ] [ E_ROBTIMER ] = SetTimerEx( "onSafeBust", 7500 - floatround( speed_up ), false, "dddd", playerid, robberyid, type, 0 );
@@ -608,11 +608,11 @@ stock createRobberyLootInstance( playerid, robberyid, type )
 				GetZoneFromCoordinates( szLocation, g_businessData[ business_id ] [ E_X ], g_businessData[ business_id ] [ E_Y ], g_businessData[ business_id ] [ E_Z ] );
 
 			if ( GetPlayerInterior( playerid ) != 0 )
-		    	SendClientMessageToCops( -1, ""COL_BLUE"[ROBBERY]"COL_WHITE" %s has failed robbing %s"COL_WHITE" near %s.", ReturnPlayerName( playerid ), g_robberyData[ robberyid ] [ E_NAME ], szLocation );
+                SendClientMessageToCops( -1, ""COL_BLUE"[抢劫]"COL_WHITE" %s 抢劫 %s 失败"COL_WHITE" 靠近%s.", ReturnPlayerName( playerid ), g_robberyData[ robberyid ] [ E_NAME ], GetLocationDisplayName(szLocation) );
 			else
-				SendClientMessageToCops( -1, ""COL_BLUE"[ROBBERY]"COL_WHITE" %s has failed robbing %s"COL_WHITE".", ReturnPlayerName( playerid ), g_robberyData[ robberyid ] [ E_NAME ] );
+				SendClientMessageToCops( -1, ""COL_BLUE"[抢劫]"COL_WHITE" %s 抢劫 %s 失败"COL_WHITE".", ReturnPlayerName( playerid ), g_robberyData[ robberyid ] [ E_NAME ] );
 
-			SendClientMessage( playerid, -1, ""COL_GREY"[SERVER]"COL_WHITE" No loot, and the alarm went off. Cops have been alerted." );
+			SendClientMessage( playerid, -1, ""COL_GREY"[服务器]"COL_WHITE" 没有战利品,警报响起.警方已接到警报." );
 			GivePlayerWantedLevel( playerid, 6 );
 			CreateCrimeReport( playerid );
 		}
@@ -643,14 +643,14 @@ function onSafeBust( playerid, robberyid, type, index )
 			{
 				if ( bConnected ) {
 					PlayerPlaySound( playerid, 1056, g_robberyData[ robberyid ] [ E_DOOR_X ], g_robberyData[ robberyid ] [ E_DOOR_Y ], g_robberyData[ robberyid ] [ E_DOOR_Z ] );
-	        		GameTextForPlayer( playerid, "~r~Fall back!~n~c4 in detonation!", 4000, 3 );
+                    GameTextForPlayer( playerid, "~r~后退!~n~c4爆炸!", 4000, 3 );
 	        	}
 				g_robberyData[ robberyid ] [ E_ROBTIMER ] = SetTimerEx( "onSafeBust", 960, false, "dddd", playerid, robberyid, type, index + 1 );
 			}
 			else
 			{
 				if ( bConnected ) {
-        			GameTextForPlayer( playerid, "~g~We're in!", 4000, 3 );
+                    GameTextForPlayer( playerid, "~g~我们进来了!", 4000, 3 );
 					PlayerPlaySound( playerid, 1057, g_robberyData[ robberyid ] [ E_DOOR_X ], g_robberyData[ robberyid ] [ E_DOOR_Y ], g_robberyData[ robberyid ] [ E_DOOR_Z ] );
 				}
 
@@ -821,7 +821,7 @@ function SetPlayerHandleNearestSafe( playerid )
 	{
 		if ( !g_robberyData[ robberyid ] [ E_STATE ] && !g_robberyData[ robberyid ] [ E_ROBBED ] && !IsValidDynamicObject( g_robberyData[ robberyid ] [ E_SAFE_MONEY ] ) )
 		{
-			if ( IsPlayerCuffed( playerid ) || IsPlayerTazed( playerid ) || IsPlayerTied( playerid ) ) return SendError( playerid, "You cannot pick the safe at the moment." );
+			if ( IsPlayerCuffed( playerid ) || IsPlayerTazed( playerid ) || IsPlayerTied( playerid ) ) return SendError( playerid, "你目前无法打开保险箱." );
 
 			if ( p_drillStrength[ playerid ] )
 			{
@@ -831,16 +831,16 @@ function SetPlayerHandleNearestSafe( playerid )
 			}
 			else
 			{
-	       	 	if ( g_robberyData[ robberyid ] [ E_STATE ] ) return SendError( playerid, "This safe must be in an idle state to pick it." );
+                if ( g_robberyData[ robberyid ] [ E_STATE ] ) return SendError( playerid, "此保险箱必须处于空闲状态才能撬开它." );
 	       	 	//else if ( p_UsingRobberySafe[ playerid ] != -1 ) return SendError( playerid, "You're currently working on another safe." );
 	       	 	else if ( g_robberyData[ robberyid ] [ E_OPEN ] ) return 1; //SendError( playerid, "This safe is open." );
 	       	 	else if ( IsPlayerUsingAnimation( playerid ) ) return 1; //SendError( playerid, "You mustn't be using an animation." );
-	       	 	else if ( g_robberyData[ robberyid ] [ E_ROBTIMER ] != 0xFFFF ) return SendError( playerid, "This safe is currently busy." );
-	       	 	else if ( p_Class[ playerid ] == CLASS_POLICE ) return SendError( playerid, "You cannot pick this safe as a law enforcement officer." );
+                else if ( g_robberyData[ robberyid ] [ E_ROBTIMER ] != 0xFFFF ) return SendError( playerid, "该保险箱当前正忙." );
+                else if ( p_Class[ playerid ] == CLASS_POLICE ) return SendError( playerid, "作为执法人员,你不能选择这个保险箱." );
 	       	 	// else if ( g_robberyData[ robberyid ] [ E_BUSINESS_ID ] != -1 && ! g_businessData[ g_robberyData[ robberyid ] [ E_BUSINESS_ID ] ] [ E_BANK ] ) return SendError( playerid, "There is nothing to rob from this business safe." );
-	       	 	else if ( g_robberyData[ robberyid ] [ E_BUSINESS_ID ] != -1 && ! IsPlayerJob( playerid, JOB_BURGLAR ) ) return SendError( playerid, "You need to be a burglar to rob this safe." );
-				else if ( IsBusinessAssociate( playerid, g_robberyData[ robberyid ] [ E_BUSINESS_ID ] ) ) return SendError( playerid, "You are an associate of this business, you cannot rob it!" );
-	       	 	else if ( g_robberyData[ robberyid ] [ E_DRILL_PLACER ] != INVALID_PLAYER_ID || IsValidDynamicObject( g_robberyData[ robberyid ] [ E_DRILL ] ) ) return SendError( playerid, "The safe is currently occupied by a drill." );
+                else if ( g_robberyData[ robberyid ] [ E_BUSINESS_ID ] != -1 && ! IsPlayerJob( playerid, JOB_BURGLAR ) ) return SendError( playerid, "你需要成为一名窃贼才能抢劫这个保险箱." );
+				else if ( IsBusinessAssociate( playerid, g_robberyData[ robberyid ] [ E_BUSINESS_ID ] ) ) return SendError( playerid, "你是这家公司的合伙人,你不能抢劫它!" );
+                else if ( g_robberyData[ robberyid ] [ E_DRILL_PLACER ] != INVALID_PLAYER_ID || IsValidDynamicObject( g_robberyData[ robberyid ] [ E_DRILL ] ) ) return SendError( playerid, "保险箱当前被钻头占据." );
 	       	 	else
 	       	 	{
 	       	 		// TriggerRobberyForClerks( playerid, robberyid );
@@ -868,21 +868,21 @@ function SetPlayerHandleNearestSafe( playerid )
 						Float: speed_up = GetPlayerLevel( playerid, E_ROBBERY ) * 50.0;
 
 					if ( speed_up >= 50.0 ) {
-						SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[ROBBERY]"COL_WHITE" You are now picking a safe (%0.1f%s faster), please wait until you've finished. Press C to stop.", ( speed_up / 10000.0 ) * 100.0, "%%" );
+						SendClientMessageFormatted( playerid, -1, ""COL_GOLD"[抢劫]"COL_WHITE" 你现在正在挑选保险箱(%0.1f%s 更快),请稍候,直到完成.按 C 停止.", ( speed_up / 10000.0 ) * 100.0, "%%" );
 					} else {
-						SendClientMessage( playerid, -1, ""COL_GOLD"[ROBBERY]"COL_WHITE" You are now picking a safe, please wait until you've finished. Press C to stop." );
+						SendClientMessage( playerid, -1, ""COL_GOLD"[抢劫]"COL_WHITE" 你现在正在挑选保险箱,请稍候,直到完成.按 C 停止." );
 					}
 
 					g_robberyData[ robberyid ] [ E_STATE ] = STATE_PICKED;
-					ShowProgressBar( playerid, "Picking Safe", PROGRESS_SAFEPICK, 10000 - floatround( speed_up ), COLOR_WANTED12, robberyid );
+					ShowProgressBar( playerid, "挑选保险箱", PROGRESS_SAFEPICK, 10000 - floatround( speed_up ), COLOR_WANTED12, robberyid );
 				}
 			}
 		}
 
 		if ( IsValidDynamicObject( g_robberyData[ robberyid ] [ E_SAFE_MONEY ] ) )
 		{
-	    	if ( g_robberyData[ robberyid ] [ E_STATE ] ) return SendError( playerid, "This safe must be in an idle state to rob it." );
-	       	else if ( p_Class[ playerid ] == CLASS_POLICE ) return SendError( playerid, "You cannot rob this safe as a law enforcement officer." );
+            if ( g_robberyData[ robberyid ] [ E_STATE ] ) return SendError( playerid, "此保险箱必须处于空闲状态才能抢劫." );
+            else if ( p_Class[ playerid ] == CLASS_POLICE ) return SendError( playerid, "作为执法人员,你不能抢劫这个保险箱." );
 	        else
 	        {
 				p_UsingRobberySafe[ playerid ] = robberyid;
@@ -899,7 +899,7 @@ function SetPlayerHandleNearestSafe( playerid )
 
 	        	g_robberyData[ robberyid ] [ E_STATE ] = STATE_ROBBED;
 
-				ShowProgressBar( playerid, "Robbing Safe", PROGRESS_ROBBING, 2500, COLOR_YELLOW, robberyid );
+				ShowProgressBar( playerid, "抢劫保险箱", PROGRESS_ROBBING, 2500, COLOR_YELLOW, robberyid );
 	        }
 		}
 	}

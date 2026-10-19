@@ -56,7 +56,7 @@ enum E_PIMP_DATA
 
 new
 	g_vehicleComponentsCategories[ ] [ MAX_COMPONENT_NAME ] = {
-		"Spoilers", "Hood", "Bags", "Lamps", "Wheels", "Bullbar", "Front Bumper", "Rear Bumper", "Vents", "Neon", "Mechanic Items", "Military Items", "Miscellaneous"
+		"扰流板", "引擎盖", "挂包", "车灯", "轮毂", "防撞杠", "前保险杠", "后保险杠", "通风口", "霓虹灯", "维修工具", "军用物品", "杂项"
 	},
 	g_vehicleComponentsData[ ] [ E_CAR_MODS ] =
 	{
@@ -68,8 +68,8 @@ new
 		{ CATEGORY_SPOILERS, 0, 1058, "Alien - Stratum", 10000 },
 		{ CATEGORY_SPOILERS, 0, 1014, "Champ", 11000 },
 		{ CATEGORY_SPOILERS, 0, 1003, "Alpha", 12000 },
-		{ CATEGORY_SPOILERS, 0, 1002, "Drag", 13000 },
-		{ CATEGORY_SPOILERS, 0, 1015, "Race", 14000 },
+		{ CATEGORY_SPOILERS, 0, 1002, "直线竞速型", 13000 },
+		{ CATEGORY_SPOILERS, 0, 1015, "赛道型", 14000 },
 		{ CATEGORY_SPOILERS, 0, 1060, "X-Flow - Stratum", 14000 },
 		{ CATEGORY_SPOILERS, 0, 1049, "Alien - Flash", 14000 },
 		{ CATEGORY_SPOILERS, 0, 1162, "Alien - Jester", 18000 },
@@ -83,29 +83,29 @@ new
 		{ CATEGORY_SPOILERS, 0, 1139, "X-Flow - Sultan", 35000 },
 
 		// Hood
-		{ CATEGORY_HOOD, 0, 1011, "Race Scoop", 13000 },
-		{ CATEGORY_HOOD, 0, 1004, "Champ Scoop", 15000 },
-		{ CATEGORY_HOOD, 0, 1005, "Fury Scoop", 16000 },
-		{ CATEGORY_HOOD, 0, 1012, "Worx Scoop", 23000 },
+		{ CATEGORY_HOOD, 0, 1011, "Race 进气罩", 13000 },
+		{ CATEGORY_HOOD, 0, 1004, "Champ 进气罩", 15000 },
+		{ CATEGORY_HOOD, 0, 1005, "Fury 进气罩", 16000 },
+		{ CATEGORY_HOOD, 0, 1012, "Worx 进气罩", 23000 },
 
 		// Bags
-		{ CATEGORY_BAGS, 0, 11745, "Bag", 15000 },
-		{ CATEGORY_BAGS, 0, 1279, "Tent Pack", 17000 },
-		{ CATEGORY_BAGS, 0, 1550, "Money Bag", 35000 },
-		{ CATEGORY_BAGS, 0, 1210, "Money Case", 25000 },
-		{ CATEGORY_BAGS, 0, 1575, "Grey Drug Bag", 15000 },
-		{ CATEGORY_BAGS, 0, 1576, "Orange Drug Bag", 15000 },
-		{ CATEGORY_BAGS, 0, 1577, "Yellow Drug Bag", 15000 },
-		{ CATEGORY_BAGS, 0, 1578, "Green Drug Bag", 15000 },
-		{ CATEGORY_BAGS, 0, 1579, "Blue Drug Bag", 15000 },
-		{ CATEGORY_BAGS, 0, 1580, "Red Drug Bag", 15000 },
+		{ CATEGORY_BAGS, 0, 11745, "挂包", 15000 },
+		{ CATEGORY_BAGS, 0, 1279, "帐篷包", 17000 },
+		{ CATEGORY_BAGS, 0, 1550, "钱袋", 35000 },
+		{ CATEGORY_BAGS, 0, 1210, "钱箱", 25000 },
+		{ CATEGORY_BAGS, 0, 1575, "灰色毒品袋", 15000 },
+		{ CATEGORY_BAGS, 0, 1576, "橙色毒品袋", 15000 },
+		{ CATEGORY_BAGS, 0, 1577, "黄色毒品袋", 15000 },
+		{ CATEGORY_BAGS, 0, 1578, "绿色毒品袋", 15000 },
+		{ CATEGORY_BAGS, 0, 1579, "蓝色毒品袋", 15000 },
+		{ CATEGORY_BAGS, 0, 1580, "红色毒品袋", 15000 },
 
 		// Lamps
-		{ CATEGORY_LAMPS, 0, 1013, "Round Fog", 15000 },
-		{ CATEGORY_LAMPS, 0, 1024, "Square Fog", 25000 },
+		{ CATEGORY_LAMPS, 0, 1013, "圆形雾灯", 15000 },
+		{ CATEGORY_LAMPS, 0, 1024, "方形雾灯", 25000 },
 
 		// Wheels
-		{ CATEGORY_WHEELS, 0, 1025, "Offroad", 25000 },
+		{ CATEGORY_WHEELS, 0, 1025, "越野", 25000 },
 		{ CATEGORY_WHEELS, 0, 1080, "Switch", 25000 },
 		{ CATEGORY_WHEELS, 0, 1077, "Classic", 30000 },
 		{ CATEGORY_WHEELS, 0, 1073, "Shadow", 35000 },
@@ -121,13 +121,13 @@ new
 		{ CATEGORY_WHEELS, 0, 1098, "Access", 55000 },
 		{ CATEGORY_WHEELS, 0, 1097, "Virtual", 65000 },
 		{ CATEGORY_WHEELS, 0, 1082, "Import", 75000},
-		{ CATEGORY_WHEELS, 0, 1327, "Large Wheel", 80000 },
+		{ CATEGORY_WHEELS, 0, 1327, "大轮", 80000 },
 		{ CATEGORY_WHEELS, 0, 1083, "Dollar", 100000 },
 
 		// Bullbar
-		{ CATEGORY_BULLBAR, 0, 1123, "Bullbar Chrome Bars", 30000 },
-		{ CATEGORY_BULLBAR, 0, 1100, "Chrome Grill", 35000 },
-		{ CATEGORY_BULLBAR, 0, 1125, "Bullbar Chrome Lights", 37000 },
+		{ CATEGORY_BULLBAR, 0, 1123, "防撞镀铬条", 30000 },
+		{ CATEGORY_BULLBAR, 0, 1100, "镀铬格栅", 35000 },
+		{ CATEGORY_BULLBAR, 0, 1125, "防撞镀铬灯", 37000 },
 
 		// Front Bumper
 		{ CATEGORY_FRONT_BUMPER, 0, 1155, "Alien - Stratum", 15000 },
@@ -145,14 +145,14 @@ new
 		{ CATEGORY_FRONT_BUMPER, 0, 1152, "X-Flow - Flash", 35000 },
 		{ CATEGORY_FRONT_BUMPER, 0, 1172, "X-Flow - Elegy", 35000 },
 		{ CATEGORY_FRONT_BUMPER, 0, 1170, "X-Flow - Sultan", 40000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1174, "Chrome - Broadway 1", 45000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1176, "Chrome - Broadway 2", 45000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1117, "Chrome - Slamvan", 50000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1182, "Chrome - Blade", 50000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1174, "镀铬 - Broadway 1", 45000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1176, "镀铬 - Broadway 2", 45000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1117, "镀铬 - Slamvan", 50000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1182, "镀铬 - Blade", 50000 },
 		{ CATEGORY_FRONT_BUMPER, 0, 1188, "Slamin - Savanna", 50000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1189, "Chrome - Savanna",50000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1191, "Chrome - Tornado", 50000 },
-		{ CATEGORY_FRONT_BUMPER, 0, 1179, "Chrome - Remington", 55000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1189, "镀铬 - Savanna",50000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1191, "镀铬 - Tornado", 50000 },
+		{ CATEGORY_FRONT_BUMPER, 0, 1179, "镀铬 - Remington", 55000 },
 
 		// Rear Bumper
 		{ CATEGORY_REAR_BUMPER, 0, 1154, "Alien - Stratum", 15000 },
@@ -173,64 +173,64 @@ new
 		{ CATEGORY_REAR_BUMPER, 0, 1148, "X-Flow - Elegy", 29000 },
 		{ CATEGORY_REAR_BUMPER, 0, 1141, "Alien - Sultan", 30000 },
 		{ CATEGORY_REAR_BUMPER, 0, 1177, "Slamin - Broadway", 35000 },
-		{ CATEGORY_REAR_BUMPER, 0, 1180, "Chrome - Remington", 50000 },
-		{ CATEGORY_REAR_BUMPER, 0, 1184, "Chrome - Blade", 50000 },
-		{ CATEGORY_REAR_BUMPER, 0, 1187, "Chrome - Savanna", 50000 },
-		{ CATEGORY_REAR_BUMPER, 0, 1192, "Chrome - Tornado", 50000 },
+		{ CATEGORY_REAR_BUMPER, 0, 1180, "镀铬 - Remington", 50000 },
+		{ CATEGORY_REAR_BUMPER, 0, 1184, "镀铬 - Blade", 50000 },
+		{ CATEGORY_REAR_BUMPER, 0, 1187, "镀铬 - Savanna", 50000 },
+		{ CATEGORY_REAR_BUMPER, 0, 1192, "镀铬 - Tornado", 50000 },
 
 		// Vents
-		{ CATEGORY_VENTS, 0, 1142, "Left Oval Vents", 4000 },
-		{ CATEGORY_VENTS, 0, 1143, "Right Oval Vents", 4000 },
-		{ CATEGORY_VENTS, 0, 1144, "Left Square Vents", 6000 },
-		{ CATEGORY_VENTS, 0, 1145, "Right Square Vents", 6000 },
-		{ CATEGORY_VENTS, 3, 914, "Large Air Vent", 250000 },
+		{ CATEGORY_VENTS, 0, 1142, "左椭圆形通风口", 4000 },
+		{ CATEGORY_VENTS, 0, 1143, "右椭圆形通风口", 4000 },
+		{ CATEGORY_VENTS, 0, 1144, "左方形通风口", 6000 },
+		{ CATEGORY_VENTS, 0, 1145, "右方形通风口", 6000 },
+		{ CATEGORY_VENTS, 3, 914, "大通风口", 250000 },
 
 		// Neon
-		{ CATEGORY_NEON, 0, 18647, "Red Neon", 200000 },
-		{ CATEGORY_NEON, 0, 18648, "Blue Neon", 200000 },
-		{ CATEGORY_NEON, 0, 18649, "Green Neon", 200000 },
-		{ CATEGORY_NEON, 0, 18650, "Yellow Neon", 200000 },
-		{ CATEGORY_NEON, 0, 18651, "Pink Neon", 200000 },
-		{ CATEGORY_NEON, 0, 18652, "White Neon", 200000 },
+		{ CATEGORY_NEON, 0, 18647, "红色霓虹灯", 200000 },
+		{ CATEGORY_NEON, 0, 18648, "蓝色霓虹灯", 200000 },
+		{ CATEGORY_NEON, 0, 18649, "绿色霓虹灯", 200000 },
+		{ CATEGORY_NEON, 0, 18650, "黄色霓虹灯", 200000 },
+		{ CATEGORY_NEON, 0, 18651, "粉红霓虹灯", 200000 },
+		{ CATEGORY_NEON, 0, 18652, "白色霓虹灯", 200000 },
 
 		// Military Items
-		{ CATEGORY_MILITARY_ITEMS, 0, 1654, "Dynamite", 8000 },
-		{ CATEGORY_MILITARY_ITEMS, 0, 19590, "Sword", 14000 },
-		{ CATEGORY_MILITARY_ITEMS, 0, 19832, "Ammo Box", 20000 },
-		{ CATEGORY_MILITARY_ITEMS, 0, 2040, "Ammo box closed", 20000 },
-		{ CATEGORY_MILITARY_ITEMS, 0, 2041, "Ammo box open", 20000 },
-		{ CATEGORY_MILITARY_ITEMS, 1, 964, "Army crate", 40000 },
-		{ CATEGORY_MILITARY_ITEMS, 0, 11738, "Medikit", 135000 },
+		{ CATEGORY_MILITARY_ITEMS, 0, 1654, "炸药", 8000 },
+		{ CATEGORY_MILITARY_ITEMS, 0, 19590, "剑", 14000 },
+		{ CATEGORY_MILITARY_ITEMS, 0, 19832, "弹药箱", 20000 },
+		{ CATEGORY_MILITARY_ITEMS, 0, 2040, "弹药箱关闭", 20000 },
+		{ CATEGORY_MILITARY_ITEMS, 0, 2041, "弹药箱打开", 20000 },
+		{ CATEGORY_MILITARY_ITEMS, 1, 964, "军用板条箱", 40000 },
+		{ CATEGORY_MILITARY_ITEMS, 0, 11738, "医疗包", 135000 },
 
 		// Mechanic Items
-		{ CATEGORY_MECHANIC_ITEMS, 0, 18644, "Screwdriver", 1500 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 18633, "Wrench", 2500 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 18635, "Hammer", 2500 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 1650, "Gas Can", 5000 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 19621, "Oil Can", 7500 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 19816, "Oxygen Tank", 20000 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 19921, "Toolbox", 23000 },
-		{ CATEGORY_MECHANIC_ITEMS, 1, 19917, "Engine", 65000 },
-		{ CATEGORY_MECHANIC_ITEMS, 1, 920, "Generator", 80000 },
-		{ CATEGORY_MECHANIC_ITEMS, 0, 19631, "Sledge Hammer", 90000 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 18644, "螺丝刀", 1500 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 18633, "扳手", 2500 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 18635, "锤", 2500 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 1650, "煤气罐", 5000 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 19621, "油罐", 7500 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 19816, "氧气罐", 20000 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 19921, "工具箱", 23000 },
+		{ CATEGORY_MECHANIC_ITEMS, 1, 19917, "引擎", 65000 },
+		{ CATEGORY_MECHANIC_ITEMS, 1, 920, "发电机", 80000 },
+		{ CATEGORY_MECHANIC_ITEMS, 0, 19631, "大锤", 90000 },
 
 		// Miscellaneous
-		{ CATEGORY_MISCELLANEOUS, 0, 19309, "Taxi White", 2000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19310, "Taxi Black", 4000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 18632, "Fishing Rod", 8000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19624, "Suitcase", 15000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19314, "Bullhorn", 15000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 18646, "Police Light", 25000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19280, "Floodlight", 30000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19419, "Police Light Strip", 45000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19320, "Pumpkin", 45000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19306, "Red Flag", 50000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19307, "Blue Flag", 50000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19086, "Chainsaw Dildo", 69696},
-		{ CATEGORY_MISCELLANEOUS, 0, 11704, "Devil Mask", 75000 },
-		{ CATEGORY_MISCELLANEOUS, 2, 2985, "Mounted Minigun", 80000 },
-		{ CATEGORY_MISCELLANEOUS, 0, 19315, "Deer", 133769 },
-		{ CATEGORY_MISCELLANEOUS, 0, 1609, "Turtle", 250000 }
+		{ CATEGORY_MISCELLANEOUS, 0, 19309, "出租车白色", 2000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19310, "出租车黑色", 4000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 18632, "钓竿", 8000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19624, "手提箱", 15000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19314, "扩音器", 15000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 18646, "警灯", 25000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19280, "泛光灯", 30000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19419, "警灯带", 45000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19320, "南瓜", 45000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19306, "红旗", 50000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19307, "蓝旗", 50000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19086, "电锯假阳具", 69696},
+		{ CATEGORY_MISCELLANEOUS, 0, 11704, "恶魔面具", 75000 },
+		{ CATEGORY_MISCELLANEOUS, 2, 2985, "机枪", 80000 },
+		{ CATEGORY_MISCELLANEOUS, 0, 19315, "鹿", 133769 },
+		{ CATEGORY_MISCELLANEOUS, 0, 1609, "龟", 250000 }
 		//{ CATEGORY_MISCELLANEOUS, 1, 19601, "Snow Plough", 1500000 }
 	},
 
@@ -252,7 +252,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		SetPVarInt( playerid, "components_item", listitem );
 		if ( response )
 		{
-			ShowPlayerDialog(playerid, DIALOG_COMPONENTS_RESPONSE, DIALOG_STYLE_LIST, ""COL_WHITE"Pimp My Ride", "Purchase Component\nPreview Component", "Select", "Back" );
+			ShowPlayerDialog(playerid, DIALOG_COMPONENTS_RESPONSE, DIALOG_STYLE_LIST, ""COL_WHITE"拉皮条我的旅程", "购买组件\n预览组件", "选择", "返回" );
 		}
 		else
 		{
@@ -277,13 +277,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 						if ( iItem == x++ )
 						{
 						    if ( !IsPlayerInAnyVehicle( playerid ) )
-						    	return SendError( playerid, "You need to be in a vehicle to use this command." );
+                                return SendError( playerid, "你需要在车辆中才能使用此命令." );
 
 							if ( GetPlayerCash( playerid ) < g_vehicleComponentsData[ i ] [ E_PRICE ] )
-								return SendError( playerid, "You need %s to purchase this vehicle component.", cash_format( g_vehicleComponentsData[ i ] [ E_PRICE ] ) );
+								return SendError( playerid, "你需要 %s 才能购买此车辆组件.", cash_format( g_vehicleComponentsData[ i ] [ E_PRICE ] ) );
 
 						    if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER )
-						    	return SendError( playerid, "You need to be a driver to use this command." );
+                                return SendError( playerid, "你需要成为驾驶员才能使用此命令." );
 
 					        new
 					        	ownerid = INVALID_PLAYER_ID,
@@ -291,19 +291,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 							;
 
 							if ( vehicleid == -1 )
-								return SendError( playerid, "This vehicle isn't a buyable vehicle." );
+								return SendError( playerid, "这辆车不是可购买的车辆." );
 
 							if ( playerid != ownerid )
-								return SendError( playerid, "This vehicle does not belong to you." );
+								return SendError( playerid, "这辆车不属于你." );
 
 							if ( GetVehicleCustomComponents( ownerid, vehicleid ) >= GetPlayerPimpVehicleSlots( ownerid ) )
-								return SendError( playerid, "You cannot purchase more than %d vehicle components.", GetPlayerPimpVehicleSlots( ownerid ) );
+								return SendError( playerid, "你不能购买超过 %d 个车辆部件.", GetPlayerPimpVehicleSlots( ownerid ) );
 
 							new
 								slotid = GetVehicleComponentSlot( ownerid, vehicleid );
 
 							if ( slotid == -1 )
-								return SendError( playerid, "You cannot add more than %d components to your vehicle.", MAX_PIMPS );
+								return SendError( playerid, "你向车辆添加的组件不得超过 %d 个.", MAX_PIMPS );
 
 							// make sure the person is above the limit
 							if ( g_vehicleComponentsData[ i ] [ E_LIMIT ] != 0 )
@@ -316,7 +316,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 										instances ++;
 
 								if ( instances >= g_vehicleComponentsData[ i ] [ E_LIMIT ] )
-									return SendError( playerid, "You can place a %s a maximum of %d time(s).", g_vehicleComponentsData[ i ] [ E_NAME ], g_vehicleComponentsData[ i ] [ E_LIMIT ] );
+									return SendError( playerid, "你最多可以放置 %s %d 次.", g_vehicleComponentsData[ i ] [ E_NAME ], g_vehicleComponentsData[ i ] [ E_LIMIT ] );
 							}
 
 							new
@@ -343,7 +343,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 							g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_OBJECT ] [ slotid ] = CreateDynamicObject( g_vehicleComponentsData[ i ] [ E_MODEL_ID ], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, .worldid = GetVehicleVirtualWorld( g_vehicleData[ ownerid ] [ vehicleid ] [ E_VEHICLE_ID ]) );
 							AttachDynamicObjectToVehicle( g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_OBJECT ] [ slotid ], g_vehicleData[ ownerid ] [ vehicleid ] [ E_VEHICLE_ID ], 0.0, 0.0, 1.0, 0.0, 0.0, 0.0 );
-							return SendServerMessage( playerid, "You have bought a "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE".", g_vehicleComponentsData[ i ] [ E_NAME ], cash_format( g_vehicleComponentsData[ i ] [ E_PRICE ] ) );
+							return SendServerMessage( playerid, "你已购买了 "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE".", g_vehicleComponentsData[ i ] [ E_NAME ], cash_format( g_vehicleComponentsData[ i ] [ E_PRICE ] ) );
 						}
 					}
 				}
@@ -353,7 +353,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					{
 						if ( iItem == x++ )
 						{
-							return ShowPlayerModelPreview( playerid, PREVIEW_MODEL_COMPONENT, "Component Preview", g_vehicleComponentsData[ i ] [ E_MODEL_ID ], .bgcolor = 0xFFFFFF70 );
+							return ShowPlayerModelPreview( playerid, PREVIEW_MODEL_COMPONENT, "组件预览", g_vehicleComponentsData[ i ] [ E_MODEL_ID ], .bgcolor = 0xFFFFFF70 );
 						}
 					}
 
@@ -373,10 +373,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		;
 
 		if ( vehicleid == -1 )
-			return SendError( playerid, "This vehicle isn't a buyable vehicle." );
+			return SendError( playerid, "这辆车不是可购买的车辆." );
 
 		if ( playerid != ownerid )
-			return SendError( playerid, "This vehicle does not belong to you." );
+			return SendError( playerid, "这辆车不属于你." );
 
 		for( new i = 0, x = 0; i < MAX_PIMPS; i++ ) if ( g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_CREATED ] [ i ] ) {
 			if ( listitem == x++ ) {
@@ -393,10 +393,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		;
 
 		if ( vehicleid == -1 )
-			return SendError( playerid, "This vehicle isn't a buyable vehicle." );
+			return SendError( playerid, "这辆车不是可购买的车辆." );
 
 		if ( playerid != ownerid )
-			return SendError( playerid, "This vehicle does not belong to you." );
+			return SendError( playerid, "这辆车不属于你." );
 
 		switch( listitem )
 		{
@@ -419,13 +419,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					GetVehiclePos( g_vehicleData[ ownerid ] [ vehicleid ] [ E_VEHICLE_ID ], X, Y, Z );
 					SetVehiclePos( g_vehicleData[ ownerid ] [ vehicleid ] [ E_VEHICLE_ID ], X, Y, Z + 0.05 );
 
-					SendServerMessage( playerid, "You have successfully enabled your vehicle component" );
+					SendServerMessage( playerid, "你已成功启用你的车辆组件" );
 				}
 				else
 				{
 					DestroyDynamicObject( g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_OBJECT ] [ i ] );
 					g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_OBJECT ] [ i ] = -1;
-					SendServerMessage( playerid, "You have successfully disabled your vehicle component" );
+					SendServerMessage( playerid, "你已成功禁用你的车辆组件" );
 				}
 
 				mysql_single_query( sprintf( "UPDATE `COMPONENTS` SET `DISABLED`=%d WHERE `ID`=%d", g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_DISABLED ] [ i ], g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_SQL_ID ] [ i ] ) );
@@ -435,7 +435,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			{
 				if ( g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_DISABLED ] [ i ] )
 				{
-					SendError( playerid, "This component is disabled, enable it first." );
+					SendError( playerid, "该组件已禁用,请先启用它." );
 					return ShowPlayerVehicleComponentMenu( playerid, ownerid, vehicleid, i );
 				}
 
@@ -448,19 +448,19 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 				ShowPlayerHelpDialog(
 					playerid, 0,
-					"~g~A or D -~w~ Move object~n~"\
-					"~g~/px - ~w~X axis~n~\
-					~g~/py - ~w~Y axis~n~\
-					~g~/pz - ~w~Z axis~n~\
-					~g~/rx - ~w~X rotation~n~\
-					~g~/ry - ~w~Y rotation~n~\
-					~g~/rz - ~w~Z rotation~n~\
-					~g~Press Y - ~w~Save~n~\
-					~g~Press N - ~w~Cancel~n~\
-					~g~Hold SPACE - ~w~Faster edit"
+					"~g~A 或 D -~w~ 移动对象~n~"\
+					"~g~/px - ~w~X 轴~n~\
+					~g~/py - ~w~Y 轴~n~\
+					~g~/pz - ~w~Z 轴~n~\
+					~g~/rx - ~w~X 旋转~n~\
+					~g~/ry - ~w~Y 旋转~n~\
+					~g~/rz - ~w~Z 旋转~n~\
+					~g~按 Y - ~w~保存~n~\
+					~g~按 N - ~w~取消~n~\
+					~g~按住空格 - ~w~更快编辑"
 				);
 
-				SendClientMessage( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You have started editing the component." );
+				SendClientMessage( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你已开始编辑组件." );
 				SetTimerEx( "OnUpdateVehicleComponents", TIMER_UPDATE_RATE, false, "d", playerid );
 			}
 			case 2: // sell
@@ -475,7 +475,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				new
 					sellPrice = floatround( g_vehicleComponentsData[ pimpid ] [ E_PRICE ] * 0.5 );
 
-				ShowPlayerDialog( playerid, DIALOG_COMPONENTS_SELL, DIALOG_STYLE_MSGBOX, ""COL_WHITE"Sell Components", sprintf( ""COL_WHITE"Are you sure you want to sell your "COL_GREY"%s "COL_WHITE"for "COL_GOLD"%s?\n", g_vehicleComponentsData[ pimpid ] [ E_NAME ], cash_format( sellPrice ) ), "Sell", "Back" );
+				ShowPlayerDialog( playerid, DIALOG_COMPONENTS_SELL, DIALOG_STYLE_MSGBOX, ""COL_WHITE"销售组件", sprintf( ""COL_WHITE"你确定要卖掉你的 "COL_GREY"%s "COL_WHITE"为了 "COL_GOLD"%s?\n", g_vehicleComponentsData[ pimpid ] [ E_NAME ], cash_format( sellPrice ) ), "出售", "返回" );
 			}
 		}
 	}
@@ -488,10 +488,10 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		;
 
 		if ( vehicleid == -1 )
-			return SendError( playerid, "This vehicle isn't a buyable vehicle." );
+			return SendError( playerid, "这辆车不是可购买的车辆." );
 
 		if ( playerid != ownerid )
-			return SendError( playerid, "This vehicle does not belong to you." );
+			return SendError( playerid, "这辆车不属于你." );
 
 		if ( ! response)
 		{
@@ -511,7 +511,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 					break;
 
 			if ( g_vehicleComponentsData[ pimpid ] [ E_MODEL_ID ] != g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_MODEL ] [ i ] )
-				return SendError( playerid, "You cannot sell this component as it no longer exists." );
+				return SendError( playerid, "你无法出售该组件,因为它不再存在." );
 
 			new
 				sellPrice = floatround( g_vehicleComponentsData[ pimpid ] [ E_PRICE ] * 0.5 );
@@ -523,7 +523,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_CREATED ] [ i ] = false;
 
 			mysql_single_query( sprintf( "DELETE FROM `COMPONENTS` WHERE `ID`=%d", g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_SQL_ID ] [ i ] ) );
-			SendServerMessage( playerid, "You have sold your "COL_GREY"%s"COL_WHITE" for "COL_GOLD"%s"COL_WHITE".", g_vehicleComponentsData[ pimpid ] [ E_NAME ], cash_format( sellPrice ) );
+			SendServerMessage( playerid, "你已经卖掉了你的 "COL_GREY"%s"COL_WHITE", 获得"COL_GOLD"%s"COL_WHITE".", g_vehicleComponentsData[ pimpid ] [ E_NAME ], cash_format( sellPrice ) );
 		}
 		return 1;
 	}
@@ -604,7 +604,7 @@ public OnUpdateVehicleComponents( playerid )
 		v = getVehicleSlotFromID( vehicleid, ownerid )
 	;
 	if ( v == -1 || playerid != ownerid || ! g_vehiclePimpData[ ownerid ] [ v ] [ E_CREATED ] [ slotid ] || g_vehiclePimpData[ ownerid ] [ v ] [ E_DISABLED ] [ slotid ] )
-		return SendServerMessage( playerid, "Vehicle component editing was cancelled." ), EndPlayerEditComponent( playerid );
+		return SendServerMessage( playerid, "车辆组件编辑已取消." ), EndPlayerEditComponent( playerid );
 
 	new
 		LR, KEYS, Float: VALUE = -1.0;
@@ -613,12 +613,12 @@ public OnUpdateVehicleComponents( playerid )
 
 	if ( KEYS & KEY_YES )
 	{
-		SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You have saved the component you were editing." );
+		SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你已保存正在编辑的组件." );
 		return EndPlayerEditComponent( ownerid, v, slotid, true );
 	}
 	else if ( KEYS & KEY_NO )
 	{
-		SendClientMessage( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You have cancelled editing the component." );
+		SendClientMessage( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你已取消编辑该组件." );
 		return EndPlayerEditComponent( ownerid, v, slotid );
 	}
 
@@ -752,7 +752,7 @@ stock ShowPlayerVehicleComponents( playerid, categoryid ) {
 	for( new i = 0; i < sizeof( g_vehicleComponentsData ); i++ ) if ( g_vehicleComponentsData[ i ] [ E_CATEGORY ] == categoryid ) {
 		format( szLargeString, sizeof( szLargeString ), "%s%s\t"COL_GOLD"%s\n", szLargeString, g_vehicleComponentsData[ i ] [ E_NAME ], cash_format( g_vehicleComponentsData[ i ] [ E_PRICE ] ) );
 	}
-	return ShowPlayerDialog( playerid, DIALOG_COMPONENTS, DIALOG_STYLE_TABLIST, sprintf( "Pimp My Ride - %s", g_vehicleComponentsCategories[ categoryid ] ), szLargeString, "Purchase", "Back" );
+	return ShowPlayerDialog( playerid, DIALOG_COMPONENTS, DIALOG_STYLE_TABLIST, sprintf( "给我的座驾拉皮条 - %s", g_vehicleComponentsCategories[ categoryid ] ), szLargeString, "购买", "返回" );
 }
 
 stock DestroyVehicleCustomComponents( playerid, vehicleid, bool: destroy_db = false )
@@ -809,13 +809,13 @@ stock ShowPlayerVehicleComponentMenu( playerid, ownerid, vehicleid, i )
 			break;
 
 	if ( !( 0 <= pimpid < sizeof( g_vehicleComponentsData ) ) || g_vehicleComponentsData[ pimpid ] [ E_MODEL_ID ] != g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_MODEL ] [ i ] )
-		return SendError( playerid, "You cannot sell this component as it no longer exists." );
+		return SendError( playerid, "你无法出售该组件,因为它不再存在." );
 
 	new
 		sellPrice = floatround( g_vehicleComponentsData[ pimpid ] [ E_PRICE ] * 0.5 );
 
 	SetPVarInt( playerid, "components_editing", i );
-	return ShowPlayerDialog( playerid, DIALOG_COMPONENT_EDIT, DIALOG_STYLE_TABLIST, "Vehicle Components", sprintf( "%s Component\t\nEdit Component\t\nSell Component\t"COL_GOLD"%s", g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_DISABLED ] [ i ] ? ( "Enable" ) : ( "Disable" ), cash_format( sellPrice ) ), "Select", "Cancel" );
+	return ShowPlayerDialog( playerid, DIALOG_COMPONENT_EDIT, DIALOG_STYLE_TABLIST, "车辆零部件", sprintf( "%s 组件\t\n编辑组件\t\n销售组件\t"COL_GOLD"%s", g_vehiclePimpData[ ownerid ] [ vehicleid ] [ E_DISABLED ] [ i ] ? ( "使能够" ) : ( "禁用" ), cash_format( sellPrice ) ), "选择", "取消" );
 }
 
 stock ShowVehicleComponentCategories( playerid )
@@ -828,15 +828,15 @@ stock ShowVehicleComponentCategories( playerid )
 			format( szCategory, sizeof( szCategory ), "%s%s\n", szCategory, g_vehicleComponentsCategories[ i ] );
 		}
 	}
-	return ShowPlayerDialog( playerid, DIALOG_COMPONENTS_CATEGORY, DIALOG_STYLE_LIST, "Pimp My Ride - Categories", szCategory, "Select", "Cancel" );
+	return ShowPlayerDialog( playerid, DIALOG_COMPONENTS_CATEGORY, DIALOG_STYLE_LIST, "皮条客我的旅程 - 类别", szCategory, "选择", "取消" );
 }
 
 hook OnPlayerEndModelPreview( playerid, handleid )
 {
 	if ( handleid == PREVIEW_MODEL_COMPONENT )
 	{
-		SendServerMessage( playerid, "You have finished looking at this vehicle modification preview." );
-		ShowPlayerDialog(playerid, DIALOG_COMPONENTS_RESPONSE, DIALOG_STYLE_LIST, ""COL_WHITE"Pimp My Ride", "Purchase Component\nPreview Component", "Select", "Back" );
+		SendServerMessage( playerid, "你已看完此车辆改装预览." );
+		ShowPlayerDialog(playerid, DIALOG_COMPONENTS_RESPONSE, DIALOG_STYLE_LIST, ""COL_WHITE"拉皮条我的旅程", "购买组件\n预览组件", "选择", "返回" );
 		return Y_HOOKS_BREAK_RETURN_1;
 	}
 	return 1;
@@ -845,50 +845,50 @@ hook OnPlayerEndModelPreview( playerid, handleid )
 /* ** Commands ** */
 CMD:px( playerid, params[ ] )
 {
-	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "You're not editing a vehicle." );
+	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "你没有编辑车辆." );
 
 	SetPVarInt( playerid, "component_edit_type", COMPONENT_EDIT_TYPE_X );
-	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You're now editing the X axis of the component." );
+	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你现在正在编辑组件的 X 轴." );
 }
 
 CMD:py( playerid, params[ ] )
 {
-	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "You're not editing a vehicle." );
+	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "你没有编辑车辆." );
 
 	SetPVarInt( playerid, "component_edit_type", COMPONENT_EDIT_TYPE_Y );
-	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You're now editing the Y axis of the component." );
+	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你现在正在编辑组件的 Y 轴." );
 }
 
 CMD:pz( playerid, params[ ] )
 {
-	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "You're not editing a vehicle." );
+	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "你没有编辑车辆." );
 
 	SetPVarInt( playerid, "component_edit_type", COMPONENT_EDIT_TYPE_Z );
-	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You're now editing the Z axis of the component." );
+	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你现在正在编辑组件的 Z 轴." );
 }
 
 CMD:rx( playerid, params[ ] )
 {
-	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "You're not editing a vehicle." );
+	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "你没有编辑车辆." );
 
 	SetPVarInt( playerid, "component_edit_type", COMPONENT_EDIT_TYPE_RX );
-	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You're now editing the X rotation of the component." );
+	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你现在正在编辑组件的 X 旋转." );
 }
 
 CMD:ry( playerid, params[ ] )
 {
-	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "You're not editing a vehicle." );
+	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "你没有编辑车辆." );
 
 	SetPVarInt( playerid, "component_edit_type", COMPONENT_EDIT_TYPE_RY );
-	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You're now editing the Y rotation of the component." );
+	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你现在正在编辑组件的 Y 旋转." );
 }
 
 CMD:rz( playerid, params[ ] )
 {
-	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "You're not editing a vehicle." );
+	if ( ! IsPlayerEditingVehicle( playerid ) ) return SendError( playerid, "你没有编辑车辆." );
 
 	SetPVarInt( playerid, "component_edit_type", COMPONENT_EDIT_TYPE_RZ );
-	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GARAGE]"COL_WHITE" You're now editing the Z rotation of the component." );
+	return SendClientMessageFormatted( playerid, -1, ""COL_GREY"[车库]"COL_WHITE" 你现在正在编辑组件的 Z 旋转." );
 }
 
 stock IsPlayerEditingVehicle( playerid ) {

@@ -23,24 +23,24 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
     if ( dialogid == DIALOG_BANK_MENU && response )
 	{
 	    if ( IsPlayerJailed( playerid ) )
-	    	return SendError( playerid, "You cannot use this while you're in jail." );
+            return SendError( playerid, "在监狱中无法使用此功能." );
 
         switch( listitem )
 		{
             case 0:
             {
-                format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to withdraw from your bank account.\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Withdraw", "Back" );
+                format( szBigString, sizeof( szBigString ), "{FFFFFF}输入你愿意从银行帐户中提取的金额.\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "取款", "返回" );
             }
             case 1:
             {
-                format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to deposit into your bank account below.\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Deposit", "Back" );
+                format( szBigString, sizeof( szBigString ), "{FFFFFF}在下方输入你愿意存入银行帐户的金额.\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "订金", "返回" );
             }
             case 2:
             {
-                format( szBigString, sizeof( szBigString ), ""COL_GREY"Current Balance:"COL_WHITE" %s\n"COL_GREY"Current Money:{FFFFFF} %s", cash_format( GetPlayerBankMoney( playerid ) ), cash_format( GetPlayerCash( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_INFO, DIALOG_STYLE_MSGBOX, "{FFFFFF}Personal Account", szBigString, "Ok", "Back" );
+                format( szBigString, sizeof( szBigString ), ""COL_GREY"当前余额:"COL_WHITE" %s\n"COL_GREY"当前货币:{FFFFFF} %s", cash_format( GetPlayerBankMoney( playerid ) ), cash_format( GetPlayerCash( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_INFO, DIALOG_STYLE_MSGBOX, "{FFFFFF}个人帐户", szBigString, "好的", "返回" );
             }
             // ... cases 3, 4, 5 handled in cnr\features\gangs\gbank.pwn
         }
@@ -48,7 +48,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
     }
     else if ( dialogid == DIALOG_BANK_WITHDRAW )
 	{
-	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
+	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
         if ( ! response ) return ShowPlayerBankMenuDialog( playerid );
 
         new
@@ -62,35 +62,35 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
         if ( ! strlen( money_withdraw ) )
         {
-            format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to withdraw from your bank account.\n\n"COL_RED"Invalid amount entered!\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Withdraw", "Back" );
+            format( szBigString, sizeof( szBigString ), "{FFFFFF}输入你愿意从银行帐户中提取的金额.\n\n"COL_RED"输入的金额无效!\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "取款", "返回" );
         }
         else if ( ! IsNumeric( money_withdraw ) ) {
-            format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to withdraw from your bank account.\n\n"COL_RED"Invalid amount entered!\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Withdraw", "Back" );
+            format( szBigString, sizeof( szBigString ), "{FFFFFF}输入你愿意从银行帐户中提取的金额.\n\n"COL_RED"输入的金额无效!\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "取款", "返回" );
         }
         else if ( strval( money_withdraw ) > 99999999 || strval( money_withdraw ) <= 0 )
         {
-            format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to withdraw from your bank account.\n\n"COL_RED"Invalid amount entered!\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Withdraw", "Back" );
+            format( szBigString, sizeof( szBigString ), "{FFFFFF}输入你愿意从银行帐户中提取的金额.\n\n"COL_RED"输入的金额无效!\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "取款", "返回" );
         }
         else if ( strval( money_withdraw ) > GetPlayerBankMoney( playerid ) ) {
-            format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to withdraw from your bank account.\n\n"COL_RED"Insufficient balance, therefore withdrawal failed.\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Withdraw", "Back" );
+            format( szBigString, sizeof( szBigString ), "{FFFFFF}输入你愿意从银行帐户中提取的金额.\n\n"COL_RED"余额不足,提现失败.\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+            ShowPlayerDialog( playerid, DIALOG_BANK_WITHDRAW, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "取款", "返回" );
         }
         else
         {
             new iWithdraw = strval( money_withdraw );
             GivePlayerBankMoney( playerid, -iWithdraw );
             GivePlayerCash( playerid, iWithdraw );
-            format( szBigString, sizeof( szBigString ), ""COL_GREY"Amount Withdrawn:"COL_WHITE" %s\n"COL_GREY"Current Balance:"COL_WHITE" %s\n"COL_GREY"Current Money:{FFFFFF} %s", cash_format( iWithdraw ), cash_format( GetPlayerBankMoney( playerid ) ), cash_format( GetPlayerCash( playerid ) ) );
-            ShowPlayerDialog( playerid, DIALOG_BANK_INFO, DIALOG_STYLE_MSGBOX, "{FFFFFF}Personal Account", szBigString, "Ok", "Back" );
+            format( szBigString, sizeof( szBigString ), ""COL_GREY"提取金额:"COL_WHITE" %s\n"COL_GREY"当前余额:"COL_WHITE" %s\n"COL_GREY"当前货币:{FFFFFF} %s", cash_format( iWithdraw ), cash_format( GetPlayerBankMoney( playerid ) ), cash_format( GetPlayerCash( playerid ) ) );
+            ShowPlayerDialog( playerid, DIALOG_BANK_INFO, DIALOG_STYLE_MSGBOX, "{FFFFFF}个人帐户", szBigString, "好的", "返回" );
         }
         return 1;
     }
     else if ( dialogid == DIALOG_BANK_DEPOSIT )
 	{
-	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "You cannot use this while you're in jail." );
+	    if ( IsPlayerJailed( playerid ) ) return SendError( playerid, "在监狱中无法使用此功能." );
 
         if ( response )
         {
@@ -106,29 +106,29 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
             // validate amount
             if ( !strlen( money_deposit ) ) {
-                format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to deposit into your bank account below.\n\n"COL_RED"Invalid amount entered!\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Deposit", "Back" );
+                format( szBigString, sizeof( szBigString ), "{FFFFFF}在下方输入你愿意存入银行帐户的金额.\n\n"COL_RED"输入的金额无效!\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "订金", "返回" );
             }
             else if ( ! IsNumeric( money_deposit ) ) {
-                format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to deposit into your bank account below.\n\n"COL_RED"Invalid amount entered!\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Deposit", "Back" );
+                format( szBigString, sizeof( szBigString ), "{FFFFFF}在下方输入你愿意存入银行帐户的金额.\n\n"COL_RED"输入的金额无效!\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "订金", "返回" );
             }
             else if ( strval( money_deposit ) > GetPlayerCash( playerid ) ) {
-                format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to deposit into your bank account below.\n\n"COL_RED"Insufficient balance, therefore deposition failed.\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Deposit", "Back" );
+                format( szBigString, sizeof( szBigString ), "{FFFFFF}在下方输入你愿意存入银行帐户的金额.\n\n"COL_RED"余额不足,因此存款失败.\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "订金", "返回" );
             }
             else if ( strval( money_deposit ) > 99999999 || strval( money_deposit ) <= 0 )
             {
-            	format( szBigString, sizeof( szBigString ), "{FFFFFF}Enter the amount that you are willing to deposit into your bank account below.\n\n"COL_RED"Invalid amount entered!\n\n"COL_GREY"Current Balance:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}Personal Account", szBigString, "Deposit", "Back" );
+                format( szBigString, sizeof( szBigString ), "{FFFFFF}在下方输入你愿意存入银行帐户的金额.\n\n"COL_RED"输入的金额无效!\n\n"COL_GREY"当前余额:"COL_WHITE" %s", cash_format( GetPlayerBankMoney( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_DEPOSIT, DIALOG_STYLE_INPUT, "{FFFFFF}个人帐户", szBigString, "订金", "返回" );
             }
             else
             {
                 new iDeposit = strval( money_deposit );
                 GivePlayerBankMoney( playerid, iDeposit );
                 GivePlayerCash( playerid, -iDeposit );
-                format( szBigString, sizeof( szBigString ), ""COL_GREY"Amount Deposited:"COL_WHITE" %s\n"COL_GREY"Current Balance:"COL_WHITE" %s\n"COL_GREY"Current Money:{FFFFFF} %s", cash_format( iDeposit ), cash_format( GetPlayerBankMoney( playerid ) ), cash_format( GetPlayerCash( playerid ) ) );
-                ShowPlayerDialog( playerid, DIALOG_BANK_INFO, DIALOG_STYLE_MSGBOX, "{FFFFFF}Personal Account", szBigString, "Ok", "Back" );
+                format( szBigString, sizeof( szBigString ), ""COL_GREY"存入金额:"COL_WHITE" %s\n"COL_GREY"当前余额:"COL_WHITE" %s\n"COL_GREY"当前货币:{FFFFFF} %s", cash_format( iDeposit ), cash_format( GetPlayerBankMoney( playerid ) ), cash_format( GetPlayerCash( playerid ) ) );
+                ShowPlayerDialog( playerid, DIALOG_BANK_INFO, DIALOG_STYLE_MSGBOX, "{FFFFFF}个人帐户", szBigString, "好的", "返回" );
             }
         }
         else ShowPlayerBankMenuDialog( playerid );
@@ -136,7 +136,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
     else if ( ( dialogid == DIALOG_BANK_INFO || dialogid == DIALOG_GANG_BANK_INFO ) && !response )
     {
 	    if ( IsPlayerJailed( playerid ) )
-	    	return SendError( playerid, "You cannot use this while you're in jail." );
+            return SendError( playerid, "在监狱中无法使用此功能." );
 
   		return ShowPlayerBankMenuDialog( playerid );
     }
@@ -176,7 +176,7 @@ stock GivePlayerBankMoney( playerid, money ) {
 stock ShowPlayerBankMenuDialog( playerid )
 {
 	if ( ! ShowPlayerGangBankMenuDialog( playerid ) ) {
-	    return ShowPlayerDialog( playerid, DIALOG_BANK_MENU, DIALOG_STYLE_LIST, "{FFFFFF}Account", "Withdraw\nDeposit\nAccount Information", "Select", "Cancel" );
+	    return ShowPlayerDialog( playerid, DIALOG_BANK_MENU, DIALOG_STYLE_LIST, "{FFFFFF}帐户", "提款\n存款\n账户信息", "选择", "取消" );
     } else {
         return 1;
     }

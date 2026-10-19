@@ -53,7 +53,7 @@ stock LookupPlayerIP( playerid ) {
 stock ResetPlayerIPData( playerid ) {
 	//format( g_lookup_PlayerData[ playerid ] [ E_HOST ], 10, "Unknown" );
 	format( g_lookup_PlayerData[ playerid ] [ E_CODE ], 3, "XX" );
-	format( g_lookup_PlayerData[ playerid ] [ E_COUNTRY ], 10, "Unknown" );
+	format( g_lookup_PlayerData[ playerid ] [ E_COUNTRY ], 10, "δ֪" );
 	//format( g_lookup_PlayerData[ playerid ] [ E_REGION ], 10, "Unknown" );
 	//format( g_lookup_PlayerData[ playerid ] [ E_ISP ], 10, "Unknown" );
 	//g_lookup_PlayerData[ playerid ] [ E_PROXY ] = 0;

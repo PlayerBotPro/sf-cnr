@@ -56,7 +56,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 	{
 		if ( p_ProgressStarted{ playerid } && !p_CancelProgress{ playerid } )
 		{
-			SendServerMessage( playerid, "You have canceled this operation." );
+			SendServerMessage( playerid, "你已取消此操作." );
 			p_CancelProgress{ playerid } = true;
 			return 1;
 		}

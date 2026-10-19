@@ -59,21 +59,21 @@ static const
 	g_requirementData 				[ ] [ E_BENEFIT_DATA ] =
 	{
 		// Police benefits
-		{ E_POLICE,					"Half the number of seconds you spend in jail", 					75.0 },
-		{ E_POLICE,					"Guranteed success when breaking into a safe", 						50.0 },
-		{ E_POLICE,					"Success rate for bobby pins increase 1% each 25 levels",			0.0 },
-		{ E_POLICE,					"Bail amount decreases 1% each level",								0.0 },
+		{ E_POLICE,					"你在监狱里度过的秒数的一半", 					75.0 },
+		{ E_POLICE,					"闯入保险箱时保证成功", 						50.0 },
+		{ E_POLICE,					"每升 25 级, 发夹撬锁成功率增加 1%",			0.0 },
+		{ E_POLICE,					"保释金额每级减少 1% e",								0.0 },
 
 		// Robbery benefits
-		{ E_ROBBERY,				"Higher the robbery level, the better success rate of a robbery", 	0.0 },
-		{ E_ROBBERY, 				"Higher the robbery level, the faster you can break into a safe", 	0.0 },
+		{ E_ROBBERY,				"抢劫等级越高,抢劫成功率越高", 	0.0 },
+		{ E_ROBBERY, 				"抢劫等级越高,闯入保险箱的速度就越快", 	0.0 },
 
 		// Deathmatch benefits
-		{ E_DEATHMATCH,				"1% chance of dropping armour when you kill a player",			 	50.0 },
-		{ E_DEATHMATCH,				"Killed players will drop health equivalent to your level",		 	10.0 },
+		{ E_DEATHMATCH,				"1% c杀死玩家时掉落护甲的几率",			 	50.0 },
+		{ E_DEATHMATCH,				"被杀的玩家会掉落相当于你等级的生命值",		 	10.0 },
 
 		// Roleplay benefits
-		{ E_ROLEPLAY,				"Increase success rate in mining based on roleplay level",			0.0 }
+		{ E_ROLEPLAY,				"根据角色扮演级别提高采矿成功率",			0.0 }
 	}
 ;
 
@@ -81,10 +81,10 @@ static const
 	g_levelData 					[ ] [ E_LEVEL_DATA ] =
 	{
 		// Level Name 			Bar Color 		Level 100 Req.		XP Dilation 	Sell Value
-		{ "Police",				0x3E7EFFFF,		7500.0, 			20.0,			10.0 }, 	// 7.5k arrests
-		{ "Robbery", 			0xF83245FF, 	30000.0,			15.0,			10.0 }, 	// 30k robberies
-		{ "Deathmatch", 		0xFF9233FF,		75000.0,			10.0,			5.0 }, 		// 75k kills
-		{ "Roleplay",			0x33FF50FF,		75000.0,	 		10.0,			5.0 }		// 75k minijob
+		{ "警察",				0x3E7EFFFF,		7500.0, 			20.0,			10.0 }, 	// 7.5k arrests
+		{ "抢劫", 			0xF83245FF, 	30000.0,			15.0,			10.0 }, 	// 30k robberies
+		{ "死斗", 		0xFF9233FF,		75000.0,			10.0,			5.0 }, 		// 75k kills
+		{ "角色扮演",			0x33FF50FF,		75000.0,	 		10.0,			5.0 }		// 75k minijob
 
 /*
 		{ "Fireman",			10000.0,			9.0 },		// 10k fires
@@ -99,17 +99,17 @@ static const
 
 	g_seasonalRanks[ ] [ E_RANK_DATA ] =
 	{
-		{ 49860.3,	"Elite V", 		19780, COLOR_GOLD },
-		{ 27833.9,	"Elite IV", 	19782, COLOR_GOLD },
-		{ 15537.9, 	"Elite III", 	19781, COLOR_GOLD },
-		{ 8673.88, 	"Elite II", 	19784, COLOR_GOLD },
-		{ 4842.10, 	"Elite I", 		19783, COLOR_GOLD },
-		{ 2703.04,	"Silver V", 	19780, COLOR_GREY },
-		{ 1508.94,	"Silver IV", 	19782, COLOR_GREY },
-		{ 842.365, 	"Silver III", 	19781, COLOR_GREY },
-		{ 470.19, 	"Silver II", 	19784, COLOR_GREY },
-		{ 262.5, 	"Silver I", 	19783, COLOR_GREY },
-		{ 0.0, 		"unranked",		19300, COLOR_GREY }
+		{ 49860.3,	"精英V", 		19780, COLOR_GOLD },
+		{ 27833.9,	"精英四号", 	19782, COLOR_GOLD },
+		{ 15537.9, 	"精英III", 	19781, COLOR_GOLD },
+		{ 8673.88, 	"精英二号", 	19784, COLOR_GOLD },
+		{ 4842.10, 	"精英一号", 		19783, COLOR_GOLD },
+		{ 2703.04,	"银V", 	19780, COLOR_GREY },
+		{ 1508.94,	"银四", 	19782, COLOR_GREY },
+		{ 842.365, 	"银Ⅲ", 	19781, COLOR_GREY },
+		{ 470.19, 	"银II", 	19784, COLOR_GREY },
+		{ 262.5, 	"银一号", 	19783, COLOR_GREY },
+		{ 0.0, 		"未排名",		19300, COLOR_GREY }
 	}
 ;
 
@@ -141,7 +141,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		new
 			watchingid = GetPVarInt( playerid, "experience_watchingid" );
 
-		szLargeString = ""COL_GREY"Benefit\t"COL_GREY"Required Level\n";
+		szLargeString = ""COL_GREY"好处\t"COL_GREY"所需等级\n";
 
 		for ( new i = 0; i < sizeof( g_requirementData ); i ++ )
 		{
@@ -157,7 +157,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				);
 			}
 		}
-		return ShowPlayerDialog( playerid, DIALOG_VIEW_LEVEL_BENEFIT, DIALOG_STYLE_TABLIST_HEADERS, sprintf( "{FFFFFF}%s's %s Level", ReturnPlayerName( watchingid ), g_levelData[ listitem ] [ E_NAME ] ), szLargeString, "Close", "Back" );
+		return ShowPlayerDialog( playerid, DIALOG_VIEW_LEVEL_BENEFIT, DIALOG_STYLE_TABLIST_HEADERS, sprintf( "{FFFFFF}%s 的 %s 级别", ReturnPlayerName( watchingid ), g_levelData[ listitem ] [ E_NAME ] ), szLargeString, "关闭", "返回" );
 	}
 	else if ( dialogid == DIALOG_VIEW_LEVEL_BENEFIT && ! response )
 	{
@@ -179,12 +179,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 		if ( ! ( 0 < xp_amount < 10000000 ) )
 		{
-			SendError( playerid, "You have specified an invalid amount of %s XP.", g_levelData[ level ] [ E_NAME ] );
+			SendError( playerid, "你指定的 %s 经验 金额无效.", g_levelData[ level ] [ E_NAME ] );
 			return ShowPlayerSellXPDialog( playerid, level );
 		}
 		else if ( xp_amount > total_xp )
 		{
-			SendError( playerid, "You do not have this much %s XP.", g_levelData[ level ] [ E_NAME ] );
+			SendError( playerid, "你没有这么多%s 经验.", g_levelData[ level ] [ E_NAME ] );
 			return ShowPlayerSellXPDialog( playerid, level );
 		}
 		else
@@ -194,7 +194,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 
 			GivePlayerCash( playerid, credit );
 	    	GivePlayerExperience( playerid, E_LEVELS: level, -xp_amount, .with_dilation = false );
-			SendServerMessage( playerid, "You have sold %s %s XP for "COL_GOLD"%s"COL_WHITE".", g_levelData[ level ] [ E_NAME ], number_format( xp_amount ), cash_format( credit ) );
+			SendServerMessage( playerid, "你已经卖了 %s %s 经验 "COL_GOLD"%s"COL_WHITE".", g_levelData[ level ] [ E_NAME ], number_format( xp_amount ), cash_format( credit ) );
 		}
 		return 1;
 	}
@@ -236,7 +236,7 @@ hook OnPlayerConnect( playerid )
 	PlayerTextDrawSetProportional( playerid, p_playerExpTitle[ playerid ], 1 );
 
 	// general reward
-	p_playerExpAwardTD[ playerid ] = CreatePlayerTextDraw( playerid,319.000000, 167.000000, "+20 XP" );
+	p_playerExpAwardTD[ playerid ] = CreatePlayerTextDraw( playerid,319.000000, 167.000000, "+20 经验" );
 	PlayerTextDrawAlignment( playerid, p_playerExpAwardTD[ playerid ], 2 );
 	PlayerTextDrawBackgroundColor( playerid, p_playerExpAwardTD[ playerid ], 255 );
 	PlayerTextDrawFont( playerid, p_playerExpAwardTD[ playerid ], 3 );
@@ -297,7 +297,7 @@ CMD:level( playerid, params[ ] )
 	new
 		player_total_lvl = 0;
 
-	szLargeString = ""COL_GREY"Skill\t"COL_GREY"Current Level\t"COL_GREY"XP Till Next Level\t"COL_GREY"Total XP\n";
+	szLargeString = ""COL_GREY"技能\t"COL_GREY"当前等级\t"COL_GREY"经验 直到下一级\t"COL_GREY"总计 经验\n";
 
 	for ( new level_id; level_id < sizeof( g_levelData ); level_id ++ )
 	{
@@ -306,11 +306,11 @@ CMD:level( playerid, params[ ] )
 		new Float: next_lvl_xp = ( g_levelData[ level_id ] [ E_MAX_UNITS ] * g_levelData[ level_id ] [ E_XP_DILATION ] ) / ( EXP_MAX_PLAYER_LEVEL * EXP_MAX_PLAYER_LEVEL ) * ( next_lvl * next_lvl );
 
 		player_total_lvl += floatround( current_rank, floatround_floor );
-		format( szLargeString, sizeof( szLargeString ), "%s%s Level\t%s%0.0f / %0.0f\t"COL_PURPLE"%0.0f XP\t"COL_GREY"%s\n", szLargeString, g_levelData[ level_id ] [ E_NAME ], current_rank >= 100.0 ? ( COL_GREEN ) : ( COL_GREY ), current_rank, EXP_MAX_PLAYER_LEVEL, next_lvl_xp - g_playerExperience[ watchingid ] [ E_LEVELS: level_id ], number_format( g_playerExperience[ watchingid ] [ E_LEVELS: level_id ], .decimals = 0 ) );
+		format( szLargeString, sizeof( szLargeString ), "%s%s 级别 \t%s%0.0f / %0.0f\t"COL_PURPLE"%0.0f 经验\t"COL_GREY"%s\n", szLargeString, g_levelData[ level_id ] [ E_NAME ], current_rank >= 100.0 ? ( COL_GREEN ) : ( COL_GREY ), current_rank, EXP_MAX_PLAYER_LEVEL, next_lvl_xp - g_playerExperience[ watchingid ] [ E_LEVELS: level_id ], number_format( g_playerExperience[ watchingid ] [ E_LEVELS: level_id ], .decimals = 0 ) );
 	}
 
 	SetPVarInt( playerid, "experience_watchingid", watchingid );
-	return ShowPlayerDialog( playerid, DIALOG_VIEW_LEVEL, DIALOG_STYLE_TABLIST_HEADERS, sprintf( "{FFFFFF}%s's Level - Total Level %d", ReturnPlayerName( watchingid ), player_total_lvl ), szLargeString, "Select", "Close" );
+	return ShowPlayerDialog( playerid, DIALOG_VIEW_LEVEL, DIALOG_STYLE_TABLIST_HEADERS, sprintf( "{FFFFFF}%s 的等级 - 总等级 %d", ReturnPlayerName( watchingid ), player_total_lvl ), szLargeString, "选择", "关闭" );
 }
 
 CMD:rank( playerid, params[ ] )
@@ -332,14 +332,14 @@ CMD:rank( playerid, params[ ] )
 CMD:xpmarket( playerid, params[ ] )
 {
 	// header
-	szBigString = ""COL_GREY"Skill\t"COL_GREY"Total XP\t"COL_GREY"Value ($)\n";
+	szBigString = ""COL_GREY"技能\t"COL_GREY"总计 经验\t"COL_GREY"价值($)\n";
 
 	// level with user xp
 	for ( new level_id; level_id < sizeof( g_levelData ); level_id ++ ) {
 		new value = floatround( g_playerExperience[ playerid ] [ E_LEVELS: level_id ] * g_levelData[ level_id ] [ E_SELL_VALUE ] );
-		format( szBigString, sizeof( szBigString ), "%s%s Level\t"COL_PURPLE"%s XP\t"COL_GREEN"%s\n", szBigString, g_levelData[ level_id ] [ E_NAME ], number_format( g_playerExperience[ playerid ] [ E_LEVELS: level_id ], .decimals = 0 ), cash_format( value ) );
+		format( szBigString, sizeof( szBigString ), "%s%s 等级\t"COL_PURPLE"%s 经验\t"COL_GREEN"%s\n", szBigString, g_levelData[ level_id ] [ E_NAME ], number_format( g_playerExperience[ playerid ] [ E_LEVELS: level_id ], .decimals = 0 ), cash_format( value ) );
 	}
-	return ShowPlayerDialog( playerid, DIALOG_XPMARKET, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}XP Market", szBigString, "Select", "Close" ), 1;
+	return ShowPlayerDialog( playerid, DIALOG_XPMARKET, DIALOG_STYLE_TABLIST_HEADERS, "{FFFFFF}经验 市场", szBigString, "选择", "关闭" ), 1;
 }
 
 /* ** SQL Threads ** */
@@ -377,9 +377,9 @@ thread currentUserRank( playerid, watchingid )
 			iGroupedRank = GetPlayerRank( watchingid ),
 			iGlobalRank = cache_get_field_content_int( 0, "GLOBAL_RANK", dbHandle )
 		;
-		SendServerMessage( playerid, "%s(%d) is grouped in {%06x}%s"COL_WHITE" and is globally "COL_GREY"#%d"COL_WHITE".", ReturnPlayerName( watchingid ), watchingid, g_seasonalRanks[ iGroupedRank ] [ E_COLOR ] >>> 8, g_seasonalRanks[ iGroupedRank ] [ E_NAME ], iGlobalRank );
+		SendServerMessage( playerid, "%s(%d) 被分组在 {%06x}%s 中"COL_WHITE" 并且是全球性的 "COL_GREY"#%d"COL_WHITE".", ReturnPlayerName( watchingid ), watchingid, g_seasonalRanks[ iGroupedRank ] [ E_COLOR ] >>> 8, g_seasonalRanks[ iGroupedRank ] [ E_NAME ], iGlobalRank );
 	}
-	else SendError( playerid, "Couldn't find a rank for this user, try again later." );
+	else SendError( playerid, "找不到该用户的排名,请稍后再试." );
 	return 1;
 }
 
@@ -402,12 +402,12 @@ stock GivePlayerExperience( playerid, E_LEVELS: level, Float: default_xp = 1.0, 
 	new Float: next_lvl_xp = ( g_levelData[ _: level ] [ E_MAX_UNITS ] * g_levelData[ _: level ] [ E_XP_DILATION ] ) / ( EXP_MAX_PLAYER_LEVEL * EXP_MAX_PLAYER_LEVEL ) * float( next_lvl * next_lvl );
 
 	if ( g_playerExperience[ playerid ] [ level ] + xp_earned >= next_lvl_xp ) {
-		ShowPlayerHelpDialog( playerid, 10000, "~p~Congratulations %s!~n~~n~~w~Your %s Level is now ~p~%d.", ReturnPlayerName( playerid ), g_levelData[ _: level ] [ E_NAME ], next_lvl );
+		ShowPlayerHelpDialog( playerid, 10000, "~p~恭喜 %s!~n~~n~~w~你的 %s 级别现在为 ~p~%d.", ReturnPlayerName( playerid ), g_levelData[ _: level ] [ E_NAME ], next_lvl );
 		if ( !IsPlayerUsingRadio( playerid ) ) PlayAudioStreamForPlayer( playerid, "http://files.sfcnr.com/game_sounds/levelup.mp3" );
-    	PlayerTextDrawSetString( playerid, p_playerExpTitle[ playerid ], sprintf( "%s Level %d", g_levelData[ _: level ] [ E_NAME ], next_lvl ) );
+        PlayerTextDrawSetString( playerid, p_playerExpTitle[ playerid ], sprintf( "%s 级别 %d", g_levelData[ _: level ] [ E_NAME ], next_lvl ) );
 		SetPlayerProgressBarValue( playerid, p_playerExpProgress[ playerid ], 100.0 );
 	} else {
-    	PlayerTextDrawSetString( playerid, p_playerExpTitle[ playerid ], sprintf( "%s Level %d", g_levelData[ _: level ] [ E_NAME ], next_lvl - 1 ) );
+        PlayerTextDrawSetString( playerid, p_playerExpTitle[ playerid ], sprintf( "%s 级别 %d", g_levelData[ _: level ] [ E_NAME ], next_lvl - 1 ) );
 	}
 
 	// check if its over 100 anyway
@@ -428,7 +428,7 @@ stock GivePlayerExperience( playerid, E_LEVELS: level, Float: default_xp = 1.0, 
 	PlayerTextDrawShow( playerid, p_playerExpTitle[ playerid ] );
 	SetPlayerProgressBarColour( playerid, p_playerExpProgress[ playerid ], g_levelData[ _: level ] [ E_COLOUR ] );
     ShowPlayerProgressBar( playerid, p_playerExpProgress[ playerid ] );
-    PlayerTextDrawSetString( playerid, p_playerExpAwardTD[ playerid ], sprintf( "%s%0.0f XP", xp_earned < 0.0 ? ( "~r~" ) : ( "+" ), xp_earned ) );
+    PlayerTextDrawSetString( playerid, p_playerExpAwardTD[ playerid ], sprintf( "%s%0.0f 经验", xp_earned < 0.0 ? ( "~r~" ) : ( "+" ), xp_earned ) );
     PlayerTextDrawShow( playerid, p_playerExpAwardTD[ playerid ] );
 	p_playerExpHideTimer[ playerid ] = SetTimerEx( "Experience_HideIncrementTD", 3500, false, "d", playerid );
 
@@ -520,7 +520,7 @@ stock GivePlayerSeasonalXP( playerid, Float: default_xp )
 		{
 			if ( bGained )
 			{
-				SendServerMessage( playerid, "Congratulations, your grouped ranking has been increased to {%06x}%s"COL_WHITE"!", g_seasonalRanks[ iRank ] [ E_COLOR ] >>> 8, g_seasonalRanks[ iRank ] [ E_NAME ] );
+				SendServerMessage( playerid, "恭喜,你的分组排名已提升至{%06x}%s"COL_WHITE"!", g_seasonalRanks[ iRank ] [ E_COLOR ] >>> 8, g_seasonalRanks[ iRank ] [ E_NAME ] );
 
 				PlayerTextDrawColor( playerid, p_PlayerRankTextTD[ playerid ], g_seasonalRanks[ iRank ] [ E_COLOR ] );
 				PlayerTextDrawSetString( playerid, p_PlayerRankTextTD[ playerid ], g_seasonalRanks[ iRank ] [ E_NAME ] );
@@ -531,7 +531,7 @@ stock GivePlayerSeasonalXP( playerid, Float: default_xp )
 
 			if ( bLost )
 			{
-				SendServerMessage( playerid, "Sorry, your grouped ranking has decreased to {%06x}%s"COL_WHITE"!", g_seasonalRanks[ iRank + 1 ] [ E_COLOR ] >>> 8, g_seasonalRanks[ iRank + 1 ] [ E_NAME ] );
+				SendServerMessage( playerid, "抱歉,你的分组排名已下降至 {%06x}%s"COL_WHITE"!", g_seasonalRanks[ iRank + 1 ] [ E_COLOR ] >>> 8, g_seasonalRanks[ iRank + 1 ] [ E_NAME ] );
 
 				PlayerTextDrawColor( playerid, p_PlayerRankTextTD[ playerid ], g_seasonalRanks[ iRank + 1 ] [ E_COLOR ] );
 				PlayerTextDrawSetString( playerid, p_PlayerRankTextTD[ playerid ], g_seasonalRanks[ iRank + 1 ] [ E_NAME ] );
@@ -558,10 +558,10 @@ stock ShowPlayerSellXPDialog( playerid, level )
 	new value = floatround( g_playerExperience[ playerid ] [ E_LEVELS: level ] * g_levelData[ level ] [ E_SELL_VALUE ] );
 
 	format( szBigString, sizeof( szBigString ),
-		""COL_WHITE"Please input how much %s XP you want to sell.\n\n"\
-		"Exchange Rate is "COL_GOLD"1 XP"COL_WHITE" for %s\n\n"\
-		"You have %s XP that can be sold for %s\n\n"\
-		""COL_RED"Warning: this action will result in a reduced level.",
+		""COL_WHITE"请输入你想出售多少 %s 经验.\n\n"\
+		"汇率为 "COL_GOLD"1 经验"COL_WHITE" 对于 %s\n\n"\
+		"你有 %s 经验 可以卖价 %s\n\n"\
+		""COL_RED"警告:此操作将导致级别降低.",
 		g_levelData[ level ] [ E_NAME ],
 		cash_format( g_levelData[ level ] [ E_SELL_VALUE ], .decimals = 0 ),
 		number_format( g_playerExperience[ playerid ] [ E_LEVELS: level ], .decimals = 0 ),
@@ -569,7 +569,7 @@ stock ShowPlayerSellXPDialog( playerid, level )
 	);
 
 	SetPVarInt( playerid, "selling_xp_level", level );
-	return ShowPlayerDialog( playerid, DIALOG_XPMARKET_SELL, DIALOG_STYLE_INPUT, "{FFFFFF}XP Market", szBigString, "Sell", "Cancel");
+	return ShowPlayerDialog( playerid, DIALOG_XPMARKET_SELL, DIALOG_STYLE_INPUT, "{FFFFFF}经验 市场", szBigString, "出售", "取消");
 }
 
 /* ** Macros ** */

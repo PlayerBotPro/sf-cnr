@@ -1,5 +1,8 @@
 # Running this checkout on Windows
 
+For Chinese player text, encoding, exclusions, and validation, see
+[LOCALIZATION.zh-CN.md](LOCALIZATION.zh-CN.md).
+
 For database/user creation, schema imports, and using an existing XAMPP instance
 on port 3306, see [DATABASE_SETUP.md](DATABASE_SETUP.md).
 

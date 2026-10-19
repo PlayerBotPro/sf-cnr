@@ -79,12 +79,12 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 				if ( IsPlayerInAnyVehicle( playerid ) )
 				{
 					GPS_SetPlayerWaypoint( playerid, g_houseData[ houseid ] [ E_HOUSE_NAME ], g_houseData[ houseid ] [ E_EX ], g_houseData[ houseid ] [ E_EY ], g_houseData[ houseid ] [ E_EZ ] );
-					SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GPS]"COL_WHITE" You have set your destination to %s"COL_WHITE". Follow the arrow to reach your destination.", g_houseData[ houseid ] [ E_HOUSE_NAME ] );
+					SendClientMessageFormatted( playerid, -1, ""COL_GREY"[GPS]"COL_WHITE" 你已将目的地设置为 %s"COL_WHITE".按照箭头到达目的地.", g_houseData[ houseid ] [ E_HOUSE_NAME ] );
 				}
 				else
 				{
 					ShowPlayerHomeListing( playerid, listingid );
-					SendError( playerid, "You need to be in a vehicle to set a GPS waypoint." );
+					SendError( playerid, "你需要在车内才能设置 GPS 航路点." );
 					return 1;
 				}
 			}
@@ -108,8 +108,8 @@ CMD:estate( playerid, params[ ] )
 
 	if ( strmatch( params, "list cancel" ) )
 	{
-		if ( ! Iter_Contains( houses, houseid ) ) return SendError( playerid, "You are not inside of any home." );
-		else if ( ! IsPlayerHomeOwner( playerid, houseid ) ) return SendError( playerid, "You are not the owner of this home." );
+		if ( ! Iter_Contains( houses, houseid ) ) return SendError( playerid, "你不在任何家里." );
+		else if ( ! IsPlayerHomeOwner( playerid, houseid ) ) return SendError( playerid, "你不是这个家的主人." );
 		{
 			mysql_tquery( dbHandle, sprintf( "DELETE FROM `HOUSE_LISTINGS` WHERE `HOUSE_ID` = %d AND `SALE_DATE` IS NULL", houseid ), "HouseListing_OnDeleteListing", "dd", playerid, houseid );
 		}
@@ -121,12 +121,12 @@ CMD:estate( playerid, params[ ] )
 			cash;
 
 		if ( sscanf( params[ 5 ], "d", cash ) ) return SendUsage( playerid, "/estate list [CASH_ASK_PRICE/CANCEL]");
-		else if ( ! Iter_Contains( houses, houseid ) ) return SendError( playerid, "You are not inside of any home." );
-		else if ( g_houseData[ houseid ] [ E_COST ] > 2500 ) return SendError( playerid, "This home is not a V.I.P home." );
-		else if ( ! IsPlayerHomeOwner( playerid, houseid ) ) return SendError( playerid, "You are not the owner of this home." );
-		else if ( cash < 10000 ) return SendError( playerid, "Please specify an ask price greater than $100,000." );
-		else if ( cash > 100000000 ) return SendError( playerid, "Please specify an ask price less than $100,000,000." );
-		else if ( GetPlayerCash( playerid ) < HOUSE_LISTING_FEE && GetPlayerVIPLevel( playerid ) < VIP_PLATINUM ) return SendError( playerid, "You need at least %s to create a house listing.", cash_format( HOUSE_LISTING_FEE ) );
+		else if ( ! Iter_Contains( houses, houseid ) ) return SendError( playerid, "你不在任何家里." );
+		else if ( g_houseData[ houseid ] [ E_COST ] > 2500 ) return SendError( playerid, "这个家不是 VIP 家." );
+		else if ( ! IsPlayerHomeOwner( playerid, houseid ) ) return SendError( playerid, "你不是这个家的主人." );
+		else if ( cash < 10000 ) return SendError( playerid, "请指定大于 $100,000. 的要价" );
+		else if ( cash > 100000000 ) return SendError( playerid, "请指定低于 $100,000,000. 的要价" );
+		else if ( GetPlayerCash( playerid ) < HOUSE_LISTING_FEE && GetPlayerVIPLevel( playerid ) < VIP_PLATINUM ) return SendError( playerid, "你至少需要 %s 才能创建房屋列表.", cash_format( HOUSE_LISTING_FEE ) );
 		else
 		{
 			mysql_tquery( dbHandle, sprintf( "SELECT * FROM `HOUSE_LISTINGS` WHERE `HOUSE_ID` = %d AND `SALE_DATE` IS NULL", houseid ), "HouseListing_OnCreateListing", "ddf", playerid, houseid, cash );
@@ -135,7 +135,7 @@ CMD:estate( playerid, params[ ] )
 	}
 	else
 	{
-		SendServerMessage( playerid, "You can list your own home using "COL_GREY"/estate list"COL_WHITE" for %s.", p_VIPLevel[ playerid ] < VIP_PLATINUM ? ( cash_format( HOUSE_LISTING_FEE ) ) : ( "FREE" ) );
+		SendServerMessage( playerid, "你可以使用列出你自己的家 "COL_GREY"/estate list"COL_WHITE" 为%s.", p_VIPLevel[ playerid ] < VIP_PLATINUM ? ( cash_format( HOUSE_LISTING_FEE ) ) : ( "免费" ) );
 		return ShowPlayerHomeListings( playerid );
 	}
 }
@@ -155,7 +155,7 @@ thread HouseListing_OnShowHomes( playerid, page )
 			owner[ 24 ];
 
 		// set headers
-		szHugeString = ""COL_GREY"House\t"COL_GREY"Owner\t"COL_GREY"Location\t"COL_GREY"Ask Price ($)\n";
+		szHugeString = ""COL_GREY"房子\t"COL_GREY"所有者\t"COL_GREY"地点\t"COL_GREY"要价 ($)\n";
 
 		for ( new row = 0; row < sizeof ( p_CurrentListings[ ] ); row ++ )
 		{
@@ -170,11 +170,11 @@ thread HouseListing_OnShowHomes( playerid, page )
 				new houseid = cache_get_field_content_int( row, "HOUSE_ID" );
 
 			    Get2DCityShort( city, g_houseData[ houseid ] [ E_EX ], g_houseData[ houseid ] [ E_EY ] );
-			    GetZoneFromCoordinates( location, g_houseData[ houseid ] [ E_EX ], g_houseData[ houseid ] [ E_EY ], .placeholder = "Island" );
+			    GetZoneFromCoordinates( location, g_houseData[ houseid ] [ E_EX ], g_houseData[ houseid ] [ E_EY ], .placeholder = "岛" );
 
 				new cash = cache_get_field_content_int( row, "ASK" );
 
-				format( szHugeString, sizeof( szHugeString ), "%s%s\t%s\t%s, %s\t"COL_GREEN"%s\n", szHugeString, house_name, owner, location, city, cash_format( cash ) );
+				format( szHugeString, sizeof( szHugeString ), "%s%s\t%s\t%s, %s\t"COL_GREEN"%s\n", szHugeString, house_name, owner, GetLocationDisplayName(location), GetLocationDisplayName(city), cash_format( cash ) );
 			}
 			else
 			{
@@ -183,21 +183,21 @@ thread HouseListing_OnShowHomes( playerid, page )
 		}
 
 		if ( rows >= sizeof ( p_CurrentListings[ ] ) ) {
-			strcat( szHugeString, ""COL_GREEN"Next Page\t"COL_GREEN">>>\t"COL_GREEN">>>\t"COL_GREEN">>>\t"COL_GREEN">>>\n" );
+			strcat( szHugeString, ""COL_GREEN"下一页\t"COL_GREEN">>>\t"COL_GREEN">>>\t"COL_GREEN">>>\t"COL_GREEN">>>\n" );
 		}
 
 		if ( page ) {
-			strcat( szHugeString, ""COL_ORANGE"Previous Page\t"COL_ORANGE"<<<\t"COL_ORANGE"<<<\t"COL_ORANGE"<<<\t"COL_ORANGE"<<<\n" );
+			strcat( szHugeString, ""COL_ORANGE"上一页\t"COL_ORANGE"<<<\t"COL_ORANGE"<<<\t"COL_ORANGE"<<<\t"COL_ORANGE"<<<\n" );
 		}
 
 		SetPVarInt( playerid, "houselisting_page", page );
 		SetPVarInt( playerid, "houselisting_rows", rows );
 
-		return ShowPlayerDialog( playerid, DIALOG_HOUSE_LISTINGS, DIALOG_STYLE_TABLIST_HEADERS, "Premium Home Estate", szHugeString, "Select", "Close" );
+		return ShowPlayerDialog( playerid, DIALOG_HOUSE_LISTINGS, DIALOG_STYLE_TABLIST_HEADERS, "高级住宅区", szHugeString, "选择", "关闭" );
 	}
 	else
 	{
-		return SendError( playerid, "There are no available homes for sale at current." );
+		return SendError( playerid, "目前没有可供出售的房屋." );
 	}
 }
 
@@ -216,14 +216,14 @@ thread HouseListing_OnShowHome( playerid, house_listing_id )
 
 		return ShowPlayerDialog(
 			playerid, DIALOG_HOUSE_LIST_VIEW, DIALOG_STYLE_TABLIST,
-			"Premium Home Estate",
-			sprintf( "Purchase Home\t"COL_GREEN"%s\nSet GPS Waypoint\t"COL_GREY">>>", cash_format( cash ) ),
-			"Select", "Back"
+			"高级住宅区",
+			sprintf( "购买房屋\t"COL_GREEN"%s\n设置 GPS 航点\t"COL_GREY">>>", cash_format( cash ) ),
+			"选择", "返回"
 		);
 	}
 	else
 	{
-		return SendError( playerid, "An error has occurred, please try again." );
+		return SendError( playerid, "发生错误,请重试." );
 	}
 }
 
@@ -240,13 +240,13 @@ thread HouseListing_OnBuyHome( playerid, house_listing_id )
 		// does the dude even have the cash
 		if ( GetPlayerCash( playerid ) < ask_price ) {
 			ShowPlayerHomeListing( playerid, house_listing_id );
-			return SendError( playerid, "You do not have enough money for this home (%s).", cash_format( ask_price ) );
+			return SendError( playerid, "你没有足够的钱买这个家 (%s).", cash_format( ask_price ) );
 		}
 
 		// check if player is over the limit
 		if ( p_OwnedHouses[ playerid ] >= GetPlayerHouseSlots( playerid ) ) {
 			ShowPlayerHomeListing( playerid, house_listing_id );
-			return SendError( playerid, "You cannot purchase any more houses, you've reached the limit." );
+			return SendError( playerid, "你无法再购买任何房屋,你已达到限制." );
 		}
 
 		// check if sale already completed
@@ -254,7 +254,7 @@ thread HouseListing_OnBuyHome( playerid, house_listing_id )
 			sale_date_ts = cache_get_field_content_int( 0, "SALE_DATE_TS" );
 
 		if ( sale_date_ts != 0 && GetServerTime( ) > sale_date_ts ) {
-			return SendError( playerid, "You can no longer buy this home as it has been sold." );
+			return SendError( playerid, "你不能再购买该房屋,因为它已被出售." );
 		}
 
 		// check if buyer is the player himself
@@ -263,7 +263,7 @@ thread HouseListing_OnBuyHome( playerid, house_listing_id )
 
 		if ( GetPlayerAccountID( playerid ) == owner_account_id ) {
 			ShowPlayerHomeListing( playerid, house_listing_id );
-			return SendError( playerid, "You cannot buy your own home." );
+			return SendError( playerid, "你不能购买自己的房子." );
 		}
 
 		// credit seller if they are on/offline
@@ -279,13 +279,13 @@ thread HouseListing_OnBuyHome( playerid, house_listing_id )
 		if ( 0 <= sellerid < MAX_PLAYERS && Iter_Contains( Player, sellerid ) ) {
 			p_OwnedHouses[ sellerid ] --;
 			GivePlayerCash( sellerid, ask_price );
-			SendServerMessage( sellerid, "You have successfully sold your home (%s) for "COL_GOLD"%s"COL_WHITE" to %s(%d)!", g_houseData[ houseid ] [ E_HOUSE_NAME ], cash_format( ask_price ), ReturnPlayerName( playerid ), playerid );
+			SendServerMessage( sellerid, "你已成功出售你的房屋 (%s) "COL_GOLD"%s"COL_WHITE" 到 %s(%d)!", g_houseData[ houseid ] [ E_HOUSE_NAME ], cash_format( ask_price ), ReturnPlayerName( playerid ), playerid );
 		} else {
 			mysql_single_query( sprintf( "UPDATE `USERS` SET `CASH` = `CASH` + %d WHERE `ID` = %d", ask_price, owner_account_id ) );
 		}
 
 		// show sellers name & house name
-		SendServerMessage( playerid, "You have successfully bought %s's home (%s"COL_WHITE") for "COL_GOLD"%s"COL_WHITE"!", g_houseData[ houseid ] [ E_OWNER ], g_houseData[ houseid ] [ E_HOUSE_NAME ], cash_format( ask_price ) );
+		SendServerMessage( playerid, "你已成功购买 %s 的房屋 (%s"COL_WHITE") 为 "COL_GOLD"%s"COL_WHITE"!", g_houseData[ houseid ] [ E_OWNER ], g_houseData[ houseid ] [ E_HOUSE_NAME ], cash_format( ask_price ) );
 
 		// set listing as sold and transfer home
 		mysql_single_query( sprintf( "UPDATE `HOUSE_LISTINGS` SET `SALE_DATE` = CURRENT_TIMESTAMP WHERE `ID` = %d", house_listing_id ) );
@@ -296,7 +296,7 @@ thread HouseListing_OnBuyHome( playerid, house_listing_id )
 	}
 	else
 	{
-		return SendError( playerid, "An error has occurred, please try again." );
+		return SendError( playerid, "发生错误,请重试." );
 	}
 }
 
@@ -314,11 +314,11 @@ thread HouseListing_OnCreateListing( playerid, houseid, ask_price )
 
 		// insert into database and notify
 		mysql_single_query( sprintf( "INSERT INTO `HOUSE_LISTINGS` (`HOUSE_ID`, `USER_ID`, `ASK`) VALUES (%d, %d, %d)", houseid, GetPlayerAccountID( playerid ), ask_price ) );
-		return SendServerMessage( playerid, "You have listed your home for "COL_GOLD"%s"COL_WHITE". Retract the listing by "COL_GREY"/estate list cancel"COL_WHITE".", cash_format( ask_price ) );
+		return SendServerMessage( playerid, "你已列出你的家 "COL_GOLD"%s"COL_WHITE".撤回列表 "COL_GREY"/estate list cancel"COL_WHITE".", cash_format( ask_price ) );
 	}
 	else
 	{
-		return SendError( playerid, "This home is already listed. You can retract your listing using "COL_GREY"/estate list cancel"COL_WHITE"." );
+		return SendError( playerid, "该房屋已列出.你可以使用以下方式撤消你的列表 "COL_GREY"/estate list cancel"COL_WHITE"." );
 	}
 }
 
@@ -329,11 +329,11 @@ thread HouseListing_OnDeleteListing( playerid, houseid )
 
 	if ( deleted_rows )
 	{
-		return SendServerMessage( playerid, "You have delisted your home. You can create a new listing using "COL_GREY"/estate list"COL_WHITE"." );
+		return SendServerMessage( playerid, "你已将你的房屋除名.你可以使用以下命令创建新列表 "COL_GREY"/estate list"COL_WHITE"." );
 	}
 	else
 	{
-		return SendError( playerid, "This home is not listed on the premium realestate market." );
+		return SendError( playerid, "该房屋未在优质房地产市场上市." );
 	}
 }
 

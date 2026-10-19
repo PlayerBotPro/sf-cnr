@@ -13,14 +13,14 @@
 #define POCKET_RADIUS 				( 0.09 )
 #define POOL_TIMER_SPEED 			( 25 )
 #define DEFAULT_AIM 				( 0.38 )
-#define DEFAULT_POOL_STRING 		"Pool Table\n{FFFFFF}Press ENTER To Play"
+#define DEFAULT_POOL_STRING 		"\204;\168;\199;\242;\215;\192;\n{FFFFFF}\176;\180; ENTER \191;\170;\202;\188;\211;\206;\207;\183;"
 #define POOL_FEE_RATE 				( 0.02 )
 
 #define MAX_POOL_TABLES 			( 48 )
 #define MAX_POOL_BALLS 				( 16 ) // do not modify
 
 /* ** Macros ** */
-#define SendPoolMessage(%0,%1)		SendClientMessageFormatted(%0, -1, "{4B8774}[POOL] {E5861A}" # %1)
+#define SendPoolMessage(%0,%1)		SendClientMessageFormatted(%0, -1, "{4B8774}[\204;\168;\199;\242;] {E5861A}" # %1)
 
 /* ** Constants (do not modify) ** */
 enum E_POOL_BALL_TYPE {
@@ -48,22 +48,22 @@ enum E_POOL_BALL_OFFSET_DATA
 static const
 	g_poolBallOffsetData[ MAX_POOL_BALLS ] [ E_POOL_BALL_OFFSET_DATA ] =
 	{
-		{ 3003, "Cueball", 	E_CUE, 		0.5000, 0.0000 },
-		{ 3002, "One",		E_SOLID,	-0.300, 0.0000 },
-		{ 3100, "Two",		E_SOLID, 	-0.525, -0.040 },
-		{ 3101, "Three",	E_SOLID,	-0.375, 0.0440 },
-		{ 3102, "Four",		E_SOLID,	-0.600, 0.0790 },
-		{ 3103,	"Five",		E_SOLID,	-0.525, 0.1180 },
-		{ 3104,	"Six",		E_SOLID,	-0.600, -0.157 },
-		{ 3105, "Seven",	E_SOLID,	-0.450, -0.079 },
-		{ 3106,	"Eight",	E_8BALL,	-0.450, 0.0000 },
-		{ 2995, "Nine",		E_STRIPED,	-0.375, -0.044 },
-		{ 2996, "Ten",		E_STRIPED,	-0.450, 0.0790 },
-		{ 2997, "Eleven",	E_STRIPED,	-0.525, -0.118 },
-		{ 2998, "Twelve",	E_STRIPED,	-0.600, -0.079 },
-		{ 2999, "Thirteen",	E_STRIPED,	-0.600, 0.0000 },
-		{ 3000, "Fourteen",	E_STRIPED,	-0.600, 0.1570 },
-		{ 3001, "Fiftteen",	E_STRIPED,	-0.525, 0.0400 }
+		{ 3003, "母球", 	E_CUE, 		0.5000, 0.0000 },
+		{ 3002, "一",		E_SOLID,	-0.300, 0.0000 },
+		{ 3100, "二",		E_SOLID, 	-0.525, -0.040 },
+		{ 3101, "三",	E_SOLID,	-0.375, 0.0440 },
+		{ 3102, "四",		E_SOLID,	-0.600, 0.0790 },
+		{ 3103,	"五",		E_SOLID,	-0.525, 0.1180 },
+		{ 3104,	"六",		E_SOLID,	-0.600, -0.157 },
+		{ 3105, "七",	E_SOLID,	-0.450, -0.079 },
+		{ 3106,	"八",	E_8BALL,	-0.450, 0.0000 },
+		{ 2995, "九",		E_STRIPED,	-0.375, -0.044 },
+		{ 2996, "十",		E_STRIPED,	-0.450, 0.0790 },
+		{ 2997, "十一",	E_STRIPED,	-0.525, -0.118 },
+		{ 2998, "十二",	E_STRIPED,	-0.600, -0.079 },
+		{ 2999, "十三",	E_STRIPED,	-0.600, 0.0000 },
+		{ 3000, "十四",	E_STRIPED,	-0.600, 0.1570 },
+		{ 3001, "十五",	E_STRIPED,	-0.525, 0.0400 }
 	},
 	Float: g_poolPotOffsetData[ ] [ ] =
 	{
@@ -130,7 +130,7 @@ forward PlayPoolSound 				( poolid, soundid );
 hook OnScriptInit( )
 {
 	// textdraws
-	g_PoolTextdraw = TextDrawCreate( 529.000000, 218.000000, "Power" );
+	g_PoolTextdraw = TextDrawCreate( 529.000000, 218.000000, "力量" );
 	TextDrawBackgroundColor( g_PoolTextdraw, 255 );
 	TextDrawFont( g_PoolTextdraw, 1 );
 	TextDrawLetterSize( g_PoolTextdraw, 0.300000, 1.299998 );
@@ -185,7 +185,7 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 			poolid = p_PoolID[ playerid ];
 
 		if ( poolid == -1 ) {
-			return SendError( playerid, "Unable to identify pool table. Please enter the pool table again." );
+			return SendError( playerid, "无法识别池表.请再次进入台球桌." );
 		}
 
 		new
@@ -194,13 +194,13 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		if ( response && wager_amount > 0 )
 		{
 			if ( wager_amount > GetPlayerCash( playerid ) ) {
-				ShowPlayerDialog( playerid, DIALOG_POOL_WAGER, DIALOG_STYLE_INPUT, "{FFFFFF}Pool Wager", "{FFFFFF}Please specify the minimum entry fee for the table:\n\n"COL_RED"You do not have this much money!", "Set", "No" );
+				ShowPlayerDialog( playerid, DIALOG_POOL_WAGER, DIALOG_STYLE_INPUT, "{FFFFFF}彩池投注", "{FFFFFF}请指定该表的最低报名费:\n\n"COL_RED"你没有这么多钱!", "放", "否" );
 			} else {
 				GivePlayerCash( playerid, -wager_amount );
 				g_poolTableData[ poolid ] [ E_WAGER ] = wager_amount;
 				g_poolTableData[ poolid ] [ E_READY ] = true;
-				Pool_SendTableMessage( poolid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) has set the pool wager to %s!", ReturnPlayerName( playerid ), playerid, cash_format( wager_amount ) );
-				UpdateDynamic3DTextLabelText( g_poolTableData[ poolid ] [ E_LABEL ], -1, sprintf( "" # COL_GREY "Pool Table\n"COL_GREEN"Press ENTER To Join %s(%d)\n"COL_RED"%s Entry", ReturnPlayerName( playerid ), playerid, cash_format( wager_amount ) ) );
+				Pool_SendTableMessage( poolid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) 已将彩池赌注设置为 %s!", ReturnPlayerName( playerid ), playerid, cash_format( wager_amount ) );
+				UpdateDynamic3DTextLabelText( g_poolTableData[ poolid ] [ E_LABEL ], -1, sprintf( "" # COL_GREY "台球桌\n"COL_GREEN"按 Enter 加入 %s(%d)\n"COL_RED"%s 条目", ReturnPlayerName( playerid ), playerid, cash_format( wager_amount ) ) );
 			}
 			return 1;
 		}
@@ -208,8 +208,8 @@ hook OnDialogResponse( playerid, dialogid, response, listitem, inputtext[ ] )
 		{
 			g_poolTableData[ poolid ] [ E_WAGER ] = 0;
 			g_poolTableData[ poolid ] [ E_READY ] = true;
-			Pool_SendTableMessage( poolid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) has set the pool wager to FREE!", ReturnPlayerName( playerid ), playerid );
-			UpdateDynamic3DTextLabelText( g_poolTableData[ poolid ] [ E_LABEL ], -1, sprintf( "" # COL_GREY "Pool Table\n"COL_GREEN"Press ENTER To Join %s(%d)", ReturnPlayerName( playerid ), playerid ) );
+			Pool_SendTableMessage( poolid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) 已将彩池投注设置为免费!", ReturnPlayerName( playerid ), playerid );
+			UpdateDynamic3DTextLabelText( g_poolTableData[ poolid ] [ E_LABEL ], -1, sprintf( "" # COL_GREY "台球桌\n"COL_GREEN"按 Enter 加入 %s(%d)", ReturnPlayerName( playerid ), playerid ) );
 		}
 	}
 	return 1;
@@ -227,7 +227,7 @@ hook OnPlayerUpdateEx( playerid )
 
 		if ( distance_to_table >= 25.0 )
 		{
-			Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) has been kicked from the table [Reason: Out Of Range]", ReturnPlayerName( playerid ), playerid );
+			Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) 已被踢出桌子 [原因:超出范围]", ReturnPlayerName( playerid ), playerid );
 			return Pool_RemovePlayer( playerid ), 1;
 		}
 	}
@@ -247,10 +247,10 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 			if ( HOLDING( KEY_SECONDARY_ATTACK ) && IsPlayerPlayingPool( playerid ) ) {
 				if ( PRESSED( KEY_CROUCH ) ) {
 					HidePlayerHelpDialog( playerid );
-					Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) has left the table", ReturnPlayerName( playerid ), playerid );
+					Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) 已离开餐桌", ReturnPlayerName( playerid ), playerid );
 					return Pool_RemovePlayer( playerid );
 				} else {
-					return GameTextForPlayer( playerid, "~w~and now...~n~~w~ press ~r~~k~~PED_DUCK~~w~ to exit", 3500, 3 ), 1;
+					return GameTextForPlayer( playerid, "~w~现在...~n~~w~按~r~~k~~PED_DUCK~~w~退出", 3500, 3 ), 1;
 				}
 			}
 
@@ -300,11 +300,11 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 						if ( g_poolTableData[ poolid ] [ E_AIMER ] != playerid )
 						{
 							if ( g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] != playerid ) {
-								return SendPoolMessage( playerid, "It is not your turn. Please wait." );
+								return SendPoolMessage( playerid, "现在还没轮到你.请稍等." );
 							}
 
 							if ( g_poolTableData[ poolid ] [ E_CUE_POCKETED ] ) {
-								return SendPoolMessage( playerid, "You can aim the cue as soon as you place the cue ball." );
+								return SendPoolMessage( playerid, "一旦放置母球,你就可以瞄准球杆." );
 							}
 
 							if ( ! p_PoolChalking{ playerid } && g_poolTableData[ poolid ] [ E_AIMER ] == -1 )
@@ -316,7 +316,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 								GetPlayerPos( playerid, X, Y, Z );
 
 								if ( Z > g_poolTableData[ poolid ] [ E_Z ] + 0.5 ) {
-									return SendPoolMessage( playerid, "Lower yourself from the table." );
+									return SendPoolMessage( playerid, "从桌子上下来." );
 								}
 
 								new objectid = PHY_GetHandleObject( g_poolBallData[ poolid ] [ E_BALL_PHY_HANDLE ] [ 0 ] );
@@ -427,7 +427,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 				if ( IsPlayerPlayingPool( playerid ) && Iter_Contains( poolplayers< poolid >, playerid ) )
 				{
 					HidePlayerHelpDialog( playerid );
-					Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) has left the table", ReturnPlayerName( playerid ), playerid );
+					Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) 已离开餐桌", ReturnPlayerName( playerid ), playerid );
 					return Pool_RemovePlayer( playerid );
 				}
 
@@ -435,21 +435,21 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					pool_player_count = Iter_Count( poolplayers< poolid > );
 
 				if ( pool_player_count >= 2 ) {
-					return SendError( playerid, "This pool table is currently full." );
+					return SendError( playerid, "该台球桌当前已满." );
 				}
 
 				// ensure this player isn't already joined
 				if ( ! IsPlayerPlayingPool( playerid ) && ! Iter_Contains( poolplayers< poolid >, playerid ) )
 				{
 					if ( pool_player_count == 1 && ! g_poolTableData[ poolid ] [ E_READY ] ) {
-						return SendError( playerid, "This pool table is not ready to play." );
+						return SendError( playerid, "该台球桌尚未准备好进行比赛." );
 					}
 
 					new
 						entry_fee = g_poolTableData[ poolid ] [ E_WAGER ];
 
 					if ( GetPlayerCash( playerid ) < entry_fee && g_poolTableData[ poolid ] [ E_READY ] ) {
-						return SendError( playerid, "You need %s to join this pool table.", cash_format( entry_fee ) );
+						return SendError( playerid, "你需要 %s 才能加入此台球桌.", cash_format( entry_fee ) );
 					}
 
 					// add to table
@@ -470,7 +470,7 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					    new
 					    	random_cuer = Iter_Random( poolplayers< poolid > );
 
-						Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) has joined the table (2/2)", ReturnPlayerName( playerid ), playerid );
+						Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) 已加入表 (2/2)", ReturnPlayerName( playerid ), playerid );
 					    Pool_QueueNextPlayer( poolid, random_cuer );
 
 					    foreach ( new i : poolplayers< poolid > ) {
@@ -487,10 +487,10 @@ hook OnPlayerKeyStateChange( playerid, newkeys, oldkeys )
 					{
 						g_poolTableData[ poolid ] [ E_WAGER ] = 0;
 						g_poolTableData[ poolid ] [ E_READY ] = false;
-						ShowPlayerDialog( playerid, DIALOG_POOL_WAGER, DIALOG_STYLE_INPUT, "{FFFFFF}Pool Wager", "{FFFFFF}Please specify the minimum entry fee for the table:", "Set", "No Fee" );
-						ShowPlayerHelpDialog( playerid, 0, "~y~~h~~k~~PED_LOCK_TARGET~ ~w~- Aim Cue~n~~y~~h~~k~~PED_FIREWEAPON~ ~w~- Shoot Cue~n~~y~~h~~k~~PED_JUMPING~ ~w~- Camera Mode~n~~y~~h~~k~~VEHICLE_ENTER_EXIT~ ~w~- Exit Game~n~~n~~r~~h~Waiting for 1 more player..." );
-						UpdateDynamic3DTextLabelText( g_poolTableData[ poolid ] [ E_LABEL ], -1, sprintf( "" # COL_GREY "Pool Table\n"COL_ORANGE"... Waiting For %s(%d) ...", ReturnPlayerName( playerid ), playerid ) );
-						Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) has joined the table (1/2)", ReturnPlayerName( playerid ), playerid );
+						ShowPlayerDialog( playerid, DIALOG_POOL_WAGER, DIALOG_STYLE_INPUT, "{FFFFFF}彩池投注", "{FFFFFF}请指定该表的最低报名费:", "放", "不收费" );
+						ShowPlayerHelpDialog( playerid, 0, "~y~~h~~k~~PED_LOCK_TARGET~ ~w~- 瞄准提示~n~~y~~h~~k~~PED_FIREWEAPON~ ~w~- 射击提示~n~~y~~h~~k~~PED_JUMPING~ ~w~- 相机模式~n~~y~~h~~k~~VEHICLE_ENTER_EXIT~ ~w~- 退出游戏~n~~n~~r~~h~ 等待1 更多玩家..." );
+						UpdateDynamic3DTextLabelText( g_poolTableData[ poolid ] [ E_LABEL ], -1, sprintf( "" # COL_GREY "台球桌\n"COL_ORANGE"... 等待 %s(%d) ...", ReturnPlayerName( playerid ), playerid ) );
+						Pool_SendTableMessage( poolid, COLOR_GREY, "-- "COL_WHITE" %s(%d) 已加入表 (1/2)", ReturnPlayerName( playerid ), playerid );
 					}
 					return 1;
 				}
@@ -831,15 +831,15 @@ stock Pool_UpdateScoreboard( poolid, close = 0 )
 
 		if ( g_poolTableData[ poolid ] [ E_BALLS_SCORED ] && is_playing != -1 ) {
 			format(
-				szBigString, sizeof( szBigString ), "You are %s. ",
-				g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ is_playing ] == E_STRIPED ? ( "striped" ) : ( "solid" )
+				szBigString, sizeof( szBigString ), "你是%s. ",
+				g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ is_playing ] == E_STRIPED ? ( "有条纹的" ) : ( "坚硬的" )
 			);
 		} else {
 			szBigString = "";
 		}
 
 		format( szBigString, sizeof( szBigString ),
-			"%sIt's %s's turn.~n~~n~~r~~h~~h~%s Score:~w~ %d~n~~b~~h~~h~%s Score:~w~ %d",
+			"%s轮到%s了.~n~~n~~r~~h~~h~%s 分数:~w~ %d~n~~b~~h~~h~%s 分数:~w~ %d",
 			szBigString, ReturnPlayerName( g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] ),
 			ReturnPlayerName( first_player ), p_PoolScore[ first_player ],
 			ReturnPlayerName( second_player ), p_PoolScore[ second_player ]
@@ -962,7 +962,7 @@ public OnPoolUpdate( poolid )
 				for ( new i = 1; i < MAX_POOL_BALLS; i ++ ) if ( PHY_IsHandleValid( g_poolBallData[ poolid ] [ E_BALL_PHY_HANDLE ] [ i ] ) ) {
 					GetDynamicObjectPos( PHY_GetHandleObject( g_poolBallData[ poolid ] [ E_BALL_PHY_HANDLE ] [ i ] ), Xa, Ya, Za );
 					if ( GetDistanceFromPointToPoint( X, Y, Xa, Ya ) < 0.085 ) {
-						return GameTextForPlayer( playerid, "~n~~n~~n~~r~~h~Ball too close to other!", 500, 3 );
+						return GameTextForPlayer( playerid, "~n~~n~~n~~r~~h~球离其他球太近了!", 500, 3 );
 					}
 				}
 
@@ -977,7 +977,7 @@ public OnPoolUpdate( poolid )
 
 					// check if it is at the pocket
 					if ( Pool_IsObjectAtPos( PHY_GetHandleObject( g_poolBallData[ poolid ] [ E_BALL_PHY_HANDLE ] [ 0 ] ), g_poolTableData[ poolid ] [ E_X ] + hole_x , g_poolTableData[ poolid ] [ E_Y ] + hole_y, g_poolTableData[ poolid ] [ E_Z ], POCKET_RADIUS ) ) {
-						return GameTextForPlayer( playerid, "~n~~n~~n~~r~~h~Ball too close to hole!", 500, 3 );
+						return GameTextForPlayer( playerid, "~n~~n~~n~~r~~h~球离洞太近!", 500, 3 );
 					}
 				}
 
@@ -986,7 +986,7 @@ public OnPoolUpdate( poolid )
 				TogglePlayerControllable( playerid, true );
 				g_poolTableData[ poolid ] [ E_CUE_POCKETED ] = false;
 				ApplyAnimation( playerid, "CARRY", "crry_prtial", 4.0, 0, 1, 1, 0, 0 );
-				Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has placed the cueball!", ReturnPlayerName( playerid ), playerid );
+				Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 已放置母球!", ReturnPlayerName( playerid ), playerid );
 			}
 		}
 	}
@@ -1190,8 +1190,8 @@ public PHY_OnObjectUpdate( handleid )
 						// alert players in table
 						foreach ( new playerid : poolplayers< poolid > ) {
 							Player_Clearchat( playerid );
-	    					SendClientMessageFormatted( playerid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) is now playing as %s", ReturnPlayerName( first_player ), first_player, g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ first_player ] == E_STRIPED ? ( "Striped" ) : ( "Solid" ) );
-	    					SendClientMessageFormatted( playerid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) is playing as %s", ReturnPlayerName( second_player ), second_player, g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ second_player ] == E_STRIPED ? ( "Striped" ) : ( "Solid" ) );
+                            SendClientMessageFormatted( playerid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) 现在扮演 %s", ReturnPlayerName( first_player ), first_player, g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ first_player ] == E_STRIPED ? ( "有条纹的" ) : ( "坚硬的" ) );
+                            SendClientMessageFormatted( playerid, -1, ""COL_GREY"-- "COL_WHITE" %s(%d) 正在扮演 %s", ReturnPlayerName( second_player ), second_player, g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ second_player ] == E_STRIPED ? ( "有条纹的" ) : ( "坚硬的" ) );
 	    				}
 	    			}
 				}
@@ -1201,8 +1201,8 @@ public PHY_OnObjectUpdate( handleid )
 				// check what was pocketed
 				if ( g_poolBallOffsetData[ poolball_index ] [ E_BALL_TYPE ] == E_CUE )
 				{
-	    			GameTextForPlayer( current_player, "~n~~n~~n~~r~wrong ball", 3000, 3);
-					Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has pocketed the cue ball, %s(%d) will set it!", ReturnPlayerName( current_player ), current_player, ReturnPlayerName( opposite_player ), opposite_player );
+                    GameTextForPlayer( current_player, "~n~~n~~n~~r~错球", 3000, 3);
+					Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 已将母球入袋,%s(%d) 将设置它!", ReturnPlayerName( current_player ), current_player, ReturnPlayerName( opposite_player ), opposite_player );
 
 					// penalty for that
 					g_poolTableData[ poolid ] [ E_FOULS ] ++;
@@ -1221,13 +1221,13 @@ public PHY_OnObjectUpdate( handleid )
 					if ( p_PoolScore[ current_player ] < 7 )
 					{
 						p_PoolScore[ opposite_player ] ++;
-						Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has accidentally pocketed the 8-Ball ... %s(%d) wins!", ReturnPlayerName( current_player ), current_player, ReturnPlayerName( opposite_player ), opposite_player );
+						Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 不小心将 8-球装进了口袋... %s(%d) 获胜!", ReturnPlayerName( current_player ), current_player, ReturnPlayerName( opposite_player ), opposite_player );
 						Pool_OnPlayerWin( poolid, opposite_player );
 					}
 					else if ( g_poolTableData[ poolid ] [ E_PLAYER_8BALL_TARGET ] [ current_player ] != holeid )
 					{
 						p_PoolScore[ opposite_player ] ++;
-						Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has put the 8-Ball in the wrong pocket ... %s(%d) wins!", ReturnPlayerName( current_player ), current_player, ReturnPlayerName( opposite_player ), opposite_player );
+						Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 将 8-球放入了错误的口袋... %s(%d) 获胜!", ReturnPlayerName( current_player ), current_player, ReturnPlayerName( opposite_player ), opposite_player );
 						Pool_OnPlayerWin( poolid, opposite_player );
 					}
 					else
@@ -1243,8 +1243,8 @@ public PHY_OnObjectUpdate( handleid )
 					if ( g_poolTableData[ poolid ] [ E_BALLS_SCORED ] > 1 && g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ current_player ] != g_poolBallOffsetData[ poolball_index ] [ E_BALL_TYPE ] )
 					{
 	    				p_PoolScore[ opposite_player ] += 1;
-	    				GameTextForPlayer( current_player, "~n~~n~~n~~r~wrong ball", 3000, 3);
-	    				Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has wrongly pocketed %s %s, instead of %s!", ReturnPlayerName( current_player ), current_player, g_poolBallOffsetData[ poolball_index ] [ E_BALL_TYPE ] == E_STRIPED ? ( "Striped" ) : ( "Solid" ), g_poolBallOffsetData[ poolball_index ] [ E_BALL_NAME ], g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ current_player ] == E_STRIPED ? ( "Striped" ) : ( "Solid" ) );
+                        GameTextForPlayer( current_player, "~n~~n~~n~~r~错球", 3000, 3);
+                        Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 错误地将 %s %s 收入袋,而不是 %s!", ReturnPlayerName( current_player ), current_player, g_poolBallOffsetData[ poolball_index ] [ E_BALL_TYPE ] == E_STRIPED ? ( "有条纹的" ) : ( "坚硬的" ), g_poolBallOffsetData[ poolball_index ] [ E_BALL_NAME ], g_poolTableData[ poolid ] [ E_PLAYER_BALL_TYPE ] [ current_player ] == E_STRIPED ? ( "有条纹的" ) : ( "坚硬的" ) );
 
 						// penalty for that
 						g_poolTableData[ poolid ] [ E_FOULS ] ++;
@@ -1254,8 +1254,8 @@ public PHY_OnObjectUpdate( handleid )
 					else
 					{
 	    				p_PoolScore[ current_player ] ++;
-	    				GameTextForPlayer( current_player, "~n~~n~~n~~g~+1 score", 3000, 3);
-	    				Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has pocketed a %s %s!", ReturnPlayerName( current_player ), current_player, g_poolBallOffsetData[ poolball_index ] [ E_BALL_TYPE ] == E_STRIPED ? ( "Striped" ) : ( "Solid" ), g_poolBallOffsetData[ poolball_index ] [ E_BALL_NAME ] );
+                        GameTextForPlayer( current_player, "~n~~n~~n~~g~+1 分数", 3000, 3);
+                        Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 已将 %s %s 收入囊中!", ReturnPlayerName( current_player ), current_player, g_poolBallOffsetData[ poolball_index ] [ E_BALL_TYPE ] == E_STRIPED ? ( "有条纹的" ) : ( "坚硬的" ), g_poolBallOffsetData[ poolball_index ] [ E_BALL_NAME ] );
 
 						// extra shot for scoring one's own
 						g_poolTableData[ poolid ] [ E_SHOTS_LEFT ] = g_poolTableData[ poolid ] [ E_FOULS ] > 0 ? 0 : 1;
@@ -1273,7 +1273,7 @@ public PHY_OnObjectUpdate( handleid )
 							Pool_RotateXY( g_poolPotOffsetData[ opposite_holeid ] [ 0 ], g_poolPotOffsetData[ opposite_holeid ] [ 1 ], g_poolTableData[ poolid ] [ E_ANGLE ], hole_x, hole_y );
 							p_PoolHoleGuide[ player_being_marked ] = CreateDynamicObject( 18643, g_poolTableData[ poolid ] [ E_X ] + hole_x, g_poolTableData[ poolid ] [ E_Y ] + hole_y, g_poolTableData[ poolid ] [ E_Z ] - 0.5, 0.0, -90.0, 0.0, .playerid = player_being_marked );
 							g_poolTableData[ poolid ] [ E_PLAYER_8BALL_TARGET ] [ player_being_marked ] = opposite_holeid;
-							SendPoolMessage( player_being_marked, "You are now required to put the 8-Ball in the designated pocket." );
+							SendPoolMessage( player_being_marked, "现在,你需要将 8-球放入指定的口袋中." );
 							Streamer_Update( player_being_marked );
 						}
 					}
@@ -1315,8 +1315,8 @@ stock Pool_OnPlayerWin( poolid, winning_player )
 
 	// winning player
 	Pool_SendTableMessage( poolid, -1, "{9FCF30}****************************************************************************************");
-	Pool_SendTableMessage( poolid, -1, "{9FCF30}Player {FF8000}%s {9FCF30}has won the game!", ReturnPlayerName( winning_player ) );
-	Pool_SendTableMessage( poolid, -1, "{9FCF30}Prize: {377CC8}%s | -%0.0f%s percent fee", cash_format( win_amount ), win_amount > 0 ? POOL_FEE_RATE * 100.0 : 0.0, "%%");
+	Pool_SendTableMessage( poolid, -1, "{9FCF30}玩家{FF8000}%s {9FCF30}赢得了比赛!", ReturnPlayerName( winning_player ) );
+	Pool_SendTableMessage( poolid, -1, "{9FCF30}奖品:{377CC8}%s | -%0.0f%s% 费用", cash_format( win_amount ), win_amount > 0 ? POOL_FEE_RATE * 100.0 : 0.0, "%%");
 	Pool_SendTableMessage( poolid, -1, "{9FCF30}****************************************************************************************");
 	return 1;
 }
@@ -1326,7 +1326,7 @@ stock Pool_QueueNextPlayer( poolid, current_player )
 	if ( g_poolTableData[ poolid ] [ E_SHOTS_LEFT ] && g_poolTableData[ poolid ] [ E_FOULS ] < 1 )
 	{
 		g_poolTableData[ poolid ] [ E_EXTRA_SHOT ] = false;
-		Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) has an extra shot remaining!", ReturnPlayerName( current_player ), current_player );
+		Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 还剩一个额外的镜头!", ReturnPlayerName( current_player ), current_player );
 	}
 	else
 	{
@@ -1339,7 +1339,7 @@ stock Pool_QueueNextPlayer( poolid, current_player )
 	    g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] = current_player == first_player ? second_player : first_player;
 
 		// reset ball positions just incase
-		Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d)'s turn to play!", ReturnPlayerName( g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] ), g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] );
+		Pool_SendTableMessage( poolid, -1, "{2DD9A9} * * %s(%d) 轮到比赛了!", ReturnPlayerName( g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] ), g_poolTableData[ poolid ] [ E_NEXT_SHOOTER ] );
 	}
 
 	// respawn the cue ball if it has been pocketed
@@ -1490,11 +1490,11 @@ CMD:endgame(playerid)
 	new iPool = Pool_GetClosestTable( playerid );
 
 	if ( iPool == -1 )
-		return SendError( playerid, "You must be near a pool table to use this command." );
+		return SendError( playerid, "你必须靠近台球桌才能使用此命令." );
 
 	Pool_EndGame( iPool );
 
-	SendClientMessage(playerid, -1, ""COL_PINK"[ADMIN]"COL_WHITE" You have force ended the pool game!");
+	SendClientMessage(playerid, -1, ""COL_PINK"[管理]"COL_WHITE" 你已经强行结束了撞球游戏!");
 	return 1;
 }
 
@@ -1509,7 +1509,7 @@ CMD:addpool(playerid, params[])
 	if ( GetPlayerPos( playerid, x, y, z ) )
 	{
 		CreatePoolTable( x + 1.0, y + 1.0, z, floatstr(params), POOL_SKIN_DEFAULT, GetPlayerInterior( playerid ), GetPlayerVirtualWorld( playerid ) );
-		SendClientMessage(playerid, -1, ""COL_PINK"[ADMIN]{FFFFFF} You have created a pool table.");
+		SendClientMessage(playerid, -1, ""COL_PINK"[管理]{FFFFFF} 你已创建台球桌.");
 	}
 	return 1;
 }
@@ -1525,7 +1525,7 @@ CMD:addpool(playerid, params[])
 			iPool = Pool_GetClosestTable( playerid );
 
 		if ( iPool == -1 )
-			return SendError( playerid, "You are not near a pool table." );
+			return SendError( playerid, "你不在台球桌附近." );
 
 		new
 			index = strval( params );
@@ -1588,7 +1588,7 @@ CMD:addpool(playerid, params[])
 			iPool = Pool_GetClosestTable( playerid );
 
 		if ( iPool == -1 )
-			return SendError( playerid, "You are not near a pool table." );
+			return SendError( playerid, "你不在台球桌附近." );
 
 		if ( ! IsPlayerPlayingPool( playerid ))
 		{
@@ -1608,7 +1608,7 @@ CMD:addpool(playerid, params[])
 				Iter_Add( poolplayers< iPool >, playerid );
 				Iter_Add( poolplayers< iPool >, playerid );
 
-				UpdateDynamic3DTextLabelText(g_poolTableData[ iPool ] [ E_LABEL ], -1, sprintf( "{FFDC2E}%s is currently playing a test game.", ReturnPlayerName( playerid )) );
+				UpdateDynamic3DTextLabelText(g_poolTableData[ iPool ] [ E_LABEL ], -1, sprintf( "{FFDC2E}%s 当前正在玩测试游戏.", ReturnPlayerName( playerid )) );
 
 				Pool_RespawnBalls( iPool );
 			}

@@ -45,9 +45,9 @@ hook OnScriptInit( )
 	// CreateDynamicPickup( 341, 2, -2069.1431, 1788.9657, 43.7386 ); // Chainsaw @Alcatraz
 
 	// create the sign for wood count
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19353, -2337.8610, -107.4217, 36.2978, 0.0000, 0.0000, 90.0551 ), 0, "Wood Chipper", 130, "impact", 80, 0, -1, 0, 1 );
-	SetDynamicObjectMaterialText( CreateDynamicObject( 19353, -2336.3244, -113.2057, 40.6778, 0.0000, 0.0000, 179.9560 ), 0, "Lumberjack", 130, "impact", 100, 0, -1, 0, 1 );
-	SetDynamicObjectMaterialText( ( g_LogCountObject = CreateDynamicObject( 3074, -2329.4724, -106.0164, 33.1678, 0.0000, 0.0000, 90.000000 ) ), 0, "0 Logs Ready", 130, "Arial", 0, 1, -1, 0, 1);
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19353, -2337.8610, -107.4217, 36.2978, 0.0000, 0.0000, 90.0551 ), 0, "木材削片机", 130, "impact", 80, 0, -1, 0, 1 );
+	SetDynamicObjectMaterialText( CreateDynamicObject( 19353, -2336.3244, -113.2057, 40.6778, 0.0000, 0.0000, 179.9560 ), 0, "伐木工", 130, "impact", 100, 0, -1, 0, 1 );
+	SetDynamicObjectMaterialText( ( g_LogCountObject = CreateDynamicObject( 3074, -2329.4724, -106.0164, 33.1678, 0.0000, 0.0000, 90.000000 ) ), 0, "0 日志就绪", 130, "Arial", 0, 1, -1, 0, 1);
 	SetDynamicObjectMaterial( CreateDynamicObject( 12814, -2337.1, -94.00, 34.28, 0.0, 0.0, 270.0, .streamdistance = 500.0, .priority = 100 ), 0, 19381, "all_walls", "desgreengrass" );
 	SetDynamicObjectMaterial( CreateDynamicObject( 12814, -2337.6, -105.3, 34.28, 0.0, 0.0, 90.00, .streamdistance = 500.0, .priority = 100 ), 0, 19381, "all_walls", "desgreengrass" );
 
@@ -106,7 +106,7 @@ hook OnPlayerUpdateEx( playerid )
 						g_treeData[ i ] [ E_CUT ] = true;
 						GetDynamicObjectPos( g_treeData[ i ] [ E_OBJECT ], fX, fY, fZ );
 						MoveDynamicObject( g_treeData[ i ] [ E_OBJECT ], fX + 0.1, fY + 0.1, fZ + 0.1, ( 0.05 ), 90.0, 0.0, 0.0 );
-			            SendServerMessage( playerid, "You have cut the tree down, now chop the logs down! "COL_ORANGE"/wood chop{FFFFFF}!" );
+			            SendServerMessage( playerid, "你已经把树砍倒了,现在把圆木砍倒吧! "COL_ORANGE"/wood chop{FFFFFF}!" );
 			           	UpdateDynamic3DTextLabelText( g_treeData[ i ] [ E_LABEL ], COLOR_YELLOW, sprintf( "%0.1f", g_treeData[ i ] [ E_HEALTH ] ) );
 					}
 					break;
@@ -130,7 +130,7 @@ hook OnPlayerDeath( playerid, killerid, reason )
 #endif
 {
 	if ( Lumberjack_StopDelivery( playerid ) ) {
- 		GameTextForPlayer( playerid, "~r~job stopped!", 4000, 0 );
+        GameTextForPlayer( playerid, "~r~工作停止了!", 4000, 0 );
 	}
 	return 1;
 }
@@ -139,7 +139,7 @@ hook OnPlayerStateChange( playerid, newstate, oldstate )
 {
     if ( newstate != PLAYER_STATE_DRIVER && oldstate == PLAYER_STATE_DRIVER ) { // Driver has a new state?
 		if ( Lumberjack_StopDelivery( playerid ) ) {
-	 		GameTextForPlayer( playerid, "~r~job stopped!", 4000, 0 );
+            GameTextForPlayer( playerid, "~r~工作停止了!", 4000, 0 );
 		}
     }
 	return 1;
@@ -159,7 +159,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 
 		// Check if it is really quick to finish
 		if ( iTimeElapsed < iTheoreticalFinish ) {
-		    SendServerMessage( playerid, "You've been kicked due to suspected teleport hacking (0xBC-%d-%d).", iTheoreticalFinish, iTimeElapsed );
+		    SendServerMessage( playerid, "你因涉嫌传送黑客攻击而被踢出 (0xBC-%d-%d).", iTheoreticalFinish, iTimeElapsed );
 	    	KickPlayerTimed( playerid );
 	    	return 1;
 		}
@@ -167,7 +167,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 	    new cash = floatround( fDistance ) + 5000;
         DestroyDynamicRaceCP( p_LumberjackDeliver[ playerid ] );
         p_LumberjackDeliver[ playerid ] = 0xFFFF;
-		ShowPlayerHelpDialog( playerid, 7500, "Great job! You've earned ~y~%s~w~~h~!~n~~n~Navigate to the import location to pack your truck with logs.~n~~n~~y~~h~Info: The truck blip has been updated, navigate to it.", cash_format( cash ) );
+		ShowPlayerHelpDialog( playerid, 7500, "干得好!你已获得 ~y~%s~w~~h~!~n~~n~导航到进口位置,用原木包装你的卡车.~n~~n~~y~~h~信息:卡车提示已更新,导航到它.", cash_format( cash ) );
         //SendServerMessage( playerid, "You've made "COL_GOLD"%s"COL_WHITE" from exporting. Go and pick another box up!"  );
 	    GivePlayerCash( playerid, cash );
 	    GivePlayerScore( playerid, 5 );
@@ -183,7 +183,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 	else if ( p_LumberjackReturn[ playerid ] == checkpointid )
 	{
 	    if ( g_LogsInStock < 1 )
-	    	return SendError( playerid, "There is not enough logs in stock to export." );
+            return SendError( playerid, "没有足够的原木库存可供出口." );
 
         DestroyDynamicRaceCP( p_LumberjackReturn[ playerid ] );
         p_LumberjackReturn[ playerid ] = 0xFFFF;
@@ -195,7 +195,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 		DestroyDynamicMapIcon( p_LumberjackMapIcon[ playerid ] );
 		p_LumberjackMapIcon[ playerid ] = CreateDynamicMapIconEx( g_treeExportLocations[ id ] [ 0 ], g_treeExportLocations[ id ] [ 1 ], g_treeExportLocations[ id ] [ 2 ], 51, 0, MAPICON_GLOBAL, 6000.0, { -1 }, { -1 }, aPlayer );
 
-		ShowPlayerHelpDialog( playerid, 7500, "You've packed your truck with logs. ~g~~h~Navigate your way to the export location.~n~~n~Info:~y~~h~ The truck blip has been updated, navigate to it." );
+		ShowPlayerHelpDialog( playerid, 7500, "你已经用原木装满了你的卡车. ~g~~h~导航至导出位置.~n~~n~信息:~y~~h~ 卡车提示已更新,请导航至该位置." );
         p_LumberjackDeliver[ playerid ] = CreateDynamicRaceCP( 0, g_treeExportLocations[ id ] [ 0 ], g_treeExportLocations[ id ] [ 1 ], g_treeExportLocations[ id ] [ 2 ], -2330.8535, -113.9084, 34.00, 4.0, -1, -1, playerid );
        	Beep( playerid );
 		return 1;
@@ -244,23 +244,23 @@ CMD:wood( playerid, params[ ] )
 			    count++;
 			    GivePlayerCash( playerid, 250 );
 				GivePlayerExperience( playerid, E_ROLEPLAY, 0.4 );
-				SendServerMessage( playerid, "Tree successfully chopped into smaller pieces. Go to the wood chipper and type "COL_ORANGE"/wood chip{FFFFFF}!" );
+				SendServerMessage( playerid, "树成功地砍成小块.前往木材削片机并输入 "COL_ORANGE"/wood chip{FFFFFF}!" );
 				break;
 		  	}
 	    }
 
 		if ( ! count ) {
-			SendError( playerid, "You are not next to any chopped tree." );
+			SendError( playerid, "你不在任何砍伐的树旁边." );
 		}
 		return 1;
 	}
 	else if ( strmatch( params, "chip" ) )
 	{
-		if ( IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "You cannot use this feature while in a vehicle." );
+		if ( IsPlayerInAnyVehicle( playerid ) ) return SendError( playerid, "你无法在车内使用此功能." );
 	    if ( IsPlayerInRangeOfPoint( playerid, 4.0, -2338.20, -106.51, 34.00 ) )
 	    {
 	        if ( p_Wood[ playerid ] < 1 )
-	            return SendError( playerid, "You are not carrying any chopped wood." );
+	            return SendError( playerid, "你没有携带任何砍伐的木头." );
 
 		    new object = CreateDynamicObject( 14872, -2338.20, -106.51, 34.00, -27.78, 89.40, 1.92 );
 		    MoveDynamicObject( object, -2338.20, -106.51, 33.5, 0.10 );
@@ -271,29 +271,29 @@ CMD:wood( playerid, params[ ] )
             p_Wood[ playerid ]--;
             g_LogsInStock ++;
            	UpdateWoodStockObject( );
-			return SendServerMessage( playerid, "You've placed a chopped log in the wood chipper. You have made a total of "COL_GOLD"$1,000!" );
+			return SendServerMessage( playerid, "你已将一根切碎的原木放入木材削片机中.你总共已做了 "COL_GOLD"$1,000!" );
 		}
 		else
 		{
-			return SendError( playerid, "You are not next to the wood chipper." );
+			return SendError( playerid, "你不在木材削片机旁边." );
 		}
 	}
 	else if ( strmatch( params, "start" ) )
 	{
 		if ( p_StartedLumberjack{ playerid } == true )
-		    return SendError( playerid, "You are already doing this job." );
+		    return SendError( playerid, "你已经在做这份工作了." );
 
 	    if ( !IsPlayerInAnyVehicle( playerid ) )
-	        return SendError( playerid, "You are not in any vehicle." );
+	        return SendError( playerid, "你不在任何车辆中." );
 
 		if ( GetVehicleModel( GetPlayerVehicleID( playerid ) ) != 455 )
-	        return SendError( playerid, "You are not inside the wood exporting truck." );
+	        return SendError( playerid, "你不在木材出口卡车内." );
 
 		if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER )
-		    return SendError( playerid, "You must be a driver of this vehicle to proceed." );
+		    return SendError( playerid, "你必须是这辆车的驾驶员才能继续." );
 
  		if ( g_LogsInStock < 1 )
-	    	return SendError( playerid, "There is not enough logs in stock to export." );
+            return SendError( playerid, "没有足够的原木库存可供出口." );
 
 		new id = random( sizeof( g_treeExportLocations ) );
 		p_treeExportLocation[ playerid ] = id;
@@ -306,15 +306,15 @@ CMD:wood( playerid, params[ ] )
 		p_LumberjackReturn[ playerid ] = CreateDynamicRaceCP( 0, -2330.8535, -113.9084, 34.00, g_treeExportLocations[ id ] [ 0 ], g_treeExportLocations[ id ] [ 1 ], g_treeExportLocations[ id ] [ 2 ], 4.0, -1, -1, playerid );
 		p_StartedLumberjack{ playerid } = true;
 
-		ShowPlayerHelpDialog( playerid, 7500, "A ~g~~h~truck blip~w~~h~ has been shown on your radar. Go to where the truck blip is located to export and import logs." );
+		ShowPlayerHelpDialog( playerid, 7500, "你的雷达上显示了 ~g~~h~ 卡车光点~w~~h~.前往卡车光点所在位置导出和导入原木." );
 		return 1;
 	}
 	else if ( strmatch( params, "stop" ) )
 	{
 		if ( Lumberjack_StopDelivery( playerid ) ) {
-	 		return GameTextForPlayer( playerid, "~r~job stopped!", 4000, 0 );
+            return GameTextForPlayer( playerid, "~r~工作停止了!", 4000, 0 );
 		} else {
-		    return SendError( playerid, "You are not doing this job." );
+		    return SendError( playerid, "你没有做这份工作." );
 		}
 	}
 	return SendUsage( playerid, "/wood [CHOP/CHIP/START/STOP]" );
@@ -346,7 +346,7 @@ function lumberjack_RemoveWood( objectid ) {
 }
 
 stock UpdateWoodStockObject( ) {
-	return SetDynamicObjectMaterialText( g_LogCountObject, 0, sprintf( "%d Logs Ready", g_LogsInStock ), 130, "Arial", 0, 1, -1, 0, 1 );
+	return SetDynamicObjectMaterialText( g_LogCountObject, 0, sprintf( "%d 日志就绪", g_LogsInStock ), 130, "Arial", 0, 1, -1, 0, 1 );
 }
 
 stock Lumberjack_StopDelivery( playerid )

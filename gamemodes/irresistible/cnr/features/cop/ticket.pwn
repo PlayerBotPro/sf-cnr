@@ -39,8 +39,8 @@ hook OnPlayerUpdateEx( playerid )
     if ( p_TicketTimestamp[ playerid ] != 0 && g_iTime > p_TicketTimestamp[ playerid ] )
     {
         // inform user
-        SendServerMessage( playerid, "You have resisted to pay your ticket and have become a wanted criminal." );
-        SendClientMessageToCops( -1, ""COL_BLUE"[CRIME]"COL_WHITE" %s(%d) has resisted to pay his ticket.", ReturnPlayerName( playerid ), playerid );
+        SendServerMessage( playerid, "你拒付罚单, 已成为通缉犯." );
+        SendClientMessageToCops( -1, ""COL_BLUE"[犯罪]"COL_WHITE" %s(%d) 拒绝支付罚单.", ReturnPlayerName( playerid ), playerid );
 
         // remove ticket
         p_TicketTimestamp[ playerid ] = 0;
@@ -65,23 +65,23 @@ CMD:ticket( playerid, params[ ] )
    		pID = GetClosestPlayer( playerid );
 
 	TicketPlayer( pID, playerid );
-	SendServerMessage( playerid, "You can use your middle mouse button to easily ticket individuals that are near to you." );
+	SendServerMessage( playerid, "按鼠标中键可向附近的玩家开罚单." );
 	return 1;
 }
 
 CMD:payticket( playerid, params[] )
 {
 	if ( !p_WantedLevel[ playerid ] )
-		return SendError( playerid, "There's no point paying off a ticket when you don't have a wanted level." );
+		return SendError( playerid, "你没有通缉等级, 无需支付罚单." );
 
 	if ( p_WantedLevel[ playerid ] > 5 )
-		return SendError( playerid, "Your wanted level is excessive to pay a ticket." );
+		return SendError( playerid, "你的通缉等级过高, 无法通过罚单清除." );
 
 	if ( !p_TicketTimestamp[ playerid ] )
-		return SendError( playerid, "You have not been ticketed!" );
+		return SendError( playerid, "你没有待支付的罚单!" );
 
 	if ( GetPlayerCash( playerid ) < 2000 )
-		return SendError( playerid, "You don't have money to pay for your ticket." );
+		return SendError( playerid, "你的钱不够支付罚单." );
 
 	new
 		copid = p_TicketIssuer[ playerid ];
@@ -93,15 +93,15 @@ CMD:payticket( playerid, params[] )
 	// remove wanted level
 	GivePlayerCash( playerid, -2000 );
 	GivePlayerWantedLevel( playerid, -6 );
-	SendClientMessageFormatted( playerid, -1, ""COL_GREEN"[TICKET]{FFFFFF} You have paid "COL_GOLD"$2,000{FFFFFF} dollars into paying your ticket." );
+	SendClientMessageFormatted( playerid, -1, ""COL_GREEN"[罚单]{FFFFFF} 你已经付款 "COL_GOLD"$2,000{FFFFFF} 的罚款." );
 
 	// pay cop
 	if ( IsPlayerConnected( copid ) ) {
 		GivePlayerScore( copid, 2 );
 		GivePlayerCash( copid, 1500 );
 		GivePlayerExperience( copid, E_POLICE, 0.5 );
-		GameTextForPlayer( copid, "~n~~g~~h~Ticket paid!", 2000, 4 );
-		SendClientMessageFormatted( copid, -1, ""COL_GREEN"[TICKET]{FFFFFF} %s(%d) has paid his ticket issues, you have earned "COL_GOLD"$1,500{FFFFFF}!", ReturnPlayerName( playerid ), playerid );
+		GameTextForPlayer( copid, "~n~~g~~h~罚单已支付!", 2000, 4 );
+		SendClientMessageFormatted( copid, -1, ""COL_GREEN"[罚单]{FFFFFF} %s(%d) 支付了罚单, 你获得了"COL_GOLD"$1,500{FFFFFF}!", ReturnPlayerName( playerid ), playerid );
 	}
 	return 1;
 }
@@ -109,29 +109,29 @@ CMD:payticket( playerid, params[] )
 /* ** Functions ** */
 stock TicketPlayer( pID, playerid )
 {
-	if ( p_Class[ playerid ] != CLASS_POLICE ) return SendError( playerid, "This is restricted to police only." );
-	else if ( GetDistanceBetweenPlayers( playerid, pID ) > 10.0 || !IsPlayerConnected( pID ) ) return SendError( playerid, "There are no players around to ticket." );
-	else if ( p_TicketIssuer[ pID ] == playerid ) return SendError( playerid, "You've already gave a ticket to this player." );
-	else if ( p_Class[ pID ] == CLASS_POLICE ) return SendError( playerid, "This player is in your team!" );
-	else if ( p_WantedLevel[ pID ] > 5 ) return SendError( playerid, "Wanted suspects cannot be issued a ticket." );
-	else if ( p_WantedLevel[ pID ] < 1 ) return SendError( playerid, "Innocent players cannot be issued a ticket." );
-	else if ( p_Jailed{ playerid } ) return SendError( playerid, "You cannot use this command in jail." );
-	else if ( IsPlayerDetained( pID ) ) return SendError( playerid, "You cannot use this command on a detained player." );
-	else if ( g_iTime < p_TicketTimestamp[ pID ] ) return SendError( playerid, "This player has been ticketed recently, he will be fined in %d seconds.", g_iTime - p_TicketTimestamp[ pID ] );
+	if ( p_Class[ playerid ] != CLASS_POLICE ) return SendError( playerid, "此功能仅限警察使用." );
+	else if ( GetDistanceBetweenPlayers( playerid, pID ) > 10.0 || !IsPlayerConnected( pID ) ) return SendError( playerid, "附近没有可开罚单的玩家." );
+	else if ( p_TicketIssuer[ pID ] == playerid ) return SendError( playerid, "你已经给此玩家开过罚单." );
+	else if ( p_Class[ pID ] == CLASS_POLICE ) return SendError( playerid, "此玩家与你同阵营!" );
+	else if ( p_WantedLevel[ pID ] > 5 ) return SendError( playerid, "此玩家的罪行过重, 请直接逮捕." );
+	else if ( p_WantedLevel[ pID ] < 1 ) return SendError( playerid, "不能向无辜玩家开罚单." );
+	else if ( p_Jailed{ playerid } ) return SendError( playerid, "你不能在监狱中使用此命令." );
+	else if ( IsPlayerDetained( pID ) ) return SendError( playerid, "此玩家已被管理员监禁, 无法进行此操作." );
+	else if ( g_iTime < p_TicketTimestamp[ pID ] ) return SendError( playerid, "此玩家已经入狱, 将在 %d 秒后获释.", g_iTime - p_TicketTimestamp[ pID ] );
 	else
 	{
-		if ( p_AdminOnDuty{ pID } == true ) return SendError( playerid, "This is an admin on duty!" );
-		if ( IsPlayerJailed( pID ) ) return SendError( playerid, "This player is jailed. He may be paused." );
-		if ( IsPlayerTied( pID ) ) return SendError( playerid, "This player is tied, you cannot ticket him unless he is untied." );
-		if ( GetPlayerState( pID ) == PLAYER_STATE_WASTED ) return SendError( playerid, "You cannot ticket wasted players." );
+		if ( p_AdminOnDuty{ pID } == true ) return SendError( playerid, "这是值班管理员!" );
+		if ( IsPlayerJailed( pID ) ) return SendError( playerid, "此玩家已入狱, 可能处于暂停状态." );
+		if ( IsPlayerTied( pID ) ) return SendError( playerid, "此玩家已被捆绑, 手铐已解除, 无法向其开罚单." );
+		if ( GetPlayerState( pID ) == PLAYER_STATE_WASTED ) return SendError( playerid, "不能向挂机玩家开罚单." );
 
 	    p_TicketTimestamp[ pID ] = g_iTime + 15;
 	    p_TicketIssuer[ pID ] = playerid;
 
-		GameTextForPlayer( pID, "~n~~r~Ticketed!~n~~w~/payticket", 2000, 4 );
-		SendClientMessageFormatted( pID, -1, ""COL_RED"[TICKET]{FFFFFF} You have been issued a "COL_GOLD"$2,000{FFFFFF} ticket by %s(%d) for your recent criminal activity!", ReturnPlayerName( playerid ), playerid );
-		SendClientMessageFormatted( pID, -1, ""COL_RED"[TICKET]{FFFFFF} You have 15 seconds to "COL_GREY"/payticket"COL_WHITE" before you are wanted for resisting law enforcement." );
-		SendClientMessageFormatted( playerid, -1, ""COL_GREEN"[TICKET]{FFFFFF} You issued a ticket of "COL_GOLD"$2,000{FFFFFF} to %s(%d)!", ReturnPlayerName( pID ), pID );
+		GameTextForPlayer( pID, "~n~~r~收到罚单!~n~~w~/payticket", 2000, 4 );
+		SendClientMessageFormatted( pID, -1, ""COL_RED"[罚单]{FFFFFF} 你已获得 "COL_GOLD"$2,000{FFFFFF} 的罚单, 开单警员: %s(%d), 原因是近期的犯罪活动!", ReturnPlayerName( playerid ), playerid );
+		SendClientMessageFormatted( pID, -1, ""COL_RED"[罚单]{FFFFFF} 你有 15 秒时间输入"COL_GREY"/payticket"COL_WHITE"支付罚单, 否则将视为拒捕并被通缉." );
+		SendClientMessageFormatted( playerid, -1, ""COL_GREEN"[罚单]{FFFFFF} 你开出了一张罚单, 金额"COL_GOLD"$2,000{FFFFFF}, 对象: %s(%d)!", ReturnPlayerName( pID ), pID );
 	}
 	return 1;
 }

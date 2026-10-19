@@ -23,10 +23,10 @@ enum E_BANKDOOR_DATA
 new
 	g_bankvaultData					[ ] [ E_BANKDOOR_DATA ] =
 	{
-		{ "San Fierro Bank", 	INVALID_OBJECT_ID, false, 0, 0, 23, { -1413.956, 859.16560, 984.71260 }, { -1412.56506, 859.2745360, 978.6328730 }, { -1000.000, -1000.00, -1000.0000 } },
-		{ "Las Venturas Bank", 	INVALID_OBJECT_ID, false, 0, 0, 52, { 2116.3513, 1233.0250, 1017.1369 }, { 2113.391357, 1233.155273, 1016.122619 }, { 90.000000, 0.000000, -90.000000 } },
-		{ "Los Santos Bank", 	INVALID_OBJECT_ID, false, 0, 0, 56, { 2116.3513, 1233.0250, 1017.1369 }, { 2113.391357, 1233.155273, 1016.122619 }, { 90.000000, 0.000000, -90.000000 } },
-		{ "Militia Ship", 		INVALID_OBJECT_ID, false, 0, 0, 0, { -2372.6223, 1551.3984, 2.1172000 }, { -2371.41699, 1552.027709, -0.75281000 }, { 0.0000000, 0.000000, 28.0000000 } }
+		{ "圣菲耶罗 银行", 	INVALID_OBJECT_ID, false, 0, 0, 23, { -1413.956, 859.16560, 984.71260 }, { -1412.56506, 859.2745360, 978.6328730 }, { -1000.000, -1000.00, -1000.0000 } },
+		{ "拉斯文图拉斯 银行", 	INVALID_OBJECT_ID, false, 0, 0, 52, { 2116.3513, 1233.0250, 1017.1369 }, { 2113.391357, 1233.155273, 1016.122619 }, { 90.000000, 0.000000, -90.000000 } },
+		{ "洛圣都 银行", 	INVALID_OBJECT_ID, false, 0, 0, 56, { 2116.3513, 1233.0250, 1017.1369 }, { 2113.391357, 1233.155273, 1016.122619 }, { 90.000000, 0.000000, -90.000000 } },
+		{ "民兵船", 		INVALID_OBJECT_ID, false, 0, 0, 0, { -2372.6223, 1551.3984, 2.1172000 }, { -2371.41699, 1552.027709, -0.75281000 }, { 0.0000000, 0.000000, 28.0000000 } }
 	}
 ;
 
@@ -68,7 +68,7 @@ hook OnPlayerUpdateEx( playerid )
 	{
 		if ( IsPlayerInArea( playerid, -1412.215209, -1400.443237, 853.086669, 865.716735 ) && !g_bankvaultData[ CITY_SF ] [ E_DISABLED ] )
 		{
-			SendServerMessage( playerid, "You've been moved as you've entered the vault whilst it's closed." );
+			SendServerMessage( playerid, "当你在金库关闭时进入金库时,你已被移动." );
 			SetPlayerPos( playerid, -1416.3499, 859.2744, 984.7126 );
 		}
 
@@ -79,7 +79,7 @@ hook OnPlayerUpdateEx( playerid )
 
 			if ( ( world == g_bankvaultData[ CITY_LV ] [ E_WORLD ] && !g_bankvaultData[ CITY_LV ] [ E_DISABLED ] ) || ( world == g_bankvaultData[ CITY_LS ] [ E_WORLD ] && !g_bankvaultData[ CITY_LS ] [ E_DISABLED ] ) )
 			{
-				SendServerMessage( playerid, "You've been moved as you've entered the vault whilst it's closed." );
+				SendServerMessage( playerid, "当你在金库关闭时进入金库时,你已被移动." );
 				SetPlayerPos( playerid, 2121.7827, 1233.3225, 1017.1369 );
 			}
 		}
@@ -112,7 +112,7 @@ hook OnPlayerC4Blown( playerid, Float: X, Float: Y, Float: Z, worldid )
 					TriggerClosestCivilians( playerid, GetClosestRobberyNPC( getClosestRobberySafe( playerid ) ) );
 				}
 
-				SendGlobalMessage( -1, ""COL_GREY"[SERVER]"COL_WHITE" %s(%d) has destroyed the "COL_GREY"%s Vault{FFFFFF}!", ReturnPlayerName( playerid ), playerid, g_bankvaultData[ j ] [ E_NAME ] );
+				SendGlobalMessage( -1, ""COL_GREY"[服务器]"COL_WHITE" %s(%d) 已经摧毁了 "COL_GREY"%s 避难所{FFFFFF}!", ReturnPlayerName( playerid ), playerid, g_bankvaultData[ j ] [ E_NAME ] );
 				break;
 			}
 		}
@@ -127,11 +127,11 @@ CMD:banks( playerid, params[ ] )
 
 	for( new i = 0, time = g_iTime; i < sizeof( g_bankvaultData ); i++ ) {
 		if ( g_bankvaultData[ i ] [ E_TIMESTAMP ] < time )
-			format( szBigString, sizeof( szBigString ), "%s"COL_GREY"%s"COL_WHITE"\t"COL_GREEN"Available To Rob!\n", szBigString, g_bankvaultData[ i ] [ E_NAME ] );
+			format( szBigString, sizeof( szBigString ), "%s"COL_GREY"%s"COL_WHITE"\t"COL_GREEN"可以抢劫!\n", szBigString, g_bankvaultData[ i ] [ E_NAME ] );
 		else
 			format( szBigString, sizeof( szBigString ), "%s"COL_GREY"%s"COL_WHITE"\t%s\n", szBigString, g_bankvaultData[ i ] [ E_NAME ], secondstotime( g_bankvaultData[ i ] [ E_TIMESTAMP ] - time ) );
 	}
-	ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST, "{FFFFFF}Banks", szBigString, "Okay", "" );
+	ShowPlayerDialog( playerid, DIALOG_NULL, DIALOG_STYLE_TABLIST, "{FFFFFF}银行", szBigString, "确定", "" );
 	return 1;
 }
 

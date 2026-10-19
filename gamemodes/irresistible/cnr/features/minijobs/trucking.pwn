@@ -30,88 +30,88 @@ new
 	g_aTruckingLocations[ ] [ E_TRUCKING_DATA ] =
 	{
 		// SF
-		{ "Supa",					CITY_SF, -2492.6143, 768.56420, 34.5737 },
-		{ "SF Hospital",			CITY_SF, -2698.4365, 622.14070, 13.8549 },
-		{ "Golf Club",				CITY_SF, -2729.0786, -311.8507, 6.44090 },
-		{ "SF Airport Fueling",		CITY_SF, -1127.2633, -150.5504, 13.5457 },
-		{ "Herb Farm", 				CITY_SF, -1085.3650, -1644.566, 75.7690 },
-		{ "Farm", 					CITY_SF, -376.94220, -1429.182, 25.1285 },
-		{ "FleischBerg Beer",		CITY_SF, -172.67190, -233.8773, 0.83140 },
-		{ "Chemical Plant",			CITY_SF, -1025.5406, -666.9636, 31.4098 },
-		{ "SF Mine",				CITY_SF, -2755.9512, 1256.9657, 11.1721 },
-		{ "Gas Station",			CITY_SF, -2405.2808, 982.05940, 44.6987 },
+		{ "苏帕",					CITY_SF, -2492.6143, 768.56420, 34.5737 },
+		{ "顺丰医院",			CITY_SF, -2698.4365, 622.14070, 13.8549 },
+		{ "高尔夫球杆",				CITY_SF, -2729.0786, -311.8507, 6.44090 },
+		{ "顺丰机场加油",		CITY_SF, -1127.2633, -150.5504, 13.5457 },
+		{ "香草农场", 				CITY_SF, -1085.3650, -1644.566, 75.7690 },
+		{ "农场", 					CITY_SF, -376.94220, -1429.182, 25.1285 },
+		{ "弗莱施伯格啤酒",		CITY_SF, -172.67190, -233.8773, 0.83140 },
+		{ "化工厂",			CITY_SF, -1025.5406, -666.9636, 31.4098 },
+		{ "顺丰矿山",				CITY_SF, -2755.9512, 1256.9657, 11.1721 },
+		{ "加油站",			CITY_SF, -2405.2808, 982.05940, 44.6987 },
 
 		// LV
-		{ "LV SMALL Town",			CITY_LV, -796.19470, 1491.5441, 21.3110 },
-		{ "Small LV Farm", 			CITY_LV, -379.07180, 2217.4116, 41.4955 },
-		{ "Abandoned Airport LV", 	CITY_LV, 386.869300, 2539.4175, 15.9411 },
-		{ "LV Truck Depot", 		CITY_LV, 1439.58200, 989.50120, 10.2221 },
-		{ "LV Airport", 			CITY_LV, 1328.65330, 1613.9368, 10.2221 },
-		{ "LV Construction Site", 	CITY_LV, 2422.11400, 1922.9708, 5.41740 },
-		{ "LV Construction Site", 	CITY_LV, 2618.30830, 833.75980, 4.71790 },
-		{ "LV Casino", 				CITY_LV, 1945.29390, 1347.5150, 8.51120 },
-		{ "LV Train Station", 		CITY_LV, 1433.38670, 2606.7341, 10.0737 },
+		{ "LV小镇",			CITY_LV, -796.19470, 1491.5441, 21.3110 },
+		{ "小LV农场", 			CITY_LV, -379.07180, 2217.4116, 41.4955 },
+		{ "废弃机场 LV", 	CITY_LV, 386.869300, 2539.4175, 15.9411 },
+		{ "LV卡车车库", 		CITY_LV, 1439.58200, 989.50120, 10.2221 },
+		{ "LV机场", 			CITY_LV, 1328.65330, 1613.9368, 10.2221 },
+		{ "低电压施工现场", 	CITY_LV, 2422.11400, 1922.9708, 5.41740 },
+		{ "低电压施工现场", 	CITY_LV, 2618.30830, 833.75980, 4.71790 },
+		{ "LV赌场", 				CITY_LV, 1945.29390, 1347.5150, 8.51120 },
+		{ "LV火车站", 		CITY_LV, 1433.38670, 2606.7341, 10.0737 },
 		//{ "LV Golf Course", 		CITY_LV, 1467.91980, 2775.1060, 10.0737 },
-		{ "LV Army base",			CITY_LV, 314.20850, 1901.61900, 18.3275 },
+		{ "LV陆军基地",			CITY_LV, 314.20850, 1901.61900, 18.3275 },
 
 		// LS
-		{ "LS Farm", 				CITY_LS, 1933.2828, 171.656600, 36.6801 },
-		{ "LS Farm", 				CITY_LS, 2372.1514, -647.70950, 126.906 },
-		{ "LS Arena", 				CITY_LS, 2687.5447, -1682.9163, 8.84300 },
-		{ "LS Trucking Depot", 		CITY_LS, 2488.4692, -2089.7585, 12.9487 },
-		{ "LS Military Depot", 		CITY_LS, 2760.9412, -2456.6716, 12.9522 },
-		{ "LS Pier", 				CITY_LS, 369.90320, -2027.8804, 7.07380 },
-		{ "LS Airport", 			CITY_LS, 1930.5016, -2396.6973, 14.2341 },
-		{ "LS Town Hall", 			CITY_LS, 1306.2109, -2056.8953, 58.1423 },
-		{ "LS Farm", 				CITY_LS, 1557.1737, 24.4480000, 24.8366 },
-		{ "LS Depot", 				CITY_LS, 2538.0132, -2228.3872, 14.0296 },
+		{ "LS农场", 				CITY_LS, 1933.2828, 171.656600, 36.6801 },
+		{ "LS农场", 				CITY_LS, 2372.1514, -647.70950, 126.906 },
+		{ "LS竞技场", 				CITY_LS, 2687.5447, -1682.9163, 8.84300 },
+		{ "LS货运站", 		CITY_LS, 2488.4692, -2089.7585, 12.9487 },
+		{ "LS军用仓库", 		CITY_LS, 2760.9412, -2456.6716, 12.9522 },
+		{ "LS码头", 				CITY_LS, 369.90320, -2027.8804, 7.07380 },
+		{ "LS机场", 			CITY_LS, 1930.5016, -2396.6973, 14.2341 },
+		{ "LS市政厅", 			CITY_LS, 1306.2109, -2056.8953, 58.1423 },
+		{ "LS农场", 				CITY_LS, 1557.1737, 24.4480000, 24.8366 },
+		{ "LS仓库", 				CITY_LS, 2538.0132, -2228.3872, 14.0296 },
 
 		// Assorted
-		{ "Desert town",			CITY_DESERTS, -1495.147, 2614.85550, 56.3716 },
-		{ "Farm",					CITY_DESERTS, -1480.387, 1949.57060, 49.6636 },
-		{ "Hard Desert Town",		CITY_DESERTS, -788.0822, 2415.39090, 157.722 },
-		{ "Desert Town",			CITY_DESERTS, -824.9703, 2728.89160, 46.2619 },
-		{ "Small Town",				CITY_DESERTS, -1648.912, 2475.92090, 87.6510 },
-		{ "Ganja Farm",				CITY_DESERTS, -1116.771, -1115.2540, 128.952 },
-		{ "Farm",					CITY_COUNTRY, -367.4244, -1048.4260, 60.0209 }
+		{ "沙漠小镇",			CITY_DESERTS, -1495.147, 2614.85550, 56.3716 },
+		{ "农场",					CITY_DESERTS, -1480.387, 1949.57060, 49.6636 },
+		{ "硬沙漠小镇",		CITY_DESERTS, -788.0822, 2415.39090, 157.722 },
+		{ "沙漠小镇",			CITY_DESERTS, -824.9703, 2728.89160, 46.2619 },
+		{ "小镇",				CITY_DESERTS, -1648.912, 2475.92090, 87.6510 },
+		{ "甘贾农场",				CITY_DESERTS, -1116.771, -1115.2540, 128.952 },
+		{ "农场",					CITY_COUNTRY, -367.4244, -1048.4260, 60.0209 }
 	},
 
 	g_aTrailerData[ 3 ] [ 8 ] [ E_TRAILER_DATA ] =
 	{
 		{
-			{ "Methylamine", 		5000, 	RISK_FACTOR_HARD },
-			{ "Mustard Gas", 		4000, 	RISK_FACTOR_HARD },
-			{ "Ethylamine", 		2000, 	RISK_FACTOR_HARD },
-			{ "Safrole", 			1000, 	RISK_FACTOR_HARD },
+			{ "甲胺", 		5000, 	RISK_FACTOR_HARD },
+			{ "芥子气", 		4000, 	RISK_FACTOR_HARD },
+			{ "乙胺", 		2000, 	RISK_FACTOR_HARD },
+			{ "黄樟素", 			1000, 	RISK_FACTOR_HARD },
 
-			{ "Crude Oil", 			2000,	RISK_FACTOR_EASY },
-			{ "Natural Gas", 		1500,	RISK_FACTOR_EASY },
-			{ "Unleaded Gas", 		1250,	RISK_FACTOR_EASY },
-			{ "Heating Oil", 		750,	RISK_FACTOR_EASY }
+			{ "原油", 			2000,	RISK_FACTOR_EASY },
+			{ "天然气", 		1500,	RISK_FACTOR_EASY },
+			{ "无铅气体", 		1250,	RISK_FACTOR_EASY },
+			{ "取暖油", 		750,	RISK_FACTOR_EASY }
 		},
 
 		{
-			{ "Pseudoephedrine", 	5000, 	RISK_FACTOR_HARD },
-			{ "Coca Plant", 		4000, 	RISK_FACTOR_HARD },
-			{ "Kush", 				2000, 	RISK_FACTOR_HARD },
-			{ "Opium", 				1000, 	RISK_FACTOR_HARD },
+			{ "伪麻黄碱", 	5000, 	RISK_FACTOR_HARD },
+			{ "古柯厂", 		4000, 	RISK_FACTOR_HARD },
+			{ "库什", 				2000, 	RISK_FACTOR_HARD },
+			{ "鸦片", 				1000, 	RISK_FACTOR_HARD },
 
-			{ "Soybeans", 			2000, 	RISK_FACTOR_EASY },
-			{ "Wheat", 				1500, 	RISK_FACTOR_EASY },
-			{ "Cocoa", 				1250, 	RISK_FACTOR_EASY },
-			{ "Coffee", 			750, 	RISK_FACTOR_EASY }
+			{ "大豆", 			2000, 	RISK_FACTOR_EASY },
+			{ "小麦", 				1500, 	RISK_FACTOR_EASY },
+			{ "可可", 				1250, 	RISK_FACTOR_EASY },
+			{ "咖啡", 			750, 	RISK_FACTOR_EASY }
 		},
 
 		{
-			{ "Gold Bullion", 		2000, 	RISK_FACTOR_EASY },
-			{ "Silver Bullion", 	1500, 	RISK_FACTOR_EASY },
-			{ "Platinum Bullion",	1250, 	RISK_FACTOR_EASY },
-			{ "Precious Metals", 	750, 	RISK_FACTOR_EASY },
+			{ "金块", 		2000, 	RISK_FACTOR_EASY },
+			{ "银条", 	1500, 	RISK_FACTOR_EASY },
+			{ "铂金条",	1250, 	RISK_FACTOR_EASY },
+			{ "贵金属", 	750, 	RISK_FACTOR_EASY },
 
-			{ "Cocaine", 			5000, 	RISK_FACTOR_HARD },
-			{ "Methamphetamine", 	4000, 	RISK_FACTOR_HARD },
-			{ "Heroin", 			2000, 	RISK_FACTOR_HARD },
-			{ "Various Pills", 		1000, 	RISK_FACTOR_HARD }
+			{ "可卡因", 			5000, 	RISK_FACTOR_HARD },
+			{ "冰毒", 	4000, 	RISK_FACTOR_HARD },
+			{ "海洛因", 			2000, 	RISK_FACTOR_HARD },
+			{ "各类药片", 		1000, 	RISK_FACTOR_HARD }
 		}
 	},
 
@@ -137,7 +137,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 	if ( checkpointid == p_TruckingCheckPoint[ playerid ] )
 	{
 		if ( ! IsTrailerAttachedToVehicle( player_vehicle ) )
-			return SendError( playerid, "You cannot import/export anything without a trailer!" );
+			return SendError( playerid, "没有挂车就无法进出口货物!" );
 
 		DestroyDynamicMapIcon( p_TruckingMapIcon[ playerid ] );
 		DestroyDynamicRaceCP ( p_TruckingCheckPoint[ playerid ] );
@@ -152,7 +152,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 			p_TruckingPositionTimer[ playerid ] = SetTimerEx( "OnTruckPositionUpdate", 750, false, "dd", playerid, p_TruckingRoute[ playerid ] { 1 } );
   			PlayerTextDrawShow( playerid, p_TruckingTD[ playerid ] );
 
-			ShowPlayerHelpDialog( playerid, 7500, "Your trailer has been loaded with %s. ~g~~h~Follow the truck blip on your radar to meet the destination.", g_aTrailerData[ p_TruckingTrailerModel{ playerid } ] [ p_TruckingTrailer{ playerid } ] [ E_NAME ] );
+			ShowPlayerHelpDialog( playerid, 7500, "挂车已装载 %s. ~g~~h~请跟随雷达上的卡车标记前往目的地.", g_aTrailerData[ p_TruckingTrailerModel{ playerid } ] [ p_TruckingTrailer{ playerid } ] [ E_NAME ] );
 			p_TruckingMapIcon	[ playerid ] = CreateDynamicMapIconEx( g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_X ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_Y ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_Z ], 51, 0, MAPICON_GLOBAL, 6000.0, { -1 }, { -1 }, aPlayer );
 			p_TruckingCheckPoint[ playerid ] = CreateDynamicRaceCP( 0, g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_X ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_Y ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_Z ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_X ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_Y ], g_aTruckingLocations[ p_TruckingRoute[ playerid ] { 1 } ] [ E_Z ], 10.0, -1, -1, playerid );
 			return ( p_TruckingRoute[ playerid ] { 0 } = INVALID_TRUCKING_ROUTE ), 1;
@@ -167,7 +167,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 
 			// Check if it is really quick to finish
 			if ( iTimeElapsed < iTheoreticalFinish ) {
-		   		SendServerMessage( playerid, "You've been kicked due to suspected teleport hacking (0xBC-%d-%d).", iTheoreticalFinish, iTimeElapsed );
+                SendServerMessage( playerid, "你因涉嫌传送黑客攻击而被踢出 (0xBC-%d-%d).", iTheoreticalFinish, iTimeElapsed );
 		    	KickPlayerTimed( playerid );
 		    	return 1;
 			}
@@ -192,7 +192,7 @@ hook OnPlayerEnterDynRaceCP( playerid, checkpointid )
 			//SetTimerEx( "RespawnVehicle", 3500, false, "d", GetVehicleTrailer( player_vehicle ) );
 			DetachTrailerFromVehicle( player_vehicle );
 
-			ShowPlayerHelpDialog( playerid, 7500, "You have earned ~y~~h~%s~w~~h~ for exporting %s!", cash_format( iCashEarned ), g_aTrailerData[ p_TruckingTrailerModel{ playerid } ] [ p_TruckingTrailer{ playerid } ] [ E_NAME ] );
+			ShowPlayerHelpDialog( playerid, 7500, "你获得了 ~y~~h~%s~w~~h~, 出口货物: %s!", cash_format( iCashEarned ), g_aTrailerData[ p_TruckingTrailerModel{ playerid } ] [ p_TruckingTrailer{ playerid } ] [ E_NAME ] );
         	return ( p_TruckingRoute[ playerid ] { 1 } = INVALID_TRUCKING_ROUTE ), 1;
 		}
 		return 1;
@@ -234,7 +234,7 @@ hook OnTrailerUpdate( playerid, vehicleid )
 	if ( p_LastAttachedVehicle[ playerid ] != vehicleid && iModel != 525 )
 	{
 		if ( !p_hasTruckingJob{ playerid } )
-			ShowPlayerHelpDialog( playerid, 3000, "You can begin a trucking job by typing ~g~~h~/work" );
+			ShowPlayerHelpDialog( playerid, 3000, "输入 ~g~~h~/work 即可开始货运工作." );
 		else
 			cancelPlayerTruckingCourier( playerid, GetPlayerVehicleID( playerid ), .ticks = 0 );
 
@@ -254,16 +254,16 @@ CMD:work( playerid, params[ ] )
 		iTrailer = GetVehicleModel( GetVehicleTrailer( iVehicle ) )
 	;
 
-	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "You must be an ordinary civilian to use this command." );
+	if ( p_Class[ playerid ] != CLASS_CIVILIAN ) return SendError( playerid, "你必须是普通平民才能使用此命令." );
 	else if ( sscanf( params, "s[7]", szDifficulty ) ) return SendUsage( playerid, "/work [NORMAL/HARD]" );
 	else if ( strmatch( szDifficulty, "STOP" ) )
 	{
 		StopPlayerTruckingCourier( playerid );
-		return SendServerMessage( playerid, "Your trucking mission has been stopped." );
+		return SendServerMessage( playerid, "你的货运任务已停止." );
 	}
 	else if ( !strmatch( szDifficulty, "NORMAL" ) && !strmatch( szDifficulty, "HARD" ) ) return SendUsage( playerid, "/work [NORMAL/HARD/STOP]" );
-	else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "You must be a driver of a vehicle to work." );
-	else if ( !iModel ) return SendError( playerid, "You are not in any vehicle." );
+	else if ( GetPlayerState( playerid ) != PLAYER_STATE_DRIVER ) return SendError( playerid, "你必须是车辆司机才能工作." );
+	else if ( !iModel ) return SendError( playerid, "你不在任何车辆中." );
 	else
 	{
 		if ( iModel == 403 || iModel == 514 || iModel == 515 )
@@ -271,10 +271,10 @@ CMD:work( playerid, params[ ] )
 			if ( !p_hasTruckingJob{ playerid } )
 			{
 				if ( !IsTrailerAttachedToVehicle( iVehicle ) )
-					return SendError( playerid, "You can only begin to work only if you have a trailer attached to your vehicle." );
+					return SendError( playerid, "载具必须连接挂车才能开始货运工作." );
 
 				if ( p_WorkCooldown[ playerid ] > g_iTime )
-					return SendError( playerid, "You must wait %d seconds before working again.", p_WorkCooldown[ playerid ] - g_iTime );
+					return SendError( playerid, "你必须等待 %d 秒才能再次工作.", p_WorkCooldown[ playerid ] - g_iTime );
 
 				static aPlayer[ 1 ]; aPlayer[ 0 ] = playerid;
 				DestroyDynamicMapIcon( p_TruckingMapIcon[ playerid ] );
@@ -301,11 +301,11 @@ CMD:work( playerid, params[ ] )
 				p_TruckingPositionTimer[ playerid ] = SetTimerEx( "OnTruckPositionUpdate", 750, false, "dd", playerid, p_TruckingRoute[ playerid ] { 0 } );
 	  			PlayerTextDrawShow( playerid, p_TruckingTD[ playerid ] );
 
-				ShowPlayerHelpDialog( playerid, 7500, "A ~g~~h~truck blip~w~~h~ has been shown on your radar. Go to where the truck blip is load your trailer with %s.", g_aTrailerData[ p_TruckingTrailerModel{ playerid } ] [ p_TruckingTrailer{ playerid } ] [ E_NAME ] );
+				ShowPlayerHelpDialog( playerid, 7500, "雷达上已显示~g~~h~卡车标记~w~~h~, 请前往该处为挂车装载 %s.", g_aTrailerData[ p_TruckingTrailerModel{ playerid } ] [ p_TruckingTrailer{ playerid } ] [ E_NAME ] );
 			}
-			else SendError( playerid, "You already have a trucking job started! Cancel it with "COL_GREY"/work stop"COL_WHITE"." );
+			else SendError( playerid, "你已经开始了货运工作!取消它 "COL_GREY"/work stop"COL_WHITE"." );
 		}
-		else SendError( playerid, "There are currently no jobs for this particular vehicle." );
+		else SendError( playerid, "目前没有针对该特定车辆的工作." );
 	}
 	return 1;
 }
@@ -368,7 +368,7 @@ function OnTruckPositionUpdate( playerid, routeid )
 	new
 		Float: fDistance = GetPlayerDistanceFromPoint( playerid, g_aTruckingLocations[ routeid ] [ E_X ], g_aTruckingLocations[ routeid ] [ E_Y ], g_aTruckingLocations[ routeid ] [ E_Z ] );
 
-	PlayerTextDrawSetString( playerid, p_TruckingTD[ playerid ], sprintf( "~b~Location:~w~ %s~n~~b~Distance:~w~ %0.2fm", g_aTruckingLocations[ routeid ] [ E_NAME ], fDistance ) );
+	PlayerTextDrawSetString( playerid, p_TruckingTD[ playerid ], sprintf( "~b~位置:~w~ %s~n~~b~距离:~w~ %0.2f米", g_aTruckingLocations[ routeid ] [ E_NAME ], fDistance ) );
 	return ( p_TruckingPositionTimer[ playerid ] = SetTimerEx( "OnTruckPositionUpdate", 750, false, "dd", playerid, routeid ) );
 }
 
@@ -393,11 +393,11 @@ function cancelPlayerTruckingCourier( playerid, vehicleid, ticks )
 	if ( ticks < 1 || !IsPlayerConnected( playerid ) || !IsPlayerSpawned( playerid ) )
 	{
 		StopPlayerTruckingCourier( playerid );
-		SendServerMessage( playerid, "Your trucking mission has been stopped." );
+		SendServerMessage( playerid, "你的货运任务已停止." );
 	}
 	else
 	{
-		ShowPlayerHelpDialog( playerid, 1000, "You have %d seconds to attach back the trailer you were using.", ticks - 1 );
+		ShowPlayerHelpDialog( playerid, 1000, "你有 %d 秒的时间来装回你正在使用的拖车.", ticks - 1 );
 		p_TruckingCancelTimer[ playerid ] = SetTimerEx( "cancelPlayerTruckingCourier", 980, false, "ddd", playerid, vehicleid, ticks - 1 );
 	}
 	return 1;

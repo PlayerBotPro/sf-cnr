@@ -14,9 +14,9 @@
 #define HOLDING(%0)                         ((newkeys & (%0)) == (%0))
 #define PRESSED(%0)                         (((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
 #define RELEASED(%0)                        (((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
-#define SendUsage(%0,%1)                    (SendClientMessageFormatted(%0,-1,"{FFAF00}[USAGE]{FFFFFF} " # %1))
-#define SendError(%0,%1) 			        (SendClientMessageFormatted(%0,-1,"{F81414}[ERROR]{FFFFFF} " # %1))
-#define SendServerMessage(%0,%1)            (SendClientMessageFormatted(%0,-1,"{C0C0C0}[SERVER]{FFFFFF} " # %1))
+#define SendUsage(%0,%1)                    (SendClientMessageFormatted(%0,-1,"{FFAF00}[\211;\195;\183;\168;]{FFFFFF} " # %1))
+#define SendError(%0,%1) 			        (SendClientMessageFormatted(%0,-1,"{F81414}[\180;\237;\206;\243;]{FFFFFF} " # %1))
+#define SendServerMessage(%0,%1)            (SendClientMessageFormatted(%0,-1,"{C0C0C0}[\183;\254;\206;\241;\198;\247;]{FFFFFF} " # %1))
 #define SendClientMessageToAllFormatted(%0) (SendClientMessageFormatted(INVALID_PLAYER_ID, %0))
 #define sprintf(%1)                         (format(g_szSprintfBuffer, sizeof(g_szSprintfBuffer), %1), g_szSprintfBuffer)
 #define SetObjectInvisible(%0)              (SetDynamicObjectMaterialText(%0, 0, " ", 140, "Arial", 64, 1, -32256, 0, 1))
@@ -29,7 +29,7 @@
 #define SetPlayerPosEx(%0,%1,%2,%3,%4)      SetPlayerPos(%0,%1,%2,%3),SetPlayerInterior(%0,%4)
 #define mysql_single_query(%0)              mysql_tquery(dbHandle,(%0),"","")
 #define points_format(%0)                   (number_format(%0, .prefix = '\0', .decimals = 2))
-#define bool_to_string(%0)                  (%0 == true ? (COL_GREEN # "YES" # COL_WHITE) : (COL_RED # "NO" # COL_WHITE))
+#define bool_to_string(%0)                  (%0 == true ? (COL_GREEN # "\202;\199;" # COL_WHITE) : (COL_RED # "\183;\241;" # COL_WHITE))
 
 // Defines
 #define KEY_AIM                             (128)
@@ -545,13 +545,13 @@ stock secondstotime(seconds, const delimiter[] = ", ", start = 0, end = -1)
     };
 
     static const names[][] = {
-        "second",
-        "minute",
-        "hour",
-        "day",
-        "week",
-        "month",
-        "year"
+        "秒",
+        "分钟",
+        "小时",
+        "天",
+        "周",
+        "个月",
+        "年"
     };
 
     static string[128];
@@ -570,11 +570,11 @@ stock secondstotime(seconds, const delimiter[] = ", ", start = 0, end = -1)
         {
             if (string[0])
             {
-                format(string, sizeof(string), "%s%s%d %s%s", string, delimiter, (seconds / times[i]), names[i], ((seconds / times[i]) == 1) ? ("") : ("s"));
+                format(string, sizeof(string), "%s%s%d %s%s", string, delimiter, (seconds / times[i]), names[i], "");
             }
             else
             {
-                format(string, sizeof(string), "%d %s%s", (seconds / times[i]), names[i], ((seconds / times[i]) == 1) ? ("") : ("s"));
+                format(string, sizeof(string), "%d %s%s", (seconds / times[i]), names[i], "");
             }
             seconds -= ((seconds / times[i]) * times[i]);
         }

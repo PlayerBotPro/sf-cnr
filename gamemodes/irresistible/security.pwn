@@ -54,10 +54,10 @@ hook OnRconLoginAttempt( ip[ ], password[ ], success )
 		if( IsPlayerConnected( playerid ) )
 		{
 		    p_RconLoginFails{ playerid } ++;
-		 	SendClientMessageFormatted( playerid, -1, "{FF0000}[ERROR]{FFFFFF} You have entered an invalid rcon password. {C0C0C0}[%d/2]", p_RconLoginFails{ playerid } );
+            SendClientMessageFormatted( playerid, -1, "{FF0000}[错误]{FFFFFF} 你输入的 rcon 密码无效. {C0C0C0}[%d/2]", p_RconLoginFails{ playerid } );
 
 		 	if( p_RconLoginFails{ playerid } >= 2 ) {
-				SendClientMessageFormatted( playerid, -1, "{C0C0C0}[SERVER]{FFFFFF} If you are not the server operator or manager, don't bother trying!" );
+				SendClientMessageFormatted( playerid, -1, "{C0C0C0}[服务器]{FFFFFF} 如果你不是服务器操作员或经理,请不要尝试!" );
 				Kick( playerid );
 			}
 		}
@@ -138,7 +138,7 @@ hook OnPlayerFloodControl( playerid, iCount, iTimeSpan ) {
     GetPlayerIp( playerid, szIP, sizeof( szIP ) );
 
     if ( iCount > 2 && iTimeSpan < 10000 && ! IsPlayerNpcEx( playerid ) ) {
-   		BanEx( playerid, "BOT-SPAM" );
+        BanEx( playerid, "机器人垃圾邮件" );
     }
 	return 1;
 }
@@ -153,7 +153,7 @@ hook OnPlayerFloodControl( playerid, iCount, iTimeSpan ) {
 		GetServerVarAsString( "rcon_password", rcon_password, sizeof( rcon_password ) );
 
 		if ( strfind( text, rcon_password, true ) != -1 ) {
-			return SendClientMessage( playerid, -1, "{C0C0C0}[SERVER]{FFFFFF} Your message was blocked as it exposed the RCON password." ), 0;
+			return SendClientMessage( playerid, -1, "{C0C0C0}[服务器]{FFFFFF} 你的消息因暴露 RCON 密码而被阻止." ), 0;
 		}
 		return 1;
 	}
@@ -195,7 +195,7 @@ stock RangeBanPlayer( playerid )
 	GetPlayerIp( playerid, szIP, sizeof( szIP ) );
     GetRangeIP( szIP, sizeof( szIP ) );
 
-	format( szBan, sizeof( szBan ), "banip %s", szIP );
+	format( szBan, sizeof( szBan ), "班尼普 %s", szIP );
 	SendRconCommand( szBan );
 
 	KickPlayerTimed( playerid );
