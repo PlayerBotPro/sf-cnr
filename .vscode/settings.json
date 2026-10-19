@@ -1,0 +1,16 @@
+{
+  // Workspace search (Ctrl+Shift+F) uses this encoding, not [pawn]'s override.
+  // Keep GBK here so Chinese text in GBK Pawn files can be found on disk.
+  // Tradeoff: workspace search may miss Chinese text in UTF-8 files.
+  "files.encoding": "gbk",
+  "files.autoGuessEncoding": false,
+  "[pawn]": { "files.encoding": "gbk" },
+  // These overrides keep editing/saving these languages in UTF-8.
+  // Add overrides for other UTF-8 languages as needed; they do not affect disk search.
+  "[markdown]": { "files.encoding": "utf8" },
+  "[json]": { "files.encoding": "utf8" },
+  "files.associations": {
+    "*.pwn": "pawn",
+    "*.inc": "pawn"
+  }
+}
