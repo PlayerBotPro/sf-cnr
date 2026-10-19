@@ -1,0 +1,31 @@
+{
+  "user": "zeelorenc",
+  "repo": "sf-cnr",
+  "entry": "gamemodes/sf-cnr.pwn",
+  "output": "gamemodes/sf-cnr.building.amx",
+  "dependencies": [],
+  "local": true,
+  "experimental": {
+    "build_file": false
+  },
+  "builds": [
+    {
+      "name": "gamemode",
+      "workingDir": "gamemodes",
+      "input": "gamemodes/sf-cnr.pwn",
+      "output": "gamemodes/sf-cnr.building.amx",
+      "includes": ["pawno/include"],
+      "compiler": { "path": "pawno" },
+      "constants": { "__YSI_CALL_UPGRADED": "1" }
+    },
+    {
+      "name": "npc",
+      "workingDir": "npcmodes",
+      "input": "npcmodes/secureguard.pwn",
+      "output": "npcmodes/secureguard.building.amx",
+      "includes": ["pawno/include"],
+      "compiler": { "path": "pawno" },
+      "constants": { "__YSI_CALL_UPGRADED": "1" }
+    }
+  ]
+}

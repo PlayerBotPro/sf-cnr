@@ -10,6 +10,7 @@ Run `start-server.cmd`, then connect with SA-MP 0.3.7 to **127.0.0.1:7777**.
 Start MySQL in XAMPP first and complete [DATABASE_SETUP.md](DATABASE_SETUP.md).
 The command starts SF-CNR in the background and uses XAMPP on port 3306.
 Python 3 must be available as `python`.
+Building also requires sampctl on `PATH`; see [sampctl builds](#sampctl-builds).
 
 | Command | Purpose |
 | --- | --- |
@@ -21,6 +22,50 @@ Python 3 must be available as `python`.
 
 After editing Pawn source, stop the server, run `build.cmd`, then start it again.
 The scripts work from any current directory and do not require a Windows service.
+
+## sampctl builds
+
+Install the Windows release of [sampctl 1.16.0](https://github.com/Southclaws/sampctl/releases/tag/1.16.0)
+and add the directory containing `sampctl.exe` to `PATH`. Check the installation:
+
+```powershell
+sampctl --version
+.\build.cmd
+```
+
+`pawn.json` defines the `gamemode` and `npc` builds. `build.cmd` calls these
+through `tools/server.py`, captures compiler diagnostics in `.runtime/`, and
+replaces each deployed AMX only after that build succeeds. A failed build
+returns a nonzero exit code and retains that target's previous deployed AMX.
+Each target is published separately: an NPC failure can follow a successful
+gamemode replacement. Stale temporary output is removed before compilation.
+
+To compile a single target from the repository root:
+
+```powershell
+sampctl --bare build gamemode
+sampctl --bare build npc
+```
+
+These commands produce `gamemodes/sf-cnr.building.amx` and
+`npcmodes/secureguard.building.amx`. Use `build.cmd` to compile and publish the
+normal `sf-cnr.amx` and `secureguard.amx` files for the server. The `--bare` flag
+skips sampctl's global configuration setup; compilation uses this repository's
+explicit build settings. `sampctl build` selects the first build (`gamemode`).
+
+This is a legacy-include integration following sampctl's
+[migration workflow](https://github.com/sampctl/tutorial-migration).
+Both builds use the existing **Pawn 3.10.8** compiler in `pawno/`, the matched
+includes in `pawno/include/`, and `__YSI_CALL_UPGRADED=1`. These paths are relative
+to the repository. No compiler or include upgrade is performed. The empty
+`dependencies` list is intentional: sampctl does not yet download the legacy
+include/plugin set. Its generated empty `pawn.lock` is ignored.
+
+A fresh clone still requires restoring the compiler, standard includes and
+the versions listed under [Installed runtime](#installed-runtime), plus the
+private database configuration described in [DATABASE_SETUP.md](DATABASE_SETUP.md).
+`sampctl ensure` alone cannot provision this server. Keep using
+`start-server.cmd` / `stop-server.cmd` for the existing runtime and XAMPP setup.
 
 ## Local configuration and data
 

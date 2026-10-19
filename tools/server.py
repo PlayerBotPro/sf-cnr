@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import re
 import secrets
+import shutil
 import socket
 import struct
 import subprocess
@@ -55,17 +56,23 @@ def hidden_process(args):
 
 
 def build():
-    compiler = ROOT / 'pawno/pawncc.exe'
-    for folder, source in [('gamemodes', 'sf-cnr'), ('npcmodes', 'secureguard')]:
+    sampctl = shutil.which('sampctl')
+    if not sampctl:
+        raise RuntimeError('sampctl is not on PATH. Install sampctl 1.16.0; see RUNNING.md.')
+    if not (ROOT / 'pawno/pawncc.exe').is_file() or not (ROOT / 'pawno/include/a_samp.inc').is_file():
+        raise RuntimeError('Restore the local Pawn 3.10.8 compiler and legacy includes; see RUNNING.md.')
+    for name, folder, source in [('gamemode', 'gamemodes', 'sf-cnr'),
+                                 ('npc', 'npcmodes', 'secureguard')]:
         output = ROOT / folder / f'{source}.amx'
         temporary = ROOT / folder / f'{source}.building.amx'
-        args = [str(compiler), f'{source}.pwn', f'-i{ROOT / "pawno/include"}',
-                f'-D{folder}', f'-o{temporary}', '__YSI_CALL_UPGRADED=1']
+        temporary.unlink(missing_ok=True)
+        args = [sampctl, '--bare', 'build', '--verbose', name]
         result = subprocess.run(args, cwd=ROOT, capture_output=True)
         log = result.stdout + result.stderr
         (RUNTIME / f'build-{source}.log').write_bytes(log)
         print(log.decode('latin1'))
         if result.returncode or re.search(rb'\b(?:fatal )?error \d+:', log) or not temporary.exists():
+            temporary.unlink(missing_ok=True)
             raise RuntimeError(f'{source} compilation failed; previous AMX retained')
         temporary.replace(output)
 
