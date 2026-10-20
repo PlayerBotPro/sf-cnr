@@ -1,6 +1,6 @@
 {
 	"version": 1,
-	"generated": "2026-10-19T16:52:24.2695721Z",
+	"generated": "2026-10-20T12:43:14.1037028Z",
 	"sampctl_version": "1.16.0",
 	"dependencies": {
 		"github.com/Southclaws/progress2": {

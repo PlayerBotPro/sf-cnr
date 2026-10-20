@@ -138,7 +138,8 @@ The credentials are compiled into the AMX. Rebuild after changing them:
 
 ```powershell
 Set-Location D:\Code\sf-cnr
-.\build.cmd
+sampctl build gamemode
+sampctl build npc
 ```
 
 `database.pwn` is ignored by Git. Do not copy its real password into tracked docs.

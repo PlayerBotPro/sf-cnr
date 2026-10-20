@@ -112,8 +112,7 @@ def runtime_check():
     folder = ROOT / '.runtime/localization-tests'
     (folder / 'gamemodes').mkdir(parents=True, exist_ok=True)
     (folder / 'scriptfiles').mkdir(exist_ok=True)
-    from pawn_build import compile_target
-    compile_target('localization-check')
+    subprocess.run(['sampctl', 'build', 'localization-check'], cwd=ROOT, check=True)
     (folder / 'server.cfg').write_text(
         f'rcon_password {secrets.token_hex(16)}\nbind 127.0.0.1\nport 7789\n'
         'maxplayers 1\nannounce 0\nquery 0\ngamemode0 localization-check 1\n')

@@ -30,7 +30,8 @@
 ## 已完成的验证
 
 ```powershell
-.\build.cmd
+sampctl build gamemode
+sampctl build npc
 python tools/check_localization.py --amx gamemodes/sf-cnr.amx --runtime
 python tools/server.py test
 git diff --check

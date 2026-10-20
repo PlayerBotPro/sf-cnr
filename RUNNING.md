@@ -17,16 +17,18 @@ Building also requires sampctl on `PATH`; see [sampctl builds](#sampctl-builds).
 | `start-server.cmd` | Start the game server using XAMPP; report initialization |
 | `stop-server.cmd` | Stop SA-MP through local RCON; leave XAMPP running |
 | `server-status.cmd` | Query SA-MP and check that the XAMPP endpoint is reachable |
-| `build.cmd` | Compile the gamemode and security-truck NPC; retain previous AMX files on failure |
+| `sampctl build gamemode` | Compile `gamemodes/sf-cnr.amx` |
+| `sampctl build npc` | Compile `npcmodes/secureguard.amx` |
 | `python tools/server.py test` | Test calculator expressions and MT19937 in a separate SA-MP instance on port 7788 |
 
-After editing Pawn source, stop the server, run `build.cmd`, then start it again.
+After editing Pawn source, stop the server, run the relevant sampctl build
+command(s), then start it again.
 The scripts work from any current directory and do not require a Windows service.
 
 ## sampctl builds
 
 Install [sampctl 1.16.0](https://github.com/Southclaws/sampctl/releases/tag/1.16.0)
-and Git on `PATH`, plus Python 3 for the build/deployment wrapper and checks.
+and Git on `PATH`, plus Python 3 for server management and runtime checks.
 The compiler and includes are managed by sampctl. No `pawno/` directory is needed. The previous local installation was moved
 to the ignored `.runtime/legacy-pawno/` as a backup.
 
@@ -37,7 +39,8 @@ sampctl --version
 sampctl ensure
 Copy-Item gamemodes/irresistible/config/database.pwn.sample gamemodes/irresistible/config/database.pwn
 # Edit database.pwn with your local database settings before running the server.
-.\build.cmd
+sampctl build gamemode
+sampctl build npc
 ```
 
 Create the private database configuration only when it does not exist. Complete
@@ -57,25 +60,28 @@ includes use the original snapshot matching the supplied server archive. Four ar
 All four targets select the downloaded **pawn-lang/compiler 3.10.8**. Sampctl
 fetches the compiler on the first build. Gamemode/NPC builds retain
 `AMX_OLD_CALL=1` to select the assembly library adapter for YSI 4.0.2.
-The default VS Code build task (Ctrl+Shift+B) runs the
-same build/deployment wrapper as `build.cmd`.
+The default VS Code build task (Ctrl+Shift+B) runs both sampctl builds in
+sequence. Building requires sampctl and Git; Python is used only for server
+management, runtime checks, and dependency integrity maintenance.
 
 | Command | Output |
 | --- | --- |
-| `sampctl build gamemode` (or `sampctl build`) | `gamemodes/sf-cnr.building.amx` |
-| `sampctl build npc` | `npcmodes/secureguard.building.amx` |
+| `sampctl build gamemode` (or `sampctl build`) | `gamemodes/sf-cnr.amx` |
+| `sampctl build npc` | `npcmodes/secureguard.amx` |
 | `sampctl build runtime-check` | `.runtime/tests/gamemodes/runtime-check.amx` |
 | `sampctl build localization-check` | `.runtime/localization-tests/gamemodes/localization-check.amx` |
-| `build.cmd` | Compiles and publishes both normal server AMX files |
 
-`build.cmd` checks the compiler result and temporary output before replacing
-`sf-cnr.amx` / `secureguard.amx`. A failed target retains its previous deployed
-AMX. Targets are published separately: an NPC failure can follow a successful
-gamemode replacement. Logs remain in `.runtime/build-sf-cnr.log` and
-`.runtime/build-secureguard.log`; isolated checks have their own build logs.
+Sampctl writes the final AMX files directly and reports compiler diagnostics in
+the terminal. The former `build.cmd`, Python build command, and shared build
+helper have been removed. Direct compilation no longer preserves the previous
+AMX on failure; check the exit status and rebuild successfully before starting
+the server.
+
 Use `python tools/server.py test` and
-`python tools/check_localization.py --runtime` for the existing runtime checks;
-their compiler steps also use sampctl.
+`python tools/check_localization.py --runtime` for the runtime checks; their
+compiler steps invoke the corresponding sampctl targets directly. Server
+management shortcuts (`start-server.cmd`, `stop-server.cmd`, and
+`server-status.cmd`) remain available.
 
 Sampctl may download release assets declared by dependency packages and a stock
 SA-MP runtime during `ensure`. These are installed under
@@ -114,8 +120,7 @@ No installed dependency needs to be edited manually.
   total slots and 210 NPC slots. The gamemode exposes 126 human slots in queries.
 - `gamemodes/irresistible/config/database.pwn`: local database credentials,
   database `sf_cnr`, TCP port 3306. Keep this file private; rebuild after edits.
-- `server_log.txt`, `mysql_log.txt`: runtime logs. Compiler output is saved in
-  `.runtime/build-sf-cnr.log` and `.runtime/build-secureguard.log`.
+- `server_log.txt`, `mysql_log.txt`: runtime logs. Compiler diagnostics are printed by `sampctl build` in the terminal.
 
 Create the database and user and import the five CNR SQL files as described in
 [DATABASE_SETUP.md](DATABASE_SETUP.md). The scripts do not initialize a database,
@@ -169,7 +174,7 @@ in the gamemode and their availability has not been verified.
 
 ## Validation
 
-Migration verification (2026-10-20): `sampctl ensure` and `build.cmd` passed in
+Migration verification (2026-10-20): dependency restoration and both builds passed in
 a clean source snapshot with the sample database config and no Pawno or existing
 dependency directories. This used a warmed sampctl download cache; a fully cold
 network bootstrap was limited by GitHub's unauthenticated API quota. All four
@@ -178,8 +183,7 @@ localization audit/runtime checks passed (126 Pawn files, 8,103 changed literals
 zero issues). The gamemode introduces no new native imports compared with the
 previous build. The NPC retains its existing warning 218.
 
-The deployed-AMX failure protection was also checked. The existing root server
-was not restarted for migration testing; its earlier plugin/startup checks
+The existing root server was not restarted for migration testing; its earlier plugin/startup checks
 predate this compiler/include migration.
 
 Verified locally: gamemode compilation, NPC compilation (one existing warning

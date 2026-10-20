@@ -2,7 +2,7 @@
   "user": "zeelorenc",
   "repo": "sf-cnr",
   "entry": "gamemodes/sf-cnr.pwn",
-  "output": "gamemodes/sf-cnr.building.amx",
+  "output": "gamemodes/sf-cnr.amx",
   "dependencies": [
     "pawn-lang/samp-stdlib:0.3.7-R2-2-1",
     "pawn-lang/pawn-stdlib#7a13c662e619a478b0e8d1d6d113e3aa41cb6d37",
@@ -27,7 +27,7 @@
       "name": "gamemode",
       "workingDir": "gamemodes",
       "input": "gamemodes/sf-cnr.pwn",
-      "output": "gamemodes/sf-cnr.building.amx",
+      "output": "gamemodes/sf-cnr.amx",
       "includes": [
         "vendor/includes",
         "dependencies/samp-plugin-mapandreas/include",
@@ -47,7 +47,7 @@
       "name": "npc",
       "workingDir": "npcmodes",
       "input": "npcmodes/secureguard.pwn",
-      "output": "npcmodes/secureguard.building.amx",
+      "output": "npcmodes/secureguard.amx",
       "includes": [
         "vendor/includes",
         "dependencies/samp-plugin-mapandreas/include",

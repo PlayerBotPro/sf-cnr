@@ -1,4 +1,4 @@
-"""Build and operate SA-MP using an externally managed XAMPP database."""
+"""Operate and test SA-MP using an externally managed XAMPP database."""
 import argparse
 import os
 from pathlib import Path
@@ -8,8 +8,6 @@ import struct
 import subprocess
 import sys
 import time
-
-from pawn_build import compile_target
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = ROOT / '.runtime'
@@ -55,14 +53,6 @@ def hidden_process(args):
                             stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
-def build():
-    for name, folder, source in [('gamemode', 'gamemodes', 'sf-cnr'),
-                                 ('npc', 'npcmodes', 'secureguard')]:
-        output = ROOT / folder / f'{source}.amx'
-        temporary = compile_target(name, source)
-        temporary.replace(output)
-
-
 def start():
     try:
         info = query()
@@ -73,7 +63,7 @@ def start():
         return
     for path in ['gamemodes/sf-cnr.amx', 'npcmodes/secureguard.amx', 'libmysql.dll', 'samp-server.exe']:
         if not (ROOT / path).is_file():
-            raise RuntimeError(f'Missing {path}; run build.cmd or restore runtime dependencies')
+            raise RuntimeError(f'Missing {path}; run sampctl build gamemode and sampctl build npc, or restore runtime dependencies')
     check_database()
     log = ROOT / 'server_log.txt'
     offset = log.stat().st_size if log.exists() else 0
@@ -121,7 +111,7 @@ def status():
 def test():
     folder = RUNTIME / 'tests'
     (folder / 'gamemodes').mkdir(parents=True, exist_ok=True)
-    compile_target('runtime-check')
+    subprocess.run(['sampctl', 'build', 'runtime-check'], cwd=ROOT, check=True)
     (folder / 'server.cfg').write_text(f'rcon_password {secrets.token_hex(16)}\n'
                                       'bind 127.0.0.1\nport 7788\nmaxplayers 1\n'
                                       'announce 0\nquery 0\ngamemode0 runtime-check 1\n')
@@ -138,7 +128,7 @@ def test():
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action', choices=['build', 'start', 'stop', 'status', 'test'])
+    parser.add_argument('action', choices=['start', 'stop', 'status', 'test'])
     args = parser.parse_args()
     os.chdir(ROOT)
     RUNTIME.mkdir(exist_ok=True)

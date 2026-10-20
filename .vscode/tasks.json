@@ -3,22 +3,14 @@
   "tasks": [
     {
       "label": "build-normal",
-      "type": "process",
-      "command": "python",
-      "args": [
-        "tools/server.py",
-        "build"
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "sampctl: build gamemode",
+        "sampctl: build npc"
       ],
-      "options": {
-        "cwd": "${workspaceFolder}"
-      },
       "group": {
         "kind": "build",
         "isDefault": true
-      },
-      "presentation": {
-        "reveal": "always",
-        "panel": "dedicated"
       },
       "problemMatcher": []
     },
@@ -41,6 +33,32 @@
       "args": [
         "tools/server.py",
         "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "sampctl: build gamemode",
+      "type": "process",
+      "command": "sampctl",
+      "args": [
+        "build",
+        "gamemode"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "sampctl: build npc",
+      "type": "process",
+      "command": "sampctl",
+      "args": [
+        "build",
+        "npc"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
