@@ -17,6 +17,7 @@ Building also requires sampctl on `PATH`; see [sampctl builds](#sampctl-builds).
 | `start-server.cmd` | Start the game server using XAMPP; report initialization |
 | `stop-server.cmd` | Stop SA-MP through local RCON; leave XAMPP running |
 | `server-status.cmd` | Query SA-MP and check that the XAMPP endpoint is reachable |
+| `distribute.cmd` | Rebuild and create a Windows deployment ZIP in `dist/`; see [DISTRIBUTING.md](DISTRIBUTING.md) |
 | `sampctl build gamemode` | Compile `gamemodes/sf-cnr.amx` |
 | `sampctl build npc` | Compile `npcmodes/secureguard.amx` |
 | `python tools/server.py test` | Test calculator expressions and MT19937 in a separate SA-MP instance on port 7788 |

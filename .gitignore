@@ -1,5 +1,6 @@
 samp.ban
 .runtime/
+dist/
 __pycache__/
 # sampctl generated dependencies and operation records (commit pawn.lock)
 dependencies/
